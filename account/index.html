@@ -291,12 +291,24 @@
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
+            position: relative;
         }
         
         .order-item:hover {
             background: #f0f0f0;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .order-item.highlight {
+            background: #fff9e6;
+            border: 2px solid var(--accent);
+            animation: pulse 2s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(201, 169, 110, 0); }
         }
         
         .order-item .order-id {
@@ -518,7 +530,8 @@
             letter-spacing: 1px;
         }
         
-        .qr-container canvas {
+        .qr-container canvas,
+        .qr-container img {
             border-radius: 12px;
         }
         
@@ -888,12 +901,12 @@
     <!-- Order Details Modal -->
     <div class="premium-modal" id="order-details-modal" style="display: none;">
         <div class="modal-card">
-            <button class="close-btn" onclick="document.getElementById('order-details-modal').style.display='none'">
+            <button class="close-btn" onclick="closeOrderModal()">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <h2 id="od-title">Order Details</h2>
             <div id="order-details-body" style="font-size: 13px;"></div>
-            <button onclick="document.getElementById('order-details-modal').style.display='none'" class="save-btn" style="margin-top: 20px;">Close</button>
+            <button onclick="closeOrderModal()" class="save-btn" style="margin-top: 20px;">Close</button>
         </div>
     </div>
 
@@ -914,6 +927,7 @@
 
         let userSession = null;
         let currentData = { orders: [] };
+        let targetOrderId = null; // Store target order ID from URL
 
         // Toast Functions
         function showToast(text, type = 'success') {
@@ -926,6 +940,9 @@
             } else if (type === 'error') {
                 icon.className = 'toast-icon toast-error';
                 icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+            } else if (type === 'info') {
+                icon.className = 'toast-icon toast-success';
+                icon.innerHTML = '<i class="fa-solid fa-info"></i>';
             }
             
             document.getElementById('toast-text').innerText = text;
@@ -954,13 +971,41 @@
             }, ms);
         }
 
+        // Check for order ID in URL path
+        function getOrderIdFromURL() {
+            const path = window.location.pathname;
+            // Match /order/7, /order/123, etc.
+            const match = path.match(/^\/order\/(\d+)\/?$/);
+            return match ? parseInt(match[1]) : null;
+        }
+
+        // Close order modal and clean up URL
+        function closeOrderModal() {
+            document.getElementById('order-details-modal').style.display = 'none';
+            
+            // If we came from /order/{id}, redirect back to /account
+            if (getOrderIdFromURL()) {
+                window.history.pushState({}, '', '/account');
+            }
+            
+            // Remove highlight from order items
+            document.querySelectorAll('.order-item.highlight').forEach(el => {
+                el.classList.remove('highlight');
+            });
+        }
+
         // Check Auth
         async function checkAuth() {
             const { data: { session } } = await _supabase.auth.getSession();
             
             if (!session) {
-                // Not logged in, redirect to login
-                window.location.href = '/login';
+                // Store the current URL to redirect back after login
+                const currentPath = window.location.pathname;
+                if (currentPath.startsWith('/order/')) {
+                    window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+                } else {
+                    window.location.href = '/login';
+                }
                 return;
             }
             
@@ -975,11 +1020,16 @@
                 <p><i class="fa-solid fa-location-dot" style="margin-right: 6px; color: #999;"></i> ${metadata.address || ''}, ${metadata.subdistrict || ''}, ${metadata.district || ''}</p>
             `;
             
+            // Check if we have a target order ID
+            targetOrderId = getOrderIdFromURL();
+            
             // Load orders
             await loadOrders();
             
-            // Auto-open order if coming from /order/{id} link
-            await autoOpenOrderIfNeeded();
+            // If target order exists, auto-open it
+            if (targetOrderId) {
+                await autoOpenTargetOrder();
+            }
             
             // Hide loader
             document.getElementById('global-loader').style.display = 'none';
@@ -995,8 +1045,15 @@
                 .eq('member_email', userSession.email)
                 .order('created_at', { ascending: false });
             
-            if (error || !data || data.length === 0) {
+            if (error) {
+                console.error('Error loading orders:', error);
+                container.innerHTML = '<p class="no-orders">Error loading orders</p>';
+                return;
+            }
+            
+            if (!data || data.length === 0) {
                 container.innerHTML = '<p class="no-orders">No orders yet</p>';
+                currentData.orders = [];
                 return;
             }
             
@@ -1004,8 +1061,12 @@
             
             container.innerHTML = data.map(order => {
                 const info = order.member_info || {};
+                const isTarget = targetOrderId === order.id;
                 return `
-                <div class="order-item" onclick="viewOrderDetails(${order.id})">
+                <div class="order-item ${isTarget ? 'highlight' : ''}" 
+                     id="order-item-${order.id}"
+                     onclick="viewOrderDetails(${order.id})"
+                     style="${isTarget ? 'scroll-margin-top: 100px;' : ''}">
                     <div>
                         <div class="order-id">#${order.id}</div>
                         <div class="order-total">${info.total || '৳ 0'}</div>
@@ -1019,10 +1080,43 @@
             }).join('');
         }
 
+        // Auto-open target order
+        async function autoOpenTargetOrder() {
+            if (!targetOrderId) return;
+            
+            const order = currentData.orders.find(o => o.id === targetOrderId);
+            
+            if (order) {
+                // Scroll to the order item
+                setTimeout(() => {
+                    const orderElement = document.getElementById(`order-item-${targetOrderId}`);
+                    if (orderElement) {
+                        orderElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 500);
+                
+                // Open the order details
+                setTimeout(() => {
+                    viewOrderDetails(targetOrderId);
+                    showToast(`Order #${targetOrderId} loaded`, 'info');
+                }, 800);
+            } else {
+                showToast(`Order #${targetOrderId} not found in your account`, 'error');
+                // Redirect to clean account page
+                setTimeout(() => {
+                    window.history.pushState({}, '', '/account');
+                    targetOrderId = null;
+                }, 3000);
+            }
+        }
+
         // View Order Details (Enhanced with images, user info, QR code)
-        async function viewOrderDetails(id) {
+        function viewOrderDetails(id) {
             const order = currentData.orders.find(o => o.id === id);
-            if (!order) return;
+            if (!order) {
+                showToast('Order not found', 'error');
+                return;
+            }
             
             const info = order.member_info || {};
             const items = info.items || [];
@@ -1107,6 +1201,20 @@
             // Show modal
             document.getElementById('order-details-modal').style.display = 'flex';
             
+            // Update URL without reloading if not already on this order
+            if (getOrderIdFromURL() !== order.id) {
+                window.history.pushState({ orderId: order.id }, '', `/order/${order.id}`);
+            }
+            
+            // Highlight this order in the list
+            document.querySelectorAll('.order-item.highlight').forEach(el => {
+                el.classList.remove('highlight');
+            });
+            const orderElement = document.getElementById(`order-item-${order.id}`);
+            if (orderElement) {
+                orderElement.classList.add('highlight');
+            }
+            
             // Generate QR Code after modal is visible (needs rendered DOM)
             setTimeout(() => {
                 generateQRCode(order.id, orderUrl);
@@ -1155,31 +1263,6 @@
             });
         }
 
-        // Check for order ID in URL path
-        function getOrderIdFromURL() {
-            const path = window.location.pathname;
-            const match = path.match(/^\/order\/(\d+)$/);
-            return match ? parseInt(match[1]) : null;
-        }
-
-        // Auto-open order if URL matches
-        async function autoOpenOrderIfNeeded() {
-            const orderId = getOrderIdFromURL();
-            if (!orderId) return;
-            
-            // Wait a moment for orders to load
-            await new Promise(resolve => setTimeout(resolve, 300));
-            
-            // Check if this order belongs to current user
-            const order = currentData.orders.find(o => o.id === orderId);
-            if (order) {
-                viewOrderDetails(orderId);
-                showToast(`Order #${orderId} loaded`);
-            } else {
-                showToast('Order not found in your account', 'error');
-            }
-        }
-
         // Open Edit Profile
         function openEditProfile() {
             const metadata = userSession.user_metadata;
@@ -1193,8 +1276,6 @@
 
         // Update Profile
         async function handleUpdateProfile() {
-            showLoader(2000);
-            
             const updates = {
                 full_name: document.getElementById('edit-name').value,
                 phone: document.getElementById('edit-phone').value,
@@ -1202,6 +1283,12 @@
                 subdistrict: document.getElementById('edit-subdistrict').value,
                 address: document.getElementById('edit-address').value
             };
+            
+            // Validate
+            if (!updates.full_name) {
+                showToast('Name is required', 'error');
+                return;
+            }
             
             const { error } = await _supabase.auth.updateUser({ data: updates });
             
@@ -1223,13 +1310,35 @@
         // Close modals when clicking outside
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('premium-modal')) {
-                e.target.style.display = 'none';
+                if (e.target.id === 'edit-profile-modal') {
+                    e.target.style.display = 'none';
+                } else if (e.target.id === 'order-details-modal') {
+                    closeOrderModal();
+                }
+            }
+        });
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.orderId) {
+                // User navigated to an order URL
+                viewOrderDetails(event.state.orderId);
+            } else {
+                // User went back to /account
+                document.getElementById('order-details-modal').style.display = 'none';
+                document.querySelectorAll('.order-item.highlight').forEach(el => {
+                    el.classList.remove('highlight');
+                });
             }
         });
 
         // Initialize
         document.getElementById('display-year').innerText = new Date().getFullYear();
-        checkAuth();
+        
+        // Start the app
+        (async function init() {
+            await checkAuth();
+        })();
     </script>
 
 </body>
