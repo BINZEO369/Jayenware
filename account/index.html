@@ -291,24 +291,12 @@
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
-            position: relative;
         }
         
         .order-item:hover {
             background: #f0f0f0;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        
-        .order-item.highlight {
-            background: #fff9e6;
-            border: 2px solid var(--accent);
-            animation: pulse 2s ease-in-out;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4); }
-            50% { box-shadow: 0 0 0 8px rgba(201, 169, 110, 0); }
         }
         
         .order-item .order-id {
@@ -530,8 +518,7 @@
             letter-spacing: 1px;
         }
         
-        .qr-container canvas,
-        .qr-container img {
+        .qr-container canvas {
             border-radius: 12px;
         }
         
@@ -927,7 +914,7 @@
 
         let userSession = null;
         let currentData = { orders: [] };
-        let targetOrderId = null; // Store target order ID from URL
+        let pendingOrderId = null;
 
         // Toast Functions
         function showToast(text, type = 'success') {
@@ -940,9 +927,6 @@
             } else if (type === 'error') {
                 icon.className = 'toast-icon toast-error';
                 icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-            } else if (type === 'info') {
-                icon.className = 'toast-icon toast-success';
-                icon.innerHTML = '<i class="fa-solid fa-info"></i>';
             }
             
             document.getElementById('toast-text').innerText = text;
@@ -958,81 +942,25 @@
             document.getElementById('toast').style.transform = 'translateX(120%)';
         }
 
-        // Loader
-        function showLoader(ms = 1500) {
-            const loader = document.getElementById('global-loader');
-            loader.style.display = 'flex';
-            loader.style.opacity = '1';
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 500);
-            }, ms);
-        }
-
-        // Check for order ID in URL path
-        function getOrderIdFromURL() {
-            const path = window.location.pathname;
-            // Match /order/7, /order/123, etc.
-            const match = path.match(/^\/order\/(\d+)\/?$/);
-            return match ? parseInt(match[1]) : null;
-        }
-
-        // Close order modal and clean up URL
+        // Close order modal and clean URL
         function closeOrderModal() {
             document.getElementById('order-details-modal').style.display = 'none';
-            
-            // If we came from /order/{id}, redirect back to /account
-            if (getOrderIdFromURL()) {
-                window.history.pushState({}, '', '/account');
+            // Clean URL if it has /order/ path
+            if (window.location.pathname.startsWith('/order/')) {
+                window.history.replaceState({}, '', '/account');
             }
-            
-            // Remove highlight from order items
-            document.querySelectorAll('.order-item.highlight').forEach(el => {
-                el.classList.remove('highlight');
-            });
         }
 
-        // Check Auth
-        async function checkAuth() {
-            const { data: { session } } = await _supabase.auth.getSession();
-            
-            if (!session) {
-                // Store the current URL to redirect back after login
-                const currentPath = window.location.pathname;
-                if (currentPath.startsWith('/order/')) {
-                    window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
-                } else {
-                    window.location.href = '/login';
-                }
-                return;
+        // Check for order ID in URL
+        function getOrderIdFromURL() {
+            const path = window.location.pathname;
+            console.log('Current path:', path);
+            const match = path.match(/^\/order\/(\d+)$/);
+            if (match) {
+                console.log('Found order ID:', match[1]);
+                return parseInt(match[1]);
             }
-            
-            userSession = session.user;
-            const metadata = userSession.user_metadata;
-            
-            // Update profile info
-            document.getElementById('profile-name').innerText = metadata.full_name || 'User';
-            document.getElementById('profile-email').innerText = userSession.email;
-            document.getElementById('profile-address-full').innerHTML = `
-                <p><i class="fa-solid fa-phone" style="margin-right: 6px; color: #999;"></i> ${metadata.phone || 'Not set'}</p>
-                <p><i class="fa-solid fa-location-dot" style="margin-right: 6px; color: #999;"></i> ${metadata.address || ''}, ${metadata.subdistrict || ''}, ${metadata.district || ''}</p>
-            `;
-            
-            // Check if we have a target order ID
-            targetOrderId = getOrderIdFromURL();
-            
-            // Load orders
-            await loadOrders();
-            
-            // If target order exists, auto-open it
-            if (targetOrderId) {
-                await autoOpenTargetOrder();
-            }
-            
-            // Hide loader
-            document.getElementById('global-loader').style.display = 'none';
+            return null;
         }
 
         // Load Orders
@@ -1061,12 +989,8 @@
             
             container.innerHTML = data.map(order => {
                 const info = order.member_info || {};
-                const isTarget = targetOrderId === order.id;
                 return `
-                <div class="order-item ${isTarget ? 'highlight' : ''}" 
-                     id="order-item-${order.id}"
-                     onclick="viewOrderDetails(${order.id})"
-                     style="${isTarget ? 'scroll-margin-top: 100px;' : ''}">
+                <div class="order-item" onclick="viewOrderDetails(${order.id})">
                     <div>
                         <div class="order-id">#${order.id}</div>
                         <div class="order-total">${info.total || '৳ 0'}</div>
@@ -1078,35 +1002,21 @@
                 </div>
                 `;
             }).join('');
-        }
-
-        // Auto-open target order
-        async function autoOpenTargetOrder() {
-            if (!targetOrderId) return;
             
-            const order = currentData.orders.find(o => o.id === targetOrderId);
-            
-            if (order) {
-                // Scroll to the order item
+            // After loading orders, check if we need to auto-open one
+            if (pendingOrderId) {
+                const orderIdToOpen = pendingOrderId;
+                pendingOrderId = null;
+                // Small delay to ensure DOM is ready
                 setTimeout(() => {
-                    const orderElement = document.getElementById(`order-item-${targetOrderId}`);
-                    if (orderElement) {
-                        orderElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const order = currentData.orders.find(o => o.id === orderIdToOpen);
+                    if (order) {
+                        viewOrderDetails(orderIdToOpen);
+                        showToast(`Order #${orderIdToOpen} loaded`);
+                    } else {
+                        showToast('Order not found in your account', 'error');
                     }
                 }, 500);
-                
-                // Open the order details
-                setTimeout(() => {
-                    viewOrderDetails(targetOrderId);
-                    showToast(`Order #${targetOrderId} loaded`, 'info');
-                }, 800);
-            } else {
-                showToast(`Order #${targetOrderId} not found in your account`, 'error');
-                // Redirect to clean account page
-                setTimeout(() => {
-                    window.history.pushState({}, '', '/account');
-                    targetOrderId = null;
-                }, 3000);
             }
         }
 
@@ -1201,24 +1111,10 @@
             // Show modal
             document.getElementById('order-details-modal').style.display = 'flex';
             
-            // Update URL without reloading if not already on this order
-            if (getOrderIdFromURL() !== order.id) {
-                window.history.pushState({ orderId: order.id }, '', `/order/${order.id}`);
-            }
-            
-            // Highlight this order in the list
-            document.querySelectorAll('.order-item.highlight').forEach(el => {
-                el.classList.remove('highlight');
-            });
-            const orderElement = document.getElementById(`order-item-${order.id}`);
-            if (orderElement) {
-                orderElement.classList.add('highlight');
-            }
-            
-            // Generate QR Code after modal is visible (needs rendered DOM)
+            // Generate QR Code after modal is visible
             setTimeout(() => {
                 generateQRCode(order.id, orderUrl);
-            }, 150);
+            }, 200);
         }
 
         // Generate QR Code
@@ -1252,7 +1148,6 @@
             navigator.clipboard.writeText(url).then(() => {
                 showToast('Order link copied!');
             }).catch(() => {
-                // Fallback for older browsers
                 const input = document.createElement('input');
                 input.value = url;
                 document.body.appendChild(input);
@@ -1261,6 +1156,46 @@
                 document.body.removeChild(input);
                 showToast('Order link copied!');
             });
+        }
+
+        // Check Auth and handle order URL
+        async function checkAuth() {
+            const { data: { session } } = await _supabase.auth.getSession();
+            
+            if (!session) {
+                // Check if there's an order ID to redirect back after login
+                const orderId = getOrderIdFromURL();
+                if (orderId) {
+                    window.location.href = `/login?redirect=/order/${orderId}`;
+                } else {
+                    window.location.href = '/login';
+                }
+                return;
+            }
+            
+            userSession = session.user;
+            const metadata = userSession.user_metadata;
+            
+            // Update profile info
+            document.getElementById('profile-name').innerText = metadata.full_name || 'User';
+            document.getElementById('profile-email').innerText = userSession.email;
+            document.getElementById('profile-address-full').innerHTML = `
+                <p><i class="fa-solid fa-phone" style="margin-right: 6px; color: #999;"></i> ${metadata.phone || 'Not set'}</p>
+                <p><i class="fa-solid fa-location-dot" style="margin-right: 6px; color: #999;"></i> ${metadata.address || ''}, ${metadata.subdistrict || ''}, ${metadata.district || ''}</p>
+            `;
+            
+            // Check if came from /order/{id} URL
+            const orderId = getOrderIdFromURL();
+            if (orderId) {
+                console.log('Auto-opening order:', orderId);
+                pendingOrderId = orderId;
+            }
+            
+            // Load orders (this will trigger auto-open if pendingOrderId is set)
+            await loadOrders();
+            
+            // Hide loader
+            document.getElementById('global-loader').style.display = 'none';
         }
 
         // Open Edit Profile
@@ -1276,6 +1211,10 @@
 
         // Update Profile
         async function handleUpdateProfile() {
+            const loader = document.getElementById('global-loader');
+            loader.style.display = 'flex';
+            loader.style.opacity = '1';
+            
             const updates = {
                 full_name: document.getElementById('edit-name').value,
                 phone: document.getElementById('edit-phone').value,
@@ -1284,13 +1223,10 @@
                 address: document.getElementById('edit-address').value
             };
             
-            // Validate
-            if (!updates.full_name) {
-                showToast('Name is required', 'error');
-                return;
-            }
-            
             const { error } = await _supabase.auth.updateUser({ data: updates });
+            
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
             
             if (error) {
                 showToast(error.message, 'error');
@@ -1310,35 +1246,17 @@
         // Close modals when clicking outside
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('premium-modal')) {
-                if (e.target.id === 'edit-profile-modal') {
-                    e.target.style.display = 'none';
-                } else if (e.target.id === 'order-details-modal') {
+                if (e.target.id === 'order-details-modal') {
                     closeOrderModal();
+                } else {
+                    e.target.style.display = 'none';
                 }
-            }
-        });
-
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', function(event) {
-            if (event.state && event.state.orderId) {
-                // User navigated to an order URL
-                viewOrderDetails(event.state.orderId);
-            } else {
-                // User went back to /account
-                document.getElementById('order-details-modal').style.display = 'none';
-                document.querySelectorAll('.order-item.highlight').forEach(el => {
-                    el.classList.remove('highlight');
-                });
             }
         });
 
         // Initialize
         document.getElementById('display-year').innerText = new Date().getFullYear();
-        
-        // Start the app
-        (async function init() {
-            await checkAuth();
-        })();
+        checkAuth();
     </script>
 
 </body>
