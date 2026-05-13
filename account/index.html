@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     
     <style>
         :root {
@@ -290,7 +291,6 @@
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
-            position: relative;
         }
         
         .order-item:hover {
@@ -327,19 +327,6 @@
             font-size: 9px;
             color: #999;
             margin-top: 2px;
-        }
-        
-        .order-item .or-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: var(--accent);
-            color: white;
-            font-size: 8px;
-            font-weight: 900;
-            padding: 2px 6px;
-            border-radius: 50px;
-            letter-spacing: 0.5px;
         }
 
         /* Action Buttons */
@@ -386,17 +373,6 @@
             background: var(--accent);
         }
 
-        .btn-accent {
-            background: var(--accent);
-            color: white;
-            width: 100%;
-            margin-top: 12px;
-        }
-        
-        .btn-accent:hover {
-            background: var(--primary);
-        }
-
         /* Modal */
         .premium-modal {
             position: fixed;
@@ -414,7 +390,7 @@
         .modal-card {
             background: white;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             border-radius: 24px;
             padding: 24px;
             max-height: 90dvh;
@@ -426,6 +402,7 @@
             .modal-card {
                 border-radius: 32px;
                 padding: 32px;
+                max-width: 520px;
             }
         }
         
@@ -446,7 +423,7 @@
             text-transform: uppercase;
             font-size: 18px;
             margin-bottom: 20px;
-            padding-right: 24px;
+            padding-right: 30px;
         }
 
         /* Form Styles */
@@ -520,6 +497,132 @@
         
         .save-btn:hover {
             background: var(--accent);
+        }
+
+        /* QR Code Container */
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
+        }
+        
+        .qr-container p {
+            font-size: 10px;
+            color: #999;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .qr-container canvas {
+            border-radius: 12px;
+        }
+        
+        /* Order Items with Images */
+        .order-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .order-item-card {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px;
+            background: #fafafa;
+            border-radius: 12px;
+        }
+        
+        .order-item-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #e5e5e5;
+            flex-shrink: 0;
+        }
+        
+        .order-item-img[src=""],
+        .order-item-img:not([src]) {
+            display: none;
+        }
+        
+        .order-item-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+        
+        .order-item-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .order-item-meta {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .order-item-price {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        /* Order Link Copy Button */
+        .copy-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            color: var(--primary);
+            transition: all 0.3s;
+            margin-top: 12px;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .copy-link-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* User Info Row */
+        .user-info-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .user-info-row .info-col {
+            flex: 1;
+        }
+        
+        .user-info-row strong {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 4px;
         }
 
         /* Loader */
@@ -635,50 +738,6 @@
             font-size: 18px;
             margin-top: 8px;
         }
-        
-        /* Item Images in Modal */
-        .order-items-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .order-item-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #fafafa;
-            padding: 10px;
-            border-radius: 12px;
-            flex: 1 1 200px;
-        }
-        
-        .order-item-card img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            background: #eee;
-        }
-        
-        .order-item-card .item-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .order-item-card .item-name {
-            font-size: 12px;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .order-item-card .item-meta {
-            font-size: 10px;
-            color: #999;
-        }
 
         /* Footer */
         .auth-footer {
@@ -714,41 +773,8 @@
             font-size: 13px;
             color: #999;
             font-style: italic;
-        }
-        
-        /* Order Link Copy */
-        .copy-link-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            background: #fafafa;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 11px;
-        }
-        
-        .copy-link-row input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            font-size: 11px;
-            color: #666;
-            outline: none;
-            font-family: monospace;
-        }
-        
-        .copy-link-row button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            white-space: nowrap;
+            text-align: center;
+            padding: 20px;
         }
     </style>
 </head>
@@ -778,7 +804,7 @@
     <!-- Main Content -->
     <main>
         <!-- Profile Card -->
-        <div class="account-card" id="profile-card">
+        <div class="account-card">
             <div class="profile-header">
                 <div class="profile-avatar">
                     <i class="fa-solid fa-user"></i>
@@ -798,7 +824,7 @@
         </div>
 
         <!-- Orders Card -->
-        <div class="account-card" id="orders-card">
+        <div class="account-card">
             <div class="section-title">
                 Order History
             </div>
@@ -867,10 +893,7 @@
             </button>
             <h2 id="od-title">Order Details</h2>
             <div id="order-details-body" style="font-size: 13px;"></div>
-            <button id="reorder-btn" class="btn-accent save-btn" style="display: none;">
-                <i class="fa-solid fa-cart-shopping"></i> Reorder Items
-            </button>
-            <button onclick="document.getElementById('order-details-modal').style.display='none'" class="save-btn" style="margin-top: 8px; background: #eee; color: #333;">Close</button>
+            <button onclick="document.getElementById('order-details-modal').style.display='none'" class="save-btn" style="margin-top: 20px;">Close</button>
         </div>
     </div>
 
@@ -891,7 +914,6 @@
 
         let userSession = null;
         let currentData = { orders: [] };
-        let currentOrderForReorder = null;
 
         // Toast Functions
         function showToast(text, type = 'success') {
@@ -956,11 +978,11 @@
             // Load orders
             await loadOrders();
             
+            // Auto-open order if coming from /order/{id} link
+            await autoOpenOrderIfNeeded();
+            
             // Hide loader
             document.getElementById('global-loader').style.display = 'none';
-            
-            // Check URL for direct order opening
-            checkUrlForOrder();
         }
 
         // Load Orders
@@ -982,10 +1004,8 @@
             
             container.innerHTML = data.map(order => {
                 const info = order.member_info || {};
-                const orderUrl = `https://www.jayenware.shop/account?order=${order.id}`;
                 return `
-                <div class="order-item" id="order-row-${order.id}" onclick="viewOrderDetails(${order.id})" style="position: relative;">
-                    <span class="or-badge">OR#${order.id}</span>
+                <div class="order-item" onclick="viewOrderDetails(${order.id})">
                     <div>
                         <div class="order-id">#${order.id}</div>
                         <div class="order-total">${info.total || '৳ 0'}</div>
@@ -999,176 +1019,164 @@
             }).join('');
         }
 
-        // View Order Details
-        function viewOrderDetails(id) {
+        // View Order Details (Enhanced with images, user info, QR code)
+        async function viewOrderDetails(id) {
             const order = currentData.orders.find(o => o.id === id);
             if (!order) return;
-            
-            currentOrderForReorder = order;
             
             const info = order.member_info || {};
             const items = info.items || [];
             const shipping = info.shipping || {};
-            const orderUrl = `https://www.jayenware.shop/account?order=${id}`;
-            
-            document.getElementById('od-title').innerText = 'Order #' + id;
             
             // Build items with images
-            let itemsHtml = '';
-            if (items.length > 0) {
-                itemsHtml = '<div class="order-items-grid">';
-                items.forEach(item => {
-                    const imgSrc = item.image || 'https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/placeholder.png';
-                    itemsHtml += `
-                    <div class="order-item-card">
-                        <img src="${imgSrc}" alt="${item.title}" onerror="this.src='https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/placeholder.png'">
-                        <div class="item-info">
-                            <div class="item-name">${item.title}</div>
-                            <div class="item-meta">Qty: ${item.qty} | ৳${item.price}</div>
-                        </div>
+            const itemsHTML = items.length > 0 ? items.map(item => {
+                const imgSrc = item.image || item.img || item.image_url || '';
+                return `
+                <div class="order-item-card">
+                    ${imgSrc ? `<img src="${imgSrc}" alt="${item.title || 'Product'}" class="order-item-img" onerror="this.style.display='none'">` : ''}
+                    <div class="order-item-info">
+                        <div class="order-item-title">${item.title || 'Product'}</div>
+                        <div class="order-item-meta">Qty: ${item.qty || 1} × ৳${item.price || 0}</div>
                     </div>
-                    `;
-                });
-                itemsHtml += '</div>';
-            }
+                    <div class="order-item-price">৳${(item.qty || 1) * (item.price || 0)}</div>
+                </div>
+                `;
+            }).join('') : '<p style="color: #999; font-style: italic;">No items found</p>';
             
+            // Order URL
+            const orderUrl = `https://jayenware.shop/order/${order.id}`;
+            
+            // Build complete HTML
+            document.getElementById('od-title').innerText = 'Order #' + order.id;
             document.getElementById('order-details-body').innerHTML = `
-                <div class="order-detail-row">
-                    <strong>Customer</strong>
-                    <p>${shipping.name || userSession.user_metadata.full_name || 'N/A'}</p>
-                    <p style="font-size: 10px; color: #999;">${userSession.email}</p>
+                <!-- User Info -->
+                <div class="user-info-row">
+                    <div class="info-col">
+                        <strong>Customer Name</strong>
+                        <p>${shipping.name || userSession.user_metadata?.full_name || 'N/A'}</p>
+                    </div>
+                    <div class="info-col">
+                        <strong>Email</strong>
+                        <p style="font-size: 11px; word-break: break-all;">${order.member_email || 'N/A'}</p>
+                    </div>
                 </div>
-                <div class="order-detail-row">
-                    <strong>Items</strong>
-                    ${itemsHtml || '<p>No items found</p>'}
+                
+                <!-- Items with Images -->
+                <strong style="display: block; font-size: 10px; text-transform: uppercase; color: #999; margin-bottom: 8px;">Order Items</strong>
+                <div class="order-items-list">
+                    ${itemsHTML}
                 </div>
-                <div class="order-detail-row">
+                
+                <!-- Shipping Info -->
+                <div class="order-detail-row" style="margin-top: 16px;">
                     <strong>Shipping Address</strong>
-                    <p>${shipping.address || 'N/A'}</p>
+                    <p>${shipping.address || userSession.user_metadata?.address || 'N/A'}${shipping.subdistrict ? ', ' + shipping.subdistrict : ''}${shipping.district ? ', ' + shipping.district : ''}</p>
                 </div>
                 <div class="order-detail-row">
                     <strong>Phone</strong>
-                    <p>${shipping.phone || 'N/A'}</p>
+                    <p>${shipping.phone || userSession.user_metadata?.phone || 'N/A'}</p>
                 </div>
                 <div class="order-detail-row">
                     <strong>Payment Method</strong>
-                    <p>${info.payment_method?.toUpperCase() || 'COD'}</p>
+                    <p>${(info.payment_method || 'cod').toUpperCase()}</p>
                 </div>
-                <div class="order-detail-row">
-                    <strong>Status</strong>
-                    <p><span class="order-status">${order.status || 'Pending'}</span></p>
-                </div>
+                
+                <!-- Price Summary -->
                 <div class="summary-box">
                     <p>Subtotal: ৳${info.subtotal || 0}</p>
                     ${info.discount > 0 ? `<p style="color: #059669;">Discount: -৳${info.discount}</p>` : ''}
                     <p>Delivery: ৳${info.delivery_charge || 0}</p>
                     <p class="total" style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #e5e5e5;">Total: ${info.total || '৳ 0'}</p>
                 </div>
+                
+                <!-- Order Date -->
                 <p style="margin-top: 12px; font-size: 10px; color: #999;">
                     <i class="fa-solid fa-clock"></i> 
                     Ordered: ${new Date(order.created_at).toLocaleString('en-BD')}
                 </p>
-                <div class="copy-link-row">
-                    <i class="fa-solid fa-link" style="color: #999;"></i>
-                    <input type="text" value="${orderUrl}" id="order-link-${id}" readonly>
-                    <button onclick="copyOrderLink('order-link-${id}')">Copy</button>
-                </div>
+                
+                <!-- QR Code Section -->
+                <div class="qr-container" id="qr-container-${order.id}"></div>
+                
+                <!-- Copy Link Button -->
+                <button class="copy-link-btn" onclick="copyOrderLink('${orderUrl}', event)">
+                    <i class="fa-solid fa-link"></i> Copy Order Link
+                </button>
             `;
             
-            // Show/hide reorder button
-            const reorderBtn = document.getElementById('reorder-btn');
-            if (items.length > 0) {
-                reorderBtn.style.display = 'block';
-                reorderBtn.onclick = () => reorderItems(order);
-            } else {
-                reorderBtn.style.display = 'none';
-            }
-            
+            // Show modal
             document.getElementById('order-details-modal').style.display = 'flex';
             
-            // Update URL without reload
-            const newUrl = new URL(window.location);
-            newUrl.searchParams.set('order', id);
-            window.history.pushState({}, '', newUrl);
+            // Generate QR Code after modal is visible (needs rendered DOM)
+            setTimeout(() => {
+                generateQRCode(order.id, orderUrl);
+            }, 150);
+        }
+
+        // Generate QR Code
+        function generateQRCode(orderId, url) {
+            const container = document.getElementById(`qr-container-${orderId}`);
+            if (!container) return;
+            
+            // Clear previous
+            container.innerHTML = '<p>Scan for Order Details</p>';
+            
+            // Create QR Code
+            try {
+                new QRCode(container, {
+                    text: url,
+                    width: 120,
+                    height: 120,
+                    colorDark: '#1a1a1a',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            } catch (e) {
+                console.error('QR generation failed:', e);
+                container.innerHTML += '<p style="color: #ef4444; font-size: 10px;">QR unavailable</p>';
+            }
         }
 
         // Copy Order Link
-        function copyOrderLink(inputId) {
-            const input = document.getElementById(inputId);
-            input.select();
-            input.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(input.value).then(() => {
+        function copyOrderLink(url, event) {
+            if (event) event.stopPropagation();
+            
+            navigator.clipboard.writeText(url).then(() => {
                 showToast('Order link copied!');
             }).catch(() => {
-                showToast('Failed to copy', 'error');
+                // Fallback for older browsers
+                const input = document.createElement('input');
+                input.value = url;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast('Order link copied!');
             });
         }
 
-        // Reorder Items
-        function reorderItems(order) {
-            const info = order.member_info || {};
-            const items = info.items || [];
-            
-            if (items.length === 0) {
-                showToast('No items to reorder', 'error');
-                return;
-            }
-            
-            // Get current cart
-            let cart = JSON.parse(localStorage.getItem('jayenware_cart') || '[]');
-            
-            // Add each item to cart
-            items.forEach(item => {
-                // Check if item already exists in cart
-                const existingIndex = cart.findIndex(cartItem => 
-                    (cartItem.id === item.id || cartItem.title === item.title)
-                );
-                
-                if (existingIndex >= 0) {
-                    // Update quantity
-                    cart[existingIndex].qty = (cart[existingIndex].qty || 1) + (item.qty || 1);
-                } else {
-                    // Add new item
-                    cart.push({
-                        id: item.id || Date.now(),
-                        title: item.title,
-                        price: item.price,
-                        image: item.image,
-                        qty: item.qty || 1
-                    });
-                }
-            });
-            
-            // Save cart
-            localStorage.setItem('jayenware_cart', JSON.stringify(cart));
-            
-            // Close modal
-            document.getElementById('order-details-modal').style.display = 'none';
-            
-            // Show success and redirect
-            showToast('Items added to cart! Redirecting...');
-            setTimeout(() => {
-                window.location.href = '/checkout';
-            }, 1500);
+        // Check for order ID in URL path
+        function getOrderIdFromURL() {
+            const path = window.location.pathname;
+            const match = path.match(/^\/order\/(\d+)$/);
+            return match ? parseInt(match[1]) : null;
         }
 
-        // Check URL for direct order opening
-        function checkUrlForOrder() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const orderId = urlParams.get('order');
+        // Auto-open order if URL matches
+        async function autoOpenOrderIfNeeded() {
+            const orderId = getOrderIdFromURL();
+            if (!orderId) return;
             
-            if (orderId) {
-                // Wait a bit for orders to load
-                setTimeout(() => {
-                    const order = currentData.orders.find(o => o.id === parseInt(orderId));
-                    if (order) {
-                        viewOrderDetails(parseInt(orderId));
-                        // Scroll to orders card
-                        document.getElementById('orders-card').scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        showToast('Order not found in your account', 'error');
-                    }
-                }, 1000);
+            // Wait a moment for orders to load
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Check if this order belongs to current user
+            const order = currentData.orders.find(o => o.id === orderId);
+            if (order) {
+                viewOrderDetails(orderId);
+                showToast(`Order #${orderId} loaded`);
+            } else {
+                showToast('Order not found in your account', 'error');
             }
         }
 
@@ -1212,26 +1220,15 @@
             window.location.href = '/';
         }
 
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('premium-modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+
         // Initialize
         document.getElementById('display-year').innerText = new Date().getFullYear();
-        
-        // Close modal on outside click
-        document.getElementById('order-details-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.display = 'none';
-                // Remove order param from URL
-                const newUrl = new URL(window.location);
-                newUrl.searchParams.delete('order');
-                window.history.pushState({}, '', newUrl);
-            }
-        });
-        
-        document.getElementById('edit-profile-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.display = 'none';
-            }
-        });
-        
         checkAuth();
     </script>
 
