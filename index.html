@@ -970,6 +970,8 @@
                 </div>
             </div>
 
+            <!-- SECTION ORDER: Hot Products -> Video -> First Season -> Best Selling -> Remaining Seasons -> Recently Viewed -->
+
             <section id="hot-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
                 <div class="max-w-7xl mx-auto px-4">
                     <div class="flex items-center justify-between mb-6 sm:mb-8">
@@ -982,6 +984,15 @@
                     <div id="hot-products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
                 </div>
             </section>
+
+            <!-- Video Section will be injected here via JS (after Hot Products, before dynamic sections) -->
+            <div id="video-section-wrapper"></div>
+
+            <!-- First Season will be injected here via JS -->
+            <div id="first-season-wrapper"></div>
+
+            <!-- Best Selling will be injected here via JS -->
+            <div id="best-selling-wrapper"></div>
 
             <div id="dynamic-home-sections"></div>
 
@@ -1057,10 +1068,7 @@
 
     <footer class="bg-primary text-gray-400 pt-12 sm:pt-16 pb-6 sm:pb-8">
     <div class="max-w-7xl mx-auto px-4">
-        <!-- Top Grid: Brand, Quick Links, Support, Connect -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 sm:mb-12">
-            
-            <!-- Column 1: Brand -->
             <div class="col-span-2 md:col-span-1">
                 <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3 sm:mb-4">JAYENWARE</h4>
                 <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition">BINZEO</a>.</p>
@@ -1071,8 +1079,6 @@
                     <a href="https://youtube.com/@jayenware?si=Q3nk8svLdBlk53T9" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-accent transition"><i class="fa-brands fa-youtube"></i></a>
                 </div>
             </div>
-
-            <!-- Column 2: Shop -->
             <div>
                 <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Shop</h5>
                 <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
@@ -1082,8 +1088,6 @@
                     <li><a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="hover:text-white transition no-underline">Wishlist</a></li>
                 </ul>
             </div>
-
-            <!-- Column 3: Support -->
             <div>
                 <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Support</h5>
                 <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
@@ -1096,12 +1100,9 @@
                     <li><a href="mailto:binzeo369@gmail.com" class="hover:text-white transition no-underline"><i class="fa-regular fa-envelope mr-1"></i> binzeo369@gmail.com</a></li>
                 </ul>
             </div>
-
-            <!-- Column 4: Connect & Payment -->
             <div>
                 <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">We Accept</h5>
                 <div class="flex flex-wrap gap-2 mb-6" id="footer-payment-icons">
-                    <!-- Payment Icons will be dynamically injected by JS for exact quality -->
                     <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506245655_download_(2).jpeg" alt="Google Pay" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
                     <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506292766_download_(1).png" alt="Visa" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
                     <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506270475_download_(1).jpeg" alt="Mastercard" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
@@ -1111,8 +1112,6 @@
                 <p class="text-[9px] text-gray-500 mt-1"><i class="fa-regular fa-envelope"></i> binzeo369@outlook.com</p>
             </div>
         </div>
-
-        <!-- Bottom Bar -->
         <div class="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition no-underline">BINZEO</a></p>
             <p class="text-[8px] sm:text-[9px]">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved. | A Concern of BINZEO</p>
@@ -1120,7 +1119,7 @@
     </div>
 </footer>
 
-    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col"><div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft"><h2 class="text-base sm:text-lg font-black uppercase tracking-tighter">Shopping Bag</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button></div><div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div><div class="p-4 sm:p-6 border-t bg-soft"><div class="mb-3 sm:mb-4"><div class="flex gap-1.5 sm:gap-2"><input type="text" id="promo-input" placeholder="Promo Code" class="flex-grow p-2.5 sm:p-3 rounded-xl border text-xs sm:text-sm outline-none"><button onclick="applyPromo()" class="px-3 sm:px-4 bg-primary text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase">Apply</button></div><p id="promo-msg" class="text-[9px] sm:text-[10px] mt-1 font-bold"></p></div><div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs"><div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div><div id="promo-row" class="hidden flex justify-between text-green-600 font-bold"><span>Discount</span><span id="cart-discount">- ৳ 0.00</span></div><div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div></div><button onclick="showCheckoutOptions()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition shadow-lg">Checkout</button></div></div>
+<div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col"><div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft"><h2 class="text-base sm:text-lg font-black uppercase tracking-tighter">Shopping Bag</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button></div><div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div><div class="p-4 sm:p-6 border-t bg-soft"><div class="mb-3 sm:mb-4"><div class="flex gap-1.5 sm:gap-2"><input type="text" id="promo-input" placeholder="Promo Code" class="flex-grow p-2.5 sm:p-3 rounded-xl border text-xs sm:text-sm outline-none"><button onclick="applyPromo()" class="px-3 sm:px-4 bg-primary text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase">Apply</button></div><p id="promo-msg" class="text-[9px] sm:text-[10px] mt-1 font-bold"></p></div><div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs"><div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div><div id="promo-row" class="hidden flex justify-between text-green-600 font-bold"><span>Discount</span><span id="cart-discount">- ৳ 0.00</span></div><div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div></div><button onclick="showCheckoutOptions()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition shadow-lg">Checkout</button></div></div>
 
     <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto"><button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button><h2 class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6">Update Profile</h2><div class="space-y-3 sm:space-y-4"><div class="auth-input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="edit-name" placeholder="Full Name" autocomplete="name"></div><div class="auth-input-wrapper"><i class="fa-solid fa-phone input-icon"></i><input type="tel" id="edit-phone" placeholder="Phone Number" autocomplete="tel-national"></div><div class="grid grid-cols-2 gap-2 sm:gap-3"><div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div><div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div></div><div class="auth-input-wrapper"><i class="fa-solid fa-location-dot input-icon" style="top:16px;transform:none;"></i><textarea id="edit-address" placeholder="Full Address" class="h-16 sm:h-20" autocomplete="street-address" style="padding-left:40px;"></textarea></div><button onclick="handleUpdateProfile()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-accent transition">Save</button></div></div></div>
     <div id="order-details-modal" class="premium-modal fixed inset-0 z-[150] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-lg rounded-3xl p-6 sm:p-8 relative max-h-[85dvh] overflow-y-auto custom-scroll"><button onclick="closeOrderDetails()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button><h2 id="od-title" class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6 border-b pb-3 sm:pb-4"></h2><div id="order-details-body" class="space-y-4 sm:space-y-6 text-xs sm:text-sm"></div><button onclick="closeOrderDetails()" class="mt-6 sm:mt-8 w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase text-[10px] sm:text-xs tracking-wider">Close</button></div></div>
@@ -1354,7 +1353,7 @@
                 else if(params && params.search) { urlPath = '/search?q=' + encodeURIComponent(params.search); updateURL(urlPath, 'Search: ' + params.search); }
                 else { updateURL(urlPath); }
                 if(pageId !== 'home') { cleanupVideoCarousel(); }
-                if(pageId === 'home') { renderDynamicHomeSections(); renderRecentlyViewed(); renderVideoSection(); }
+                if(pageId === 'home') { renderHomepageSections(); renderRecentlyViewed(); }
                 if(pageId === 'wishlist') renderWishlist();
                 if(pageId === 'account' && userSession) loadUserOrders();
                 if(pageId === 'products') renderProducts(getFilteredProducts());
@@ -1420,7 +1419,7 @@
             if(prods) currentData.products=prods; if(newsData) currentData.news=newsData; if(delivery) currentData.deliveryCharges=delivery;
             if(reviews) currentData.reviews=reviews; if(seasons) currentData.seasons=seasons; if(seasonProds) currentData.seasonProducts=seasonProds; if(videos) currentData.videos=videos;
             renderHero(); renderCategories(); renderMegaMenu(); renderProducts(currentData.products); renderHomeFeatured(currentData.products);
-            renderDynamicHomeSections(); renderRecentlyViewed(); renderNews(currentData.news); renderVideoSection();
+            renderHomepageSections(); renderRecentlyViewed(); renderNews(currentData.news);
             if(userSession) loadUserOrders(); updateCounts(); updateMobileMenuFooter();
             handleInitialRoute();
         }
@@ -1450,9 +1449,110 @@
             prodContainer.innerHTML = `<div class="menu-category-title">Featured Products</div><div class="grid grid-cols-2 gap-3">${featuredProducts.map(p => `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="menu-product-item"><img src="${p.img}" class="menu-product-img" alt="${p.title}" loading="lazy"><div class="min-w-0"><p class="text-[11px] font-bold text-primary truncate">${p.title}</p><p class="text-[10px] text-gray-400 uppercase">${p.category}</p><p class="text-[12px] font-black text-primary mt-1">৳${p.price}</p></div></a>`).join('')}</div>`;
         }
 
-        function renderVideoSection() { const section = document.getElementById('video-showcase-section'); if (currentData.videos && currentData.videos.length) { videoData = currentData.videos; section.classList.remove('hidden'); initializeFullScreenVideoCarousel(); } else { section.classList.add('hidden'); } }
-        function initializeFullScreenVideoCarousel() { const carousel = document.getElementById('video-carousel'); const indicators = document.getElementById('video-slide-indicators'); if (!videoData.length || !carousel) return; carousel.innerHTML = videoData.map((video, index) => `<div class="video-slide ${index === 0 ? 'active' : ''}" data-index="${index}"><video id="main-video-${index}" src="${video.video_url}" muted playsinline loop preload="metadata" ontimeupdate="updateProgressBar(${index})" onended="advanceVideoSlide()" onloadedmetadata="if(${index} === 0) playVideoSlide(0)" aria-label="${video.title || 'Video ' + (index + 1)}"></video><div class="video-overlay"></div><div class="video-info-liquid">${video.brand_name ? `<div class="brand-name">${video.brand_name}</div>` : ''}<h2 class="video-main-title">${video.title}</h2>${video.subtitle ? `<p class="video-sub-title">${video.subtitle}</p>` : ''}</div></div>`).join(''); indicators.innerHTML = videoData.map((_, index) => `<div class="indicator ${index === 0 ? 'active' : ''}" onclick="jumpToVideoSlide(${index})" role="button" tabindex="0" aria-label="Go to slide ${index + 1}"></div>`).join(''); setTimeout(() => playVideoSlide(0), 300); }
-        function playVideoSlide(index) { if (index >= videoData.length) index = 0; currentVideoIndex = index; isVideoPlaying = true; document.querySelectorAll('.video-slide video').forEach(v => { v.pause(); v.currentTime = 0; }); document.querySelectorAll('.video-slide').forEach((slide, i) => { slide.classList.toggle('active', i === index); }); document.querySelectorAll('.indicator').forEach((ind, i) => { ind.classList.toggle('active', i === index); }); const video = document.getElementById(`main-video-${index}`); if (video) { video.currentTime = 0; video.muted = true; isVideoSoundOn = false; const btn = document.getElementById('sound-toggle'); if (btn) btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'; const pauseBtn = document.getElementById('video-pause-btn'); if (pauseBtn) pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; const playPromise = video.play(); if (playPromise !== undefined) { playPromise.catch(err => { console.log('Autoplay blocked:', err); }); } } document.getElementById('video-progress-bar').style.width = '0%'; if (videoAutoAdvanceTimer) clearTimeout(videoAutoAdvanceTimer); const duration = video?.duration || 10; videoAutoAdvanceTimer = setTimeout(() => advanceVideoSlide(), (duration * 1000) + 2000); }
+        function renderHomepageSections() {
+            const seasons = currentData.seasons || [];
+            
+            // Move video section to after hot products
+            const videoSection = document.getElementById('video-showcase-section');
+            const videoWrapper = document.getElementById('video-section-wrapper');
+            if (videoSection && videoWrapper && currentData.videos && currentData.videos.length) {
+                videoSection.classList.remove('hidden');
+                videoWrapper.appendChild(videoSection);
+                videoData = currentData.videos;
+                initializeFullScreenVideoCarousel();
+            }
+            
+            // First Season
+            let firstSeasonHTML = '';
+            if(seasons.length > 0) {
+                firstSeasonHTML = buildSeasonHTML(seasons[0]);
+            }
+            const firstSeasonWrapper = document.getElementById('first-season-wrapper');
+            if(firstSeasonWrapper) firstSeasonWrapper.innerHTML = firstSeasonHTML;
+            
+            // Best Selling
+            const bestProducts = currentData.products.filter(p => p.is_best);
+            let bestSellingHTML = '';
+            if(bestProducts.length > 0) {
+                bestSellingHTML = buildBestSellingHTML(bestProducts);
+            }
+            const bestSellingWrapper = document.getElementById('best-selling-wrapper');
+            if(bestSellingWrapper) bestSellingWrapper.innerHTML = bestSellingHTML;
+            
+            // Remaining Seasons
+            let remainingSeasonsHTML = '';
+            for(let i = 1; i < seasons.length; i++) {
+                remainingSeasonsHTML += buildSeasonHTML(seasons[i]);
+            }
+            const dynamicContainer = document.getElementById('dynamic-home-sections');
+            if(dynamicContainer) dynamicContainer.innerHTML = remainingSeasonsHTML;
+        }
+
+        function renderVideoSection() {
+            // This is now handled by renderHomepageSections to place it in correct order
+            const section = document.getElementById('video-showcase-section');
+            if (currentData.videos && currentData.videos.length) {
+                videoData = currentData.videos;
+                section.classList.remove('hidden');
+                initializeFullScreenVideoCarousel();
+            } else {
+                section.classList.add('hidden');
+            }
+        }
+        
+        function initializeFullScreenVideoCarousel() { 
+            const carousel = document.getElementById('video-carousel'); 
+            const indicators = document.getElementById('video-slide-indicators'); 
+            if (!videoData.length || !carousel) return; 
+            carousel.innerHTML = videoData.map((video, index) => `
+                <div class="video-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
+                    <video id="main-video-${index}" src="${video.video_url}" muted playsinline loop preload="metadata" 
+                        ontimeupdate="updateProgressBar(${index})" 
+                        onended="advanceVideoSlide()" 
+                        onloadedmetadata="if(${index} === 0) playVideoSlide(0)" 
+                        aria-label="${video.title || 'Video ' + (index + 1)}"></video>
+                    <div class="video-overlay"></div>
+                    <div class="video-info-liquid">
+                        ${video.brand_name ? `<div class="brand-name">${video.brand_name}</div>` : ''}
+                        <h2 class="video-main-title">${video.title}</h2>
+                        ${video.subtitle ? `<p class="video-sub-title">${video.subtitle}</p>` : ''}
+                    </div>
+                </div>
+            `).join(''); 
+            indicators.innerHTML = videoData.map((_, index) => `
+                <div class="indicator ${index === 0 ? 'active' : ''}" 
+                    onclick="jumpToVideoSlide(${index})" 
+                    role="button" tabindex="0" 
+                    aria-label="Go to slide ${index + 1}"></div>
+            `).join(''); 
+            setTimeout(() => playVideoSlide(0), 300); 
+        }
+        
+        function playVideoSlide(index) { 
+            if (index >= videoData.length) index = 0; 
+            currentVideoIndex = index; 
+            isVideoPlaying = true; 
+            document.querySelectorAll('.video-slide video').forEach(v => { v.pause(); v.currentTime = 0; }); 
+            document.querySelectorAll('.video-slide').forEach((slide, i) => { slide.classList.toggle('active', i === index); }); 
+            document.querySelectorAll('.indicator').forEach((ind, i) => { ind.classList.toggle('active', i === index); }); 
+            const video = document.getElementById(`main-video-${index}`); 
+            if (video) { 
+                video.currentTime = 0; 
+                video.muted = true; 
+                isVideoSoundOn = false; 
+                const btn = document.getElementById('sound-toggle'); 
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'; 
+                const pauseBtn = document.getElementById('video-pause-btn'); 
+                if (pauseBtn) pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; 
+                const playPromise = video.play(); 
+                if (playPromise !== undefined) { playPromise.catch(err => { console.log('Autoplay blocked:', err); }); } 
+            } 
+            document.getElementById('video-progress-bar').style.width = '0%'; 
+            if (videoAutoAdvanceTimer) clearTimeout(videoAutoAdvanceTimer); 
+            const duration = video?.duration || 10; 
+            videoAutoAdvanceTimer = setTimeout(() => advanceVideoSlide(), (duration * 1000) + 2000); 
+        }
+        
         function advanceVideoSlide() { const nextIndex = (currentVideoIndex + 1) % videoData.length; playVideoSlide(nextIndex); }
         function jumpToVideoSlide(index) { if (videoAutoAdvanceTimer) clearTimeout(videoAutoAdvanceTimer); playVideoSlide(index); }
         function updateProgressBar(index) { if (index !== currentVideoIndex) return; const video = document.getElementById(`main-video-${index}`); if (!video || !video.duration) return; const progress = (video.currentTime / video.duration) * 100; document.getElementById('video-progress-bar').style.width = `${progress}%`; }
@@ -1460,461 +1560,531 @@
         function toggleVideoPlayPause() { isVideoPlaying = !isVideoPlaying; const video = document.getElementById(`main-video-${currentVideoIndex}`); const btn = document.getElementById('video-pause-btn'); if (video) { if (isVideoPlaying) { video.play(); if (btn) btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; } else { video.pause(); if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>'; } } }
         function cleanupVideoCarousel() { if (videoAutoAdvanceTimer) { clearTimeout(videoAutoAdvanceTimer); videoAutoAdvanceTimer = null; } document.querySelectorAll('.video-slide video').forEach(v => { v.pause(); v.currentTime = 0; }); }
 
-        function renderDynamicHomeSections(){ const container = document.getElementById('dynamic-home-sections'); if(!container) return; const seasons = currentData.seasons || []; let html = ''; if(seasons.length > 0) html += buildSeasonHTML(seasons[0]); const bestProducts = currentData.products.filter(p => p.is_best); if(bestProducts.length > 0) html += buildBestSellingHTML(bestProducts); for(let i = 1; i < seasons.length; i++) html += buildSeasonHTML(seasons[i]); container.innerHTML = html; }
-        function buildSeasonHTML(season) { const seasonProductIds = (currentData.seasonProducts || []).filter(sp => sp.season_id === season.id).sort((a,b) => (a.display_order || 0) - (b.display_order || 0)).map(sp => sp.product_id); const seasonProducts = seasonProductIds.map(id => currentData.products.find(p => p.id === id)).filter(p => p).slice(0, 4); if(seasonProducts.length === 0) return ''; const bannerHTML = season.banner_img ? `<div class="mb-8 sm:mb-10"><div class="season-banner rounded-3xl shadow-xl" style="aspect-ratio: 21/9; max-height: 400px;"><img src="${season.banner_img}" alt="${season.name} Collection Banner" class="w-full h-full object-cover rounded-3xl" loading="lazy"></div></div>` : ''; const productsHTML = seasonProducts.map(p => { const isOut = p.stock <= 0; const wished = wishlist.includes(p.id); return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block relative"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-accent text-white text-[7px] sm:text-[8px] font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase shadow-lg flex items-center gap-1"><i class="fa-solid fa-calendar-star"></i> ${season.name}</span></div><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition z-10"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center z-10"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?`<div class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-10"><span class="bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</span></div>`:''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; }).join(''); return `<div class="max-w-7xl mx-auto px-4 py-12 sm:py-16 lg:py-24"><div class="text-center mb-8 sm:mb-12"><p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-accent mb-2 sm:mb-3">${season.subtitle || 'New Season'}</p><h2 class="text-2xl sm:text-3xl lg:text-5xl font-black font-serif">${season.name}</h2></div>${bannerHTML}<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">${productsHTML}</div><div class="text-center mt-8 sm:mt-10"><a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 border-2 border-primary text-primary rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-all no-underline inline-block">View All Collection</a></div></div>`; }
-        function buildBestSellingHTML(bestProducts) { return `<section class="py-10 sm:py-14 lg:py-20 bg-soft"><div class="max-w-7xl mx-auto px-4"><div class="flex items-center justify-between mb-6 sm:mb-8"><div class="flex items-center gap-2 sm:gap-3"><span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-white flex items-center justify-center rounded-full text-base sm:text-lg"><i class="fa-solid fa-crown"></i></span><h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Best Sellers</h2></div><a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></a></div><div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">${bestProducts.slice(0, 4).map(p => productCard(p)).join('')}</div></div></section>`; }
-        function productCard(p){ const isOut=p.stock<=0,wished=wishlist.includes(p.id); return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; }
-        function getRandomProducts(currentProductId, category, count = 4) { let available = currentData.products.filter(p => p.id !== currentProductId); let otherCategoryProducts = available.filter(p => p.category !== category); let sameCategoryProducts = available.filter(p => p.category === category); let selected = []; const shuffle = (array) => { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; }; let shuffledOther = shuffle([...otherCategoryProducts]); let shuffledSame = shuffle([...sameCategoryProducts]); selected = [...shuffledOther.slice(0, 2), ...shuffledSame.slice(0, 2)]; if (selected.length < count) { let remaining = available.filter(p => !selected.find(s => s.id === p.id)); selected = [...selected, ...shuffle(remaining).slice(0, count - selected.length)]; } return shuffle(selected).slice(0, count); }
-        function renderProducts(list){ const grid = document.getElementById('products-grid'); grid.classList.add('products-fade-out'); setTimeout(() => { const totalProducts = list.length; const displayProducts = list.slice(0, productsDisplayLimit); let html = ''; if(displayProducts.length) { html = displayProducts.map((p, index) => { return productCard(p).replace('class="product-card', 'class="product-card product-card-enter'); }).join(''); } else { html = '<div class="col-span-full text-center py-20"><p class="text-gray-400 text-lg">No products found</p></div>'; } if(totalProducts > productsDisplayLimit) { html += `<div class="col-span-full mt-8 text-center"><button onclick="loadMoreProducts()" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase text-xs tracking-wider hover:bg-accent transition"><i class="fa-solid fa-arrow-down mr-2"></i>Load More (${totalProducts - productsDisplayLimit} remaining)</button></div>`; } grid.innerHTML = html; grid.classList.remove('products-fade-out'); grid.classList.add('products-fade-in'); setTimeout(() => { grid.classList.remove('products-fade-in'); grid.querySelectorAll('.product-card-enter').forEach(card => { card.classList.remove('product-card-enter'); }); }, 800); }, 300); }
-        function renderHomeFeatured(list){ const hot=list.filter(p=>p.is_hot); if(hot.length){document.getElementById('hot-products-section').classList.remove('hidden');document.getElementById('hot-products-grid').innerHTML=hot.map(p=>productCard(p)).join('');} }
-        function renderRecentlyViewed(){ const ids=JSON.parse(localStorage.getItem('jayen_recent')||'[]'),list=currentData.products.filter(p=>ids.includes(p.id.toString())); const sec=document.getElementById('recent-products-section'); if(list.length){sec.classList.remove('hidden');document.getElementById('recent-products-grid').innerHTML=list.map(p=>productCard(p)).join('');} else sec.classList.add('hidden'); }
-        function renderNews(list){ document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white rounded-2xl overflow-hidden shadow-sm group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); }
-        function openProductDetails(productId){ window.scrollTo({top:0,behavior:'instant'}); const product=currentData.products.find(p=>p.id==productId); if(!product)return; let recent=JSON.parse(localStorage.getItem('jayen_recent')||'[]'); recent=[productId.toString(),...recent.filter(id=>id!==productId.toString())].slice(0,8); localStorage.setItem('jayen_recent',JSON.stringify(recent)); const variants=currentData.variants.filter(v=>v.product_id==productId); const allImages=product.images?product.images.split(','):[product.img]; const prodReviews=currentData.reviews.filter(r=>r.product_id==productId); const isOut=product.stock<=0; selectedVariantObj=null; const reviewsHTML = prodReviews.length ? prodReviews.map(r => `<div class="bg-white p-3 sm:p-4 rounded-xl border border-gray-100"><div class="flex items-center gap-2 mb-1"><span class="text-accent text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span><span class="text-[10px] sm:text-xs font-bold">${r.user_name||'Anonymous'}</span><span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span></div><p class="text-[10px] sm:text-xs text-gray-600">${r.review_text}</p></div>`).join('') : '<p class="text-gray-400 text-xs sm:text-sm italic">No reviews yet. Be the first to review!</p>'; const reviewFormHTML = userSession ? `<div class="bg-soft p-4 sm:p-5 rounded-2xl"><h4 class="font-bold text-[10px] sm:text-xs uppercase mb-3">Write a Review</h4><div class="star-rating mb-3" id="inline-review-stars-${productId}"><input type="radio" id="star5-${productId}" name="rating-${productId}" value="5"><label for="star5-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star4-${productId}" name="rating-${productId}" value="4"><label for="star4-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star3-${productId}" name="rating-${productId}" value="3"><label for="star3-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star2-${productId}" name="rating-${productId}" value="2"><label for="star2-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star1-${productId}" name="rating-${productId}" value="1"><label for="star1-${productId}"><i class="fa-solid fa-star"></i></label></div><textarea id="inline-review-text-${productId}" placeholder="Share your experience..." class="w-full p-3 border rounded-xl text-xs h-20 mb-3 outline-none"></textarea><button onclick="submitInlineReview(${productId})" class="px-6 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-accent transition">Submit Review</button></div>` : `<div class="bg-soft p-4 sm:p-5 rounded-2xl text-center"><p class="text-[10px] sm:text-xs text-gray-500 mb-2">Login to write a review</p><a href="/login" class="px-5 py-2 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-accent transition no-underline inline-block">Sign In</a></div>`; document.getElementById('product-detail-content').innerHTML=`<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 mb-8 sm:mb-10"><div><div id="product-zoom-container" class="rounded-3xl overflow-hidden shadow-2xl bg-gray-100" style="aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()"><img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover"></div><div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 overflow-x-auto no-scrollbar pb-1">${allImages.map(img=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" loading="lazy" alt="${product.title} - Image">`).join('')}</div></div><div class="flex flex-col"><span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-accent">${product.category}</span><h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-serif mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1><div class="mb-4 sm:mb-6"><span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>${product.old_price?`<span class="ml-2 sm:ml-3 text-base sm:text-lg text-gray-400 line-through">৳${product.old_price}</span>`:''}</div><div class="flex items-center gap-2 mb-4 sm:mb-6"><span class="w-2 h-2 rounded-full ${isOut?'bg-red-500':'bg-green-500'}"></span><span class="text-[10px] sm:text-xs font-bold ${isOut?'text-red-500':'text-green-600'}">${isOut?'Out of Stock':`In Stock: ${product.stock}`}</span>${prodReviews.length ? `<span class="text-[10px] sm:text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-accent text-[9px]"></i> ${(prodReviews.reduce((sum,r)=>sum+r.rating,0)/prodReviews.length).toFixed(1)} (${prodReviews.length} reviews)</span>` : ''}</div>${variants.length?`<div class="mb-6 sm:mb-8"><p class="text-[9px] sm:text-[10px] font-black uppercase text-gray-400 mb-2 sm:mb-3">Select Variant</p><div class="flex flex-wrap gap-1.5 sm:gap-2" id="detail-variant-container">${variants.map((v,i)=>`<button onclick="selectVariant(this,'${v.id}','${v.name}',${v.price})" class="variant-btn px-4 sm:px-5 py-2.5 sm:py-3 border-2 rounded-2xl text-[10px] sm:text-xs font-bold transition ${i===0?'selected':''}" data-vid="${v.id}">${v.name} - ৳${v.price}</button>`).join('')}</div></div>`:''}<div class="grid grid-cols-2 gap-2 sm:gap-3 mb-6 sm:mb-8"><button onclick="addToCart(${product.id},false,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-200':'bg-primary hover:bg-accent'} text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Add to Bag</button><button onclick="addToCart(${product.id},true,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-100':'bg-white border-2 border-primary hover:bg-primary hover:text-white'} rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Buy Now</button></div><div class="bg-soft p-4 sm:p-6 rounded-2xl mb-6"><h3 class="font-bold text-[10px] sm:text-xs uppercase mb-2">Description</h3><p class="text-xs sm:text-sm text-gray-600 leading-relaxed">${product.description}</p></div><div class="flex flex-wrap gap-1.5 sm:gap-2 mt-auto"><div class="flex items-center gap-1 bg-green-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-shield-halved text-green-600"></i> 100% Authentic</div><div class="flex items-center gap-1 bg-blue-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-truck-fast text-blue-600"></i> Fast Delivery</div></div></div></div><div class="border-t pt-8 sm:pt-10"><div class="flex items-center gap-3 mb-6"><h3 class="text-xl sm:text-2xl font-black font-serif">Customer Reviews</h3><span class="text-xs sm:text-sm text-gray-400 font-bold">(${prodReviews.length})</span></div><div class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">${reviewsHTML}</div>${reviewFormHTML}</div>`; if(variants.length>0){selectedVariantObj={id:variants[0].id,name:variants[0].name,price:variants[0].price};} const related = getRandomProducts(productId, product.category, 4); const ctl = document.getElementById('complete-the-look-section'); if(related.length) { ctl.classList.remove('hidden'); document.getElementById('complete-the-look-grid').innerHTML = related.map(p => productCard(p)).join(''); } else { ctl.classList.add('hidden'); } navigate('product-details', product.id); }
-        function selectVariant(btn,vId,vName,vPrice){ document.querySelectorAll('#detail-variant-container .variant-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedVariantObj={id:vId,name:vName,price:vPrice}; }
-        function zoomImage(e){ const container=document.getElementById('product-zoom-container'),img=document.getElementById('product-zoom-image'); if(!container||!img)return; const rect=container.getBoundingClientRect(); const clientX=e.touches?e.touches[0].clientX:e.clientX; const clientY=e.touches?e.touches[0].clientY:e.clientY; const x=(clientX-rect.left)/rect.width,y=(clientY-rect.top)/rect.height; img.style.transformOrigin=`${x*100}% ${y*100}%`; img.style.transform='scale(2)'; }
+        function buildSeasonHTML(season) { 
+            const seasonProductIds = (currentData.seasonProducts || []).filter(sp => sp.season_id === season.id).sort((a,b) => (a.display_order || 0) - (b.display_order || 0)).map(sp => sp.product_id); 
+            const seasonProducts = seasonProductIds.map(id => currentData.products.find(p => p.id === id)).filter(p => p).slice(0, 4); 
+            if(seasonProducts.length === 0) return ''; 
+            const bannerHTML = season.banner_img ? `<div class="mb-8 sm:mb-10"><div class="season-banner rounded-3xl shadow-xl" style="aspect-ratio: 21/9; max-height: 400px;"><img src="${season.banner_img}" alt="${season.name} Collection Banner" class="w-full h-full object-cover rounded-3xl" loading="lazy"></div></div>` : ''; 
+            const productsHTML = seasonProducts.map(p => { 
+                const isOut = p.stock <= 0; 
+                const wished = wishlist.includes(p.id); 
+                return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block relative"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-accent text-white text-[7px] sm:text-[8px] font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase shadow-lg flex items-center gap-1"><i class="fa-solid fa-calendar-star"></i> ${season.name}</span></div><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition z-10"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center z-10"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?`<div class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-10"><span class="bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</span></div>`:''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
+            }).join(''); 
+            return `<div class="max-w-7xl mx-auto px-4 py-12 sm:py-16 lg:py-24"><div class="text-center mb-8 sm:mb-12"><p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-accent mb-2 sm:mb-3">${season.subtitle || 'New Season'}</p><h2 class="text-2xl sm:text-3xl lg:text-5xl font-black font-serif">${season.name}</h2></div>${bannerHTML}<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">${productsHTML}</div><div class="text-center mt-8 sm:mt-10"><a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 border-2 border-primary text-primary rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-all no-underline inline-block">View All Collection</a></div></div>`; 
+        }
+        
+        function buildBestSellingHTML(bestProducts) { 
+            return `<section class="py-10 sm:py-14 lg:py-20 bg-soft"><div class="max-w-7xl mx-auto px-4"><div class="flex items-center justify-between mb-6 sm:mb-8"><div class="flex items-center gap-2 sm:gap-3"><span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-white flex items-center justify-center rounded-full text-base sm:text-lg"><i class="fa-solid fa-crown"></i></span><h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Best Sellers</h2></div><a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></a></div><div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">${bestProducts.slice(0, 4).map(p => productCard(p)).join('')}</div></div></section>`; 
+        }
+        
+        function productCard(p){ 
+            const isOut=p.stock<=0,wished=wishlist.includes(p.id); 
+            return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
+        }
+        
+        function getRandomProducts(currentProductId, category, count = 4) { 
+            let available = currentData.products.filter(p => p.id !== currentProductId); 
+            let otherCategoryProducts = available.filter(p => p.category !== category); 
+            let sameCategoryProducts = available.filter(p => p.category === category); 
+            let selected = []; 
+            const shuffle = (array) => { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; }; 
+            let shuffledOther = shuffle([...otherCategoryProducts]); 
+            let shuffledSame = shuffle([...sameCategoryProducts]); 
+            selected = [...shuffledOther.slice(0, 2), ...shuffledSame.slice(0, 2)]; 
+            if (selected.length < count) { let remaining = available.filter(p => !selected.find(s => s.id === p.id)); selected = [...selected, ...shuffle(remaining).slice(0, count - selected.length)]; } 
+            return shuffle(selected).slice(0, count); 
+        }
+        
+        function renderProducts(list){ 
+            const grid = document.getElementById('products-grid'); 
+            grid.classList.add('products-fade-out'); 
+            setTimeout(() => { 
+                const totalProducts = list.length; 
+                const displayProducts = list.slice(0, productsDisplayLimit); 
+                let html = ''; 
+                if(displayProducts.length) { 
+                    html = displayProducts.map((p, index) => { 
+                        return productCard(p).replace('class="product-card', 'class="product-card product-card-enter'); 
+                    }).join(''); 
+                } else { 
+                    html = '<div class="col-span-full text-center py-20"><p class="text-gray-400 text-lg">No products found</p></div>'; 
+                } 
+                if(totalProducts > productsDisplayLimit) { 
+                    html += `<div class="col-span-full mt-8 text-center"><button onclick="loadMoreProducts()" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase text-xs tracking-wider hover:bg-accent transition"><i class="fa-solid fa-arrow-down mr-2"></i>Load More (${totalProducts - productsDisplayLimit} remaining)</button></div>`; 
+                } 
+                grid.innerHTML = html; 
+                grid.classList.remove('products-fade-out'); 
+                grid.classList.add('products-fade-in'); 
+                setTimeout(() => { 
+                    grid.classList.remove('products-fade-in'); 
+                    grid.querySelectorAll('.product-card-enter').forEach(card => { card.classList.remove('product-card-enter'); }); 
+                }, 800); 
+            }, 300); 
+        }
+        
+        function renderHomeFeatured(list){ 
+            const hot=list.filter(p=>p.is_hot); 
+            if(hot.length){
+                document.getElementById('hot-products-section').classList.remove('hidden');
+                document.getElementById('hot-products-grid').innerHTML=hot.map(p=>productCard(p)).join('');
+            } 
+        }
+        
+        function renderRecentlyViewed(){ 
+            const ids=JSON.parse(localStorage.getItem('jayen_recent')||'[]'),list=currentData.products.filter(p=>ids.includes(p.id.toString())); 
+            const sec=document.getElementById('recent-products-section'); 
+            if(list.length){sec.classList.remove('hidden');document.getElementById('recent-products-grid').innerHTML=list.map(p=>productCard(p)).join('');} 
+            else sec.classList.add('hidden'); 
+        }
+        
+        function renderNews(list){ 
+            document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white rounded-2xl overflow-hidden shadow-sm group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); 
+        }
+        
+        function openProductDetails(productId){ 
+            window.scrollTo({top:0,behavior:'instant'}); 
+            const product=currentData.products.find(p=>p.id==productId); 
+            if(!product)return; 
+            let recent=JSON.parse(localStorage.getItem('jayen_recent')||'[]'); 
+            recent=[productId.toString(),...recent.filter(id=>id!==productId.toString())].slice(0,8); 
+            localStorage.setItem('jayen_recent',JSON.stringify(recent)); 
+            const variants=currentData.variants.filter(v=>v.product_id==productId); 
+            const allImages=product.images?product.images.split(','):[product.img]; 
+            const prodReviews=currentData.reviews.filter(r=>r.product_id==productId); 
+            const isOut=product.stock<=0; 
+            selectedVariantObj=null; 
+            const reviewsHTML = prodReviews.length ? prodReviews.map(r => `<div class="bg-white p-3 sm:p-4 rounded-xl border border-gray-100"><div class="flex items-center gap-2 mb-1"><span class="text-accent text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span><span class="text-[10px] sm:text-xs font-bold">${r.user_name||'Anonymous'}</span><span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span></div><p class="text-[10px] sm:text-xs text-gray-600">${r.review_text}</p></div>`).join('') : '<p class="text-gray-400 text-xs sm:text-sm italic">No reviews yet. Be the first to review!</p>'; 
+            const reviewFormHTML = userSession ? `<div class="bg-soft p-4 sm:p-5 rounded-2xl"><h4 class="font-bold text-[10px] sm:text-xs uppercase mb-3">Write a Review</h4><div class="star-rating mb-3" id="inline-review-stars-${productId}"><input type="radio" id="star5-${productId}" name="rating-${productId}" value="5"><label for="star5-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star4-${productId}" name="rating-${productId}" value="4"><label for="star4-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star3-${productId}" name="rating-${productId}" value="3"><label for="star3-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star2-${productId}" name="rating-${productId}" value="2"><label for="star2-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star1-${productId}" name="rating-${productId}" value="1"><label for="star1-${productId}"><i class="fa-solid fa-star"></i></label></div><textarea id="inline-review-text-${productId}" placeholder="Share your experience..." class="w-full p-3 border rounded-xl text-xs h-20 mb-3 outline-none"></textarea><button onclick="submitInlineReview(${productId})" class="px-6 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-accent transition">Submit Review</button></div>` : `<div class="bg-soft p-4 sm:p-5 rounded-2xl text-center"><p class="text-[10px] sm:text-xs text-gray-500 mb-2">Login to write a review</p><a href="/login" class="px-5 py-2 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-accent transition no-underline inline-block">Sign In</a></div>`; 
+            document.getElementById('product-detail-content').innerHTML=`<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 mb-8 sm:mb-10"><div><div id="product-zoom-container" class="rounded-3xl overflow-hidden shadow-2xl bg-gray-100" style="aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()"><img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover"></div><div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 overflow-x-auto no-scrollbar pb-1">${allImages.map(img=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" loading="lazy" alt="${product.title} - Image">`).join('')}</div></div><div class="flex flex-col"><span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-accent">${product.category}</span><h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-serif mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1><div class="mb-4 sm:mb-6"><span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>${product.old_price?`<span class="ml-2 sm:ml-3 text-base sm:text-lg text-gray-400 line-through">৳${product.old_price}</span>`:''}</div><div class="flex items-center gap-2 mb-4 sm:mb-6"><span class="w-2 h-2 rounded-full ${isOut?'bg-red-500':'bg-green-500'}"></span><span class="text-[10px] sm:text-xs font-bold ${isOut?'text-red-500':'text-green-600'}">${isOut?'Out of Stock':`In Stock: ${product.stock}`}</span>${prodReviews.length ? `<span class="text-[10px] sm:text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-accent text-[9px]"></i> ${(prodReviews.reduce((sum,r)=>sum+r.rating,0)/prodReviews.length).toFixed(1)} (${prodReviews.length} reviews)</span>` : ''}</div>${variants.length?`<div class="mb-6 sm:mb-8"><p class="text-[9px] sm:text-[10px] font-black uppercase text-gray-400 mb-2 sm:mb-3">Select Variant</p><div class="flex flex-wrap gap-1.5 sm:gap-2" id="detail-variant-container">${variants.map((v,i)=>`<button onclick="selectVariant(this,'${v.id}','${v.name}',${v.price})" class="variant-btn px-4 sm:px-5 py-2.5 sm:py-3 border-2 rounded-2xl text-[10px] sm:text-xs font-bold transition ${i===0?'selected':''}" data-vid="${v.id}">${v.name} - ৳${v.price}</button>`).join('')}</div></div>`:''}<div class="grid grid-cols-2 gap-2 sm:gap-3 mb-6 sm:mb-8"><button onclick="addToCart(${product.id},false,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-200':'bg-primary hover:bg-accent'} text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Add to Bag</button><button onclick="addToCart(${product.id},true,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-100':'bg-white border-2 border-primary hover:bg-primary hover:text-white'} rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Buy Now</button></div><div class="bg-soft p-4 sm:p-6 rounded-2xl mb-6"><h3 class="font-bold text-[10px] sm:text-xs uppercase mb-2">Description</h3><p class="text-xs sm:text-sm text-gray-600 leading-relaxed">${product.description}</p></div><div class="flex flex-wrap gap-1.5 sm:gap-2 mt-auto"><div class="flex items-center gap-1 bg-green-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-shield-halved text-green-600"></i> 100% Authentic</div><div class="flex items-center gap-1 bg-blue-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-truck-fast text-blue-600"></i> Fast Delivery</div></div></div></div><div class="border-t pt-8 sm:pt-10"><div class="flex items-center gap-3 mb-6"><h3 class="text-xl sm:text-2xl font-black font-serif">Customer Reviews</h3><span class="text-xs sm:text-sm text-gray-400 font-bold">(${prodReviews.length})</span></div><div class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">${reviewsHTML}</div>${reviewFormHTML}</div>`; 
+            if(variants.length>0){selectedVariantObj={id:variants[0].id,name:variants[0].name,price:variants[0].price};} 
+            const related = getRandomProducts(productId, product.category, 4); 
+            const ctl = document.getElementById('complete-the-look-section'); 
+            if(related.length) { ctl.classList.remove('hidden'); document.getElementById('complete-the-look-grid').innerHTML = related.map(p => productCard(p)).join(''); } 
+            else { ctl.classList.add('hidden'); } 
+            navigate('product-details', product.id); 
+        }
+        
+        function selectVariant(btn,vId,vName,vPrice){ 
+            document.querySelectorAll('#detail-variant-container .variant-btn').forEach(b=>b.classList.remove('selected')); 
+            btn.classList.add('selected'); 
+            selectedVariantObj={id:vId,name:vName,price:vPrice}; 
+        }
+        
+        function zoomImage(e){ 
+            const container=document.getElementById('product-zoom-container'),img=document.getElementById('product-zoom-image'); 
+            if(!container||!img)return; 
+            const rect=container.getBoundingClientRect(); 
+            const clientX=e.touches?e.touches[0].clientX:e.clientX; 
+            const clientY=e.touches?e.touches[0].clientY:e.clientY; 
+            const x=(clientX-rect.left)/rect.width,y=(clientY-rect.top)/rect.height; 
+            img.style.transformOrigin=`${x*100}% ${y*100}%`; 
+            img.style.transform='scale(2)'; 
+        }
+        
         function resetZoom(){const img=document.getElementById('product-zoom-image');if(img)img.style.transform='scale(1)';}
-        async function submitInlineReview(productId) { const text = document.getElementById('inline-review-text-' + productId).value; const stars = document.querySelector('input[name="rating-' + productId + '"]:checked'); if (!text || !stars || !productId) return showToast('Complete all fields', 'error'); const { error } = await _supabase.from('product_reviews').insert([{ product_id: productId, user_id: userSession.id, user_name: userSession.user_metadata.full_name, rating: parseInt(stars.value), review_text: text }]); error ? showToast(error.message, 'error') : (showToast('Review submitted!'), setTimeout(() => location.reload(), 1500)); }
-        function toggleWishlist(id){ wishlist.includes(id)?wishlist=wishlist.filter(x=>x!==id):wishlist.push(id); localStorage.setItem('jayen_wish',JSON.stringify(wishlist));updateCounts(); showToast('Wishlist Updated','info'); if(document.getElementById('wishlist').classList.contains('active-page'))renderWishlist(); }
-        function renderWishlist(){ const list=currentData.products.filter(p=>wishlist.includes(p.id)); document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); }
+        
+        async function submitInlineReview(productId) { 
+            const text = document.getElementById('inline-review-text-' + productId).value; 
+            const stars = document.querySelector('input[name="rating-' + productId + '"]:checked'); 
+            if (!text || !stars || !productId) return showToast('Complete all fields', 'error'); 
+            const { error } = await _supabase.from('product_reviews').insert([{ product_id: productId, user_id: userSession.id, user_name: userSession.user_metadata.full_name, rating: parseInt(stars.value), review_text: text }]); 
+            error ? showToast(error.message, 'error') : (showToast('Review submitted!'), setTimeout(() => location.reload(), 1500)); 
+        }
+        
+        function toggleWishlist(id){ 
+            wishlist.includes(id)?wishlist=wishlist.filter(x=>x!==id):wishlist.push(id); 
+            localStorage.setItem('jayen_wish',JSON.stringify(wishlist));updateCounts(); 
+            showToast('Wishlist Updated','info'); 
+            if(document.getElementById('wishlist').classList.contains('active-page'))renderWishlist(); 
+        }
+        
+        function renderWishlist(){ 
+            const list=currentData.products.filter(p=>wishlist.includes(p.id)); 
+            document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; 
+            document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); 
+        }
+        
         function updateCounts(){ document.getElementById('cart-count').innerText=cart.length; document.getElementById('wish-count').innerText=wishlist.length; }
-        function toggleCart(){ document.getElementById('cart-drawer').classList.toggle('open'); if(document.getElementById('cart-drawer').classList.contains('open')) updateURL('/cart', 'Shopping Cart'); renderCartItems(); }
-        function addToCart(productId,buyNow=false,isDetail=false){ const product=currentData.products.find(p=>p.id===productId); if(cart.filter(i=>i.product_id===productId).length>=product.stock)return showToast('Stock limit reached','error'); let finalPrice=product.price,vId=null,vName=null; const hasVariants=currentData.variants.some(v=>v.product_id==productId); if(isDetail&&hasVariants){ if(!selectedVariantObj)return showToast('Select a variant','error'); vId=selectedVariantObj.id;vName=selectedVariantObj.name;finalPrice=selectedVariantObj.price; }else if(!isDetail&&hasVariants){openProductDetails(productId);return;} cart.push({id:Date.now(),product_id:product.id,variant_id:vId,title:product.title,price:finalPrice,img:product.img,variant:vName,quantity:1}); saveCart();buyNow?toggleCart():showToast('Added to Bag!'); }
+        
+        function toggleCart(){ 
+            document.getElementById('cart-drawer').classList.toggle('open'); 
+            if(document.getElementById('cart-drawer').classList.contains('open')) updateURL('/cart', 'Shopping Cart'); 
+            renderCartItems(); 
+        }
+        
+        function addToCart(productId,buyNow=false,isDetail=false){ 
+            const product=currentData.products.find(p=>p.id===productId); 
+            if(cart.filter(i=>i.product_id===productId).length>=product.stock)return showToast('Stock limit reached','error'); 
+            let finalPrice=product.price,vId=null,vName=null; 
+            const hasVariants=currentData.variants.some(v=>v.product_id==productId); 
+            if(isDetail&&hasVariants){ 
+                if(!selectedVariantObj)return showToast('Select a variant','error'); 
+                vId=selectedVariantObj.id;vName=selectedVariantObj.name;finalPrice=selectedVariantObj.price; 
+            }else if(!isDetail&&hasVariants){openProductDetails(productId);return;} 
+            cart.push({id:Date.now(),product_id:product.id,variant_id:vId,title:product.title,price:finalPrice,img:product.img,variant:vName,quantity:1}); 
+            saveCart();buyNow?toggleCart():showToast('Added to Bag!'); 
+        }
+        
         function saveCart(){localStorage.setItem('jayen_cart',JSON.stringify(cart));updateCounts();}
         function removeFromCart(idx){cart.splice(idx,1);saveCart();renderCartItems();}
+        
         function renderCartItems(){ 
-    const c=document.getElementById('cart-items'),s=document.getElementById('cart-subtotal'),t=document.getElementById('cart-total'),pr=document.getElementById('promo-row'),d=document.getElementById('cart-discount'); 
-    if(!cart.length){c.innerHTML='<p class="text-center text-gray-400 py-10 text-sm">Your bag is empty</p>';s.innerText='৳ 0.00';t.innerText='৳ 0.00';pr.classList.add('hidden');return;} 
-    let sub=0; 
-    c.innerHTML=cart.map((item,idx)=>{sub+=item.price;return`<div class="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-soft rounded-2xl"><img src="${item.img}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-xl shrink-0" alt="${item.title}"><div class="flex-grow min-w-0"><h4 class="text-xs sm:text-sm font-bold truncate">${item.title}</h4><p class="text-[9px] sm:text-[10px] text-gray-400">${item.variant||''}</p><p class="text-xs sm:text-sm font-black">৳${item.price}</p></div><button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-1.5 shrink-0"><i class="fa-solid fa-trash text-xs sm:text-sm"></i></button></div>`;}).join(''); 
-    let disc=0; 
-    if(appliedPromo){ 
-        if(appliedPromo.scope === 'all' || !appliedPromo.scope){ 
-            disc = appliedPromo.type === 'percent' ? (sub * appliedPromo.value / 100) : appliedPromo.value; 
-        } else { 
-            disc = appliedPromo.type === 'percent' ? (sub * appliedPromo.value / 100) : appliedPromo.value; 
-        } 
-    } 
-    if(disc > 0){ 
-        pr.classList.remove('hidden'); 
-        d.innerText=`- ৳${disc.toFixed(2)}`; 
-    } else { 
-        pr.classList.add('hidden'); 
-    } 
-    s.innerText=`৳${sub.toFixed(2)}`; 
-    t.innerText=`৳${(sub-disc).toFixed(2)}`; 
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       toFixed(2)}`; }
-        async function applyPromo() {
-    const code = document.getElementById('promo-input').value.trim().toUpperCase();
-    const msg = document.getElementById('promo-msg');
-    
-    if (!code) return showToast('Please enter a promo code', 'error');
-    
-    let subtotal = 0;
-    cart.forEach(item => subtotal += item.price);
-    
-    const cartItemsForPromo = cart.map(item => ({
-        product_id: item.product_id,
-        category: currentData.products.find(p => p.id === item.product_id)?.category || '',
-        price: item.price,
-        qty: item.quantity || 1,
-        title: item.title,
-        variant: item.variant || ''
-    }));
-    
-    const { data, error } = await _supabase.rpc('validate_promo_code', {
-        p_code: code,
-        p_subtotal: subtotal,
-        p_cart_items: cartItemsForPromo
-    });
-    
-    if (error) {
-        console.error('Promo validation error:', error);
-        msg.innerText = 'Error validating promo code';
-        msg.className = 'text-[9px] sm:text-[10px] mt-1 font-bold text-red-500';
-        appliedPromo = null;
-        renderCartItems();
-        return;
-    }
-    
-    if (data && data.valid) {
-        appliedPromo = {
-            code: data.code,
-            type: data.type,
-            value: data.value,
-            min_order: 0,
-            scope: data.scope
-        };
-        msg.innerText = data.message || 'Promo Applied!';
-        msg.className = 'text-[9px] sm:text-[10px] mt-1 font-bold text-green-500';
-        showToast('Promo code applied!', 'success');
-    } else {
-        appliedPromo = null;
-        msg.innerText = data?.message || 'Invalid promo code';
-        msg.className = 'text-[9px] sm:text-[10px] mt-1 font-bold text-red-500';
-        showToast(data?.message || 'Invalid promo code', 'error');
-    }
-    
-    renderCartItems();
-}
-        function showCheckoutOptions(){ if(!userSession) { showToast('Please login','info'); window.location.href='/login'; return; } if(!cart.length)return; updateURL('/checkout', 'Checkout'); const m=userSession.user_metadata; document.getElementById('checkout-profile-addr').innerText=`${m.address}, ${m.subdistrict}, ${m.district} (${m.phone})`; document.getElementById('checkout-modal').classList.remove('hidden'); }
-        function prepareOrderReview(type){ const m=userSession.user_metadata;let info={},tD='',tU=''; if(type==='profile'){tD=m.district||'';tU=m.subdistrict||'';info={phone:m.phone,district:tD,upazila:tU,address:`${m.address}, ${m.subdistrict}, ${m.district}`};} else{ const p=document.getElementById('new-phone').value,a=document.getElementById('new-address').value; tD=document.getElementById('new-district').value;tU=document.getElementById('new-upazila').value; if(!p||!a||!tD||!tU)return showToast('Fill all fields','error'); info={phone:p,district:tD,upazila:tU,address:a}; } let del=0;const u=currentData.deliveryCharges.find(d=>d.upazila?.toLowerCase()===tU.toLowerCase()),dd=currentData.deliveryCharges.find(d=>d.district?.toLowerCase()===tD.toLowerCase()),def=currentData.deliveryCharges.find(d=>d.location_name?.toLowerCase()==='default'); del=u?u.charge:dd?dd.charge:def?def.charge:0; let sub=0;cart.forEach(i=>sub+=i.price); let disc=0;if(appliedPromo&&sub>=appliedPromo.min_order)disc=appliedPromo.type==='percent'?sub*appliedPromo.value/100:appliedPromo.value; pendingOrderData={member_name:m.full_name,member_email:userSession.email,project_title:'Store Order',member_info:{shipping:info,subtotal:sub,discount:disc,delivery_charge:del,total:`৳${(sub-disc+del).toFixed(2)}`,promo_code:appliedPromo?.code||null,items:cart.map(i=>({id:i.product_id,variant_id:i.variant_id,title:i.title,category:currentData.products.find(p=>p.id===i.product_id)?.category||'',variant:i.variant,qty:i.quantity,price:i.price}))}}; document.getElementById('order-review-body').innerHTML = `<p><strong>Name:</strong> ${pendingOrderData.member_name}</p><p><strong>Shipping:</strong> ${pendingOrderData.member_info.shipping.address}</p><p><strong>Phone:</strong> ${pendingOrderData.member_info.shipping.phone}</p><p><strong>Items:</strong> ${pendingOrderData.member_info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${pendingOrderData.member_info.subtotal}</p>${pendingOrderData.member_info.discount>0?`<p class="text-green-600">Discount: -৳${pendingOrderData.member_info.discount}</p>`:''}<p>Delivery: ৳${pendingOrderData.member_info.delivery_charge}</p><p class="font-black text-lg">Total: ${pendingOrderData.member_info.total}</p></div><div class="mt-4 p-4 border-2 border-primary/20 rounded-2xl"><h4 class="font-black text-sm uppercase mb-3 flex items-center gap-2"><i class="fa-solid fa-money-bill-wave text-accent"></i> Payment Method</h4><div class="space-y-2"><label class="flex items-center gap-3 p-3 bg-soft rounded-xl cursor-pointer hover:bg-white transition payment-method-card"><input type="radio" name="payment_method" value="cod" checked class="accent-primary"><div><span class="font-bold text-sm">Cash on Delivery (COD)</span><p class="text-[10px] text-gray-500">Pay when you receive the product</p></div></label></div></div><div class="mt-4 p-3 bg-yellow-50 rounded-xl border border-yellow-200"><p class="text-[10px] sm:text-xs text-yellow-800 flex items-center gap-2"><i class="fa-solid fa-circle-info"></i><span id="cod-note">Order confirmation call will be made before delivery</span></p></div>`; document.getElementById('checkout-modal').classList.add('hidden'); document.getElementById('review-modal').classList.remove('hidden'); }
-        async function confirmFinalCheckout(){ if(!pendingOrderData) return; const paymentInput = document.querySelector('input[name="payment_method"]:checked'); const paymentMethod = paymentInput ? paymentInput.value : 'cod'; pendingOrderData.member_info.payment_method = paymentMethod; document.getElementById('review-modal').classList.add('hidden'); showOrderLoader(5000); const{error}=await _supabase.rpc('secure_checkout',{p_member_name:pendingOrderData.member_name,p_member_email:pendingOrderData.member_email,p_project_title:pendingOrderData.project_title,p_member_info:pendingOrderData.member_info}); setTimeout(()=>{error?showToast('Failed: '+error.message,'error'):(showToast('Order Placed!'),cart=[],saveCart(),setTimeout(()=>{window.location.href='/account';},1500));},5000); }
-        async function loadUserOrders(){ const{data}=await _supabase.from('orders').select('*').eq('member_email',userSession.email).order('created_at',{ascending:false}); const c=document.getElementById('user-order-list'); if(!data||!data.length){c.innerHTML='<p class="text-[10px] sm:text-xs text-gray-400">No orders yet</p>';return;} currentData.orders=data; c.innerHTML=data.map(o=>`<a href="/order/${o.id}" onclick="event.preventDefault();viewOrderDetails(${o.id})" class="p-3 sm:p-4 bg-soft rounded-2xl flex justify-between items-center cursor-pointer hover:shadow transition no-underline block"><div><p class="text-[9px] sm:text-[10px] font-black text-gray-400 uppercase">#${o.id}</p><p class="font-black text-sm text-primary">${o.member_info?.total}</p></div><div class="text-right"><span class="text-[9px] sm:text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-1 rounded">${o.status||'Pending'}</span><p class="text-[8px] sm:text-[9px] text-gray-400 mt-1">${new Date(o.created_at).toLocaleDateString()}</p></div></a>`).join(''); }
-        function viewOrderDetails(id){ const order=currentData.orders.find(o=>o.id==id);if(!order)return; updateURL('/order/' + id, 'Order #' + id); const info=order.member_info; document.getElementById('order-details-body').innerHTML=`<p><strong>Items:</strong> ${info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><p><strong>Shipping:</strong> ${info.shipping.address}</p><p><strong>Phone:</strong> ${info.shipping.phone}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${info.subtotal}</p>${info.discount>0?`<p class="text-green-600">Discount: -৳${info.discount}</p>`:''}<p>Delivery: ৳${info.delivery_charge}</p><p class="font-black text-lg">Total: ${info.total}</p></div>`; document.getElementById('od-title').innerText=`Order #${id}`; document.getElementById('order-details-modal').classList.remove('hidden'); }
+            const c=document.getElementById('cart-items'),s=document.getElementById('cart-subtotal'),t=document.getElementById('cart-total'),pr=document.getElementById('promo-row'),d=document.getElementById('cart-discount'); 
+            if(!cart.length){c.innerHTML='<p class="text-center text-gray-400 py-10 text-sm">Your bag is empty</p>';s.innerText='৳ 0.00';t.innerText='৳ 0.00';pr.classList.add('hidden');return;} 
+            let sub=0; 
+            c.innerHTML=cart.map((item,idx)=>{sub+=item.price;return`<div class="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-soft rounded-2xl"><img src="${item.img}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-xl shrink-0" alt="${item.title}"><div class="flex-grow min-w-0"><h4 class="text-xs sm:text-sm font-bold truncate">${item.title}</h4><p class="text-[9px] sm:text-[10px] text-gray-400">${item.variant||''}</p><p class="text-xs sm:text-sm font-black">৳${item.price}</p></div><button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-1.5 shrink-0"><i class="fa-solid fa-trash text-xs sm:text-sm"></i></button></div>`;}).join(''); 
+            let disc=0; 
+            if(appliedPromo&&sub>=appliedPromo.min_order){disc=appliedPromo.type==='percent'?sub*appliedPromo.value/100:appliedPromo.value;pr.classList.remove('hidden');d.innerText=`- ৳${disc.toFixed(2)}`;}else pr.classList.add('hidden'); 
+            s.innerText=`৳${sub.toFixed(2)}`;t.innerText=`৳${(sub-disc).toFixed(2)}`; 
+        }
+        
+        async function applyPromo(){ 
+            const code=document.getElementById('promo-input').value.toUpperCase(),msg=document.getElementById('promo-msg'); 
+            if(!code)return; 
+            const{data,error}=await _supabase.from('promo_codes').select('*').eq('code',code).eq('is_active',true).single(); 
+            error||!data?(msg.innerText='Invalid code',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-red-500',appliedPromo=null):(appliedPromo=data,msg.innerText='Applied!',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-green-500'); 
+            renderCartItems(); 
+        }
+        
+        function showCheckoutOptions(){ 
+            if(!userSession) { showToast('Please login','info'); window.location.href='/login'; return; } 
+            if(!cart.length)return; 
+            updateURL('/checkout', 'Checkout'); 
+            const m=userSession.user_metadata; 
+            document.getElementById('checkout-profile-addr').innerText=`${m.address}, ${m.subdistrict}, ${m.district} (${m.phone})`; 
+            document.getElementById('checkout-modal').classList.remove('hidden'); 
+        }
+        
+        function prepareOrderReview(type){ 
+            const m=userSession.user_metadata;let info={},tD='',tU=''; 
+            if(type==='profile'){tD=m.district||'';tU=m.subdistrict||'';info={phone:m.phone,district:tD,upazila:tU,address:`${m.address}, ${m.subdistrict}, ${m.district}`};} 
+            else{ const p=document.getElementById('new-phone').value,a=document.getElementById('new-address').value; tD=document.getElementById('new-district').value;tU=document.getElementById('new-upazila').value; if(!p||!a||!tD||!tU)return showToast('Fill all fields','error'); info={phone:p,district:tD,upazila:tU,address:a}; } 
+            let del=0;const u=currentData.deliveryCharges.find(d=>d.upazila?.toLowerCase()===tU.toLowerCase()),dd=currentData.deliveryCharges.find(d=>d.district?.toLowerCase()===tD.toLowerCase()),def=currentData.deliveryCharges.find(d=>d.location_name?.toLowerCase()==='default'); del=u?u.charge:dd?dd.charge:def?def.charge:0; 
+            let sub=0;cart.forEach(i=>sub+=i.price); 
+            let disc=0;if(appliedPromo&&sub>=appliedPromo.min_order)disc=appliedPromo.type==='percent'?sub*appliedPromo.value/100:appliedPromo.value; 
+            pendingOrderData={member_name:m.full_name,member_email:userSession.email,project_title:'Store Order',member_info:{shipping:info,subtotal:sub,discount:disc,delivery_charge:del,total:`৳${(sub-disc+del).toFixed(2)}`,items:cart.map(i=>({id:i.product_id,variant_id:i.variant_id,title:i.title,variant:i.variant,qty:i.quantity,price:i.price}))}}; 
+            document.getElementById('order-review-body').innerHTML = `<p><strong>Name:</strong> ${pendingOrderData.member_name}</p><p><strong>Shipping:</strong> ${pendingOrderData.member_info.shipping.address}</p><p><strong>Phone:</strong> ${pendingOrderData.member_info.shipping.phone}</p><p><strong>Items:</strong> ${pendingOrderData.member_info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${pendingOrderData.member_info.subtotal}</p>${pendingOrderData.member_info.discount>0?`<p class="text-green-600">Discount: -৳${pendingOrderData.member_info.discount}</p>`:''}<p>Delivery: ৳${pendingOrderData.member_info.delivery_charge}</p><p class="font-black text-lg">Total: ${pendingOrderData.member_info.total}</p></div><div class="mt-4 p-4 border-2 border-primary/20 rounded-2xl"><h4 class="font-black text-sm uppercase mb-3 flex items-center gap-2"><i class="fa-solid fa-money-bill-wave text-accent"></i> Payment Method</h4><div class="space-y-2"><label class="flex items-center gap-3 p-3 bg-soft rounded-xl cursor-pointer hover:bg-white transition payment-method-card"><input type="radio" name="payment_method" value="cod" checked class="accent-primary"><div><span class="font-bold text-sm">Cash on Delivery (COD)</span><p class="text-[10px] text-gray-500">Pay when you receive the product</p></div></label></div></div><div class="mt-4 p-3 bg-yellow-50 rounded-xl border border-yellow-200"><p class="text-[10px] sm:text-xs text-yellow-800 flex items-center gap-2"><i class="fa-solid fa-circle-info"></i><span id="cod-note">Order confirmation call will be made before delivery</span></p></div>`; 
+            document.getElementById('checkout-modal').classList.add('hidden'); 
+            document.getElementById('review-modal').classList.remove('hidden'); 
+        }
+        
+        async function confirmFinalCheckout(){ 
+            if(!pendingOrderData) return; 
+            const paymentInput = document.querySelector('input[name="payment_method"]:checked'); 
+            const paymentMethod = paymentInput ? paymentInput.value : 'cod'; 
+            pendingOrderData.member_info.payment_method = paymentMethod; 
+            document.getElementById('review-modal').classList.add('hidden'); 
+            showOrderLoader(5000); 
+            const{error}=await _supabase.rpc('secure_checkout',{p_member_name:pendingOrderData.member_name,p_member_email:pendingOrderData.member_email,p_project_title:pendingOrderData.project_title,p_member_info:pendingOrderData.member_info}); 
+            setTimeout(()=>{error?showToast('Failed: '+error.message,'error'):(showToast('Order Placed!'),cart=[],saveCart(),setTimeout(()=>{window.location.href='/account';},1500));},5000); 
+        }
+        
+        async function loadUserOrders(){ 
+            const{data}=await _supabase.from('orders').select('*').eq('member_email',userSession.email).order('created_at',{ascending:false}); 
+            const c=document.getElementById('user-order-list'); 
+            if(!data||!data.length){c.innerHTML='<p class="text-[10px] sm:text-xs text-gray-400">No orders yet</p>';return;} 
+            currentData.orders=data; 
+            c.innerHTML=data.map(o=>`<a href="/order/${o.id}" onclick="event.preventDefault();viewOrderDetails(${o.id})" class="p-3 sm:p-4 bg-soft rounded-2xl flex justify-between items-center cursor-pointer hover:shadow transition no-underline block"><div><p class="text-[9px] sm:text-[10px] font-black text-gray-400 uppercase">#${o.id}</p><p class="font-black text-sm text-primary">${o.member_info?.total}</p></div><div class="text-right"><span class="text-[9px] sm:text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-1 rounded">${o.status||'Pending'}</span><p class="text-[8px] sm:text-[9px] text-gray-400 mt-1">${new Date(o.created_at).toLocaleDateString()}</p></div></a>`).join(''); 
+        }
+        
+        function viewOrderDetails(id){ 
+            const order=currentData.orders.find(o=>o.id==id);if(!order)return; updateURL('/order/' + id, 'Order #' + id); 
+            const info=order.member_info; 
+            document.getElementById('order-details-body').innerHTML=`<p><strong>Items:</strong> ${info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><p><strong>Shipping:</strong> ${info.shipping.address}</p><p><strong>Phone:</strong> ${info.shipping.phone}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${info.subtotal}</p>${info.discount>0?`<p class="text-green-600">Discount: -৳${info.discount}</p>`:''}<p>Delivery: ৳${info.delivery_charge}</p><p class="font-black text-lg">Total: ${info.total}</p></div>`; 
+            document.getElementById('od-title').innerText=`Order #${id}`; 
+            document.getElementById('order-details-modal').classList.remove('hidden'); 
+        }
+        
         function closeOrderDetails(){document.getElementById('order-details-modal').classList.add('hidden');updateURL('/account', 'My Account');}
         function openEditProfile(){ const m=userSession.user_metadata; document.getElementById('edit-name').value=m.full_name||''; document.getElementById('edit-phone').value=m.phone||''; document.getElementById('edit-district').value=m.district||''; document.getElementById('edit-subdistrict').value=m.subdistrict||''; document.getElementById('edit-address').value=m.address||''; document.getElementById('edit-profile-modal').classList.remove('hidden'); }
         async function handleUpdateProfile(){ showGlobalLoader(2000); const u={full_name:document.getElementById('edit-name').value,phone:document.getElementById('edit-phone').value,district:document.getElementById('edit-district').value,subdistrict:document.getElementById('edit-subdistrict').value,address:document.getElementById('edit-address').value}; const{error}=await _supabase.auth.updateUser({data:u}); error?showToast(error.message,'error'):(showToast('Profile updated!'),setTimeout(()=>location.reload(),1500)); }
         async function handleLogout(){await _supabase.auth.signOut();window.location.href='/';}
         
         function openPolicy(type) {
-    const policies = {
-        privacy: {
-            t: 'Privacy Policy',
-            c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you visit our website or make a purchase.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">1. Information We Collect</h4>
-                <p><strong>Personal Information:</strong> When you create an account, place an order, or contact us, we collect: Full name, email address, phone number, shipping/billing address, and district/upazila details.</p>
-                <p><strong>Automatically Collected Data:</strong> With your explicit consent via our cookie banner, we collect: IP address, browser type, device information (screen resolution, OS, device model), geolocation data (GPS or IP-based approximate location), pages visited, time spent on site, referral URLs, and interaction patterns (clicks, scrolls, hovers).</p>
-                <p><strong>Payment Information:</strong> We do <strong>NOT</strong> store or process credit/debit card details on our servers. All card payments are processed through encrypted third-party payment gateways (Visa, Mastercard, Google Pay). For Cash on Delivery (COD), we only retain order confirmation details.</p>
-                <p><strong>Communications:</strong> We retain records of your communications with us, including emails to binzeo369@gmail.com or binzeo369@outlook.com, Messenger chats, and customer support tickets at support.jayenware.shop.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">2. How We Use Your Data</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>To process and fulfill your orders, including shipping and delivery coordination.</li>
-                    <li>To communicate order status, delivery updates, and promotional offers (if opted in).</li>
-                    <li>To verify product authenticity via verify.jayenware.shop.</li>
-                    <li>To improve our website functionality, user experience, and product offerings.</li>
-                    <li>To detect and prevent fraudulent transactions, unauthorized access, and abuse.</li>
-                    <li>To comply with legal obligations under Bangladesh's Digital Security Act and applicable e-commerce regulations.</li>
-                    <li>To analyze traffic patterns and customer preferences (with consent) to optimize inventory and marketing.</li>
-                </ul>
-                <p><strong>We NEVER sell, rent, or trade your personal data to third parties for advertising purposes.</strong></p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">3. Cookies & Tracking Technologies</h4>
-                <p><strong>Essential Cookies:</strong> Required for site functionality (cart, login session, security). These cannot be disabled.</p>
-                <p><strong>Analytics & Preference Cookies:</strong> Used only with your consent to remember preferences, analyze traffic via Google Analytics/Facebook Pixel, and deliver relevant content.</p>
-                <p><strong>Managing Cookies:</strong> You can accept or decline all non-essential cookies via our cookie consent banner. You may also clear cookies from your browser settings at any time. Declining may affect certain site features.</p>
-                <p><strong>Third-Party Cookies:</strong> Our payment processors (Google Pay, Visa, Mastercard) and social media embeds (Facebook, Instagram, YouTube) may set their own cookies. We recommend reviewing their respective privacy policies.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">4. Data Security</h4>
-                <p>We implement industry-standard security measures including:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>SSL/TLS encryption for all data transmission.</li>
-                    <li>Encrypted storage via <strong>Supabase</strong> with row-level security policies.</li>
-                    <li>Regular security audits and vulnerability assessments.</li>
-                    <li>Strict access controls — only authorized BINZEO personnel handle customer data.</li>
-                    <li>Masking of sensitive information in internal systems.</li>
-                </ul>
-                <p>While we strive to protect your data, no method of electronic storage is 100% secure. We cannot guarantee absolute security but will notify you immediately in the event of a data breach as required by law.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">5. Data Retention</h4>
-                <p>We retain your personal data only as long as necessary:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Account Data:</strong> Until account deletion request or 3 years of inactivity.</li>
-                    <li><strong>Order Records:</strong> 7 years (for tax and legal compliance).</li>
-                    <li><strong>Visitor Logs (Consented):</strong> 26 months.</li>
-                    <li><strong>Marketing Consent:</strong> Until withdrawn.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">6. Your Rights Under Bangladesh Law</h4>
-                <p>Under the <strong>Digital Security Act 2018</strong> and <strong>Data Protection Act (Draft)</strong>, you have the right to:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Access:</strong> Request a copy of your personal data stored by us.</li>
-                    <li><strong>Rectification:</strong> Correct any inaccurate or incomplete information.</li>
-                    <li><strong>Erasure:</strong> Request deletion of your data ("Right to be Forgotten"), subject to legal retention requirements.</li>
-                    <li><strong>Restriction:</strong> Limit how we process your data.</li>
-                    <li><strong>Portability:</strong> Receive your data in a structured, machine-readable format.</li>
-                    <li><strong>Objection:</strong> Object to processing for direct marketing or analytics.</li>
-                    <li><strong>Withdraw Consent:</strong> Revoke cookie/geolocation consent at any time.</li>
-                </ul>
-                <p>To exercise any of these rights, contact our Data Protection Officer at <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>. We will respond within 30 days.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">7. Third-Party Services</h4>
-                <p>We share minimal data with trusted partners:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Payment Gateways:</strong> Google Pay, Visa, Mastercard (only transaction amount and order ID).</li>
-                    <li><strong>Delivery Partners:</strong> Name, phone, and address for courier services (e.g., Pathao, Steadfast, RedX).</li>
-                    <li><strong>Analytics:</strong> Google Analytics, Facebook Pixel (anonymized behavioral data, with consent).</li>
-                    <li><strong>Customer Support:</strong> Facebook Messenger, support.jayenware.shop ticketing system.</li>
-                </ul>
-                <p>All third parties are bound by confidentiality agreements and are prohibited from using your data for their own purposes.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">8. Children's Privacy</h4>
-                <p>Our website is not intended for individuals under 18 years of age. We do not knowingly collect data from children. If you believe a child has provided us with personal information, contact us immediately for deletion.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">9. Changes to This Policy</h4>
-                <p>We may update this policy periodically to reflect changes in our practices or legal obligations. Significant changes will be communicated via email or prominent site notice. Continued use of the site constitutes acceptance of the updated policy.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">10. Contact Information</h4>
-                <p><strong>Data Controller:</strong> BINZEO (parent company of JAYENWARE)</p>
-                <p><strong>Data Protection Officer:</strong> binzeo369@gmail.com</p>
-                <p><strong>Support Emails:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> | <a href="mailto:binzeo369@outlook.com" class="text-accent font-bold">binzeo369@outlook.com</a></p>
-                <p><strong>Help Center:</strong> <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a></p>
-                <p><strong>Registered Address:</strong> BINZEO, Dhaka, Bangladesh.</p>
-                <p class="mt-4 p-3 bg-yellow-50 rounded-xl text-yellow-800 text-xs">For urgent privacy concerns or to report a data breach, please contact us immediately at <strong>binzeo369@gmail.com</strong> or via Messenger at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold underline">m.me/861762253694814</a>.</p>`
-        },
-        terms: {
-            t: 'Terms of Service',
-            c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p>Welcome to <strong>JAYENWARE</strong>. By accessing or using <a href="https://www.jayenware.shop" class="text-accent font-bold">www.jayenware.shop</a>, you agree to be bound by these Terms of Service. Please read them carefully before making a purchase.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">1. Acceptance of Terms</h4>
-                <p>By creating an account, placing an order, or browsing this website, you acknowledge that you have read, understood, and agree to these terms. If you do not agree, please refrain from using our services.</p>
-                <p>We reserve the right to modify these terms at any time. Changes take effect immediately upon posting. Continued use constitutes acceptance of the revised terms.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">2. Eligibility</h4>
-                <p>You must be at least <strong>18 years old</strong> or have parental/guardian consent to use this site and make purchases. By placing an order, you represent that you meet this requirement.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">3. Account Registration & Security</h4>
-                <p>You may browse without an account, but account creation is required for order tracking, wishlist, and faster checkout. You are responsible for:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Providing accurate, complete, and current registration information.</li>
-                    <li>Maintaining the confidentiality of your password and account credentials.</li>
-                    <li>All activities that occur under your account.</li>
-                    <li>Notifying us immediately at <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> of any unauthorized account use.</li>
-                </ul>
-                <p>JAYENWARE reserves the right to suspend or terminate accounts that violate these terms or engage in fraudulent activity.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">4. Product Information & Pricing</h4>
-                <p><strong>Accuracy:</strong> We strive to display product colors, sizes, and descriptions as accurately as possible. However, actual product appearance may vary due to screen calibration, lighting, and manufacturing variations.</p>
-                <p><strong>Pricing:</strong> All prices are listed in <strong>Bangladeshi Taka (BDT)</strong> and are inclusive of applicable taxes unless stated otherwise. Prices are subject to change without prior notice. Promotional prices are valid only during the specified promotional period.</p>
-                <p><strong>Errors:</strong> We reserve the right to correct pricing errors, typographical mistakes, or inaccuracies at any time. In the event of a pricing error, we will notify you and offer the option to proceed at the correct price or cancel the order with a full refund.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">5. Order Processing & Confirmation</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Order Placement:</strong> Adding items to the cart does not guarantee availability. An order is considered confirmed only after you receive an <strong>order confirmation call/SMS</strong> from our team.</li>
-                    <li><strong>Verification:</strong> For security, we may request identity verification for large orders or suspicious transactions. Failure to verify may result in order cancellation.</li>
-                    <li><strong>Cancellation Rights:</strong> We reserve the right to cancel or limit quantities for any reason, including stock unavailability, payment verification failure, pricing errors, or suspected fraudulent activity. If cancelled, you will receive a full refund for any amounts paid.</li>
-                    <li><strong>Bulk Orders:</strong> Orders exceeding 10 units of the same product may be considered commercial/bulk and subject to additional verification or cancellation.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">6. Payment Methods</h4>
-                <p>We accept the following payment methods:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Cash on Delivery (COD)</strong> — Available across Bangladesh. Pay when you receive the product.</li>
-                    <li><strong>Digital Wallets & Cards:</strong> Google Pay, Visa, Mastercard (processed through encrypted gateways).</li>
-                </ul>
-                <p>By providing payment information, you represent that you are authorized to use the selected payment method. We are not responsible for delays caused by payment processing issues.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">7. Shipping & Delivery</h4>
-                <p>Details are outlined in our <a href="#" onclick="event.preventDefault();openPolicy('shipping')" class="text-accent font-bold underline">Shipping & Delivery Policy</a>. Key points:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Shipping charges are calculated based on delivery location (Dhaka Metro: ৳60, Other Areas: ৳120).</li>
-                    <li>Free shipping on orders over ৳2,500.</li>
-                    <li>Estimated delivery times: 1-7 business days depending on location.</li>
-                    <li>Risk of loss transfers to you upon delivery to the shipping address provided.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">8. Returns, Refunds & Exchanges</h4>
-                <p>Our detailed policy is available in the <a href="#" onclick="event.preventDefault();openPolicy('cookies')" class="text-accent font-bold underline">Return & Refund Policy</a>. Key conditions:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Returns accepted within <strong>3 days</strong> of delivery.</li>
-                    <li>Items must be unused, unwashed, with original tags and packaging.</li>
-                    <li>Non-returnable: Intimate wear, fragrances, clearance/sale items, and personalized/customized products.</li>
-                    <li>Refunds processed within 7-10 business days to the original payment method or as store credit.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">9. Intellectual Property</h4>
-                <p>All content on this website — including but not limited to the <strong>JAYENWARE</strong> and <strong>BINZEO</strong> logos, product images, designs, text, graphics, videos, blog posts, and code — is the exclusive intellectual property of <strong>BINZEO</strong> and is protected under Bangladesh's Copyright Act 2000 and international copyright treaties.</p>
-                <p><strong>Prohibited Actions:</strong> Reproduction, redistribution, modification, reverse engineering, or commercial exploitation of any site content without prior written consent from BINZEO is strictly prohibited. Violations may result in legal action.</p>
-                <p><strong>User-Generated Content:</strong> By submitting reviews, photos, or testimonials, you grant JAYENWARE a non-exclusive, royalty-free, perpetual license to use, display, and modify that content for marketing purposes.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">10. Promotions & Discounts</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Promo Codes:</strong> Must be applied at checkout. Cannot be combined with other offers unless explicitly stated. Expired or invalid codes are void.</li>
-                    <li><strong>Seasonal Sales:</strong> Discounted items during sales events are final sale (non-returnable) unless defective.</li>
-                    <li><strong>Free Shipping:</strong> Applied automatically at checkout for qualifying orders. Does not apply to remote areas (additional surcharge may apply).</li>
-                    <li><strong>Abuse:</strong> We reserve the right to refuse or cancel orders suspected of promo abuse (e.g., multiple accounts, reselling).</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">11. Limitation of Liability</h4>
-                <p>To the fullest extent permitted by law, <strong>JAYENWARE</strong> and <strong>BINZEO</strong> shall not be liable for:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Indirect, incidental, punitive, or consequential damages arising from the use or inability to use our products or website.</li>
-                    <li>Delays or failures caused by circumstances beyond our reasonable control (force majeure), including but not limited to: natural disasters, pandemics, government restrictions, political unrest, strikes, internet outages, or courier service disruptions.</li>
-                    <li>Any loss or damage resulting from unauthorized access to your account data (provided we have taken reasonable security measures).</li>
-                </ul>
-                <p>Our maximum liability for any claim related to a product purchase is limited to the purchase price of that product.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">12. Indemnification</h4>
-                <p>You agree to indemnify and hold harmless JAYENWARE, BINZEO, and their respective directors, employees, and affiliates from any claims, damages, or expenses (including legal fees) arising from your violation of these Terms, misuse of the website, or infringement of third-party rights.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">13. Third-Party Links</h4>
-                <p>Our site may contain links to third-party websites (payment gateways, social media, support portals). We are not responsible for the content, policies, or practices of these external sites. Access them at your own risk.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">14. Governing Law & Dispute Resolution</h4>
-                <p>These Terms are governed by the laws of the <strong>People's Republic of Bangladesh</strong>. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Dhaka, Bangladesh.</p>
-                <p>We encourage amicable resolution: please contact <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> before initiating formal legal proceedings. We aim to resolve all disputes informally within 30 days.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">15. Termination</h4>
-                <p>We reserve the right to suspend or terminate your account and access to our services at our sole discretion, without prior notice, for any conduct that we believe violates these Terms or is harmful to our business, other users, or third parties.</p>
-                <p>Upon termination, your right to use the site ceases immediately. Outstanding payment obligations and disclaimers/limitations of liability survive termination.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">16. Contact Information</h4>
-                <p><strong>Company:</strong> BINZEO (operating JAYENWARE)</p>
-                <p><strong>Legal Inquiries:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>
-                <p><strong>Support:</strong> <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a></p>
-                <p><strong>Messenger:</strong> <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a></p>
-                <p class="mt-4 p-3 bg-blue-50 rounded-xl text-blue-800 text-xs"><strong>Note:</strong> These Terms of Service were last updated on ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}. We recommend reviewing them periodically for any changes.</p>`
-        },
-        cookies: {
-            t: 'Return & Refund Policy',
-            c: `<p class="text-xs text-gray-400 mb-4">Effective Date: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p>At <strong>JAYENWARE</strong>, customer satisfaction is our priority. If you are not fully satisfied with your purchase, we are here to help. Please read our Return & Refund Policy carefully.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">1. Return Eligibility Criteria</h4>
-                <p>To qualify for a return or refund, the following conditions <strong>must ALL be met</strong>:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Timeframe:</strong> Return request must be initiated within <strong>3 calendar days</strong> from the date of delivery. After 3 days, the item is considered accepted.</li>
-                    <li><strong>Condition:</strong> Items must be <strong>unused, unwashed, unworn,</strong> and in their <strong>original condition</strong> with all original tags, labels, and packaging intact. Items with stains, odors, deodorant marks, makeup, animal hair, or alterations will be rejected.</li>
-                    <li><strong>Proof of Purchase:</strong> A valid order number, receipt, or confirmation SMS/email must be presented.</li>
-                    <li><strong>Packaging:</strong> The item must be returned in its original product packaging (box, polybag, sleeve) with all accessories, manuals, and warranty cards (if applicable).</li>
-                    <li><strong>Footwear:</strong> Shoes must be tried on a clean, carpeted surface only. Soles must show <strong>zero wear marks</strong>. Return the shoe box inside a protective outer box — do not tape directly on the shoe box.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">2. Non-Returnable / Final Sale Items</h4>
-                <p>The following categories are <strong>strictly non-returnable and non-refundable</strong> for hygiene and business reasons:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Intimate wear & undergarments</li>
-                    <li>Fragrances, perfumes, and cosmetics (opened or used)</li>
-                    <li>Items marked as "Clearance," "Final Sale," or "Non-Returnable"</li>
-                    <li>Personalized, customized, or made-to-order products</li>
-                    <li>Items damaged due to customer mishandling, misuse, or improper washing/care</li>
-                    <li>Free gifts or promotional items</li>
-                    <li>Digital products or gift cards</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">3. Return Process (Step-by-Step)</h4>
-                <ol class="list-decimal pl-5 space-y-2">
-                    <li><strong>Initiate Return:</strong> Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> with your Order ID, reason for return, and clear photos of the item showing its condition. Requests without photos will not be processed.</li>
-                    <li><strong>Approval:</strong> Our team will review your request within <strong>24-48 hours</strong>. You will receive an approval or rejection decision via email/SMS with the reason.</li>
-                    <li><strong>Return Shipping:</strong> If approved, you are responsible for shipping the item back to our designated return address (provided upon approval). We recommend using a traceable courier service. <strong>Return shipping costs are non-refundable</strong> unless the return is due to our error (defective/wrong item).</li>
-                    <li><strong>Inspection:</strong> Once received, the item undergoes a quality inspection (2-3 business days). If it passes inspection, your refund/exchange will be initiated. If rejected, the item will be returned to you at your cost.</li>
-                </ol>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">4. Refund Options</h4>
-                <p>Once your return is approved and inspected, you may choose one of the following:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Store Credit / Gift Voucher:</strong> Instant credit for future purchases (valid for 6 months). <strong>Bonus:</strong> Receive an additional 10% of the refund amount as loyalty credit.</li>
-                    <li><strong>Original Payment Method:</strong> Refund to the card/wallet used at purchase. Processing time: <strong>7-10 business days</strong> after inspection approval, depending on your bank.</li>
-                    <li><strong>Bank Transfer / Mobile Wallet (bKash/Nagad):</strong> Refund to your provided account. Processing time: <strong>3-5 business days</strong>.</li>
-                </ul>
-                <p>COD refunds are processed via bank transfer or mobile wallet only. We do not send cash refunds via courier.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">5. Exchange Policy</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Size/Color Exchange:</strong> Available subject to stock. We will hold the replacement item for up to 48 hours while your return is in transit.</li>
-                    <li><strong>Exchange Shipping:</strong> We provide free delivery for the first exchange. Subsequent exchanges may incur a shipping charge (৳60-৳120 depending on location).</li>
-                    <li><strong>Price Difference:</strong> If the replacement item costs more, you must pay the difference before shipment. If less, the difference will be refunded as store credit.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">6. Defective, Damaged, or Incorrect Items (Our Error)</h4>
-                <p>If you receive a <strong>defective, damaged, or incorrect item</strong>, we take full responsibility:</p>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Reporting Window:</strong> Must be reported within <strong>24 hours</strong> of delivery with clear unboxing video and photos sent to <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
-                    <li><strong>Resolution Options:</strong>
-                        <ul class="list-circle pl-5">
-                            <li><strong>Option A – Full Refund:</strong> 100% refund including all shipping charges. We will arrange a free return pickup.</li>
-                            <li><strong>Option B – Free Replacement:</strong> We will ship a new identical item at our cost. No shipping charges apply.</li>
-                            <li><strong>Option C – Partial Refund:</strong> Keep the item with a partial refund (amount based on the defect severity, determined by our team).</li>
+            const policies = {
+                privacy: {
+                    t: 'Privacy Policy',
+                    c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you visit our website or make a purchase.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Information We Collect</h4>
+                        <p><strong>Personal Information:</strong> When you create an account, place an order, or contact us, we collect: Full name, email address, phone number, shipping/billing address, and district/upazila details.</p>
+                        <p><strong>Automatically Collected Data:</strong> With your explicit consent via our cookie banner, we collect: IP address, browser type, device information (screen resolution, OS, device model), geolocation data (GPS or IP-based approximate location), pages visited, time spent on site, referral URLs, and interaction patterns (clicks, scrolls, hovers).</p>
+                        <p><strong>Payment Information:</strong> We do <strong>NOT</strong> store or process credit/debit card details on our servers. All card payments are processed through encrypted third-party payment gateways (Visa, Mastercard, Google Pay). For Cash on Delivery (COD), we only retain order confirmation details.</p>
+                        <p><strong>Communications:</strong> We retain records of your communications with us, including emails to binzeo369@gmail.com or binzeo369@outlook.com, Messenger chats, and customer support tickets at support.jayenware.shop.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. How We Use Your Data</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>To process and fulfill your orders, including shipping and delivery coordination.</li>
+                            <li>To communicate order status, delivery updates, and promotional offers (if opted in).</li>
+                            <li>To verify product authenticity via verify.jayenware.shop.</li>
+                            <li>To improve our website functionality, user experience, and product offerings.</li>
+                            <li>To detect and prevent fraudulent transactions, unauthorized access, and abuse.</li>
+                            <li>To comply with legal obligations under Bangladesh's Digital Security Act and applicable e-commerce regulations.</li>
+                            <li>To analyze traffic patterns and customer preferences (with consent) to optimize inventory and marketing.</li>
                         </ul>
-                    </li>
-                    <li>Claims made after 24 hours or without proper evidence (photos/video) may not be accepted.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">7. Cancellation Policy</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Before Shipment:</strong> Orders can be cancelled within <strong>1 hour</strong> of placement with no penalty. Contact us via Messenger at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a> or call for immediate cancellation.</li>
-                    <li><strong>After Shipment:</strong> If the order has been dispatched, cancellation is not possible. You must follow the standard return process upon delivery.</li>
-                    <li><strong>COD Cancellation:</strong> If a COD order is cancelled or refused at delivery more than <strong>2 times</strong>, your account may be restricted or blocked from future COD orders.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">8. Chargebacks & Disputes</h4>
-                <p>If you file a chargeback or payment dispute with your bank without first contacting us to resolve the issue, your account will be immediately suspended pending investigation. We encourage direct communication for faster resolution.</p>
-                
-                <p class="mt-4 p-3 bg-green-50 rounded-xl text-green-800 text-xs"><strong>Need Help?</strong> Our support team is available daily from 9 AM to 9 PM. Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</p>`
-        },
-        shipping: {
-            t: 'Shipping & Delivery',
-            c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p>At <strong>JAYENWARE</strong>, we partner with reliable courier services across Bangladesh to ensure your orders reach you safely and on time. Below is our comprehensive shipping and delivery policy.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">1. Order Processing</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Processing Hours:</strong> Orders are processed <strong>Sunday through Thursday, 9:00 AM – 6:00 PM (BST)</strong>. Orders placed after 6 PM, on Friday, Saturday, or on public holidays will be processed the next working day.</li>
-                    <li><strong>Verification:</strong> All orders undergo a verification process (phone/SMS confirmation). Your order is not considered confirmed until this verification is complete. Failure to respond within <strong>24 hours</strong> may result in automatic cancellation.</li>
-                    <li><strong>Processing Time:</strong> Standard processing takes <strong>24-48 hours</strong> (excluding weekends and holidays). During peak seasons (Eid, Puja, New Year sales), processing may extend to <strong>48-72 hours</strong>.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">2. Delivery Timeframes (Estimated)</h4>
-                <div class="overflow-x-auto my-3">
-                    <table class="w-full text-xs border-collapse">
-                        <thead><tr class="bg-gray-100"><th class="border p-2 text-left font-bold">Zone</th><th class="border p-2 text-left font-bold">Coverage</th><th class="border p-2 text-center font-bold">Estimated Time</th></tr></thead>
-                        <tbody>
-                            <tr><td class="border p-2"><strong>Dhaka Metro</strong></td><td class="border p-2">Dhaka City Corporation Areas (North & South)</td><td class="border p-2 text-center"><strong>1-2 Business Days</strong></td></tr>
-                            <tr><td class="border p-2"><strong>Dhaka Suburban</strong></td><td class="border p-2">Savar, Gazipur, Narayanganj, Keraniganj</td><td class="border p-2 text-center"><strong>2-3 Business Days</strong></td></tr>
-                            <tr><td class="border p-2"><strong>Major Cities</strong></td><td class="border p-2">Chattogram, Sylhet, Rajshahi, Khulna, Barishal, Rangpur, Mymensingh</td><td class="border p-2 text-center"><strong>3-4 Business Days</strong></td></tr>
-                            <tr><td class="border p-2"><strong>Other Districts</strong></td><td class="border p-2">All other district headquarters and upazilas</td><td class="border p-2 text-center"><strong>4-5 Business Days</strong></td></tr>
-                            <tr><td class="border p-2"><strong>Remote/Rural Areas</strong></td><td class="border p-2">Union-level & hard-to-reach locations</td><td class="border p-2 text-center"><strong>5-7 Business Days</strong></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-[10px] text-gray-400">*Delivery times are estimates and not guaranteed. Delays may occur due to weather, political unrest, courier backlog, or other force majeure events.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">3. Shipping Charges</h4>
-                <div class="overflow-x-auto my-3">
-                    <table class="w-full text-xs border-collapse">
-                        <thead><tr class="bg-gray-100"><th class="border p-2 text-left font-bold">Destination</th><th class="border p-2 text-center font-bold">Charge</th><th class="border p-2 text-center font-bold">Free Shipping</th></tr></thead>
-                        <tbody>
-                            <tr><td class="border p-2">Inside Dhaka (Metro & Suburban)</td><td class="border p-2 text-center"><strong>৳ 60</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 2,500</strong></td></tr>
-                            <tr><td class="border p-2">Outside Dhaka (All Bangladesh)</td><td class="border p-2 text-center"><strong>৳ 120</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 2,500</strong></td></tr>
-                            <tr><td class="border p-2">Remote/Char/Haor Areas</td><td class="border p-2 text-center"><strong>৳ 150</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 3,500</strong></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p><strong>Express Delivery:</strong> Available for Dhaka Metro only at an additional <strong>৳ 100</strong>. Orders placed before 12 PM are delivered the <strong>same day</strong> (by 9 PM). Orders after 12 PM are delivered the <strong>next business day</strong>.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">4. Order Tracking</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Once your order is dispatched, you will receive a <strong>tracking ID</strong> via <strong>SMS and Email</strong>.</li>
-                    <li>Track your order status by visiting <a href="https://verify.jayenware.shop" target="_blank" class="text-accent font-bold">verify.jayenware.shop</a> and entering your Tracking ID.</li>
-                    <li>Live tracking is available for most courier partners (Steadfast, Pathao, RedX, eCourier). Status updates appear within the portal.</li>
-                    <li>If you do not receive a tracking ID within <strong>48 hours</strong> of order confirmation, contact <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">5. Delivery Attempts & Failed Delivery</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Our couriers will attempt delivery <strong>up to 2 times</strong> to your provided address.</li>
-                    <li>If the first attempt fails, you will be contacted via phone to reschedule. Failure to respond within <strong>48 hours</strong> will result in the package being returned to us.</li>
-                    <li><strong>Failed Delivery (2 attempts):</strong> The order will be returned to our warehouse. A re-delivery charge (৳60-৳120) will apply to re-ship. Alternatively, the order will be cancelled with a refund (minus original shipping and return shipping costs).</li>
-                    <li><strong>Incorrect Address:</strong> If the address provided is incorrect/incomplete and delivery fails, you bear the re-shipping costs.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">6. Damaged During Transit</h4>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li><strong>Do NOT accept</strong> a visibly damaged or tampered package. Ask the courier to note the damage and return it.</li>
-                    <li>If you discover damage after opening, document with <strong>clear photos and a video of the unboxing</strong> and report within <strong>24 hours</strong> to <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
-                    <li>We will file a claim with the courier and arrange a free replacement or full refund.</li>
-                </ul>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">7. International Shipping</h4>
-                <p>Currently, we only ship within Bangladesh. International shipping is under development. For inquiries, contact <a href="mailto:binzeo369@outlook.com" class="text-accent font-bold">binzeo369@outlook.com</a>.</p>
-                
-                <h4 class="font-bold text-primary mt-4 mb-2">8. Delivery Partners</h4>
-                <p>We use trusted courier services: <strong>Steadfast Courier, Pathao Courier, RedX, eCourier, Sundarban Courier.</strong> The courier is selected based on your location and service availability.</p>
-                
-                <p class="mt-4 p-3 bg-blue-50 rounded-xl text-blue-800 text-xs"><strong>Need shipping support?</strong> Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>. You can also message us at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a>.</p>`
+                        <p><strong>We NEVER sell, rent, or trade your personal data to third parties for advertising purposes.</strong></p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Cookies & Tracking Technologies</h4>
+                        <p><strong>Essential Cookies:</strong> Required for site functionality (cart, login session, security). These cannot be disabled.</p>
+                        <p><strong>Analytics & Preference Cookies:</strong> Used only with your consent to remember preferences, analyze traffic via Google Analytics/Facebook Pixel, and deliver relevant content.</p>
+                        <p><strong>Managing Cookies:</strong> You can accept or decline all non-essential cookies via our cookie consent banner. You may also clear cookies from your browser settings at any time. Declining may affect certain site features.</p>
+                        <p><strong>Third-Party Cookies:</strong> Our payment processors (Google Pay, Visa, Mastercard) and social media embeds (Facebook, Instagram, YouTube) may set their own cookies. We recommend reviewing their respective privacy policies.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">4. Data Security</h4>
+                        <p>We implement industry-standard security measures including:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>SSL/TLS encryption for all data transmission.</li>
+                            <li>Encrypted storage via <strong>Supabase</strong> with row-level security policies.</li>
+                            <li>Regular security audits and vulnerability assessments.</li>
+                            <li>Strict access controls — only authorized BINZEO personnel handle customer data.</li>
+                            <li>Masking of sensitive information in internal systems.</li>
+                        </ul>
+                        <p>While we strive to protect your data, no method of electronic storage is 100% secure. We cannot guarantee absolute security but will notify you immediately in the event of a data breach as required by law.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">5. Data Retention</h4>
+                        <p>We retain your personal data only as long as necessary:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Account Data:</strong> Until account deletion request or 3 years of inactivity.</li>
+                            <li><strong>Order Records:</strong> 7 years (for tax and legal compliance).</li>
+                            <li><strong>Visitor Logs (Consented):</strong> 26 months.</li>
+                            <li><strong>Marketing Consent:</strong> Until withdrawn.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">6. Your Rights Under Bangladesh Law</h4>
+                        <p>Under the <strong>Digital Security Act 2018</strong> and <strong>Data Protection Act (Draft)</strong>, you have the right to:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Access:</strong> Request a copy of your personal data stored by us.</li>
+                            <li><strong>Rectification:</strong> Correct any inaccurate or incomplete information.</li>
+                            <li><strong>Erasure:</strong> Request deletion of your data ("Right to be Forgotten"), subject to legal retention requirements.</li>
+                            <li><strong>Restriction:</strong> Limit how we process your data.</li>
+                            <li><strong>Portability:</strong> Receive your data in a structured, machine-readable format.</li>
+                            <li><strong>Objection:</strong> Object to processing for direct marketing or analytics.</li>
+                            <li><strong>Withdraw Consent:</strong> Revoke cookie/geolocation consent at any time.</li>
+                        </ul>
+                        <p>To exercise any of these rights, contact our Data Protection Officer at <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>. We will respond within 30 days.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">7. Third-Party Services</h4>
+                        <p>We share minimal data with trusted partners:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Payment Gateways:</strong> Google Pay, Visa, Mastercard (only transaction amount and order ID).</li>
+                            <li><strong>Delivery Partners:</strong> Name, phone, and address for courier services (e.g., Pathao, Steadfast, RedX).</li>
+                            <li><strong>Analytics:</strong> Google Analytics, Facebook Pixel (anonymized behavioral data, with consent).</li>
+                            <li><strong>Customer Support:</strong> Facebook Messenger, support.jayenware.shop ticketing system.</li>
+                        </ul>
+                        <p>All third parties are bound by confidentiality agreements and are prohibited from using your data for their own purposes.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">8. Children's Privacy</h4>
+                        <p>Our website is not intended for individuals under 18 years of age. We do not knowingly collect data from children. If you believe a child has provided us with personal information, contact us immediately for deletion.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">9. Changes to This Policy</h4>
+                        <p>We may update this policy periodically to reflect changes in our practices or legal obligations. Significant changes will be communicated via email or prominent site notice. Continued use of the site constitutes acceptance of the updated policy.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">10. Contact Information</h4>
+                        <p><strong>Data Controller:</strong> BINZEO (parent company of JAYENWARE)</p>
+                        <p><strong>Data Protection Officer:</strong> binzeo369@gmail.com</p>
+                        <p><strong>Support Emails:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> | <a href="mailto:binzeo369@outlook.com" class="text-accent font-bold">binzeo369@outlook.com</a></p>
+                        <p><strong>Help Center:</strong> <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a></p>
+                        <p><strong>Registered Address:</strong> BINZEO, Dhaka, Bangladesh.</p>
+                        <p class="mt-4 p-3 bg-yellow-50 rounded-xl text-yellow-800 text-xs">For urgent privacy concerns or to report a data breach, please contact us immediately at <strong>binzeo369@gmail.com</strong> or via Messenger at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold underline">m.me/861762253694814</a>.</p>`
+                },
+                terms: {
+                    t: 'Terms of Service',
+                    c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p>Welcome to <strong>JAYENWARE</strong>. By accessing or using <a href="https://www.jayenware.shop" class="text-accent font-bold">www.jayenware.shop</a>, you agree to be bound by these Terms of Service. Please read them carefully before making a purchase.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Acceptance of Terms</h4>
+                        <p>By creating an account, placing an order, or browsing this website, you acknowledge that you have read, understood, and agree to these terms. If you do not agree, please refrain from using our services.</p>
+                        <p>We reserve the right to modify these terms at any time. Changes take effect immediately upon posting. Continued use constitutes acceptance of the revised terms.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. Eligibility</h4>
+                        <p>You must be at least <strong>18 years old</strong> or have parental/guardian consent to use this site and make purchases. By placing an order, you represent that you meet this requirement.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Account Registration & Security</h4>
+                        <p>You may browse without an account, but account creation is required for order tracking, wishlist, and faster checkout. You are responsible for:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Providing accurate, complete, and current registration information.</li>
+                            <li>Maintaining the confidentiality of your password and account credentials.</li>
+                            <li>All activities that occur under your account.</li>
+                            <li>Notifying us immediately at <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> of any unauthorized account use.</li>
+                        </ul>
+                        <p>JAYENWARE reserves the right to suspend or terminate accounts that violate these terms or engage in fraudulent activity.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">4. Product Information & Pricing</h4>
+                        <p><strong>Accuracy:</strong> We strive to display product colors, sizes, and descriptions as accurately as possible. However, actual product appearance may vary due to screen calibration, lighting, and manufacturing variations.</p>
+                        <p><strong>Pricing:</strong> All prices are listed in <strong>Bangladeshi Taka (BDT)</strong> and are inclusive of applicable taxes unless stated otherwise. Prices are subject to change without prior notice. Promotional prices are valid only during the specified promotional period.</p>
+                        <p><strong>Errors:</strong> We reserve the right to correct pricing errors, typographical mistakes, or inaccuracies at any time. In the event of a pricing error, we will notify you and offer the option to proceed at the correct price or cancel the order with a full refund.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">5. Order Processing & Confirmation</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Order Placement:</strong> Adding items to the cart does not guarantee availability. An order is considered confirmed only after you receive an <strong>order confirmation call/SMS</strong> from our team.</li>
+                            <li><strong>Verification:</strong> For security, we may request identity verification for large orders or suspicious transactions. Failure to verify may result in order cancellation.</li>
+                            <li><strong>Cancellation Rights:</strong> We reserve the right to cancel or limit quantities for any reason, including stock unavailability, payment verification failure, pricing errors, or suspected fraudulent activity. If cancelled, you will receive a full refund for any amounts paid.</li>
+                            <li><strong>Bulk Orders:</strong> Orders exceeding 10 units of the same product may be considered commercial/bulk and subject to additional verification or cancellation.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">6. Payment Methods</h4>
+                        <p>We accept the following payment methods:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Cash on Delivery (COD)</strong> — Available across Bangladesh. Pay when you receive the product.</li>
+                            <li><strong>Digital Wallets & Cards:</strong> Google Pay, Visa, Mastercard (processed through encrypted gateways).</li>
+                        </ul>
+                        <p>By providing payment information, you represent that you are authorized to use the selected payment method. We are not responsible for delays caused by payment processing issues.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">7. Shipping & Delivery</h4>
+                        <p>Details are outlined in our <a href="#" onclick="event.preventDefault();openPolicy('shipping')" class="text-accent font-bold underline">Shipping & Delivery Policy</a>. Key points:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Shipping charges are calculated based on delivery location (Dhaka Metro: ৳60, Other Areas: ৳120).</li>
+                            <li>Free shipping on orders over ৳2,500.</li>
+                            <li>Estimated delivery times: 1-7 business days depending on location.</li>
+                            <li>Risk of loss transfers to you upon delivery to the shipping address provided.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">8. Returns, Refunds & Exchanges</h4>
+                        <p>Our detailed policy is available in the <a href="#" onclick="event.preventDefault();openPolicy('cookies')" class="text-accent font-bold underline">Return & Refund Policy</a>. Key conditions:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Returns accepted within <strong>3 days</strong> of delivery.</li>
+                            <li>Items must be unused, unwashed, with original tags and packaging.</li>
+                            <li>Non-returnable: Intimate wear, fragrances, clearance/sale items, and personalized/customized products.</li>
+                            <li>Refunds processed within 7-10 business days to the original payment method or as store credit.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">9. Intellectual Property</h4>
+                        <p>All content on this website — including but not limited to the <strong>JAYENWARE</strong> and <strong>BINZEO</strong> logos, product images, designs, text, graphics, videos, blog posts, and code — is the exclusive intellectual property of <strong>BINZEO</strong> and is protected under Bangladesh's Copyright Act 2000 and international copyright treaties.</p>
+                        <p><strong>Prohibited Actions:</strong> Reproduction, redistribution, modification, reverse engineering, or commercial exploitation of any site content without prior written consent from BINZEO is strictly prohibited. Violations may result in legal action.</p>
+                        <p><strong>User-Generated Content:</strong> By submitting reviews, photos, or testimonials, you grant JAYENWARE a non-exclusive, royalty-free, perpetual license to use, display, and modify that content for marketing purposes.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">10. Promotions & Discounts</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Promo Codes:</strong> Must be applied at checkout. Cannot be combined with other offers unless explicitly stated. Expired or invalid codes are void.</li>
+                            <li><strong>Seasonal Sales:</strong> Discounted items during sales events are final sale (non-returnable) unless defective.</li>
+                            <li><strong>Free Shipping:</strong> Applied automatically at checkout for qualifying orders. Does not apply to remote areas (additional surcharge may apply).</li>
+                            <li><strong>Abuse:</strong> We reserve the right to refuse or cancel orders suspected of promo abuse (e.g., multiple accounts, reselling).</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">11. Limitation of Liability</h4>
+                        <p>To the fullest extent permitted by law, <strong>JAYENWARE</strong> and <strong>BINZEO</strong> shall not be liable for:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Indirect, incidental, punitive, or consequential damages arising from the use or inability to use our products or website.</li>
+                            <li>Delays or failures caused by circumstances beyond our reasonable control (force majeure), including but not limited to: natural disasters, pandemics, government restrictions, political unrest, strikes, internet outages, or courier service disruptions.</li>
+                            <li>Any loss or damage resulting from unauthorized access to your account data (provided we have taken reasonable security measures).</li>
+                        </ul>
+                        <p>Our maximum liability for any claim related to a product purchase is limited to the purchase price of that product.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">12. Indemnification</h4>
+                        <p>You agree to indemnify and hold harmless JAYENWARE, BINZEO, and their respective directors, employees, and affiliates from any claims, damages, or expenses (including legal fees) arising from your violation of these Terms, misuse of the website, or infringement of third-party rights.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">13. Third-Party Links</h4>
+                        <p>Our site may contain links to third-party websites (payment gateways, social media, support portals). We are not responsible for the content, policies, or practices of these external sites. Access them at your own risk.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">14. Governing Law & Dispute Resolution</h4>
+                        <p>These Terms are governed by the laws of the <strong>People's Republic of Bangladesh</strong>. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Dhaka, Bangladesh.</p>
+                        <p>We encourage amicable resolution: please contact <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> before initiating formal legal proceedings. We aim to resolve all disputes informally within 30 days.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">15. Termination</h4>
+                        <p>We reserve the right to suspend or terminate your account and access to our services at our sole discretion, without prior notice, for any conduct that we believe violates these Terms or is harmful to our business, other users, or third parties.</p>
+                        <p>Upon termination, your right to use the site ceases immediately. Outstanding payment obligations and disclaimers/limitations of liability survive termination.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">16. Contact Information</h4>
+                        <p><strong>Company:</strong> BINZEO (operating JAYENWARE)</p>
+                        <p><strong>Legal Inquiries:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>
+                        <p><strong>Support:</strong> <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a></p>
+                        <p><strong>Messenger:</strong> <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a></p>
+                        <p class="mt-4 p-3 bg-blue-50 rounded-xl text-blue-800 text-xs"><strong>Note:</strong> These Terms of Service were last updated on ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}. We recommend reviewing them periodically for any changes.</p>`
+                },
+                cookies: {
+                    t: 'Return & Refund Policy',
+                    c: `<p class="text-xs text-gray-400 mb-4">Effective Date: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p>At <strong>JAYENWARE</strong>, customer satisfaction is our priority. If you are not fully satisfied with your purchase, we are here to help. Please read our Return & Refund Policy carefully.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Return Eligibility Criteria</h4>
+                        <p>To qualify for a return or refund, the following conditions <strong>must ALL be met</strong>:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Timeframe:</strong> Return request must be initiated within <strong>3 calendar days</strong> from the date of delivery. After 3 days, the item is considered accepted.</li>
+                            <li><strong>Condition:</strong> Items must be <strong>unused, unwashed, unworn,</strong> and in their <strong>original condition</strong> with all original tags, labels, and packaging intact. Items with stains, odors, deodorant marks, makeup, animal hair, or alterations will be rejected.</li>
+                            <li><strong>Proof of Purchase:</strong> A valid order number, receipt, or confirmation SMS/email must be presented.</li>
+                            <li><strong>Packaging:</strong> The item must be returned in its original product packaging (box, polybag, sleeve) with all accessories, manuals, and warranty cards (if applicable).</li>
+                            <li><strong>Footwear:</strong> Shoes must be tried on a clean, carpeted surface only. Soles must show <strong>zero wear marks</strong>. Return the shoe box inside a protective outer box — do not tape directly on the shoe box.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. Non-Returnable / Final Sale Items</h4>
+                        <p>The following categories are <strong>strictly non-returnable and non-refundable</strong> for hygiene and business reasons:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Intimate wear & undergarments</li>
+                            <li>Fragrances, perfumes, and cosmetics (opened or used)</li>
+                            <li>Items marked as "Clearance," "Final Sale," or "Non-Returnable"</li>
+                            <li>Personalized, customized, or made-to-order products</li>
+                            <li>Items damaged due to customer mishandling, misuse, or improper washing/care</li>
+                            <li>Free gifts or promotional items</li>
+                            <li>Digital products or gift cards</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Return Process (Step-by-Step)</h4>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li><strong>Initiate Return:</strong> Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> with your Order ID, reason for return, and clear photos of the item showing its condition. Requests without photos will not be processed.</li>
+                            <li><strong>Approval:</strong> Our team will review your request within <strong>24-48 hours</strong>. You will receive an approval or rejection decision via email/SMS with the reason.</li>
+                            <li><strong>Return Shipping:</strong> If approved, you are responsible for shipping the item back to our designated return address (provided upon approval). We recommend using a traceable courier service. <strong>Return shipping costs are non-refundable</strong> unless the return is due to our error (defective/wrong item).</li>
+                            <li><strong>Inspection:</strong> Once received, the item undergoes a quality inspection (2-3 business days). If it passes inspection, your refund/exchange will be initiated. If rejected, the item will be returned to you at your cost.</li>
+                        </ol>
+                        <h4 class="font-bold text-primary mt-4 mb-2">4. Refund Options</h4>
+                        <p>Once your return is approved and inspected, you may choose one of the following:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Store Credit / Gift Voucher:</strong> Instant credit for future purchases (valid for 6 months). <strong>Bonus:</strong> Receive an additional 10% of the refund amount as loyalty credit.</li>
+                            <li><strong>Original Payment Method:</strong> Refund to the card/wallet used at purchase. Processing time: <strong>7-10 business days</strong> after inspection approval, depending on your bank.</li>
+                            <li><strong>Bank Transfer / Mobile Wallet (bKash/Nagad):</strong> Refund to your provided account. Processing time: <strong>3-5 business days</strong>.</li>
+                        </ul>
+                        <p>COD refunds are processed via bank transfer or mobile wallet only. We do not send cash refunds via courier.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">5. Exchange Policy</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Size/Color Exchange:</strong> Available subject to stock. We will hold the replacement item for up to 48 hours while your return is in transit.</li>
+                            <li><strong>Exchange Shipping:</strong> We provide free delivery for the first exchange. Subsequent exchanges may incur a shipping charge (৳60-৳120 depending on location).</li>
+                            <li><strong>Price Difference:</strong> If the replacement item costs more, you must pay the difference before shipment. If less, the difference will be refunded as store credit.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">6. Defective, Damaged, or Incorrect Items (Our Error)</h4>
+                        <p>If you receive a <strong>defective, damaged, or incorrect item</strong>, we take full responsibility:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Reporting Window:</strong> Must be reported within <strong>24 hours</strong> of delivery with clear unboxing video and photos sent to <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
+                            <li><strong>Resolution Options:</strong>
+                                <ul class="list-circle pl-5">
+                                    <li><strong>Option A – Full Refund:</strong> 100% refund including all shipping charges. We will arrange a free return pickup.</li>
+                                    <li><strong>Option B – Free Replacement:</strong> We will ship a new identical item at our cost. No shipping charges apply.</li>
+                                    <li><strong>Option C – Partial Refund:</strong> Keep the item with a partial refund (amount based on the defect severity, determined by our team).</li>
+                                </ul>
+                            </li>
+                            <li>Claims made after 24 hours or without proper evidence (photos/video) may not be accepted.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">7. Cancellation Policy</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Before Shipment:</strong> Orders can be cancelled within <strong>1 hour</strong> of placement with no penalty. Contact us via Messenger at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a> or call for immediate cancellation.</li>
+                            <li><strong>After Shipment:</strong> If the order has been dispatched, cancellation is not possible. You must follow the standard return process upon delivery.</li>
+                            <li><strong>COD Cancellation:</strong> If a COD order is cancelled or refused at delivery more than <strong>2 times</strong>, your account may be restricted or blocked from future COD orders.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">8. Chargebacks & Disputes</h4>
+                        <p>If you file a chargeback or payment dispute with your bank without first contacting us to resolve the issue, your account will be immediately suspended pending investigation. We encourage direct communication for faster resolution.</p>
+                        <p class="mt-4 p-3 bg-green-50 rounded-xl text-green-800 text-xs"><strong>Need Help?</strong> Our support team is available daily from 9 AM to 9 PM. Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</p>`
+                },
+                shipping: {
+                    t: 'Shipping & Delivery',
+                    c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p>At <strong>JAYENWARE</strong>, we partner with reliable courier services across Bangladesh to ensure your orders reach you safely and on time. Below is our comprehensive shipping and delivery policy.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Order Processing</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Processing Hours:</strong> Orders are processed <strong>Sunday through Thursday, 9:00 AM – 6:00 PM (BST)</strong>. Orders placed after 6 PM, on Friday, Saturday, or on public holidays will be processed the next working day.</li>
+                            <li><strong>Verification:</strong> All orders undergo a verification process (phone/SMS confirmation). Your order is not considered confirmed until this verification is complete. Failure to respond within <strong>24 hours</strong> may result in automatic cancellation.</li>
+                            <li><strong>Processing Time:</strong> Standard processing takes <strong>24-48 hours</strong> (excluding weekends and holidays). During peak seasons (Eid, Puja, New Year sales), processing may extend to <strong>48-72 hours</strong>.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. Delivery Timeframes (Estimated)</h4>
+                        <div class="overflow-x-auto my-3"><table class="w-full text-xs border-collapse"><thead><tr class="bg-gray-100"><th class="border p-2 text-left font-bold">Zone</th><th class="border p-2 text-left font-bold">Coverage</th><th class="border p-2 text-center font-bold">Estimated Time</th></tr></thead><tbody><tr><td class="border p-2"><strong>Dhaka Metro</strong></td><td class="border p-2">Dhaka City Corporation Areas (North & South)</td><td class="border p-2 text-center"><strong>1-2 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Dhaka Suburban</strong></td><td class="border p-2">Savar, Gazipur, Narayanganj, Keraniganj</td><td class="border p-2 text-center"><strong>2-3 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Major Cities</strong></td><td class="border p-2">Chattogram, Sylhet, Rajshahi, Khulna, Barishal, Rangpur, Mymensingh</td><td class="border p-2 text-center"><strong>3-4 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Other Districts</strong></td><td class="border p-2">All other district headquarters and upazilas</td><td class="border p-2 text-center"><strong>4-5 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Remote/Rural Areas</strong></td><td class="border p-2">Union-level & hard-to-reach locations</td><td class="border p-2 text-center"><strong>5-7 Business Days</strong></td></tr></tbody></table></div>
+                        <p class="text-[10px] text-gray-400">*Delivery times are estimates and not guaranteed. Delays may occur due to weather, political unrest, courier backlog, or other force majeure events.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Shipping Charges</h4>
+                        <div class="overflow-x-auto my-3"><table class="w-full text-xs border-collapse"><thead><tr class="bg-gray-100"><th class="border p-2 text-left font-bold">Destination</th><th class="border p-2 text-center font-bold">Charge</th><th class="border p-2 text-center font-bold">Free Shipping</th></tr></thead><tbody><tr><td class="border p-2">Inside Dhaka (Metro & Suburban)</td><td class="border p-2 text-center"><strong>৳ 60</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 2,500</strong></td></tr><tr><td class="border p-2">Outside Dhaka (All Bangladesh)</td><td class="border p-2 text-center"><strong>৳ 120</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 2,500</strong></td></tr><tr><td class="border p-2">Remote/Char/Haor Areas</td><td class="border p-2 text-center"><strong>৳ 150</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 3,500</strong></td></tr></tbody></table></div>
+                        <p><strong>Express Delivery:</strong> Available for Dhaka Metro only at an additional <strong>৳ 100</strong>. Orders placed before 12 PM are delivered the <strong>same day</strong> (by 9 PM). Orders after 12 PM are delivered the <strong>next business day</strong>.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">4. Order Tracking</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Once your order is dispatched, you will receive a <strong>tracking ID</strong> via <strong>SMS and Email</strong>.</li>
+                            <li>Track your order status by visiting <a href="https://verify.jayenware.shop" target="_blank" class="text-accent font-bold">verify.jayenware.shop</a> and entering your Tracking ID.</li>
+                            <li>Live tracking is available for most courier partners (Steadfast, Pathao, RedX, eCourier). Status updates appear within the portal.</li>
+                            <li>If you do not receive a tracking ID within <strong>48 hours</strong> of order confirmation, contact <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">5. Delivery Attempts & Failed Delivery</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Our couriers will attempt delivery <strong>up to 2 times</strong> to your provided address.</li>
+                            <li>If the first attempt fails, you will be contacted via phone to reschedule. Failure to respond within <strong>48 hours</strong> will result in the package being returned to us.</li>
+                            <li><strong>Failed Delivery (2 attempts):</strong> The order will be returned to our warehouse. A re-delivery charge (৳60-৳120) will apply to re-ship. Alternatively, the order will be cancelled with a refund (minus original shipping and return shipping costs).</li>
+                            <li><strong>Incorrect Address:</strong> If the address provided is incorrect/incomplete and delivery fails, you bear the re-shipping costs.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">6. Damaged During Transit</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Do NOT accept</strong> a visibly damaged or tampered package. Ask the courier to note the damage and return it.</li>
+                            <li>If you discover damage after opening, document with <strong>clear photos and a video of the unboxing</strong> and report within <strong>24 hours</strong> to <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
+                            <li>We will file a claim with the courier and arrange a free replacement or full refund.</li>
+                        </ul>
+                        <h4 class="font-bold text-primary mt-4 mb-2">7. International Shipping</h4>
+                        <p>Currently, we only ship within Bangladesh. International shipping is under development. For inquiries, contact <a href="mailto:binzeo369@outlook.com" class="text-accent font-bold">binzeo369@outlook.com</a>.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">8. Delivery Partners</h4>
+                        <p>We use trusted courier services: <strong>Steadfast Courier, Pathao Courier, RedX, eCourier, Sundarban Courier.</strong> The courier is selected based on your location and service availability.</p>
+                        <p class="mt-4 p-3 bg-blue-50 rounded-xl text-blue-800 text-xs"><strong>Need shipping support?</strong> Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>. You can also message us at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a>.</p>`
+                }
+            };
+            const p = policies[type];
+            if(p) {
+                document.getElementById('policy-title').innerText = p.t;
+                document.getElementById('policy-content').innerHTML = p.c;
+                document.getElementById('policy-modal').classList.remove('hidden');
+            }
         }
-    };
-    
-    const p = policies[type];
-    if(p) {
-        document.getElementById('policy-title').innerText = p.t;
-        document.getElementById('policy-content').innerHTML = p.c;
-        document.getElementById('policy-modal').classList.remove('hidden');
-    }
-}
+        
         document.getElementById('main-search-input').addEventListener('input',function(e){ const q=e.target.value.toLowerCase().trim(),box=document.getElementById('search-suggestions'); if(q.length<2){box.classList.add('hidden');return;} const filtered=currentData.products.filter(p=>p.title.toLowerCase().includes(q)).slice(0,6); box.innerHTML=filtered.length?filtered.map(p=>`<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id});box.classList.add('hidden')" class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer no-underline"><img src="${p.img}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover shrink-0" alt="${p.title}"><div class="min-w-0"><p class="text-[10px] sm:text-xs font-bold text-primary truncate">${p.title}</p><p class="text-[9px] sm:text-[10px] font-black text-primary">৳${p.price}</p></div></a>`).join(''):'<p class="p-3 sm:p-4 text-gray-400 text-[10px] sm:text-xs text-center">No results</p>'; box.classList.remove('hidden'); });
         document.addEventListener('click',e=>{if(!e.target.closest('#main-search-input')&&!e.target.closest('#search-suggestions'))document.getElementById('search-suggestions').classList.add('hidden');});
         document.addEventListener('click',e=>{if(!e.target.closest('#sort-container'))document.getElementById('sort-dropdown').classList.add('hidden');});
@@ -1927,9 +2097,9 @@
             document.getElementById('display-year').innerText = new Date().getFullYear();
             const { data: { session } } = await _supabase.auth.getSession();
             if(session) {
-    userSession = session.user; const m = userSession.user_metadata;
-    document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`;
-}
+                userSession = session.user; const m = userSession.user_metadata;
+                document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`;
+            }
             await loadData();
             await window.visitorTracker.init();
             updateMobileMenuFooter();
