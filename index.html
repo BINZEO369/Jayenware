@@ -23,7 +23,7 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Jayenware Official | Store Banner">
-    <meta property="og:url" content="https://www.jayenware.shop">
+    <meta property="og:url" content="https://www.jayenware.shop/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="JAYENWARE">
     <meta property="og:locale" content="en_BD">
@@ -1729,81 +1729,22 @@
         function removeFromCart(idx){cart.splice(idx,1);saveCart();renderCartItems();}
         
         function renderCartItems(){ 
-    const c=document.getElementById('cart-items'),s=document.getElementById('cart-subtotal'),t=document.getElementById('cart-total'),pr=document.getElementById('promo-row'),d=document.getElementById('cart-discount'); 
-    if(!cart.length){c.innerHTML='<p class="text-center text-gray-400 py-10 text-sm">Your bag is empty</p>';s.innerText='৳ 0.00';t.innerText='৳ 0.00';pr.classList.add('hidden');return;} 
-    let sub=0; 
-    c.innerHTML=cart.map((item,idx)=>{sub+=item.price;return`<div class="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-soft rounded-2xl"><img src="${item.img}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-xl shrink-0" alt="${item.title}"><div class="flex-grow min-w-0"><h4 class="text-xs sm:text-sm font-bold truncate">${item.title}</h4><p class="text-[9px] sm:text-[10px] text-gray-400">${item.variant||''}</p><p class="text-xs sm:text-sm font-black">৳${item.price}</p></div><button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-1.5 shrink-0"><i class="fa-solid fa-trash text-xs sm:text-sm"></i></button></div>`;}).join(''); 
-    let disc=0; 
-    if(appliedPromo){ 
-        if(appliedPromo.scope === 'all' || !appliedPromo.scope){ 
-            disc = appliedPromo.type === 'percent' ? (sub * appliedPromo.value / 100) : appliedPromo.value; 
-        } else { 
-            disc = appliedPromo.type === 'percent' ? (sub * appliedPromo.value / 100) : appliedPromo.value; 
-        } 
-    } 
-    if(disc > 0){ 
-        pr.classList.remove('hidden'); 
-        d.innerText=`- ৳${disc.toFixed(2)}`; 
-    } else { 
-        pr.classList.add('hidden'); 
-    } 
-    s.innerText=`৳${sub.toFixed(2)}`; 
-    t.innerText=`৳${(sub-disc).toFixed(2)}`; 
-}
+            const c=document.getElementById('cart-items'),s=document.getElementById('cart-subtotal'),t=document.getElementById('cart-total'),pr=document.getElementById('promo-row'),d=document.getElementById('cart-discount'); 
+            if(!cart.length){c.innerHTML='<p class="text-center text-gray-400 py-10 text-sm">Your bag is empty</p>';s.innerText='৳ 0.00';t.innerText='৳ 0.00';pr.classList.add('hidden');return;} 
+            let sub=0; 
+            c.innerHTML=cart.map((item,idx)=>{sub+=item.price;return`<div class="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-soft rounded-2xl"><img src="${item.img}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-xl shrink-0" alt="${item.title}"><div class="flex-grow min-w-0"><h4 class="text-xs sm:text-sm font-bold truncate">${item.title}</h4><p class="text-[9px] sm:text-[10px] text-gray-400">${item.variant||''}</p><p class="text-xs sm:text-sm font-black">৳${item.price}</p></div><button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-1.5 shrink-0"><i class="fa-solid fa-trash text-xs sm:text-sm"></i></button></div>`;}).join(''); 
+            let disc=0; 
+            if(appliedPromo&&sub>=appliedPromo.min_order){disc=appliedPromo.type==='percent'?sub*appliedPromo.value/100:appliedPromo.value;pr.classList.remove('hidden');d.innerText=`- ৳${disc.toFixed(2)}`;}else pr.classList.add('hidden'); 
+            s.innerText=`৳${sub.toFixed(2)}`;t.innerText=`৳${(sub-disc).toFixed(2)}`; 
+        }
         
-        async function applyPromo() {
-    const code = document.getElementById('promo-input').value.trim().toUpperCase();
-    const msg = document.getElementById('promo-msg');
-    
-    if (!code) return showToast('Please enter a promo code', 'error');
-    
-    let subtotal = 0;
-    cart.forEach(item => subtotal += item.price);
-    
-    const cartItemsForPromo = cart.map(item => ({
-        product_id: item.product_id,
-        category: currentData.products.find(p => p.id === item.product_id)?.category || '',
-        price: item.price,
-        qty: item.quantity || 1,
-        title: item.title,
-        variant: item.variant || ''
-    }));
-    
-    const { data, error } = await _supabase.rpc('validate_promo_code', {
-        p_code: code,
-        p_subtotal: subtotal,
-        p_cart_items: cartItemsForPromo
-    });
-    
-    if (error) {
-        console.error('Promo validation error:', error);
-        msg.innerText = 'Error validating promo code';
-        msg.className = 'text-[9px] sm:text-[10px] mt-1 font-bold text-red-500';
-        appliedPromo = null;
-        renderCartItems();
-        return;
-    }
-    
-    if (data && data.valid) {
-        appliedPromo = {
-            code: data.code,
-            type: data.type,
-            value: data.value,
-            min_order: 0,
-            scope: data.scope
-        };
-        msg.innerText = data.message || 'Promo Applied!';
-        msg.className = 'text-[9px] sm:text-[10px] mt-1 font-bold text-green-500';
-        showToast('Promo code applied!', 'success');
-    } else {
-        appliedPromo = null;
-        msg.innerText = data?.message || 'Invalid promo code';
-        msg.className = 'text-[9px] sm:text-[10px] mt-1 font-bold text-red-500';
-        showToast(data?.message || 'Invalid promo code', 'error');
-    }
-    
-    renderCartItems();
-}
+        async function applyPromo(){ 
+            const code=document.getElementById('promo-input').value.toUpperCase(),msg=document.getElementById('promo-msg'); 
+            if(!code)return; 
+            const{data,error}=await _supabase.from('promo_codes').select('*').eq('code',code).eq('is_active',true).single(); 
+            error||!data?(msg.innerText='Invalid code',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-red-500',appliedPromo=null):(appliedPromo=data,msg.innerText='Applied!',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-green-500'); 
+            renderCartItems(); 
+        }
         
         function showCheckoutOptions(){ 
             if(!userSession) { showToast('Please login','info'); window.location.href='/login'; return; } 
@@ -1821,7 +1762,7 @@
             let del=0;const u=currentData.deliveryCharges.find(d=>d.upazila?.toLowerCase()===tU.toLowerCase()),dd=currentData.deliveryCharges.find(d=>d.district?.toLowerCase()===tD.toLowerCase()),def=currentData.deliveryCharges.find(d=>d.location_name?.toLowerCase()==='default'); del=u?u.charge:dd?dd.charge:def?def.charge:0; 
             let sub=0;cart.forEach(i=>sub+=i.price); 
             let disc=0;if(appliedPromo&&sub>=appliedPromo.min_order)disc=appliedPromo.type==='percent'?sub*appliedPromo.value/100:appliedPromo.value; 
-            pendingOrderData={member_name:m.full_name,member_email:userSession.email,project_title:'Store Order',member_info:{shipping:info,subtotal:sub,discount:disc,delivery_charge:del,total:`৳${(sub-disc+del).toFixed(2)}`,promo_code:appliedPromo?.code||null,items:cart.map(i=>({id:i.product_id,variant_id:i.variant_id,title:i.title,category:currentData.products.find(p=>p.id===i.product_id)?.category||'',variant:i.variant,qty:i.quantity,price:i.price}))}};
+            pendingOrderData={member_name:m.full_name,member_email:userSession.email,project_title:'Store Order',member_info:{shipping:info,subtotal:sub,discount:disc,delivery_charge:del,total:`৳${(sub-disc+del).toFixed(2)}`,items:cart.map(i=>({id:i.product_id,variant_id:i.variant_id,title:i.title,variant:i.variant,qty:i.quantity,price:i.price}))}}; 
             document.getElementById('order-review-body').innerHTML = `<p><strong>Name:</strong> ${pendingOrderData.member_name}</p><p><strong>Shipping:</strong> ${pendingOrderData.member_info.shipping.address}</p><p><strong>Phone:</strong> ${pendingOrderData.member_info.shipping.phone}</p><p><strong>Items:</strong> ${pendingOrderData.member_info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${pendingOrderData.member_info.subtotal}</p>${pendingOrderData.member_info.discount>0?`<p class="text-green-600">Discount: -৳${pendingOrderData.member_info.discount}</p>`:''}<p>Delivery: ৳${pendingOrderData.member_info.delivery_charge}</p><p class="font-black text-lg">Total: ${pendingOrderData.member_info.total}</p></div><div class="mt-4 p-4 border-2 border-primary/20 rounded-2xl"><h4 class="font-black text-sm uppercase mb-3 flex items-center gap-2"><i class="fa-solid fa-money-bill-wave text-accent"></i> Payment Method</h4><div class="space-y-2"><label class="flex items-center gap-3 p-3 bg-soft rounded-xl cursor-pointer hover:bg-white transition payment-method-card"><input type="radio" name="payment_method" value="cod" checked class="accent-primary"><div><span class="font-bold text-sm">Cash on Delivery (COD)</span><p class="text-[10px] text-gray-500">Pay when you receive the product</p></div></label></div></div><div class="mt-4 p-3 bg-yellow-50 rounded-xl border border-yellow-200"><p class="text-[10px] sm:text-xs text-yellow-800 flex items-center gap-2"><i class="fa-solid fa-circle-info"></i><span id="cod-note">Order confirmation call will be made before delivery</span></p></div>`; 
             document.getElementById('checkout-modal').classList.add('hidden'); 
             document.getElementById('review-modal').classList.remove('hidden'); 
