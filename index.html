@@ -54,25 +54,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-  (function loadTailwind(){
-    var primary = 'https://cdn.tailwindcss.com';
-    var fallback1 = 'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.4.1/tailwind.min.js'; // v3 CDN (not 4)
-    var fallback2 = 'https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.3.2/tailwind.js'; // v3 mirror
-    
-    function addScript(src, isFallback){
-      var s = document.createElement('script');
-      s.src = src;
-      if(!isFallback) {
-        s.onerror = function(){ addScript(fallback1, true); };
-      } else if(src === fallback1) {
-        s.onerror = function(){ addScript(fallback2, true); };
-      }
-      document.head.appendChild(s);
-    }
-    addScript(primary, false);
-  })();
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     
     <script type="application/ld+json">
     {
