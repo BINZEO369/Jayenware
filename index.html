@@ -139,23 +139,32 @@
     }
     </script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
-                    },
-                    colors: {
-                        primary: '#1a1a1a',
-                        accent: '#c9a96e',
-                        soft: '#f8f6f3'
+    <
+
+<script>
+    // Tailwind CDN লোড হওয়া পর্যন্ত অপেক্ষা করবে
+    (function setTailwindConfig() {
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif']
+                        },
+                        colors: {
+                            primary: '#1a1a1a',
+                            accent: '#c9a96e',
+                            soft: '#f8f6f3'
+                        }
                     }
                 }
             }
+        } else {
+            setTimeout(setTailwindConfig, 50);
         }
-    </script>
+    })();
+</script>
     
     <style>
         :root {
