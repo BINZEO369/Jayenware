@@ -2109,5 +2109,1150 @@
         window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10); });
         window.addEventListener('popstate', function(event) { handleInitialRoute(); });
     </script>
+    <!-- JW-BOT v3.0: Deep Analysis & Multi-Algorithm Prediction Engine -->
+<style>
+    :root {
+        --bot-bg: #0a0a0f;
+        --bot-surface: #14141a;
+        --bot-card: #1a1a22;
+        --bot-accent: #c9a96e;
+        --bot-accent2: #8b7355;
+        --bot-gold: #d4af37;
+        --bot-silver: #a8a8a8;
+        --bot-bronze: #cd7f32;
+        --bot-green: #22c55e;
+        --bot-blue: #3b82f6;
+        --bot-purple: #8b5cf6;
+        --bot-red: #ef4444;
+        --bot-text: #e8e8e8;
+        --bot-text-secondary: #999;
+        --bot-border: rgba(255,255,255,0.06);
+        --bot-glow: rgba(201,169,110,0.15);
+        --bot-radius: 24px;
+        --bot-transition: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .jw-bot-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(20px) saturate(150%);
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
+        z-index: 9990;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.5s var(--bot-transition);
+        padding: 16px;
+    }
+    .jw-bot-overlay.active { opacity: 1; visibility: visible; }
+
+    .jw-bot-container {
+        background: var(--bot-surface);
+        border-radius: 32px;
+        max-width: 560px;
+        width: 100%;
+        max-height: 90dvh;
+        overflow-y: auto;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px var(--bot-border), 0 0 60px var(--bot-glow);
+        position: relative;
+        animation: botSlideUp 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+        scrollbar-width: thin;
+        scrollbar-color: #c9a96e30 transparent;
+        border: 1px solid var(--bot-border);
+    }
+    .jw-bot-container::-webkit-scrollbar { width: 4px; }
+    .jw-bot-container::-webkit-scrollbar-track { background: transparent; }
+    .jw-bot-container::-webkit-scrollbar-thumb { background: #c9a96e40; border-radius: 10px; }
+
+    @keyframes botSlideUp {
+        from { opacity: 0; transform: translateY(60px) scale(0.92); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Header */
+    .jw-bot-header {
+        background: linear-gradient(160deg, #0a0a0a 0%, #1a1a22 50%, #1a1510 100%);
+        padding: 24px 28px;
+        border-radius: 32px 32px 0 0;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--bot-border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .jw-bot-logo {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, #c9a96e, #6b5b3d);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 8px 25px rgba(201,169,110,0.25);
+        position: relative;
+    }
+    .jw-bot-logo::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border-radius: 17px;
+        border: 1px solid rgba(201,169,110,0.3);
+        animation: logoPulse 2s infinite;
+    }
+    @keyframes logoPulse {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.7; transform: scale(1.04); }
+    }
+    .jw-bot-logo svg { width: 26px; height: 26px; }
+    .jw-bot-header-text h2 {
+        font-family: 'Playfair Display', serif;
+        color: #fff;
+        font-size: 20px;
+        font-weight: 900;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+    .jw-bot-header-text span {
+        color: #c9a96e;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+    }
+    .jw-bot-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: #999;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    .jw-bot-close:hover { background: rgba(239,68,68,0.2); color: #ef4444; transform: rotate(90deg); }
+    .jw-bot-close svg { width: 14px; height: 14px; }
+
+    /* Body */
+    .jw-bot-body { padding: 20px 24px 28px; }
+    .jw-bot-step { display: none; animation: fadeSlideIn 0.5s var(--bot-transition); }
+    .jw-bot-step.active { display: block; }
+    @keyframes fadeSlideIn {
+        from { opacity: 0; transform: translateY(20px); filter: blur(3px); }
+        to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    /* Step Icon */
+    .jw-bot-step-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+        background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(139,115,85,0.05));
+        border: 1px solid rgba(201,169,110,0.2);
+    }
+    .jw-bot-step-icon svg { width: 24px; height: 24px; stroke: #c9a96e; }
+    .jw-bot-step-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+        margin: 0 0 4px 0;
+        font-family: 'Playfair Display', serif;
+    }
+    .jw-bot-step-desc { font-size: 12px; color: #888; margin-bottom: 18px; line-height: 1.6; }
+    .jw-bot-highlight { color: #c9a96e; font-weight: 700; }
+
+    /* Progress */
+    .jw-bot-progress-bar {
+        height: 3px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 10px;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    .jw-bot-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #c9a96e, #8b7355);
+        border-radius: 10px;
+        transition: width 0.5s var(--bot-transition);
+    }
+
+    /* Inputs */
+    .jw-bot-input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1.5px solid rgba(255,255,255,0.08);
+        border-radius: 14px;
+        font-size: 14px;
+        font-family: 'Inter', sans-serif;
+        transition: all 0.3s ease;
+        background: rgba(255,255,255,0.03);
+        outline: none;
+        color: #e8e8e8;
+        font-weight: 500;
+    }
+    .jw-bot-input:focus {
+        border-color: #c9a96e;
+        background: rgba(255,255,255,0.05);
+        box-shadow: 0 0 0 4px rgba(201,169,110,0.05), 0 0 20px rgba(201,169,110,0.1);
+    }
+    .jw-bot-input::placeholder { color: #555; }
+
+    /* Gender Cards */
+    .jw-bot-gender-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .jw-bot-gender-card {
+        padding: 18px 10px;
+        border: 1.5px solid rgba(255,255,255,0.06);
+        border-radius: 20px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.35s ease;
+        background: rgba(255,255,255,0.02);
+    }
+    .jw-bot-gender-card:hover {
+        border-color: #c9a96e40;
+        background: rgba(201,169,110,0.05);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .jw-bot-gender-card .gender-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        margin: 0 auto 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.04);
+        transition: all 0.3s ease;
+    }
+    .jw-bot-gender-card:hover .gender-icon { background: rgba(201,169,110,0.1); }
+    .jw-bot-gender-card svg { width: 20px; height: 20px; }
+    .jw-bot-gender-card .gender-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #ccc;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    /* Multi-select tags */
+    .jw-bot-tag-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .jw-bot-tag {
+        padding: 10px 16px;
+        border: 1.5px solid rgba(255,255,255,0.06);
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: rgba(255,255,255,0.02);
+        color: #aaa;
+        font-family: 'Inter', sans-serif;
+        user-select: none;
+    }
+    .jw-bot-tag:hover { border-color: #c9a96e40; color: #ccc; background: rgba(201,169,110,0.05); }
+    .jw-bot-tag.selected {
+        border-color: #c9a96e;
+        background: #c9a96e;
+        color: #0a0a0a;
+        font-weight: 800;
+        box-shadow: 0 4px 15px rgba(201,169,110,0.3);
+    }
+
+    /* Age Slider */
+    .jw-bot-age-slider {
+        width: 100%;
+        -webkit-appearance: none;
+        height: 8px;
+        border-radius: 10px;
+        background: linear-gradient(to right, #c9a96e, #8b5cf6, #3b82f6);
+        outline: none;
+        margin: 14px 0 22px;
+    }
+    .jw-bot-age-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #fff;
+        border: 3px solid #c9a96e;
+        cursor: pointer;
+        box-shadow: 0 6px 25px rgba(201,169,110,0.3);
+        transition: all 0.3s ease;
+    }
+    .jw-bot-age-display {
+        text-align: center;
+        font-size: 44px;
+        font-weight: 900;
+        color: #fff;
+        font-family: 'Playfair Display', serif;
+        margin: 6px 0;
+    }
+    .jw-bot-age-tag {
+        display: inline-block;
+        background: rgba(201,169,110,0.1);
+        padding: 5px 16px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        color: #c9a96e;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Color Chips */
+    .jw-bot-color-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .jw-bot-color-chip {
+        padding: 10px 14px;
+        border: 1.5px solid rgba(255,255,255,0.06);
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,0.02);
+        color: #aaa;
+        font-family: 'Inter', sans-serif;
+        user-select: none;
+    }
+    .jw-bot-color-chip:hover { border-color: #c9a96e40; background: rgba(201,169,110,0.05); color: #ccc; }
+    .jw-bot-color-chip.selected {
+        border-color: #c9a96e;
+        background: #c9a96e;
+        color: #0a0a0a;
+        font-weight: 800;
+        box-shadow: 0 4px 20px rgba(201,169,110,0.35);
+    }
+    .jw-bot-color-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.2);
+        flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .jw-bot-btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        font-family: 'Inter', sans-serif;
+        margin-top: 12px;
+    }
+    .jw-bot-btn.primary {
+        background: linear-gradient(135deg, #c9a96e, #8b7355);
+        color: #0a0a0a;
+        box-shadow: 0 8px 25px rgba(201,169,110,0.2);
+    }
+    .jw-bot-btn.primary:hover:not(:disabled) {
+        box-shadow: 0 14px 35px rgba(201,169,110,0.35);
+        transform: translateY(-3px);
+    }
+    .jw-bot-btn.primary:disabled { opacity: 0.3; cursor: not-allowed; }
+    .jw-bot-btn.secondary {
+        background: rgba(255,255,255,0.03);
+        border: 1.5px solid rgba(255,255,255,0.1);
+        color: #ccc;
+    }
+    .jw-bot-btn.secondary:hover { background: rgba(255,255,255,0.06); border-color: #c9a96e40; color: #c9a96e; }
+    .jw-bot-btn.outline {
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.08);
+        color: #666;
+        font-weight: 600;
+    }
+    .jw-bot-btn.outline:hover { border-color: #c9a96e; color: #c9a96e; }
+
+    /* Analyzing Screen */
+    .jw-bot-analyzing { text-align: center; padding: 30px 0; }
+    .jw-bot-spinner {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 24px;
+        position: relative;
+    }
+    .jw-bot-spinner-ring {
+        width: 100%;
+        height: 100%;
+        border: 3px solid rgba(255,255,255,0.05);
+        border-top-color: #c9a96e;
+        border-right-color: #8b5cf6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .jw-bot-analyzing-logs {
+        font-size: 10px;
+        color: #555;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        font-family: 'Courier New', monospace;
+        text-align: left;
+        padding: 12px 16px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 12px;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+    .jw-bot-analyzing-logs .log-line {
+        padding: 3px 0;
+        animation: logFade 0.3s ease;
+        color: #666;
+    }
+    .jw-bot-analyzing-logs .log-line.complete { color: #22c55e; }
+    @keyframes logFade { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* Results */
+    .jw-bot-results-header { margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--bot-border); }
+    .jw-bot-score-breakdown {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+        margin-bottom: 14px;
+    }
+    .jw-bot-score-item {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--bot-border);
+        border-radius: 12px;
+        padding: 8px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10px;
+    }
+    .jw-bot-score-item .score-label { color: #777; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .jw-bot-score-item .score-value { color: #c9a96e; font-weight: 800; font-size: 12px; }
+    .jw-bot-result-card {
+        display: flex;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 16px;
+        border: 1px solid var(--bot-border);
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        text-decoration: none;
+        color: inherit;
+        background: rgba(255,255,255,0.01);
+        position: relative;
+        overflow: hidden;
+    }
+    .jw-bot-result-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, #c9a96e, #8b5cf6);
+        border-radius: 0 4px 4px 0;
+    }
+    .jw-bot-result-card:hover {
+        background: rgba(255,255,255,0.03);
+        border-color: #c9a96e30;
+        transform: translateX(4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+    .jw-bot-result-img {
+        width: 72px;
+        height: 92px;
+        border-radius: 12px;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    .jw-bot-result-info { flex: 1; min-width: 0; }
+    .jw-bot-result-info .result-category {
+        font-size: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #c9a96e;
+        letter-spacing: 1.5px;
+        margin-bottom: 2px;
+    }
+    .jw-bot-result-info .result-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #e8e8e8;
+        margin-bottom: 3px;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .jw-bot-result-info .result-price { font-size: 15px; font-weight: 900; color: #fff; }
+    .jw-bot-match-badge {
+        font-size: 9px;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+    }
+    .jw-bot-match-badge.perfect { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+    .jw-bot-match-badge.good { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+    .jw-bot-match-badge.fair { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+
+    /* Launcher */
+    .jw-bot-launcher {
+        position: fixed;
+        bottom: 84px;
+        right: 20px;
+        z-index: 9980;
+        background: linear-gradient(145deg, #0a0a0f, #1a1a22);
+        color: #fff;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 800;
+        font-size: 11px;
+        letter-spacing: 1px;
+        box-shadow: 0 12px 35px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+        transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Inter', sans-serif;
+    }
+    .jw-bot-launcher:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 50px rgba(0,0,0,0.6), 0 0 30px rgba(201,169,110,0.15);
+    }
+    .jw-bot-launcher .launcher-icon {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, #c9a96e, #8b7355);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .jw-bot-launcher svg { width: 16px; height: 16px; }
+    .jw-bot-launcher .pulse-ring {
+        position: absolute;
+        top: 8px;
+        right: 14px;
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        animation: pulseGreen 2s infinite;
+    }
+    @keyframes pulseGreen {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+        50% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    }
+
+    @media (max-width: 480px) {
+        .jw-bot-container { border-radius: 24px 24px 0 0; max-height: 80dvh; margin-top: auto; }
+        .jw-bot-header { border-radius: 24px 24px 0 0; padding: 18px 20px; }
+        .jw-bot-body { padding: 16px; }
+        .jw-bot-gender-cards { gap: 6px; }
+        .jw-bot-gender-card { padding: 14px 6px; }
+    }
+</style>
+
+<!-- ========== JW-BOT v3.0 HTML ========== -->
+<div class="jw-bot-overlay" id="jwBotOverlay">
+    <div class="jw-bot-container" id="jwBotContainer">
+        <div class="jw-bot-header">
+            <div class="jw-bot-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10"/>
+                    <path d="M12 2a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"/>
+                    <path d="M2 12h20"/>
+                </svg>
+            </div>
+            <div class="jw-bot-header-text">
+                <h2>JW-BOT v3.0</h2>
+                <span>Deep Style Intelligence</span>
+            </div>
+            <button class="jw-bot-close" onclick="closeJWBot()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="jw-bot-body" id="jwBotBody">
+            <div class="jw-bot-progress-bar"><div class="jw-bot-progress-fill" id="jwBotProgressFill" style="width: 20%;"></div></div>
+
+            <!-- Step 1: Name & Gender -->
+            <div class="jw-bot-step active" data-step="1">
+                <div class="jw-bot-step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+                    </svg>
+                </div>
+                <div class="jw-bot-step-title">Identity &amp; Style</div>
+                <div class="jw-bot-step-desc">Let's build your <span class="jw-bot-highlight">style DNA</span>. What's your name?</div>
+                <input type="text" class="jw-bot-input" id="jwBotName" placeholder="Your name..." maxlength="30" autocomplete="off">
+                <div class="jw-bot-gender-cards" style="margin-top: 12px;">
+                    <div class="jw-bot-gender-card" onclick="jwBotSelectGender('Men')">
+                        <div class="gender-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linecap="round">
+                                <circle cx="10" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h6a4 4 0 014 4v2"/><path d="M16 3l5 5m0-5l-5 5"/>
+                            </svg>
+                        </div>
+                        <div class="gender-label">Men</div>
+                    </div>
+                    <div class="jw-bot-gender-card" onclick="jwBotSelectGender('Women')">
+                        <div class="gender-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linecap="round">
+                                <circle cx="12" cy="7" r="4"/><path d="M5 21v-2a4 4 0 014-4h6a4 4 0 014 4v2"/><circle cx="12" cy="17" r="1"/><path d="M12 18v3"/>
+                            </svg>
+                        </div>
+                        <div class="gender-label">Women</div>
+                    </div>
+                    <div class="jw-bot-gender-card" onclick="jwBotSelectGender('Unisex')">
+                        <div class="gender-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#c9a96e" stroke-width="2" stroke-linecap="round">
+                                <circle cx="12" cy="6" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8"/><path d="M20 21c0-4.4-3.6-8-8-8"/>
+                            </svg>
+                        </div>
+                        <div class="gender-label">Unisex</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Age & Occasion -->
+            <div class="jw-bot-step" data-step="2">
+                <div class="jw-bot-step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="jw-bot-step-title">Age &amp; Lifestyle</div>
+                <div class="jw-bot-step-desc">Your <span class="jw-bot-highlight">age group</span> determines style maturity. Also, what's the primary use?</div>
+                <input type="range" min="15" max="65" value="25" class="jw-bot-age-slider" id="jwBotAgeSlider" oninput="jwBotUpdateAge(this.value)">
+                <div style="text-align: center;">
+                    <span class="jw-bot-age-tag" id="jwBotAgeTag">Young Adult</span>
+                </div>
+                <div class="jw-bot-age-display" id="jwBotAgeDisplay">25</div>
+                <p style="font-size:10px;color:#666;text-align:center;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px;">Select up to 3 occasions:</p>
+                <div class="jw-bot-tag-grid" id="jwBotOccasionGrid"></div>
+                <button class="jw-bot-btn primary" onclick="jwBotNextStep(2)">Continue</button>
+            </div>
+
+            <!-- Step 3: Colors & Pattern Preference -->
+            <div class="jw-bot-step" data-step="3">
+                <div class="jw-bot-step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+                    </svg>
+                </div>
+                <div class="jw-bot-step-title">Color &amp; Pattern</div>
+                <div class="jw-bot-step-desc">Select your favorite <span class="jw-bot-highlight">colors</span> and preferred patterns.</div>
+                <p style="font-size:9px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Colors (1-5)</p>
+                <div class="jw-bot-color-grid" id="jwBotColorGrid"></div>
+                <p style="font-size:9px;color:#666;text-transform:uppercase;letter-spacing:1px;margin:10px 0 6px;">Patterns (max 2)</p>
+                <div class="jw-bot-tag-grid" id="jwBotPatternGrid"></div>
+                <button class="jw-bot-btn primary" onclick="jwBotNextStep(3)" id="jwBotColorBtn" disabled>Continue</button>
+                <button class="jw-bot-btn outline" onclick="jwBotSkipColors()" style="margin-top:4px;">Skip Preferences</button>
+            </div>
+
+            <!-- Step 4: Budget & Shopping Behavior -->
+            <div class="jw-bot-step" data-step="4">
+                <div class="jw-bot-step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="M16 8h-4a2 2 0 100 4h2a2 2 0 110 4h-5"/><path d="M12 6v2m0 8v2"/>
+                    </svg>
+                </div>
+                <div class="jw-bot-step-title">Budget &amp; Behavior</div>
+                <div class="jw-bot-step-desc">Set your <span class="jw-bot-highlight">budget range</span> and shopping priority.</div>
+                <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                    <input type="number" class="jw-bot-input" id="jwBotMinBudget" placeholder="Min BDT" min="0" style="text-align:center;">
+                    <input type="number" class="jw-bot-input" id="jwBotMaxBudget" placeholder="Max BDT" min="0" style="text-align:center;">
+                </div>
+                <p style="font-size:9px;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Shopping Priority</p>
+                <div class="jw-bot-tag-grid" id="jwBotPriorityGrid" style="margin-bottom: 4px;"></div>
+                <button class="jw-bot-btn primary" onclick="jwBotNextStep(4)">Run Deep Analysis</button>
+                <button class="jw-bot-btn outline" onclick="jwBotSkipBudget()" style="margin-top:4px;">Skip Budget</button>
+            </div>
+
+            <!-- Step 5: Analyzing -->
+            <div class="jw-bot-step" data-step="5">
+                <div class="jw-bot-analyzing">
+                    <div class="jw-bot-spinner"><div class="jw-bot-spinner-ring"></div></div>
+                    <p style="color:#888;font-size:11px;font-weight:600;letter-spacing:1px;margin-bottom:12px;">RUNNING DEEP ANALYSIS</p>
+                    <div class="jw-bot-analyzing-logs" id="jwBotAnalyzingLogs"></div>
+                </div>
+            </div>
+
+            <!-- Step 6: Results -->
+            <div class="jw-bot-step" data-step="6">
+                <div class="jw-bot-results-header">
+                    <div class="jw-bot-step-title" style="font-size:16px;margin-bottom:2px;">Your Curated Selection</div>
+                    <p style="font-size:10px;color:#777;margin:0;" id="jwBotResultSummary"></p>
+                </div>
+                <div class="jw-bot-score-breakdown" id="jwBotScoreBreakdown"></div>
+                <div id="jwBotResultsContainer" style="max-height: 40vh;overflow-y:auto;padding-right:2px;"></div>
+                <button class="jw-bot-btn primary" onclick="jwBotViewAllProducts()">Browse All Products</button>
+                <button class="jw-bot-btn outline" onclick="jwBotRestart()" style="margin-top:6px;">Start Over</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Launcher -->
+<button class="jw-bot-launcher" id="jwBotLauncher" onclick="openJWBot()">
+    <span class="launcher-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10"/><path d="M12 2a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"/>
+        </svg>
+    </span>
+    <span>JW-BOT</span>
+    <span class="pulse-ring"></span>
+</button>
+
+<script>
+// ===== JW-BOT v3.0 ENGINE =====
+const JW_BOT = {
+    name: '', gender: '', age: 25,
+    colors: [], occasions: [], patterns: [], priorities: [],
+    minBudget: null, maxBudget: null,
+    step: 1, totalSteps: 4
+};
+
+const COLOR_PALETTE = [
+    { name: 'Black', hex: '#0a0a0a', keys: ['black','dark','ebony','noir','jet','onyx','charcoal'] },
+    { name: 'White', hex: '#f5f5f5', keys: ['white','snow','ivory','pearl','cream','cloud','pure'] },
+    { name: 'Navy', hex: '#1a237e', keys: ['navy','marine','ocean','deep','indigo','midnight','sailor'] },
+    { name: 'Red', hex: '#d32f2f', keys: ['red','crimson','ruby','scarlet','cherry','wine','rose'] },
+    { name: 'Green', hex: '#2e7d32', keys: ['green','forest','olive','emerald','sage','mint','pine'] },
+    { name: 'Gray', hex: '#757575', keys: ['gray','grey','silver','ash','smoke','slate','steel','graphite'] },
+    { name: 'Beige', hex: '#d4b896', keys: ['beige','cream','tan','khaki','sand','nude','wheat','buff'] },
+    { name: 'Brown', hex: '#5d4037', keys: ['brown','chocolate','coffee','walnut','cocoa','mahogany','chestnut'] },
+    { name: 'Yellow', hex: '#f9a825', keys: ['yellow','gold','amber','honey','mustard','sunflower','lemon'] },
+    { name: 'Pink', hex: '#e91e63', keys: ['pink','rose','blush','magenta','fuchsia','salmon','flamingo'] },
+    { name: 'Purple', hex: '#7b1fa2', keys: ['purple','violet','lavender','plum','orchid','lilac','amethyst'] },
+    { name: 'Orange', hex: '#e65100', keys: ['orange','rust','copper','peach','coral','terracotta','tangerine'] },
+    { name: 'Maroon', hex: '#800000', keys: ['maroon','burgundy','wine','bordeaux','oxblood','crimson'] },
+    { name: 'Teal', hex: '#00796b', keys: ['teal','cyan','turquoise','aqua','jade','sea','lagoon'] }
+];
+
+const OCCASIONS = [
+    { id:'casual', label:'Casual Daily', keys:['casual','daily','everyday','regular','basic','simple'] },
+    { id:'formal', label:'Formal/Office', keys:['formal','office','business','professional','executive','corporate'] },
+    { id:'party', label:'Party/Evening', keys:['party','evening','night','club','event','celebration','glam'] },
+    { id:'sport', label:'Sports/Active', keys:['sport','active','gym','fitness','athletic','training','workout'] },
+    { id:'outdoor', label:'Outdoor/Travel', keys:['outdoor','travel','adventure','explore','hiking','camping'] },
+    { id:'festive', label:'Festive/Traditional', keys:['festive','traditional','cultural','eid','puja','wedding','heritage'] },
+    { id:'lounge', label:'Lounge/Home', keys:['lounge','home','comfort','relax','sleep','chill','cozy'] },
+    { id:'street', label:'Street Style', keys:['street','urban','hiphop','skater','retro','vintage','grunge'] }
+];
+
+const PATTERNS = [
+    { id:'solid', label:'Solid', keys:['solid','plain','single','monochrome'] },
+    { id:'striped', label:'Striped', keys:['striped','stripe','line','linear','pinstripe'] },
+    { id:'printed', label:'Printed/Graphic', keys:['printed','graphic','print','design','art','illustration'] },
+    { id:'checked', label:'Checked/Plaid', keys:['checked','plaid','check','grid','tartan','flannel'] },
+    { id:'textured', label:'Textured', keys:['textured','texture','woven','knit','ribbed','embossed'] },
+    { id:'floral', label:'Floral', keys:['floral','flower','botanical','leaf','nature'] }
+];
+
+const PRIORITIES = [
+    { id:'quality', label:'Quality First', weight:0.4, keys:['quality','premium','durable','finish','material'] },
+    { id:'price', label:'Best Price', weight:0.3, keys:['price','value','budget','affordable','deal','discount'] },
+    { id:'trend', label:'Trendy/New', weight:0.2, keys:['trend','new','fresh','latest','modern','style'] },
+    { id:'comfort', label:'Comfort', weight:0.25, keys:['comfort','soft','easy','relaxed','loose','breathable'] }
+];
+
+const AGE_PROFILES = {
+    teen: { min:15, max:19, label:'Teen', vibe:['bold','trendy','graphic','street','casual','fun'], avoid:['formal','executive','classic','luxury'] },
+    youngAdult: { min:20, max:27, label:'Young Adult', vibe:['modern','stylish','versatile','smart-casual','contemporary','trendy'], avoid:['old-fashioned','senior'] },
+    adult: { min:28, max:35, label:'Adult', vibe:['refined','smart','professional','minimal','clean','modern'], avoid:['teen','juvenile','childish'] },
+    mature: { min:36, max:45, label:'Mature', vibe:['elegant','sophisticated','premium','tailored','classic','quality'], avoid:['graphic-heavy','punk','skater'] },
+    experienced: { min:46, max:55, label:'Experienced', vibe:['classic','heritage','quality','understated','luxury','timeless'], avoid:['flashy','neon','extreme'] },
+    senior: { min:56, max:99, label:'Senior', vibe:['comfort','classic','easy-wear','traditional','premium','simple'], avoid:['tight','revealing','extreme'] }
+};
+
+function getAgeProfile(age) {
+    for (const [k, v] of Object.entries(AGE_PROFILES)) { if (age >= v.min && age <= v.max) return v; }
+    return AGE_PROFILES.adult;
+}
+
+// ===== UI =====
+function openJWBot() {
+    document.getElementById('jwBotOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    jwBotGoToStep(1);
+    renderAllTagGrids();
+    document.getElementById('jwBotName').focus();
+    document.getElementById('jwBotLauncher').style.opacity = '0';
+}
+function closeJWBot() {
+    document.getElementById('jwBotOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    document.getElementById('jwBotLauncher').style.opacity = '1';
+}
+function jwBotGoToStep(n) {
+    JW_BOT.step = n;
+    document.querySelectorAll('.jw-bot-step').forEach(s => s.classList.remove('active'));
+    const t = document.querySelector(`.jw-bot-step[data-step="${n}"]`);
+    if (t) t.classList.add('active');
+    document.getElementById('jwBotContainer').scrollTop = 0;
+    const pct = Math.min(100, Math.round((n / JW_BOT.totalSteps) * 100));
+    document.getElementById('jwBotProgressFill').style.width = pct + '%';
+}
+
+function jwBotNextStep(current) {
+    switch(current) {
+        case 1:
+            const name = document.getElementById('jwBotName').value.trim();
+            if (!name) { showToast('Enter your name','error'); return; }
+            if (!JW_BOT.gender) { showToast('Select style category','error'); return; }
+            JW_BOT.name = name;
+            jwBotGoToStep(2);
+            break;
+        case 2:
+            JW_BOT.age = parseInt(document.getElementById('jwBotAgeSlider').value);
+            if (JW_BOT.occasions.length === 0) JW_BOT.occasions = ['casual'];
+            jwBotGoToStep(3);
+            break;
+        case 3:
+            if (JW_BOT.colors.length === 0 && JW_BOT.patterns.length === 0) { showToast('Select at least 1 color or pattern','error'); return; }
+            jwBotGoToStep(4);
+            break;
+        case 4:
+            const mn = document.getElementById('jwBotMinBudget').value.trim();
+            const mx = document.getElementById('jwBotMaxBudget').value.trim();
+            if (mn || mx) {
+                JW_BOT.minBudget = mn ? parseFloat(mn) : null;
+                JW_BOT.maxBudget = mx ? parseFloat(mx) : null;
+                if (JW_BOT.minBudget && JW_BOT.maxBudget && JW_BOT.minBudget > JW_BOT.maxBudget) {
+                    showToast('Min > Max budget','error'); return;
+                }
+            }
+            if (JW_BOT.priorities.length === 0) JW_BOT.priorities = ['quality'];
+            jwBotRunDeepAnalysis();
+            break;
+    }
+}
+
+function jwBotSelectGender(g) { JW_BOT.gender = g; }
+function jwBotUpdateAge(v) { document.getElementById('jwBotAgeDisplay').textContent = v; document.getElementById('jwBotAgeTag').textContent = getAgeProfile(parseInt(v)).label; }
+
+// ===== TAG GRIDS =====
+function renderAllTagGrids() {
+    // Occasions
+    const occGrid = document.getElementById('jwBotOccasionGrid');
+    occGrid.innerHTML = OCCASIONS.map(o => `<div class="jw-bot-tag ${JW_BOT.occasions.includes(o.id)?'selected':''}" onclick="toggleTag('occasions','${o.id}',this,3)">${o.label}</div>`).join('');
+
+    // Colors
+    const colGrid = document.getElementById('jwBotColorGrid');
+    colGrid.innerHTML = COLOR_PALETTE.map(c => `<div class="jw-bot-color-chip ${JW_BOT.colors.includes(c.name)?'selected':''}" onclick="toggleColor('${c.name}',this)"><span class="jw-bot-color-dot" style="background:${c.hex};${c.name==='White'?'border-color:#444;':''}"></span>${c.name}</div>`).join('');
+
+    // Patterns
+    const patGrid = document.getElementById('jwBotPatternGrid');
+    patGrid.innerHTML = PATTERNS.map(p => `<div class="jw-bot-tag ${JW_BOT.patterns.includes(p.id)?'selected':''}" onclick="toggleTag('patterns','${p.id}',this,2)">${p.label}</div>`).join('');
+
+    // Priorities
+    const priGrid = document.getElementById('jwBotPriorityGrid');
+    priGrid.innerHTML = PRIORITIES.map(p => `<div class="jw-bot-tag ${JW_BOT.priorities.includes(p.id)?'selected':''}" onclick="toggleTag('priorities','${p.id}',this,2)">${p.label}</div>`).join('');
+
+    updateColorBtn();
+}
+
+function toggleTag(field, id, el, max) {
+    const arr = JW_BOT[field];
+    const idx = arr.indexOf(id);
+    if (idx > -1) { arr.splice(idx,1); el.classList.remove('selected'); }
+    else {
+        if (arr.length >= max) { showToast(`Max ${max} allowed`,'error'); return; }
+        arr.push(id); el.classList.add('selected');
+    }
+}
+
+function toggleColor(name, el) {
+    const idx = JW_BOT.colors.indexOf(name);
+    if (idx > -1) { JW_BOT.colors.splice(idx,1); el.classList.remove('selected'); }
+    else {
+        if (JW_BOT.colors.length >= 5) { showToast('Max 5 colors','error'); return; }
+        JW_BOT.colors.push(name); el.classList.add('selected');
+    }
+    updateColorBtn();
+}
+
+function updateColorBtn() {
+    const btn = document.getElementById('jwBotColorBtn');
+    const hasSel = JW_BOT.colors.length > 0 || JW_BOT.patterns.length > 0;
+    btn.disabled = !hasSel;
+    btn.textContent = hasSel ? 'Continue' : 'Select at least 1';
+}
+
+function jwBotSkipColors() { JW_BOT.colors = []; JW_BOT.patterns = []; jwBotGoToStep(4); }
+function jwBotSkipBudget() { JW_BOT.minBudget = null; JW_BOT.maxBudget = null; jwBotRunDeepAnalysis(); }
+
+// ===== DEEP ANALYSIS ENGINE =====
+function jwBotRunDeepAnalysis() {
+    jwBotGoToStep(5);
+    const logs = document.getElementById('jwBotAnalyzingLogs');
+    logs.innerHTML = '';
+    
+    const steps = [
+        { msg: '[1/6] Building style DNA vector...', delay: 300 },
+        { msg: '[2/6] Processing color affinity matrix...', delay: 600 },
+        { msg: '[3/6] Matching age-based lifestyle profile...', delay: 500 },
+        { msg: '[4/6] Running occasion-context filter...', delay: 700 },
+        { msg: '[5/6] Applying budget optimization curve...', delay: 400 },
+        { msg: '[6/6] Computing final relevance scores...', delay: 500 }
+    ];
+
+    let cumDelay = 0;
+    steps.forEach((s, i) => {
+        cumDelay += s.delay;
+        setTimeout(() => {
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            line.textContent = s.msg;
+            logs.appendChild(line);
+            logs.scrollTop = logs.scrollHeight;
+            if (i === steps.length - 1) {
+                setTimeout(() => { line.classList.add('complete'); performDeepScoring(); }, 300);
+            } else {
+                setTimeout(() => { line.classList.add('complete'); }, 200);
+            }
+        }, cumDelay);
+    });
+}
+
+function performDeepScoring() {
+    const allProducts = currentData.products || [];
+    const ageProfile = getAgeProfile(JW_BOT.age);
+
+    // Build keyword banks
+    const colorKeys = [];
+    JW_BOT.colors.forEach(c => {
+        const co = COLOR_PALETTE.find(x => x.name === c);
+        if (co) colorKeys.push(...co.keys);
+    });
+
+    const occasionKeys = [];
+    JW_BOT.occasions.forEach(o => {
+        const oc = OCCASIONS.find(x => x.id === o);
+        if (oc) occasionKeys.push(...oc.keys);
+    });
+
+    const patternKeys = [];
+    JW_BOT.patterns.forEach(p => {
+        const pt = PATTERNS.find(x => x.id === p);
+        if (pt) patternKeys.push(...pt.keys);
+    });
+
+    const priorityObjs = JW_BOT.priorities.map(p => PRIORITIES.find(x => x.id === p)).filter(Boolean);
+
+    const scored = allProducts.map(product => {
+        const titleL = (product.title || '').toLowerCase();
+        const descL = (product.description || '').toLowerCase();
+        const catL = (product.category || '').toLowerCase();
+        const fullText = titleL + ' ' + descL + ' ' + catL;
+
+        let scores = {
+            gender: 0, age: 0, color: 0, occasion: 0,
+            pattern: 0, budget: 0, quality: 0, priority: 0
+        };
+
+        // 1. GENDER SCORE (0-25)
+        const menW = ['men','man','male','boy','gentleman','masculine'];
+        const womenW = ['women','woman','female','girl','lady','feminine'];
+        const mHits = menW.filter(w => fullText.includes(w)).length;
+        const wHits = womenW.filter(w => fullText.includes(w)).length;
+        if (JW_BOT.gender === 'Men') {
+            scores.gender = mHits * 8 + (catL.includes('men') || titleL.includes('men') ? 10 : 0) - wHits * 6;
+        } else if (JW_BOT.gender === 'Women') {
+            scores.gender = wHits * 8 + (catL.includes('women') || titleL.includes('women') ? 10 : 0) - mHits * 6;
+        } else {
+            scores.gender = Math.max(mHits, wHits) * 3;
+        }
+        scores.gender = Math.max(-5, Math.min(25, scores.gender));
+
+        // 2. AGE SCORE (0-25)
+        let ageHits = 0, ageMiss = 0;
+        ageProfile.vibe.forEach(v => { if (fullText.includes(v)) ageHits++; });
+        ageProfile.avoid.forEach(a => { if (fullText.includes(a)) ageMiss++; });
+        scores.age = (ageHits * 7) - (ageMiss * 6);
+        scores.age = Math.max(-5, Math.min(25, scores.age));
+
+        // 3. COLOR SCORE (0-30)
+        if (colorKeys.length) {
+            let cHits = 0;
+            colorKeys.forEach(k => { if (fullText.includes(k)) cHits++; });
+            scores.color = cHits * 10;
+            if (colorKeys.some(k => titleL.includes(k))) scores.color += 10;
+        }
+        scores.color = Math.min(30, scores.color);
+
+        // 4. OCCASION SCORE (0-20)
+        if (occasionKeys.length) {
+            let oHits = 0;
+            occasionKeys.forEach(k => { if (fullText.includes(k)) oHits++; });
+            scores.occasion = oHits * 8;
+        }
+        scores.occasion = Math.min(20, scores.occasion);
+
+        // 5. PATTERN SCORE (0-15)
+        if (patternKeys.length) {
+            let pHits = 0;
+            patternKeys.forEach(k => { if (fullText.includes(k)) pHits++; });
+            scores.pattern = pHits * 7;
+        }
+        scores.pattern = Math.min(15, scores.pattern);
+
+        // 6. BUDGET SCORE (0-20)
+        const price = product.price || 0;
+        if (JW_BOT.minBudget !== null && JW_BOT.maxBudget !== null) {
+            if (price >= JW_BOT.minBudget && price <= JW_BOT.maxBudget) scores.budget = 20;
+            else if (price >= JW_BOT.minBudget * 0.7 && price <= JW_BOT.maxBudget * 1.3) scores.budget = 12;
+            else if (price > JW_BOT.maxBudget * 2) scores.budget = -5;
+        } else if (JW_BOT.maxBudget !== null) {
+            scores.budget = price <= JW_BOT.maxBudget ? 18 : (price <= JW_BOT.maxBudget * 1.3 ? 8 : -3);
+        } else if (JW_BOT.minBudget !== null) {
+            scores.budget = price >= JW_BOT.minBudget ? 16 : (price >= JW_BOT.minBudget * 0.7 ? 6 : 0);
+        }
+        scores.budget = Math.max(-5, Math.min(20, scores.budget));
+
+        // 7. QUALITY SIGNALS (0-15)
+        if (product.is_best) scores.quality += 10;
+        if (product.is_hot) scores.quality += 6;
+        if (product.stock > 0) scores.quality += 3;
+        if (product.stock > 20) scores.quality += 2;
+        if (product.old_price && product.price < product.old_price) scores.quality += 4;
+        if (descL.length > 100) scores.quality += 3;
+        if (product.images && product.images.split(',').length > 2) scores.quality += 2;
+        scores.quality = Math.min(15, scores.quality);
+
+        // 8. PRIORITY BOOST
+        priorityObjs.forEach(po => {
+            const hasKeyword = po.keys.some(k => fullText.includes(k));
+            if (hasKeyword) scores.priority += po.weight * 12;
+        });
+        scores.priority = Math.min(15, scores.priority);
+
+        // TOTAL WEIGHTED SCORE
+        const totalRaw = scores.gender + scores.age + scores.color + scores.occasion + scores.pattern + scores.budget + scores.quality + scores.priority;
+        const maxPossible = 25 + 25 + 30 + 20 + 15 + 20 + 15 + 15; // = 165
+        const matchPercent = Math.min(100, Math.max(1, Math.round((totalRaw / maxPossible) * 100)));
+
+        return { ...product, scores, totalRaw, matchPercent };
+    });
+
+    // Sort by totalRaw
+    scored.sort((a, b) => b.totalRaw - a.totalRaw);
+
+    // Diversity selection
+    const seenCats = new Set();
+    const results = [];
+    for (const p of scored) {
+        if (results.length >= 10) break;
+        if (!seenCats.has(p.category) || results.length > 6) {
+            if (!results.find(r => r.id === p.id)) {
+                results.push(p);
+                seenCats.add(p.category);
+            }
+        }
+    }
+
+    renderBotResults(results);
+    jwBotGoToStep(6);
+}
+
+function renderBotResults(products) {
+    const container = document.getElementById('jwBotResultsContainer');
+    const summary = document.getElementById('jwBotResultSummary');
+    const breakdown = document.getElementById('jwBotScoreBreakdown');
+
+    summary.innerHTML = `<span class="jw-bot-highlight">${JW_BOT.name || 'User'}</span> 
+        &bull; ${JW_BOT.gender || 'Unisex'} 
+        &bull; Age ${JW_BOT.age} 
+        &bull; ${products.length} curated picks`;
+
+    // Score breakdown (average)
+    if (products.length) {
+        const avg = {};
+        const keys = ['gender','age','color','occasion','pattern','budget','quality','priority'];
+        keys.forEach(k => { avg[k] = Math.round(products.reduce((s,p) => s + (p.scores[k] || 0), 0) / products.length); });
+        const maxVals = { gender:25, age:25, color:30, occasion:20, pattern:15, budget:20, quality:15, priority:15 };
+        breakdown.innerHTML = keys.map(k => `
+            <div class="jw-bot-score-item">
+                <span class="score-label">${k.toUpperCase()}</span>
+                <span class="score-value">${avg[k]}/${maxVals[k]}</span>
+            </div>
+        `).join('');
+    }
+
+    if (!products.length) {
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:#666;">No strong matches. Try broadening preferences.</div>';
+        return;
+    }
+
+    container.innerHTML = products.map(p => {
+        const cls = p.matchPercent >= 75 ? 'perfect' : p.matchPercent >= 50 ? 'good' : 'fair';
+        return `
+            <a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id});closeJWBot()" class="jw-bot-result-card">
+                <img src="${p.img}" alt="${p.title}" class="jw-bot-result-img" loading="lazy">
+                <div class="jw-bot-result-info">
+                    <div class="result-category">${p.category}</div>
+                    <div class="result-title">${p.title}</div>
+                    <div class="result-price">৳ ${p.price} ${p.old_price ? `<span style="font-size:10px;color:#555;text-decoration:line-through;margin-left:4px;">৳${p.old_price}</span>` : ''}</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;margin-left:6px;">
+                    <span class="jw-bot-match-badge ${cls}">${p.matchPercent}%</span>
+                    ${p.stock <= 0 ? '<span style="font-size:7px;color:#ef4444;font-weight:700;">SOLD OUT</span>' : ''}
+                </div>
+            </a>
+        `;
+    }).join('');
+}
+
+function jwBotViewAllProducts() { closeJWBot(); navigate('products'); }
+
+function jwBotRestart() {
+    JW_BOT.name = ''; JW_BOT.gender = ''; JW_BOT.age = 25;
+    JW_BOT.colors = []; JW_BOT.occasions = []; JW_BOT.patterns = []; JW_BOT.priorities = [];
+    JW_BOT.minBudget = null; JW_BOT.maxBudget = null;
+    document.getElementById('jwBotName').value = '';
+    document.getElementById('jwBotAgeSlider').value = 25;
+    document.getElementById('jwBotAgeDisplay').textContent = '25';
+    document.getElementById('jwBotAgeTag').textContent = 'Young Adult';
+    document.getElementById('jwBotMinBudget').value = '';
+    document.getElementById('jwBotMaxBudget').value = '';
+    renderAllTagGrids();
+    jwBotGoToStep(1);
+    document.getElementById('jwBotName').focus();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderAllTagGrids();
+    document.getElementById('jwBotName').addEventListener('keydown', e => { if (e.key === 'Enter') jwBotNextStep(1); });
+    document.getElementById('jwBotOverlay').addEventListener('click', function(e) { if (e.target === this) closeJWBot(); });
+});
+</script>
 </body>
 </html>
