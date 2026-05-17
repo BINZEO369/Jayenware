@@ -790,12 +790,7 @@
 </head>
 <body class="antialiased">
 
-    <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
-        <div style="text-align:center;">
-            <div style="width:40px;height:40px;border:3px solid #e5e5e5;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
-            <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-primary/60">JAYENWARE</p>
-        </div>
-    </div>
+
 
     <div id="order-loader-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,0.98);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;">
         <div style="width:44px;height:44px;border:3px solid #e5e5e5;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.6s linear infinite;"></div>
@@ -2091,20 +2086,16 @@
         function handleMainSearch(){ const q=document.getElementById('main-search-input').value.toLowerCase().trim(); document.getElementById('search-suggestions').classList.add('hidden'); if(!q)return; navigate('products',{search:q}); renderProducts(currentData.products.filter(p=>p.title.toLowerCase().includes(q))); }
 
         window.onload = async () => {
-            const loader = document.getElementById('global-loader');
-            loader.style.opacity = '1'; loader.style.display = 'flex';
-            document.getElementById('display-year').innerText = new Date().getFullYear();
-            const { data: { session } } = await _supabase.auth.getSession();
-            if(session) {
-                userSession = session.user; const m = userSession.user_metadata;
-                document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`;
-            }
-            await loadData();
-            await window.visitorTracker.init();
-            updateMobileMenuFooter();
-            loader.style.opacity = '0'; loader.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => { loader.style.display = 'none'; }, 600);
-        };
+    document.getElementById('display-year').innerText = new Date().getFullYear();
+    const { data: { session } } = await _supabase.auth.getSession();
+    if(session) {
+        userSession = session.user; const m = userSession.user_metadata;
+        document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`;
+    }
+    await loadData();
+    await window.visitorTracker.init();
+    updateMobileMenuFooter();
+};
 
         window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10); });
         window.addEventListener('popstate', function(event) { handleInitialRoute(); });
