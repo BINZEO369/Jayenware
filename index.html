@@ -1168,53 +1168,767 @@
         const BASE_URL = 'https://www.jayenware.shop';
         
         const VISITOR_CONFIG = {
-            cookieName: 'jayenware_consent',
-            sessionId: 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            trackingEndpoint: SUPABASE_URL + '/rest/v1/visitor_logs',
-            apiKey: SUPABASE_KEY,
-            denyInterval: 5000,
-            botScoreThreshold: 0.7
+    cookieName: 'jayenware_consent',
+    sessionId: 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+    trackingEndpoint: SUPABASE_URL + '/rest/v1/visitor_logs',
+    apiKey: SUPABASE_KEY,
+    denyInterval: 5000,
+    botScoreThreshold: 0.7
+};
+
+class BotDetector {
+    constructor() { 
+        this.signals = []; 
+        this.botScore = 0;
+        this.detectedBots = [];
+    }
+    
+    checkUserAgent() { 
+        const ua = navigator.userAgent.toLowerCase(); 
+        const botPatterns = [
+            'bot', 'crawler', 'spider', 'scraper', 'headless', 'phantom', 
+            'selenium', 'puppeteer', 'playwright', 'googlebot', 'bingbot', 
+            'yandexbot', 'duckduckbot', 'baiduspider', 'facebookexternalhit', 
+            'twitterbot', 'whatsapp', 'telegrambot', 'slackbot', 'discordbot', 
+            'python', 'curl', 'wget', 'postman', 'insomnia', 'axios', 
+            'node-fetch', 'got', 'request', 'chrome-lighthouse', 'pagespeed', 
+            'gtmetrix', 'lighthouse', 'semrush', 'ahrefsbot', 'mj12bot',
+            'dotbot', 'rogerbot', 'exabot', 'ia_archiver', 'sitechecker',
+            'dataforseo', 'screaming frog', 'nutch', 'heritrix',
+            'java/', 'libwww', 'perl', 'ruby', 'go-http-client',
+            'scan', 'vulnerability', 'exploit', 'attack', 'hack',
+            'sqlmap', 'nikto', 'acunetix', 'netsparker', 'burp',
+            'zgrab', 'masscan', 'nmap', 'dirbuster', 'hydra'
+        ]; 
+        
+        let detected = false;
+        for (const pattern of botPatterns) { 
+            if (ua.includes(pattern)) { 
+                this.signals.push('bot_ua:' + pattern); 
+                this.botScore += 0.4;
+                this.detectedBots.push(pattern);
+                detected = true;
+                break;
+            } 
+        } 
+        return detected; 
+    }
+    
+    checkBrowserProperties() { 
+        let score = 0; 
+        
+        // WebDriver detection
+        if (navigator.webdriver) { 
+            this.signals.push('webdriver_detected'); 
+            score += 0.3; 
+        }
+        
+        // Chrome Runtime check
+        if (window.chrome && window.chrome.runtime === undefined) { 
+            this.signals.push('chrome_runtime_missing'); 
+            score += 0.1; 
+        }
+        
+        // Plugins check
+        if (!navigator.plugins || navigator.plugins.length === 0) { 
+            this.signals.push('no_plugins'); 
+            score += 0.05; 
+        }
+        
+        // Languages check
+        if (!navigator.languages || navigator.languages.length === 0) { 
+            this.signals.push('no_languages'); 
+            score += 0.05; 
+        }
+        
+        // Screen dimensions
+        if (screen.width === 0 || screen.height === 0 || screen.width > 8000 || screen.height > 8000) { 
+            this.signals.push('suspicious_screen'); 
+            score += 0.2; 
+        }
+        
+        // WebGL check
+        try { 
+            const canvas = document.createElement('canvas'); 
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); 
+            if (gl) { 
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info'); 
+                if (debugInfo) { 
+                    const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL); 
+                    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL); 
+                    
+                    // SwiftShader detection (software rendering = likely bot/headless)
+                    if (vendor && renderer) {
+                        if (vendor.includes('Google') && renderer.includes('SwiftShader')) { 
+                            this.signals.push('swiftshader_detected'); 
+                            score += 0.2; 
+                        }
+                        if (vendor === 'Google Inc.' && renderer === 'Google SwiftShader') { 
+                            this.signals.push('headless_chrome_webgl'); 
+                            score += 0.4; 
+                        }
+                        if (vendor.includes('Mesa') || vendor.includes('llvmpipe')) {
+                            this.signals.push('software_rendering'); 
+                            score += 0.3;
+                        }
+                    }
+                }
+                
+                // Check for known headless WebGL vendors
+                const vendorUnmasked = gl.getParameter(gl.VENDOR);
+                const rendererUnmasked = gl.getParameter(gl.RENDERER);
+                
+                if (vendorUnmasked === 'Brian Paul' || rendererUnmasked === 'Mesa OffScreen') {
+                    this.signals.push('headless_webgl'); 
+                    score += 0.5;
+                }
+            }
+        } catch (e) { 
+            this.signals.push('webgl_error'); 
+            score += 0.1; 
+        }
+        
+        // Notification API check (bots usually don't support)
+        if (!('Notification' in window) || Notification.permission === 'denied') {
+            this.signals.push('no_notification_api');
+            score += 0.05;
+        }
+        
+        // Battery API (bots usually don't have)
+        if (!('getBattery' in navigator)) {
+            this.signals.push('no_battery_api');
+            score += 0.05;
+        }
+        
+        // Connection API
+        if (!('connection' in navigator)) {
+            this.signals.push('no_connection_api');
+            score += 0.05;
+        }
+        
+        this.botScore += score; 
+        return score > 0.3; 
+    }
+    
+    checkHumanBehavior() { 
+        return new Promise((resolve) => { 
+            let humanDetected = false; 
+            let timeoutId;
+            let eventCount = 0;
+            const MIN_EVENTS = 2;
+            
+            const detectHuman = () => { 
+                eventCount++;
+                if (eventCount >= MIN_EVENTS) {
+                    humanDetected = true; 
+                    clearTimeout(timeoutId); 
+                    cleanup(); 
+                    resolve(true);
+                }
+            }; 
+            
+            const detectActivity = (e) => { 
+                if (e.isTrusted) detectHuman(); 
+            }; 
+            
+            const cleanup = () => { 
+                document.removeEventListener('mousemove', detectActivity); 
+                document.removeEventListener('keydown', detectActivity); 
+                document.removeEventListener('scroll', detectActivity); 
+                document.removeEventListener('touchstart', detectActivity);
+                document.removeEventListener('click', detectActivity);
+                document.removeEventListener('wheel', detectActivity);
+            }; 
+            
+            document.addEventListener('mousemove', detectActivity, { passive: true }); 
+            document.addEventListener('keydown', detectActivity, { passive: true }); 
+            document.addEventListener('scroll', detectActivity, { passive: true }); 
+            document.addEventListener('touchstart', detectActivity, { passive: true });
+            document.addEventListener('click', detectActivity, { passive: true });
+            document.addEventListener('wheel', detectActivity, { passive: true });
+            
+            timeoutId = setTimeout(() => { 
+                if (!humanDetected) { 
+                    this.signals.push('no_human_activity'); 
+                    this.botScore += 0.15; 
+                    cleanup(); 
+                    resolve(false); 
+                } 
+            }, 2500); 
+        }); 
+    }
+    
+    getBotInfo() {
+        return {
+            isBot: this.botScore > VISITOR_CONFIG.botScoreThreshold,
+            score: Math.min(this.botScore, 1.0),
+            signals: this.signals,
+            detectedBots: this.detectedBots,
+            threshold: VISITOR_CONFIG.botScoreThreshold,
+            detectionMethod: this.signals.join(', ') || 'none'
         };
+    }
+    
+    async detect() { 
+        this.checkUserAgent(); 
+        this.checkBrowserProperties(); 
+        await this.checkHumanBehavior(); 
+        return this.getBotInfo();
+    }
+}
 
-        class BotDetector {
-            constructor() { this.signals = []; this.botScore = 0; }
-            checkUserAgent() { const ua = navigator.userAgent.toLowerCase(); const botPatterns = ['bot', 'crawler', 'spider', 'scraper', 'headless', 'phantom', 'selenium', 'puppeteer', 'playwright', 'googlebot', 'bingbot', 'yandexbot', 'duckduckbot', 'baiduspider', 'facebookexternalhit', 'twitterbot', 'whatsapp', 'telegrambot', 'slackbot', 'discordbot', 'python', 'curl', 'wget', 'postman', 'insomnia', 'axios', 'node-fetch', 'got', 'request', 'chrome-lighthouse', 'pagespeed', 'gtmetrix']; for (const pattern of botPatterns) { if (ua.includes(pattern)) { this.signals.push('bot_ua:' + pattern); this.botScore += 0.4; return true; } } return false; }
-            checkBrowserProperties() { let score = 0; if (navigator.webdriver) { this.signals.push('webdriver_detected'); score += 0.3; } if (window.chrome && window.chrome.runtime === undefined) { this.signals.push('chrome_runtime_missing'); score += 0.1; } if (!navigator.plugins || navigator.plugins.length === 0) { this.signals.push('no_plugins'); score += 0.05; } if (!navigator.languages || navigator.languages.length === 0) { this.signals.push('no_languages'); score += 0.05; } if (screen.width === 0 || screen.height === 0) { this.signals.push('headless_screen'); score += 0.2; } try { const canvas = document.createElement('canvas'); const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); if (gl) { const debugInfo = gl.getExtension('WEBGL_debug_renderer_info'); if (debugInfo) { const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL); const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL); if (vendor.includes('Google') && renderer.includes('SwiftShader')) { this.signals.push('swiftshader_detected'); score += 0.2; } if (vendor === 'Google Inc.' && renderer === 'Google SwiftShader') { this.signals.push('headless_chrome'); score += 0.4; } } } } catch (e) { this.signals.push('webgl_error'); score += 0.1; } this.botScore += score; return score > 0.3; }
-            checkHumanBehavior() { return new Promise((resolve) => { let humanDetected = false; let timeoutId; const detectHuman = () => { humanDetected = true; clearTimeout(timeoutId); cleanup(); resolve(true); }; const detectActivity = (e) => { if (e.isTrusted) detectHuman(); }; const cleanup = () => { document.removeEventListener('mousemove', detectActivity); document.removeEventListener('keydown', detectActivity); document.removeEventListener('scroll', detectActivity); document.removeEventListener('touchstart', detectActivity); }; document.addEventListener('mousemove', detectActivity, { once: true }); document.addEventListener('keydown', detectActivity, { once: true }); document.addEventListener('scroll', detectActivity, { once: true }); document.addEventListener('touchstart', detectActivity, { once: true }); timeoutId = setTimeout(() => { if (!humanDetected) { this.signals.push('no_human_activity'); this.botScore += 0.1; cleanup(); resolve(false); } }, 2000); }); }
-            async detect() { this.checkUserAgent(); this.checkBrowserProperties(); await this.checkHumanBehavior(); return { isBot: this.botScore > VISITOR_CONFIG.botScoreThreshold, score: this.botScore, signals: this.signals }; }
+class LocationService {
+    async getExactLocation() { 
+        return new Promise((resolve, reject) => { 
+            if (!navigator.geolocation) { 
+                reject(new Error('Geolocation not supported')); 
+                return; 
+            } 
+            navigator.geolocation.getCurrentPosition(
+                (position) => { 
+                    resolve({ 
+                        latitude: position.coords.latitude, 
+                        longitude: position.coords.longitude, 
+                        accuracy: position.coords.accuracy, 
+                        altitude: position.coords.altitude, 
+                        altitudeAccuracy: position.coords.altitudeAccuracy, 
+                        heading: position.coords.heading, 
+                        speed: position.coords.speed, 
+                        timestamp: position.timestamp 
+                    }); 
+                }, 
+                (error) => { 
+                    reject(error); 
+                }, 
+                { 
+                    enableHighAccuracy: true, 
+                    timeout: 10000, 
+                    maximumAge: 0 
+                }
+            ); 
+        }); 
+    }
+    
+    async getIPLocation(ip) { 
+        try { 
+            const response = await fetch(`https://ipapi.co/${ip}/json/`); 
+            if (response.ok) { 
+                const data = await response.json(); 
+                return { 
+                    ip: data.ip || ip, 
+                    city: data.city, 
+                    region: data.region, 
+                    country: data.country_name, 
+                    countryCode: data.country_code, 
+                    latitude: data.latitude, 
+                    longitude: data.longitude, 
+                    isp: data.org, 
+                    postal: data.postal, 
+                    timezone: data.timezone,
+                    asn: data.asn,
+                    network: data.network
+                }; 
+            } 
+        } catch (e) {
+            // Fallback to another IP geolocation service
+            try {
+                const response = await fetch(`https://ipinfo.io/${ip}/json`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const loc = data.loc ? data.loc.split(',') : [];
+                    return {
+                        ip: data.ip || ip,
+                        city: data.city,
+                        region: data.region,
+                        country: data.country,
+                        latitude: loc[0] || null,
+                        longitude: loc[1] || null,
+                        isp: data.org,
+                        postal: data.postal,
+                        timezone: data.timezone
+                    };
+                }
+            } catch (e2) {}
+        } 
+        return null; 
+    }
+    
+    async getLocation(ip) { 
+        let locationInfo = { 
+            type: 'ip_based', 
+            source: 'ip_lookup', 
+            consent: false 
+        }; 
+        
+        try { 
+            const gpsData = await this.getExactLocation(); 
+            locationInfo = { 
+                ...locationInfo, 
+                ...gpsData, 
+                type: 'exact_gps', 
+                source: 'browser_geolocation', 
+                consent: true,
+                accuracy: gpsData.accuracy || null
+            }; 
+        } catch (gpsError) { 
+            const ipLocation = await this.getIPLocation(ip); 
+            if (ipLocation) { 
+                locationInfo = { 
+                    ...locationInfo, 
+                    ...ipLocation, 
+                    type: 'ip_based', 
+                    source: 'ip_geolocation', 
+                    consent: false, 
+                    gpsError: gpsError.message 
+                }; 
+            }
+        } 
+        return locationInfo; 
+    }
+}
+
+class DeviceInfoCollector {
+    async getIP() { 
+        try { 
+            const response = await fetch('https://api.ipify.org?format=json'); 
+            const data = await response.json(); 
+            return data.ip; 
+        } catch (e) {
+            try {
+                const response = await fetch('https://api64.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (e2) {
+                return 'unknown'; 
+            }
         }
+    }
+    
+    getDeviceType() { 
+        const ua = navigator.userAgent; 
+        if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'tablet'; 
+        if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return 'mobile'; 
+        return 'desktop'; 
+    }
+    
+    getBrowserName() {
+        const ua = navigator.userAgent;
+        if (ua.includes('Firefox')) return 'Firefox';
+        if (ua.includes('Edg')) return 'Edge';
+        if (ua.includes('Chrome') && !ua.includes('Edg')) return 'Chrome';
+        if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Safari';
+        if (ua.includes('Opera') || ua.includes('OPR')) return 'Opera';
+        return 'Unknown';
+    }
+    
+    getOS() {
+        const platform = navigator.platform || '';
+        const ua = navigator.userAgent;
+        if (platform.includes('Win')) return 'Windows';
+        if (platform.includes('Mac')) return 'macOS';
+        if (platform.includes('Linux')) return 'Linux';
+        if (/(iPhone|iPad|iPod)/i.test(ua)) return 'iOS';
+        if (/Android/i.test(ua)) return 'Android';
+        return 'Unknown';
+    }
+    
+    generateFingerprint(locationData) {
+        const components = [
+            navigator.userAgent.replace(/\s+/g, ''),
+            screen.width + 'x' + screen.height,
+            screen.colorDepth,
+            navigator.language,
+            Intl.DateTimeFormat().resolvedOptions().timeZone,
+            navigator.hardwareConcurrency || 0,
+            navigator.deviceMemory || 0,
+            this.getDeviceType(),
+            locationData?.type || 'unknown',
+            locationData?.countryCode || '',
+            new Date().getTimezoneOffset()
+        ];
+        const fingerprint = btoa(components.join('|'));
+        return fingerprint.length > 255 ? fingerprint.substring(0, 255) : fingerprint;
+    }
+    
+    collect() { 
+        return { 
+            browser: { 
+                userAgent: navigator.userAgent, 
+                vendor: navigator.vendor, 
+                platform: navigator.platform, 
+                language: navigator.language, 
+                languages: navigator.languages, 
+                cookieEnabled: navigator.cookieEnabled, 
+                doNotTrack: navigator.doNotTrack, 
+                onLine: navigator.onLine,
+                browserName: this.getBrowserName(),
+                javaEnabled: navigator.javaEnabled ? navigator.javaEnabled() : false
+            }, 
+            device: { 
+                screenResolution: `${screen.width}x${screen.height}`, 
+                availableResolution: `${screen.availWidth}x${screen.availHeight}`, 
+                colorDepth: screen.colorDepth, 
+                pixelRatio: window.devicePixelRatio || 1, 
+                deviceMemory: navigator.deviceMemory || 'unknown', 
+                hardwareConcurrency: navigator.hardwareConcurrency || 'unknown', 
+                maxTouchPoints: navigator.maxTouchPoints || 0, 
+                platform: navigator.platform, 
+                deviceType: this.getDeviceType(),
+                os: this.getOS(),
+                cpuClass: navigator.cpuClass || 'unknown'
+            }, 
+            network: { 
+                connectionType: navigator.connection?.effectiveType || navigator.connection?.type || 'unknown', 
+                downlink: navigator.connection?.downlink || 'unknown', 
+                effectiveType: navigator.connection?.effectiveType || 'unknown', 
+                rtt: navigator.connection?.rtt || 'unknown', 
+                saveData: navigator.connection?.saveData || false 
+            }, 
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, 
+            locale: navigator.language, 
+            timestamp: new Date().toISOString() 
+        }; 
+    }
+}
 
-        class LocationService {
-            async getExactLocation() { return new Promise((resolve, reject) => { if (!navigator.geolocation) { reject(new Error('Geolocation not supported')); return; } navigator.geolocation.getCurrentPosition((position) => { resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude, accuracy: position.coords.accuracy, altitude: position.coords.altitude, altitudeAccuracy: position.coords.altitudeAccuracy, heading: position.coords.heading, speed: position.coords.speed, timestamp: position.timestamp }); }, (error) => { reject(error); }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }); }); }
-            async getIPLocation(ip) { try { const response = await fetch(`https://ipapi.co/${ip}/json/`); if (response.ok) { const data = await response.json(); return { ip: data.ip || ip, city: data.city, region: data.region, country: data.country_name, countryCode: data.country_code, latitude: data.latitude, longitude: data.longitude, isp: data.org, postal: data.postal, timezone: data.timezone }; } } catch (e) {} return null; }
-            async getLocation(ip) { let locationInfo = { type: 'ip_based', source: 'ip_lookup', consent: false }; try { const gpsData = await this.getExactLocation(); locationInfo = { ...locationInfo, ...gpsData, type: 'exact_gps', source: 'browser_geolocation', consent: true }; } catch (gpsError) { const ipLocation = await this.getIPLocation(ip); if (ipLocation) { locationInfo = { ...locationInfo, ...ipLocation, type: 'ip_based', source: 'ip_geolocation', consent: false, gpsError: gpsError.message }; } } return locationInfo; }
+class VisitorTracker {
+    constructor() { 
+        this.botDetector = new BotDetector(); 
+        this.locationService = new LocationService(); 
+        this.deviceCollector = new DeviceInfoCollector(); 
+        this.ip = null; 
+        this.consentGranted = false; 
+        this.trackingInterval = null; 
+        this.visitCount = 1; 
+        this.isFirstVisit = true;
+        this.botInfo = null;
+        this.lastActivity = Date.now();
+        this.activeTimeSeconds = 0;
+        this.activityTimeout = null;
+    }
+    
+    async init() { 
+        // প্রথমে বট ডিটেক্ট করি
+        this.botInfo = await this.botDetector.detect(); 
+        
+        if (this.botInfo.isBot) { 
+            console.warn('Bot detected! Score:', this.botInfo.score, 'Signals:', this.botInfo.signals);
+            // বট হলেও রেকর্ড করি (এনালিটিক্সের জন্য)
+            this.ip = await this.deviceCollector.getIP();
+            await this.logBotVisit();
+            return; 
+        } 
+        
+        this.ip = await this.deviceCollector.getIP(); 
+        this.checkPreviousVisits(); 
+        this.showCookieConsent(); 
+        this.trackPageVisit(); 
+        this.startTimeTracking();
+        this.startActivityTracking();
+    }
+    
+    async logBotVisit() {
+        const botData = {
+            ip_address: this.ip,
+            user_agent: navigator.userAgent,
+            device_type: this.deviceCollector.getDeviceType(),
+            page_visited: window.location.pathname,
+            session_id: VISITOR_CONFIG.sessionId,
+            consent_given: false,
+            bot_score: this.botInfo.score,
+            is_bot: true,
+            is_unique_visit: false,
+            visit_count: 0,
+            visit_duration: 0,
+            location_info: { type: 'bot_detected' },
+            browser_info: navigator.userAgent.substring(0, 500),
+            device_info: this.deviceCollector.getDeviceType(),
+            screen_resolution: `${screen.width}x${screen.height}`,
+            language: navigator.language || 'unknown',
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown'
+        };
+        
+        try {
+            await fetch(VISITOR_CONFIG.trackingEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': VISITOR_CONFIG.apiKey,
+                    'Authorization': 'Bearer ' + VISITOR_CONFIG.apiKey,
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(botData)
+            });
+        } catch (e) {
+            console.error('Bot log error:', e);
         }
-
-        class DeviceInfoCollector {
-            async getIP() { try { const response = await fetch('https://api.ipify.org?format=json'); const data = await response.json(); return data.ip; } catch (e) { return 'unknown'; } }
-            getDeviceType() { const ua = navigator.userAgent; if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'tablet'; if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) return 'mobile'; return 'desktop'; }
-            collect() { return { browser: { userAgent: navigator.userAgent, vendor: navigator.vendor, platform: navigator.platform, language: navigator.language, languages: navigator.languages, cookieEnabled: navigator.cookieEnabled, doNotTrack: navigator.doNotTrack, onLine: navigator.onLine }, device: { screenResolution: `${screen.width}x${screen.height}`, availableResolution: `${screen.availWidth}x${screen.availHeight}`, colorDepth: screen.colorDepth, pixelRatio: window.devicePixelRatio || 1, deviceMemory: navigator.deviceMemory || 'unknown', hardwareConcurrency: navigator.hardwareConcurrency || 'unknown', maxTouchPoints: navigator.maxTouchPoints || 0, platform: navigator.platform, deviceType: this.getDeviceType() }, network: { connectionType: navigator.connection?.effectiveType || navigator.connection?.type || 'unknown', downlink: navigator.connection?.downlink || 'unknown', effectiveType: navigator.connection?.effectiveType || 'unknown', rtt: navigator.connection?.rtt || 'unknown', saveData: navigator.connection?.saveData || false }, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, locale: navigator.language, timestamp: new Date().toISOString() }; }
+    }
+    
+    checkPreviousVisits() { 
+        const visitData = JSON.parse(localStorage.getItem('jayen_visit_history') || '{}'); 
+        if (visitData.lastIP === this.ip) { 
+            this.visitCount = (visitData.count || 0) + 1; 
+            this.isFirstVisit = false; 
+        } else {
+            this.visitCount = 1;
+            this.isFirstVisit = true;
         }
-
-        class VisitorTracker {
-            constructor() { this.botDetector = new BotDetector(); this.locationService = new LocationService(); this.deviceCollector = new DeviceInfoCollector(); this.ip = null; this.consentGranted = false; this.trackingInterval = null; this.visitCount = 1; this.isFirstVisit = true; }
-            async init() { const botResult = await this.botDetector.detect(); if (botResult.isBot) { console.warn('Bot detected! Skipping tracking.', botResult); return; } this.ip = await this.deviceCollector.getIP(); this.checkPreviousVisits(); this.showCookieConsent(); this.trackPageVisit(); this.startTimeTracking(); }
-            checkPreviousVisits() { const visitData = JSON.parse(localStorage.getItem('jayen_visit_history') || '{}'); if (visitData.lastIP === this.ip) { this.visitCount = (visitData.count || 0) + 1; this.isFirstVisit = false; } localStorage.setItem('jayen_visit_history', JSON.stringify({ lastIP: this.ip, count: this.visitCount, lastVisit: new Date().toISOString() })); }
-            showCookieConsent() { const consentGiven = localStorage.getItem(VISITOR_CONFIG.cookieName); if (consentGiven === 'accepted') { this.consentGranted = true; this.startFullTracking(); } else if (consentGiven === 'declined') { this.consentGranted = false; this.startLimitedTracking(); this.trackingInterval = setInterval(() => { this.showBanner(); }, VISITOR_CONFIG.denyInterval); } else { setTimeout(() => this.showBanner(), 1000); } }
-            showBanner() { const banner = document.getElementById('cookieConsent'); if (banner) banner.classList.add('show'); }
-            hideBanner() { const banner = document.getElementById('cookieConsent'); if (banner) banner.classList.remove('show'); }
-            handleCookieAccept() { this.consentGranted = true; localStorage.setItem(VISITOR_CONFIG.cookieName, 'accepted'); localStorage.setItem('jayen_consent_time', new Date().toISOString()); this.hideBanner(); if (this.trackingInterval) clearInterval(this.trackingInterval); this.startFullTracking(); showToast('Cookies accepted!', 'success'); }
-            handleCookieDecline() { this.consentGranted = false; localStorage.setItem(VISITOR_CONFIG.cookieName, 'declined'); this.hideBanner(); this.startLimitedTracking(); showToast('Only essential cookies used', 'info'); this.trackingInterval = setInterval(() => { this.showBanner(); }, VISITOR_CONFIG.denyInterval); }
-            async startFullTracking() { try { const locationData = await this.locationService.getLocation(this.ip); const deviceInfo = this.deviceCollector.collect(); await this.sendToDatabase({ ip_address: this.ip, location_info: locationData, browser_info: navigator.userAgent, device_info: deviceInfo.device.deviceType, network_info: JSON.stringify(deviceInfo.network), page_visited: window.location.pathname, referrer: document.referrer, visit_duration: 0, session_id: VISITOR_CONFIG.sessionId, is_unique_visit: this.isFirstVisit, visit_count: this.visitCount, user_agent: navigator.userAgent, screen_resolution: deviceInfo.device.screenResolution, language: navigator.language, timezone: deviceInfo.timezone, consent_given: true }); } catch (error) { console.error('Full tracking error:', error); } }
-            async startLimitedTracking() { try { await this.sendToDatabase({ ip_address: this.ip, location_info: { ip: this.ip, type: 'limited' }, browser_info: navigator.userAgent, device_info: 'unknown', page_visited: window.location.pathname, session_id: VISITOR_CONFIG.sessionId, is_unique_visit: this.isFirstVisit, visit_count: this.visitCount, consent_given: false }); } catch (error) {} }
-            async sendToDatabase(data) { if (this.botDetector.botScore > VISITOR_CONFIG.botScoreThreshold) { console.warn('Blocked bot data submission'); return; } try { const response = await fetch(VISITOR_CONFIG.trackingEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': VISITOR_CONFIG.apiKey, 'Authorization': 'Bearer ' + VISITOR_CONFIG.apiKey, 'Prefer': 'return=minimal' }, body: JSON.stringify(data) }); if (!response.ok) { console.error('Tracking submission failed:', response.status); } } catch (error) { console.error('Tracking error:', error); } }
-            trackPageVisit() { window.addEventListener('popstate', () => { this.sendToDatabase({ ip_address: this.ip, page_visited: window.location.pathname, session_id: VISITOR_CONFIG.sessionId, visit_count: this.visitCount }); }); }
-            startTimeTracking() { const startTime = Date.now(); window.addEventListener('beforeunload', () => { const duration = Math.round((Date.now() - startTime) / 1000); this.sendToDatabase({ ip_address: this.ip, visit_duration: duration, session_id: VISITOR_CONFIG.sessionId }); }); }
+        localStorage.setItem('jayen_visit_history', JSON.stringify({ 
+            lastIP: this.ip, 
+            count: this.visitCount, 
+            lastVisit: new Date().toISOString(),
+            firstVisit: visitData.firstVisit || new Date().toISOString()
+        })); 
+    }
+    
+    showCookieConsent() { 
+        const consentGiven = localStorage.getItem(VISITOR_CONFIG.cookieName); 
+        if (consentGiven === 'accepted') { 
+            this.consentGranted = true; 
+            this.startFullTracking(); 
+        } else if (consentGiven === 'declined') { 
+            this.consentGranted = false; 
+            this.startLimitedTracking(); 
+            this.trackingInterval = setInterval(() => { 
+                this.showBanner(); 
+            }, VISITOR_CONFIG.denyInterval); 
+        } else { 
+            setTimeout(() => this.showBanner(), 1000); 
+        } 
+    }
+    
+    showBanner() { 
+        const banner = document.getElementById('cookieConsent'); 
+        if (banner) banner.classList.add('show'); 
+    }
+    
+    hideBanner() { 
+        const banner = document.getElementById('cookieConsent'); 
+        if (banner) banner.classList.remove('show'); 
+    }
+    
+    handleCookieAccept() { 
+        this.consentGranted = true; 
+        localStorage.setItem(VISITOR_CONFIG.cookieName, 'accepted'); 
+        localStorage.setItem('jayen_consent_time', new Date().toISOString()); 
+        this.hideBanner(); 
+        if (this.trackingInterval) clearInterval(this.trackingInterval); 
+        this.startFullTracking(); 
+        showToast('Cookies accepted!', 'success'); 
+    }
+    
+    handleCookieDecline() { 
+        this.consentGranted = false; 
+        localStorage.setItem(VISITOR_CONFIG.cookieName, 'declined'); 
+        this.hideBanner(); 
+        this.startLimitedTracking(); 
+        showToast('Only essential cookies used', 'info'); 
+        this.trackingInterval = setInterval(() => { 
+            this.showBanner(); 
+        }, VISITOR_CONFIG.denyInterval); 
+    }
+    
+    async startFullTracking() { 
+        try { 
+            const locationData = await this.locationService.getLocation(this.ip); 
+            const deviceInfo = this.deviceCollector.collect();
+            const fingerprint = this.deviceCollector.generateFingerprint(locationData);
+            
+            await this.sendToDatabase({ 
+                ip_address: this.ip, 
+                location_info: locationData, 
+                browser_info: navigator.userAgent, 
+                device_info: JSON.stringify(deviceInfo.device),
+                network_info: JSON.stringify(deviceInfo.network),
+                page_visited: window.location.pathname, 
+                referrer: document.referrer || null, 
+                visit_duration: this.activeTimeSeconds, 
+                session_id: VISITOR_CONFIG.sessionId, 
+                is_unique_visit: this.isFirstVisit, 
+                visit_count: this.visitCount, 
+                user_agent: navigator.userAgent, 
+                screen_resolution: deviceInfo.device.screenResolution, 
+                language: navigator.language, 
+                timezone: deviceInfo.timezone, 
+                consent_given: true,
+                // নতুন ফিল্ড
+                bot_score: this.botInfo ? this.botInfo.score : 0,
+                is_bot: this.botInfo ? this.botInfo.isBot : false,
+                location_type: locationData?.type || 'unknown',
+                location_accuracy: locationData?.accuracy || null,
+                isp_info: locationData?.isp || null,
+                device_type: deviceInfo.device.deviceType,
+                connection_type: deviceInfo.network.connectionType,
+                visit_fingerprint: fingerprint
+            }); 
+        } catch (error) { 
+            console.error('Full tracking error:', error);
+            // Fallback to limited tracking
+            this.startLimitedTracking();
+        } 
+    }
+    
+    async startLimitedTracking() { 
+        try {
+            const deviceInfo = this.deviceCollector.collect();
+            
+            await this.sendToDatabase({ 
+                ip_address: this.ip, 
+                location_info: { ip: this.ip, type: 'limited' }, 
+                browser_info: navigator.userAgent, 
+                device_info: JSON.stringify(deviceInfo.device),
+                network_info: null,
+                page_visited: window.location.pathname, 
+                session_id: VISITOR_CONFIG.sessionId, 
+                is_unique_visit: this.isFirstVisit, 
+                visit_count: this.visitCount, 
+                consent_given: false,
+                bot_score: this.botInfo ? this.botInfo.score : 0,
+                is_bot: this.botInfo ? this.botInfo.isBot : false,
+                location_type: 'limited',
+                location_accuracy: null,
+                isp_info: null,
+                device_type: deviceInfo.device.deviceType,
+                connection_type: null,
+                visit_fingerprint: null,
+                user_agent: navigator.userAgent,
+                screen_resolution: deviceInfo.device.screenResolution,
+                language: navigator.language,
+                timezone: deviceInfo.timezone,
+                referrer: null,
+                visit_duration: 0
+            }); 
+        } catch (error) {
+            console.error('Limited tracking error:', error);
         }
+    }
+    
+    async sendToDatabase(data) { 
+        if (this.botInfo && this.botInfo.score > 0.95) { 
+            console.warn('High-confidence bot blocked from data submission. Score:', this.botInfo.score); 
+            return; 
+        } 
+        
+        try { 
+            const response = await fetch(VISITOR_CONFIG.trackingEndpoint, { 
+                method: 'POST', 
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'apikey': VISITOR_CONFIG.apiKey, 
+                    'Authorization': 'Bearer ' + VISITOR_CONFIG.apiKey, 
+                    'Prefer': 'return=minimal' 
+                }, 
+                body: JSON.stringify(data) 
+            }); 
+            
+            if (!response.ok) { 
+                const errorText = await response.text();
+                console.error('Tracking submission failed:', response.status, errorText);
+            }
+        } catch (error) { 
+            console.error('Tracking error:', error); 
+        } 
+    }
+    
+    trackPageVisit() { 
+        const trackPage = async () => {
+            const deviceInfo = this.deviceCollector.collect();
+            await this.sendToDatabase({ 
+                ip_address: this.ip, 
+                page_visited: window.location.pathname, 
+                session_id: VISITOR_CONFIG.sessionId, 
+                visit_count: this.visitCount,
+                consent_given: this.consentGranted,
+                device_type: deviceInfo.device.deviceType,
+                bot_score: this.botInfo ? this.botInfo.score : 0,
+                is_bot: this.botInfo ? this.botInfo.isBot : false,
+                browser_info: navigator.userAgent,
+                user_agent: navigator.userAgent,
+                screen_resolution: deviceInfo.device.screenResolution,
+                language: navigator.language,
+                timezone: deviceInfo.timezone
+            }); 
+        };
+        
+        window.addEventListener('popstate', () => { 
+            trackPage();
+        }); 
+    }
+    
+    startActivityTracking() {
+        const updateActivity = () => {
+            const now = Date.now();
+            if (now - this.lastActivity > 1000) {
+                this.activeTimeSeconds += Math.floor((now - this.lastActivity) / 1000);
+            }
+            this.lastActivity = now;
+            
+            if (this.activityTimeout) clearTimeout(this.activityTimeout);
+            this.activityTimeout = setTimeout(() => {
+                // User is idle
+            }, 30000);
+        };
+        
+        ['mousemove', 'keydown', 'scroll', 'click', 'touchstart', 'wheel'].forEach(event => {
+            document.addEventListener(event, updateActivity, { passive: true });
+        });
+        
+        this.lastActivity = Date.now();
+    }
+    
+    startTimeTracking() { 
+        window.addEventListener('beforeunload', () => { 
+            if (this.activityTimeout) clearTimeout(this.activityTimeout);
+            
+            const finalDuration = this.activeTimeSeconds;
+            const deviceInfo = this.deviceCollector.collect();
+            
+            // Use sendBeacon for reliable data sending on page unload
+            const data = { 
+                ip_address: this.ip, 
+                visit_duration: finalDuration, 
+                session_id: VISITOR_CONFIG.sessionId,
+                consent_given: this.consentGranted,
+                device_type: deviceInfo.device.deviceType,
+                bot_score: this.botInfo ? this.botInfo.score : 0,
+                is_bot: this.botInfo ? this.botInfo.isBot : false,
+                browser_info: navigator.userAgent,
+                user_agent: navigator.userAgent,
+                screen_resolution: deviceInfo.device.screenResolution,
+                language: navigator.language,
+                timezone: deviceInfo.timezone,
+                page_visited: window.location.pathname
+            };
+            
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(
+                    VISITOR_CONFIG.trackingEndpoint,
+                    JSON.stringify(data)
+                );
+            } else {
+                // Fallback to sync XHR
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', VISITOR_CONFIG.trackingEndpoint, false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('apikey', VISITOR_CONFIG.apiKey);
+                xhr.setRequestHeader('Authorization', 'Bearer ' + VISITOR_CONFIG.apiKey);
+                xhr.setRequestHeader('Prefer', 'return=minimal');
+                xhr.send(JSON.stringify(data));
+            }
+        }); 
+    }
+}
 
-        window.handleCookieAccept = function() { if (window.visitorTracker) window.visitorTracker.handleCookieAccept(); };
-        window.handleCookieDecline = function() { if (window.visitorTracker) window.visitorTracker.handleCookieDecline(); };
-        window.visitorTracker = new VisitorTracker();
+// Global functions
+window.handleCookieAccept = function() { 
+    if (window.visitorTracker) window.visitorTracker.handleCookieAccept(); 
+};
+
+window.handleCookieDecline = function() { 
+    if (window.visitorTracker) window.visitorTracker.handleCookieDecline(); 
+};
+
+window.visitorTracker = new VisitorTracker();
 
         function showToast(text, type='success') {
             const toast = document.getElementById('toast');
