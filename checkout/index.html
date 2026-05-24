@@ -1,1569 +1,636 @@
 <!DOCTYPE html>
 <html lang="en-BD" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Checkout | JAYENWARE</title>
-    <meta name="description" content="Secure checkout at JAYENWARE. Complete your order with Cash on Delivery or bKash payment.">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#1a1a1a">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
-    <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/api-config.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
-                    },
-                    colors: {
-                        primary: '#1a1a1a',
-                        accent: '#c9a96e',
-                        soft: '#f8f6f3'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        :root { 
-            --primary: #1a1a1a; 
-            --accent: #c9a96e; 
-            --soft: #f8f6f3;
-            --success: #22c55e;
-            --warning: #f59e0b;
-        }
-        
-        * { 
-            -webkit-tap-highlight-color: transparent; 
-            box-sizing: border-box; 
-        }
-        
-        body { 
-            background: linear-gradient(135deg, #f8f6f3 0%, #f0ebe3 100%);
-            color: #1a1a1a; 
-            font-family: 'Inter', sans-serif; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column;
-            padding: 16px;
-        }
-        
-        main { 
-            flex-grow: 1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
-        
-        .checkout-wrapper {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Progress Steps */
-        .progress-steps {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
-            margin-bottom: 32px;
-            padding: 0 20px;
-        }
-        
-        .progress-step {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            flex: 1;
-        }
-        
-        .step-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            color: #999;
-            transition: all 0.3s;
-            position: relative;
-            z-index: 2;
-            flex-shrink: 0;
-        }
-        
-        .step-circle.completed {
-            background: var(--success);
-            border-color: var(--success);
-            color: white;
-        }
-        
-        .step-circle.active {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(26, 26, 26, 0.3);
-        }
-        
-        .step-connector {
-            flex: 1;
-            height: 3px;
-            background: #e0e0e0;
-            position: relative;
-            z-index: 1;
-            transition: background 0.3s;
-        }
-        
-        .step-connector.completed {
-            background: var(--success);
-        }
-        
-        .step-label {
-            text-align: center;
-            margin-top: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: #999;
-            transition: color 0.3s;
-        }
-        
-        .step-label.active {
-            color: var(--primary);
-            font-weight: 700;
-        }
-        
-        .step-label.completed {
-            color: var(--success);
-        }
-        
-        /* Main Card */
-        .checkout-card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            overflow: hidden;
-            animation: cardSlideUp 0.5s ease-out;
-        }
-        
-        @keyframes cardSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .card-header {
-            padding: 24px 28px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .card-header .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .card-header .brand img {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-        }
-        
-        .card-header .brand h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            font-weight: 900;
-            margin: 0;
-        }
-        
-        .secure-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: #f0fdf4;
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #d1fae5;
-        }
-        
-        .secure-badge i {
-            color: var(--success);
-            font-size: 11px;
-        }
-        
-        .secure-badge span {
-            font-size: 10px;
-            font-weight: 700;
-            color: #065f46;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .card-body {
-            padding: 28px;
-        }
-        
-        .card-body h2 {
-            font-size: 20px;
-            font-weight: 800;
-            margin: 0 0 4px 0;
-        }
-        
-        .card-body .subtitle {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 24px;
-        }
-        
-        /* Step Content */
-        .step-content {
-            display: none;
-            animation: fadeSlide 0.4s ease-out;
-        }
-        
-        .step-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 16px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #666;
-            margin-bottom: 6px;
-        }
-        
-        .form-group label .required {
-            color: #ef4444;
-            margin-left: 2px;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.2s;
-            background: #fafafa;
-            color: #333;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(201,169,110,0.1);
-        }
-        
-        .form-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        
-        /* Account Benefit Card */
-        .benefit-card {
-            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
-            border: 2px solid #fde68a;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .benefit-card .benefit-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        
-        .benefit-card .benefit-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-        }
-        
-        .benefit-card h3 {
-            font-size: 16px;
-            font-weight: 800;
-            margin: 0;
-            color: #92400e;
-        }
-        
-        .benefit-card .benefit-subtitle {
-            font-size: 11px;
-            color: #a16207;
-        }
-        
-        .benefit-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
-        .benefit-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #92400e;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 10px;
-            border: 1px solid #fde68a;
-        }
-        
-        .benefit-feature i {
-            color: var(--success);
-            font-size: 14px;
-        }
-        
-        .benefit-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            background: white;
-            border: 2px solid #fde68a;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            color: #92400e;
-            transition: all 0.2s;
-        }
-        
-        .benefit-toggle:hover {
-            background: #fefce8;
-            border-color: #fbbf24;
-        }
-        
-        .benefit-toggle .chevron {
-            transition: transform 0.3s;
-            font-size: 12px;
-        }
-        
-        .benefit-toggle.open .chevron {
-            transform: rotate(180deg);
-        }
-        
-        /* Account Creation Form (Collapsible) */
-        .account-form-collapse {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out;
-        }
-        
-        .account-form-collapse.open {
-            max-height: 300px;
-        }
-        
-        .account-form-inner {
-            padding: 16px;
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #fde68a;
-            margin-top: 12px;
-        }
-        
-        /* Payment Options */
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px;
-            border: 2px solid #e8e8e8;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 10px;
-            background: white;
-        }
-        
-        .payment-option:hover {
-            border-color: #d0d0d0;
-            background: #fafafa;
-        }
-        
-        .payment-option.selected {
-            border-color: var(--primary);
-            background: #fafafa;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .payment-radio {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 2px solid #d0d0d0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s;
-        }
-        
-        .payment-option.selected .payment-radio {
-            border-color: var(--primary);
-            background: var(--primary);
-        }
-        
-        .payment-option.selected .payment-radio::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-        }
-        
-        .payment-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .payment-info .payment-name {
-            font-weight: 700;
-            font-size: 14px;
-        }
-        
-        .payment-info .payment-desc {
-            font-size: 11px;
-            color: #888;
-            margin-top: 2px;
-        }
-        
-        .payment-icon {
-            font-size: 24px;
-            color: #888;
-        }
-        
-        /* Order Summary */
-        .order-summary {
-            background: #f9fafb;
-            border-radius: 14px;
-            padding: 16px;
-            margin-top: 16px;
-            border: 1px solid #f0f0f0;
-        }
-        
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 0;
-            font-size: 13px;
-            color: #666;
-            font-weight: 500;
-        }
-        
-        .summary-row.total {
-            border-top: 2px solid #e0e0e0;
-            margin-top: 8px;
-            padding-top: 12px;
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        
-        .summary-row.discount {
-            color: var(--success);
-        }
-        
-        /* Buttons */
-        .btn {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #2d2d2d;
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        
-        .btn-primary:disabled {
-            background: #d0d0d0;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid #e0e0e0;
-        }
-        
-        .btn-outline:hover {
-            background: #f5f5f5;
-            border-color: #ccc;
-        }
-        
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-        
-        .btn-success:hover {
-            background: #16a34a;
-        }
-        
-        .btn-ghost {
-            background: transparent;
-            color: #888;
-            border: none;
-            padding: 10px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: none;
-            letter-spacing: normal;
-        }
-        
-        .btn-ghost:hover {
-            color: var(--primary);
-            background: #f5f5f5;
-            border-radius: 8px;
-        }
-        
-        /* Review Section */
-        .review-block {
-            background: #f9fafb;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid #f0f0f0;
-        }
-        
-        .review-block h4 {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #999;
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .review-block h4 i {
-            color: var(--accent);
-        }
-        
-        .review-block .review-content {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        /* Success Animation */
-        .success-animation {
-            text-align: center;
-            padding: 20px 0;
-        }
-        
-        .success-circle {
-            width: 80px;
-            height: 80px;
-            background: var(--success);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 30px rgba(34,197,94,0.2);
-        }
-        
-        .success-circle i {
-            color: white;
-            font-size: 36px;
-        }
-        
-        @keyframes successPop {
-            from { transform: scale(0) rotate(-10deg); opacity: 0; }
-            to { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-        
-        /* Toast */
-        .toast {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 9999;
-            transform: translateX(120%);
-            transition: transform 0.3s ease;
-            max-width: calc(100vw - 32px);
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-        }
-        
-        .toast-inner {
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-radius: 12px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid #f0f0f0;
-            min-width: 280px;
-        }
-        
-        .toast-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-        
-        .toast-text {
-            font-size: 12px;
-            font-weight: 600;
-            flex: 1;
-        }
-        
-        .toast-close {
-            background: none;
-            border: none;
-            color: #bbb;
-            cursor: pointer;
-            padding: 4px;
-            font-size: 14px;
-        }
-        
-        .toast-close:hover {
-            color: #666;
-        }
-        
-        /* Loader */
-        .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(4px);
-            z-index: 9998;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .loader-overlay.show {
-            display: flex;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #e5e5e5;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .loader-text {
-            margin-top: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 11px;
-            color: #888;
-        }
-        
-        /* Responsive */
-        @media (max-width: 480px) {
-            body { padding: 8px; }
-            .card-body { padding: 20px; }
-            .card-header { padding: 18px 20px; }
-            .form-row { grid-template-columns: 1fr; }
-            .benefit-features { grid-template-columns: 1fr; }
-            .progress-steps { padding: 0 8px; }
-            .step-circle { width: 34px; height: 34px; font-size: 12px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Secure Checkout · JAYENWARE</title>
+  <meta name="description" content="Complete your order with guided steps — shipping, payment, review — designed for clarity.">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/api-config.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+          colors: {
+            ink: '#0f172a',
+            gold: '#c9a96e',
+            soft: '#f8f6f3',
+            surface: '#ffffff',
+            muted: '#64748b',
+            border: '#e2e8f0',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1.5rem;
+      color: #0f172a;
+    }
+    .checkout-card {
+      max-width: 600px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2.5rem;
+      box-shadow: 0 30px 55px rgba(0,0,0,0.04), 0 10px 25px rgba(0,0,0,0.02);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .progress-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 2rem 1.5rem;
+      gap: 0.5rem;
+    }
+    .step-node {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: #f1f5f9;
+      color: #94a3b8;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    .step-node.completed {
+      background: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+    .step-node.active {
+      background: white;
+      border: 2px solid #0f172a;
+      color: #0f172a;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .step-bridge {
+      width: 40px;
+      height: 3px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+    .step-bridge.done {
+      background: #0f172a;
+    }
+    .panel {
+      padding: 0 2rem 2rem;
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .panel.active {
+      display: flex;
+    }
+    .benefit-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s;
+    }
+    .benefit-card:hover {
+      border-color: #cbd5e1;
+      background: #ffffff;
+    }
+    .account-illustration {
+      background: #ffffff;
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      border: 1px solid #e9eef2;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      border-radius: 1rem;
+      padding: 0.9rem 1.5rem;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      background: white;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    .btn-primary {
+      background: #0f172a;
+      color: white;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.1);
+    }
+    .btn-primary:hover {
+      background: #1e293b;
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: transparent;
+      border: none;
+      color: #475569;
+      padding: 0.5rem 0.75rem;
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+      background: #fafbfc;
+      outline: none;
+      transition: 0.2s;
+    }
+    .input-field:focus {
+      border-color: #0f172a;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(15,23,42,0.04);
+    }
+    label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #475569;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+    .payment-option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 1.2rem;
+      padding: 1rem;
+      background: #fafbfc;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .payment-option.selected {
+      border-color: #0f172a;
+      background: #f8fafc;
+    }
+    .radio-custom {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .payment-option.selected .radio-custom {
+      border-color: #0f172a;
+      background: #0f172a;
+      color: white;
+      font-size: 0.7rem;
+    }
+    .fade-in {
+      animation: fadeSlide 0.4s ease;
+    }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toast-message {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 3rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    @media (max-width: 500px) {
+      body { padding: 0.8rem; }
+      .panel { padding: 0 1.2rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="loader-overlay" id="loaderOverlay">
-    <div class="spinner"></div>
-    <p class="loader-text">Please wait...</p>
+<div class="checkout-card">
+  <!-- Header + progress -->
+  <div style="padding: 1.8rem 2rem 0; display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="https://www.jayenware.shop/logo.png" alt="J" style="width: 34px; height: 34px; border-radius: 10px;">
+      <span class="font-display font-bold text-xl tracking-tight text-ink">JAYENWARE</span>
+    </div>
+    <div class="text-xs font-semibold bg-slate-100 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-slate-600">
+      <i class="fa-solid fa-shield-halved text-emerald-600"></i> Secure
+    </div>
+  </div>
+
+  <div class="progress-track" id="progressTracker">
+    <div class="step-node active" id="stepNode1">1</div>
+    <div class="step-bridge" id="bridge1"></div>
+    <div class="step-node" id="stepNode2">2</div>
+    <div class="step-bridge" id="bridge2"></div>
+    <div class="step-node" id="stepNode3">3</div>
+  </div>
+
+  <!-- STEP 1 : Shipping -->
+  <div class="panel active fade-in" id="step1Panel">
+    <div>
+      <h2 class="text-2xl font-bold text-ink">Where to deliver?</h2>
+      <p class="text-sm text-muted mt-1">We’ll confirm by phone before dispatch.</p>
+    </div>
+
+    <!-- Profile address if logged in -->
+    <div id="profileAddressBlock" style="display: none;">
+      <div class="benefit-card" id="savedAddressCard" onclick="useProfileAddress()" style="cursor:pointer;">
+        <div class="w-10 h-10 bg-ink rounded-xl flex items-center justify-center text-white font-bold font-display text-lg" id="profileInitial">A</div>
+        <div style="flex:1">
+          <p class="font-semibold" id="profileNameDisplay">Sarah Ahmed</p>
+          <p class="text-xs text-muted" id="profileAddressDisplay">12/A Gulshan, Dhaka</p>
+        </div>
+        <i class="fa-solid fa-check-circle text-emerald-600 text-xl" id="profileCheckIcon"></i>
+      </div>
+      <button class="btn-ghost text-sm mt-2" onclick="toggleNewAddress()" id="newAddressToggleBtn">
+        <i class="fa-regular fa-pen-to-square"></i> Use different address
+      </button>
+    </div>
+
+    <!-- Manual / Guest form -->
+    <div id="manualAddressForm">
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div><label>Full name</label><input class="input-field" id="fullName" placeholder="e.g. Nusrat Jahan"></div>
+        <div><label>Phone number</label><input class="input-field" id="phone" placeholder="01XXXXXXXXX"></div>
+        <div><label>Email (for receipt)</label><input class="input-field" id="email" placeholder="you@example.com"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+          <div><label>District</label><select class="input-field" id="district"><option value="">Select</option></select></div>
+          <div><label>Area / Upazila</label><input class="input-field" id="upazila" placeholder="Gulshan, Savar"></div>
+        </div>
+        <div><label>Detailed address</label><textarea class="input-field" id="address" rows="2" placeholder="House, road, landmark..."></textarea></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary w-full" onclick="goToStep2()">
+      Continue to payment <i class="fa-solid fa-arrow-right"></i>
+    </button>
+    <p class="text-xs text-center text-muted">Free delivery on orders above ৳2000</p>
+  </div>
+
+  <!-- STEP 2 : Payment -->
+  <div class="panel fade-in" id="step2Panel">
+    <div>
+      <h2 class="text-2xl font-bold text-ink">Payment method</h2>
+      <p class="text-sm text-muted">Select how you'd like to pay.</p>
+    </div>
+    <div id="paymentList" class="flex flex-col gap-3"></div>
+    <div id="bkashDetails" style="display:none; background:#fdf2f8; border-radius:1.2rem; padding:1rem; border:1px solid #f5c6d7;">
+      <p class="font-semibold text-sm text-pink-900 mb-2"><i class="fa-solid fa-mobile-screen"></i> bKash details</p>
+      <div class="text-xs text-pink-800 space-y-1 mb-2" id="bkashGuide"></div>
+      <input class="input-field mb-2" id="bkashSender" placeholder="Your bKash number" style="background:white;">
+      <input class="input-field" id="bkashTrxID" placeholder="Transaction ID (TRX...)" style="background:white;">
+    </div>
+    <div class="bg-slate-50 rounded-2xl p-4 text-sm">
+      <div class="flex justify-between"><span>Subtotal</span><span id="subtotalDisplay">৳0</span></div>
+      <div class="flex justify-between text-emerald-600" id="discountRow" style="display:none;"><span>Discount</span><span id="discountDisplay">-৳0</span></div>
+      <div class="flex justify-between"><span>Delivery</span><span id="deliveryDisplay">৳120</span></div>
+      <div class="flex justify-between font-bold text-lg mt-2 pt-2 border-t"><span>Total</span><span id="totalDisplay">৳0</span></div>
+    </div>
+    <div class="flex gap-3">
+      <button class="btn flex-1" onclick="goToStep1()"><i class="fa-solid fa-chevron-left"></i> Back</button>
+      <button class="btn btn-primary flex-1" onclick="goToStep3()">Review order</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 : Review & account prompt -->
+  <div class="panel fade-in" id="step3Panel">
+    <div>
+      <h2 class="text-2xl font-bold text-ink">Review your order</h2>
+      <p class="text-sm text-muted">Almost there! Confirm details below.</p>
+    </div>
+    <div class="bg-slate-50 rounded-2xl p-4 text-sm space-y-2">
+      <p><strong>📦 Ship to:</strong> <span id="reviewName"></span></p>
+      <p class="text-muted text-xs" id="reviewAddressFull"></p>
+      <p><strong>💳 Payment:</strong> <span id="reviewPaymentMethod"></span></p>
+    </div>
+    <div id="reviewItemsContainer" class="max-h-48 overflow-y-auto space-y-2"></div>
+    <div class="bg-slate-50 rounded-2xl p-4 text-sm font-semibold flex justify-between">
+      <span>Grand total</span><span id="reviewTotal">৳0</span>
+    </div>
+
+    <!-- Account upsell card (only for guests) -->
+    <div id="accountUpsell" style="display: none;" class="account-illustration">
+      <div class="flex items-start gap-3 mb-3">
+        <i class="fa-solid fa-user-plus text-2xl text-ink"></i>
+        <div>
+          <p class="font-bold text-ink">Create an account in seconds</p>
+          <p class="text-xs text-muted">Track orders, faster checkout, exclusive offers.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mb-3 text-xs">
+        <div class="flex items-center gap-1"><i class="fa-solid fa-circle-check text-emerald-600"></i> Order tracking</div>
+        <div class="flex items-center gap-1"><i class="fa-solid fa-circle-check text-emerald-600"></i> Purchase history</div>
+        <div class="flex items-center gap-1"><i class="fa-solid fa-circle-check text-emerald-600"></i> Faster checkout</div>
+        <div class="flex items-center gap-1"><i class="fa-solid fa-circle-check text-emerald-600"></i> Promo alerts</div>
+      </div>
+      <input class="input-field mb-2" id="accountPassword" type="password" placeholder="Set a password (min 6 chars)">
+      <div class="flex gap-2">
+        <button class="btn btn-primary flex-1 text-sm" onclick="createAccountAndOrder()">
+          <i class="fa-solid fa-user-check"></i> Create & place order
+        </button>
+        <button class="btn flex-1 text-sm" onclick="placeOrderDirect()">
+          Continue as guest
+        </button>
+      </div>
+      <p class="text-[10px] text-muted mt-2 text-center">No spam — only order updates.</p>
+    </div>
+
+    <div id="loggedInPlaceOrder">
+      <button class="btn btn-primary w-full" onclick="placeOrderDirect()">
+        <i class="fa-solid fa-lock"></i> Confirm & place order
+      </button>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div class="panel fade-in text-center" id="successPanel" style="align-items: center;">
+    <div class="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 text-3xl mb-3"><i class="fa-solid fa-check"></i></div>
+    <h2 class="text-2xl font-bold">Order confirmed!</h2>
+    <p class="text-muted text-sm" id="successOrderId">Order #JAY-0000</p>
+    <button class="btn btn-primary mt-4" onclick="window.location.href='/'">Back to shop</button>
+  </div>
 </div>
 
-<div class="toast" id="toast">
-    <div class="toast-inner">
-        <div class="toast-icon" id="toastIcon"></div>
-        <p class="toast-text" id="toastText"></p>
-        <button class="toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+<div class="toast-message" id="liveToast">
+  <i class="fa-solid fa-circle-check"></i> <span id="toastText">Saved</span>
 </div>
-
-<main>
-    <div class="checkout-wrapper">
-        
-        <!-- Progress Steps -->
-        <div class="progress-steps">
-            <div style="text-align:center;">
-                <div class="step-circle active" id="stepCircle1">1</div>
-                <div class="step-label active" id="stepLabel1">Shipping</div>
-            </div>
-            <div class="step-connector" id="stepConnector1"></div>
-            <div style="text-align:center;">
-                <div class="step-circle" id="stepCircle2">2</div>
-                <div class="step-label" id="stepLabel2">Payment</div>
-            </div>
-            <div class="step-connector" id="stepConnector2"></div>
-            <div style="text-align:center;">
-                <div class="step-circle" id="stepCircle3">3</div>
-                <div class="step-label" id="stepLabel3">Confirm</div>
-            </div>
-        </div>
-
-        <!-- Checkout Card -->
-        <div class="checkout-card">
-            <!-- Card Header -->
-            <div class="card-header">
-                <div class="brand">
-                    <img src="https://www.jayenware.shop/logo.png" alt="JAYENWARE">
-                    <h1>JAYENWARE</h1>
-                </div>
-                <div class="secure-badge">
-                    <i class="fa-solid fa-lock"></i>
-                    <span>Secure Checkout</span>
-                </div>
-            </div>
-
-            <!-- Card Body -->
-            <div class="card-body">
-                
-                <!-- STEP 1: Shipping Information -->
-                <div class="step-content active" id="step1Content">
-                    <h2>📦 Where should we deliver?</h2>
-                    <p class="subtitle">Fill in your shipping details below</p>
-                    
-                    <!-- Account Benefit Card (shown for guest users) -->
-                    <div class="benefit-card" id="benefitCard" style="display:none;">
-                        <div class="benefit-header">
-                            <div class="benefit-icon">👤</div>
-                            <div>
-                                <h3>Create an Account?</h3>
-                                <p class="benefit-subtitle">Get these perks with your order</p>
-                            </div>
-                        </div>
-                        <div class="benefit-features">
-                            <div class="benefit-feature">
-                                <i class="fa-solid fa-check-circle"></i>
-                                Track your order
-                            </div>
-                            <div class="benefit-feature">
-                                <i class="fa-solid fa-check-circle"></i>
-                                Faster checkout next time
-                            </div>
-                            <div class="benefit-feature">
-                                <i class="fa-solid fa-check-circle"></i>
-                                Order history
-                            </div>
-                            <div class="benefit-feature">
-                                <i class="fa-solid fa-check-circle"></i>
-                                Exclusive offers
-                            </div>
-                        </div>
-                        <button class="benefit-toggle" id="benefitToggle" onclick="toggleAccountForm()">
-                            <span>🔽 Create account now (takes 10 seconds)</span>
-                            <i class="fa-solid fa-chevron-down chevron"></i>
-                        </button>
-                        <div class="account-form-collapse" id="accountFormCollapse">
-                            <div class="account-form-inner">
-                                <div class="form-group">
-                                    <label>Create a Password <span class="required">*</span></label>
-                                    <input type="password" id="newAccountPassword" placeholder="Min 6 characters" autocomplete="new-password">
-                                </div>
-                                <p style="font-size:10px;color:#888;margin-top:4px;">
-                                    We'll use your email from above. Your account will be created when you place the order.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Guest Shipping Form -->
-                    <div id="guestForm">
-                        <div class="form-group">
-                            <label>Full Name <span class="required">*</span></label>
-                            <input type="text" id="guestFullName" placeholder="Enter your full name" autocomplete="name">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number <span class="required">*</span></label>
-                            <input type="tel" id="guestPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
-                        </div>
-                        <div class="form-group">
-                            <label>Email (for order confirmation)</label>
-                            <input type="email" id="guestEmail" placeholder="your@email.com" autocomplete="email">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>District <span class="required">*</span></label>
-                                <select id="guestDistrict"><option value="">Select District</option></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Area / Upazila <span class="required">*</span></label>
-                                <input type="text" id="guestUpazila" placeholder="e.g. Gulshan, Savar" autocomplete="address-level3">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Full Address <span class="required">*</span></label>
-                            <textarea id="guestAddress" placeholder="House/Road/Village, Area details..."></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Profile Address Card (shown for logged-in users) -->
-                    <div id="profileSection" style="display:none;">
-                        <div class="review-block" style="border: 2px solid var(--success); background: #f9fef9; cursor: pointer;" id="profileCard" onclick="selectProfileAddress()">
-                            <h4><i class="fa-solid fa-user-check" style="color: var(--success);"></i> Use Saved Address</h4>
-                            <div class="review-content">
-                                <p style="margin:0;font-weight:700;" id="profileNameDisplay">User Name</p>
-                                <p style="margin:2px 0;font-size:12px;color:#666;" id="profilePhoneDisplay">Phone</p>
-                                <p style="margin:2px 0;font-size:12px;color:#666;" id="profileAddressDisplay">Address</p>
-                            </div>
-                        </div>
-                        <button class="btn btn-ghost" onclick="toggleNewAddress()" style="margin-bottom:12px;justify-content:flex-start;">
-                            <i class="fa-solid fa-pen"></i> Use a different address instead
-                        </button>
-                        <div id="newAddressForm" style="display:none;">
-                            <div class="form-group">
-                                <label>Full Name <span class="required">*</span></label>
-                                <input type="text" id="altFullName" placeholder="Enter your full name">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number <span class="required">*</span></label>
-                                <input type="tel" id="altPhone" placeholder="01XXXXXXXXX">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>District <span class="required">*</span></label>
-                                    <select id="altDistrict"><option value="">Select District</option></select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Area / Upazila <span class="required">*</span></label>
-                                    <input type="text" id="altUpazila" placeholder="e.g. Gulshan, Savar">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Full Address <span class="required">*</span></label>
-                                <textarea id="altAddress" placeholder="House/Road/Village, Area details..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary" onclick="goToStep2()" style="margin-top:8px;">
-                        Continue to Payment <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                    <button class="btn btn-ghost" onclick="window.location.href='/'" style="margin-top:6px;">
-                        <i class="fa-solid fa-arrow-left"></i> Continue Shopping
-                    </button>
-                </div>
-
-                <!-- STEP 2: Payment Method -->
-                <div class="step-content" id="step2Content">
-                    <h2>💳 How would you like to pay?</h2>
-                    <p class="subtitle">Choose your preferred payment method</p>
-                    
-                    <div id="paymentOptions"></div>
-                    
-                    <!-- bKash Details (shown when bKash selected) -->
-                    <div id="bkashDetails" style="display:none;">
-                        <div style="background:#fdf2f8;border:2px solid #f5c6d7;border-radius:14px;padding:16px;margin-top:12px;">
-                            <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
-                                <div style="width:100px;height:100px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;border:2px solid #f0d0e0;">
-                                    <img src="/paybkashqr.png" alt="QR Code" style="width:90px;height:90px;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-                                    <span style="display:none;font-size:10px;color:#999;">QR Code</span>
-                                </div>
-                                <div>
-                                    <h4 style="font-size:13px;font-weight:700;color:#831843;">bKash Payment Steps</h4>
-                                    <ol style="font-size:11px;color:#9d174d;padding-left:16px;line-height:1.6;margin:4px 0;">
-                                        <li>Send payment to merchant number</li>
-                                        <li>Enter your bKash number below</li>
-                                        <li>Enter Transaction ID from SMS</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <div style="background:white;padding:10px 14px;border-radius:10px;border:1px solid #f0d0e0;margin-bottom:12px;">
-                                <p style="font-size:10px;font-weight:700;color:#831843;margin:0;">Send to Merchant Account</p>
-                                <p style="font-size:16px;font-weight:900;color:#4a0e2e;margin:2px 0 0;" id="bkashAccountNumber">01767863670</p>
-                            </div>
-                            <div class="form-group" style="margin-bottom:10px;">
-                                <label>Your bKash Number <span class="required">*</span></label>
-                                <input type="tel" id="bkashSender" placeholder="01XXXXXXXXX" style="background:white;">
-                            </div>
-                            <div class="form-group">
-                                <label>Transaction ID <span class="required">*</span></label>
-                                <input type="text" id="bkashTrxId" placeholder="e.g. TRX123456789" style="background:white;">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Order Summary -->
-                    <div class="order-summary">
-                        <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">৳ 0.00</span></div>
-                        <div class="summary-row discount" id="summaryDiscountRow" style="display:none;"><span>Discount</span><span id="summaryDiscount">- ৳ 0.00</span></div>
-                        <div class="summary-row"><span>Delivery</span><span id="summaryDelivery">৳ 0.00</span></div>
-                        <div class="summary-row total"><span>Total</span><span id="summaryTotal">৳ 0.00</span></div>
-                    </div>
-
-                    <button class="btn btn-primary" onclick="goToStep3()" style="margin-top:16px;">
-                        Review Order <i class="fa-solid fa-clipboard-check"></i>
-                    </button>
-                    <button class="btn btn-ghost" onclick="goToStep1()" style="margin-top:6px;">
-                        <i class="fa-solid fa-chevron-left"></i> Edit Shipping Details
-                    </button>
-                </div>
-
-                <!-- STEP 3: Review & Confirm -->
-                <div class="step-content" id="step3Content">
-                    <h2>✅ Review your order</h2>
-                    <p class="subtitle">Double-check everything before placing your order</p>
-
-                    <div class="review-block">
-                        <h4><i class="fa-solid fa-location-dot"></i> Shipping Address</h4>
-                        <div class="review-content">
-                            <p id="reviewName" style="margin:0;font-weight:700;"></p>
-                            <p id="reviewPhone" style="margin:2px 0;font-size:12px;color:#666;"></p>
-                            <p id="reviewAddress" style="margin:2px 0;font-size:12px;color:#666;"></p>
-                        </div>
-                    </div>
-
-                    <div class="review-block">
-                        <h4><i class="fa-solid fa-credit-card"></i> Payment Method</h4>
-                        <div class="review-content">
-                            <p id="reviewPayment" style="margin:0;font-weight:700;"></p>
-                            <div id="reviewPaymentExtra" style="display:none;font-size:11px;color:#666;">
-                                <p id="reviewBkashNum" style="margin:2px 0;"></p>
-                                <p id="reviewBkashTrx" style="margin:2px 0;"></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="review-block">
-                        <h4><i class="fa-solid fa-bag-shopping"></i> Items</h4>
-                        <div id="reviewItems" style="max-height:200px;overflow-y:auto;"></div>
-                    </div>
-
-                    <div class="order-summary">
-                        <div class="summary-row"><span>Subtotal</span><span id="reviewSubtotal">৳ 0.00</span></div>
-                        <div class="summary-row discount" id="reviewDiscountRow" style="display:none;"><span>Discount</span><span id="reviewDiscount">- ৳ 0.00</span></div>
-                        <div class="summary-row"><span>Delivery</span><span id="reviewDelivery">৳ 0.00</span></div>
-                        <div class="summary-row total"><span>Grand Total</span><span id="reviewTotal">৳ 0.00</span></div>
-                    </div>
-
-                    <!-- Account creation prompt for guest users -->
-                    <div id="accountPromptGuest" style="display:none;margin-top:20px;">
-                        <div style="background:#fefce8;border:2px solid #fde68a;border-radius:14px;padding:16px;text-align:center;">
-                            <p style="font-size:13px;font-weight:700;color:#92400e;margin-bottom:8px;">📝 Create an account to track your order!</p>
-                            <p style="font-size:11px;color:#a16207;margin-bottom:12px;">
-                                Without an account, you won't be able to track your order status or view order history.
-                            </p>
-                            <div class="form-group" style="text-align:left;">
-                                <label>Password (min 6 characters)</label>
-                                <input type="password" id="accountPasswordFinal" placeholder="Create a password" autocomplete="new-password">
-                            </div>
-                            <button class="btn btn-success" onclick="createAccountAndOrder()" style="margin-top:8px;">
-                                <i class="fa-solid fa-user-plus"></i> Create Account & Place Order
-                            </button>
-                            <button class="btn btn-ghost" onclick="placeOrderDirect()" style="margin-top:6px;font-size:11px;">
-                                Skip — Place order as guest
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Default order button for logged-in users -->
-                    <div id="defaultOrderButton" style="margin-top:20px;">
-                        <button class="btn btn-primary" onclick="placeOrderDirect()">
-                            <i class="fa-solid fa-check"></i> Confirm & Place Order
-                        </button>
-                    </div>
-
-                    <div style="background:#fef9e7;border:1px solid #f9e79f;border-radius:12px;padding:12px;margin-top:16px;display:flex;gap:8px;align-items:flex-start;">
-                        <i class="fa-solid fa-circle-info" style="color:#f59e0b;font-size:14px;margin-top:1px;flex-shrink:0;"></i>
-                        <p style="font-size:11px;color:#92400e;margin:0;">A confirmation call or SMS will be sent before delivery. For Cash on Delivery, please prepare the exact amount.</p>
-                    </div>
-                </div>
-
-                <!-- SUCCESS STEP -->
-                <div class="step-content" id="successContent" style="text-align:center;">
-                    <div class="success-animation">
-                        <div class="success-circle">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h2 style="font-size:22px;font-weight:900;margin-bottom:4px;">Order Confirmed! 🎉</h2>
-                        <p style="font-size:13px;color:#888;">Thank you for your purchase</p>
-                        <div style="background:#f5f5f5;display:inline-block;padding:10px 20px;border-radius:50px;margin:12px 0;">
-                            <span style="font-size:10px;font-weight:700;color:#888;">Order ID</span>
-                            <p id="successOrderId" style="font-size:16px;font-weight:900;margin:0;">#---</p>
-                        </div>
-                        <p id="guestWarningMsg" style="display:none;font-size:11px;color:#b45309;">
-                            ⚠️ You won't be able to track this order. 
-                            <a href="/sign-up" style="color:#b45309;font-weight:700;">Sign up</a> to manage orders.
-                        </p>
-                    </div>
-                    <button class="btn btn-primary" onclick="window.location.href='/'">
-                        <i class="fa-solid fa-house"></i> Back to Home
-                    </button>
-                    <button class="btn btn-outline" style="margin-top:8px;" onclick="window.location.href='/account'">
-                        <i class="fa-solid fa-user"></i> My Account
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</main>
 
 <script>
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  let currentStep = 1;
+  let selectedPayment = 'cod';
+  let userSession = null;
+  let cartData = [];
+  let deliveryData = [];
+  let activeGateways = [];
+  let shippingInfo = {};
 
-    // State
-    let currentStep = 1;
-    let selectedPayment = 'cod';
-    let userSession = null;
-    let cartData = [];
-    let deliveryCharges = [];
-    let appliedPromo = null;
-    let paymentGateways = [];
-    let useProfileAddress = false;
-    let useAltAddress = false;
-    let wantAccount = false;
-    let orderTotal = { subtotal: 0, discount: 0, delivery: 120 };
+  // UI helpers
+  function showToast(msg, icon='fa-circle-check') {
+    const t = document.getElementById('liveToast');
+    document.getElementById('toastText').innerText = msg;
+    t.style.display = 'flex';
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => t.style.display = 'none', 3000);
+  }
 
-    // Toast functions
-    function showToast(text, type = 'success') {
-        const toast = document.getElementById('toast');
-        const icon = document.getElementById('toastIcon');
-        document.getElementById('toastText').innerText = text;
-        icon.className = 'toast-icon';
-        if (type === 'success') { icon.classList.add('bg-green-100', 'text-green-600'); icon.innerHTML = '<i class="fa-solid fa-check"></i>'; }
-        else if (type === 'error') { icon.classList.add('bg-red-100', 'text-red-600'); icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>'; }
-        else { icon.classList.add('bg-blue-100', 'text-blue-600'); icon.innerHTML = '<i class="fa-solid fa-info"></i>'; }
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+  function setStep(step) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`step${step}Panel`).classList.add('active');
+    [1,2,3].forEach(i => {
+      const node = document.getElementById(`stepNode${i}`);
+      node.classList.remove('active','completed');
+      if (i < step) node.classList.add('completed');
+      if (i === step) node.classList.add('active');
+      if (i < step) node.innerHTML = '<i class="fa-solid fa-check"></i>';
+      else node.innerHTML = i;
+    });
+    document.getElementById('bridge1').classList.toggle('done', step>1);
+    document.getElementById('bridge2').classList.toggle('done', step>2);
+    currentStep = step;
+  }
+
+  function collectShipping() {
+    return {
+      name: document.getElementById('fullName')?.value.trim(),
+      phone: document.getElementById('phone')?.value.trim(),
+      email: document.getElementById('email')?.value.trim(),
+      district: document.getElementById('district')?.value,
+      upazila: document.getElementById('upazila')?.value.trim(),
+      address: document.getElementById('address')?.value.trim(),
+    };
+  }
+
+  function validateShipping(info) {
+    if (!info.name || !info.phone || !info.district || !info.upazila || !info.address) {
+      showToast('Please complete all required fields', 'fa-exclamation-circle');
+      return false;
     }
-    function hideToast() { document.getElementById('toast').classList.remove('show'); }
-    function showLoader(t = 'Processing...') { document.getElementById('loaderOverlay').querySelector('.loader-text').innerText = t; document.getElementById('loaderOverlay').classList.add('show'); }
-    function hideLoader() { document.getElementById('loaderOverlay').classList.remove('show'); }
-
-    // Step navigation
-    function updateProgressSteps(step) {
-        for (let i = 1; i <= 3; i++) {
-            const circle = document.getElementById('stepCircle' + i);
-            const label = document.getElementById('stepLabel' + i);
-            circle.className = 'step-circle';
-            label.className = 'step-label';
-            if (i < step) {
-                circle.classList.add('completed');
-                circle.innerHTML = '<i class="fa-solid fa-check"></i>';
-                label.classList.add('completed');
-            } else if (i === step) {
-                circle.classList.add('active');
-                circle.innerHTML = i;
-                label.classList.add('active');
-            } else {
-                circle.innerHTML = i;
-            }
-        }
-        if (step > 1) document.getElementById('stepConnector1').classList.add('completed');
-        else document.getElementById('stepConnector1').classList.remove('completed');
-        if (step > 2) document.getElementById('stepConnector2').classList.add('completed');
-        else document.getElementById('stepConnector2').classList.remove('completed');
+    if (!/^01[0-9]{9}$/.test(info.phone)) {
+      showToast('Enter a valid 11-digit phone number', 'fa-exclamation-circle');
+      return false;
     }
+    return true;
+  }
 
-    function showStep(step) {
-        ['step1Content', 'step2Content', 'step3Content', 'successContent'].forEach((id, i) => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.toggle('active', (step === 4 && id === 'successContent') || i + 1 === step);
-            }
+  function calcTotals() {
+    let subtotal = cartData.reduce((s,i) => s + (i.price || 0), 0);
+    let delivery = 120;
+    const match = deliveryData.find(d => 
+      d.upazila?.toLowerCase() === shippingInfo.upazila?.toLowerCase() ||
+      d.district?.toLowerCase() === shippingInfo.district?.toLowerCase()
+    );
+    if (match) delivery = match.charge || 120;
+    let discount = 0; // promo logic can be added
+    return { subtotal, delivery, discount, total: subtotal - discount + delivery };
+  }
+
+  function updatePaymentSummary() {
+    const { subtotal, delivery, discount, total } = calcTotals();
+    document.getElementById('subtotalDisplay').innerText = `৳${subtotal.toFixed(0)}`;
+    document.getElementById('deliveryDisplay').innerText = `৳${delivery}`;
+    document.getElementById('totalDisplay').innerText = `৳${total.toFixed(0)}`;
+    const discRow = document.getElementById('discountRow');
+    if (discount > 0) { discRow.style.display = 'flex'; document.getElementById('discountDisplay').innerText = `-৳${discount}`; }
+    else discRow.style.display = 'none';
+  }
+
+  window.goToStep1 = () => setStep(1);
+  window.goToStep2 = () => {
+    shippingInfo = collectShipping();
+    if (!validateShipping(shippingInfo)) return;
+    updatePaymentSummary();
+    setStep(2);
+  };
+  window.goToStep3 = () => {
+    if (selectedPayment === 'bkash') {
+      const sender = document.getElementById('bkashSender')?.value.trim();
+      const trx = document.getElementById('bkashTrxID')?.value.trim();
+      if (!sender || !trx) { showToast('bKash number and Transaction ID required','fa-exclamation-circle'); return; }
+    }
+    const { total } = calcTotals();
+    document.getElementById('reviewName').innerText = shippingInfo.name;
+    document.getElementById('reviewAddressFull').innerText = `${shippingInfo.address}, ${shippingInfo.upazila}, ${shippingInfo.district}`;
+    document.getElementById('reviewPaymentMethod').innerText = selectedPayment === 'cod' ? 'Cash on Delivery' : 'bKash';
+    document.getElementById('reviewTotal').innerText = `৳${total.toFixed(0)}`;
+    
+    const itemsHtml = cartData.map(i => `
+      <div class="flex justify-between text-sm"><span>${i.title} ×${i.quantity||1}</span><span>৳${i.price}</span></div>
+    `).join('');
+    document.getElementById('reviewItemsContainer').innerHTML = itemsHtml;
+
+    if (!userSession) {
+      document.getElementById('accountUpsell').style.display = 'block';
+      document.getElementById('loggedInPlaceOrder').style.display = 'none';
+    } else {
+      document.getElementById('accountUpsell').style.display = 'none';
+      document.getElementById('loggedInPlaceOrder').style.display = 'block';
+    }
+    setStep(3);
+  };
+
+  window.selectPayment = (method) => {
+    selectedPayment = method;
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+    document.getElementById(`pay_${method}`)?.classList.add('selected');
+    document.getElementById('bkashDetails').style.display = method === 'bkash' ? 'block' : 'none';
+  };
+
+  window.useProfileAddress = () => {
+    if (!userSession) return;
+    const m = userSession.user_metadata || {};
+    document.getElementById('fullName').value = m.full_name || '';
+    document.getElementById('phone').value = m.phone || '';
+    document.getElementById('email').value = userSession.email || '';
+    document.getElementById('district').value = m.district || '';
+    document.getElementById('upazila').value = m.subdistrict || '';
+    document.getElementById('address').value = m.address || '';
+    document.getElementById('savedAddressCard').style.border = '2px solid #0f172a';
+  };
+
+  window.toggleNewAddress = () => {
+    document.getElementById('savedAddressCard').style.border = '1px solid #e2e8f0';
+    document.getElementById('fullName').value = '';
+  };
+
+  async function placeOrderDirect() {
+    if (!cartData.length) return;
+    const { subtotal, delivery, discount, total } = calcTotals();
+    const items = cartData.map(i => ({ id: i.product_id, title: i.title, qty: i.quantity||1, price: i.price }));
+    try {
+      if (userSession) {
+        await _supabase.rpc('secure_checkout', {
+          p_member_name: shippingInfo.name,
+          p_member_email: shippingInfo.email || userSession.email,
+          p_project_title: 'Store Order',
+          p_member_info: {
+            shipping: shippingInfo,
+            payment_method: selectedPayment,
+            subtotal, discount, delivery_charge: delivery, total: `৳${total}`,
+            items,
+            ...(selectedPayment==='bkash' ? { transaction_id: document.getElementById('bkashTrxID')?.value, sender_number: document.getElementById('bkashSender')?.value } : {})
+          }
         });
-        currentStep = step;
-        updateProgressSteps(step);
-        document.querySelector('.checkout-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function goToStep1() { showStep(1); }
-    function goToStep2() {
-        const info = getShippingInfo();
-        if (!info.name || !info.phone || !info.district || !info.upazila || !info.address) {
-            showToast('Please fill in all required fields', 'error');
-            return;
-        }
-        if (!/^01[0-9]{9}$/.test(info.phone)) {
-            showToast('Please enter a valid phone number (01XXXXXXXXX)', 'error');
-            return;
-        }
-        calculateDeliveryAndUpdateSummary();
-        showStep(2);
-    }
-    function goToStep3() {
-        if (selectedPayment === 'bkash') {
-            const sender = document.getElementById('bkashSender')?.value?.trim();
-            const trx = document.getElementById('bkashTrxId')?.value?.trim();
-            if (!sender || !/^01[0-9]{9}$/.test(sender)) { showToast('Enter valid bKash sender number', 'error'); return; }
-            if (!trx || trx.length < 6) { showToast('Enter valid Transaction ID', 'error'); return; }
-        }
-        populateReview();
-        
-        // Show/hide account prompt
-        if (!userSession) {
-            document.getElementById('accountPromptGuest').style.display = 'block';
-            document.getElementById('defaultOrderButton').style.display = 'none';
-        } else {
-            document.getElementById('accountPromptGuest').style.display = 'none';
-            document.getElementById('defaultOrderButton').style.display = 'block';
-        }
-        
-        showStep(3);
-    }
-
-    // Get shipping info based on mode
-    function getShippingInfo() {
-        if (userSession && useProfileAddress && !useAltAddress) {
-            const m = userSession.user_metadata || {};
-            return {
-                name: m.full_name || '',
-                phone: m.phone || '',
-                email: userSession.email || '',
-                district: m.district || '',
-                upazila: m.subdistrict || '',
-                address: `${m.address || ''}, ${m.subdistrict || ''}, ${m.district || ''}`
-            };
-        } else if (userSession && useAltAddress) {
-            return {
-                name: document.getElementById('altFullName')?.value?.trim() || '',
-                phone: document.getElementById('altPhone')?.value?.trim() || '',
-                email: userSession.email || '',
-                district: document.getElementById('altDistrict')?.value || '',
-                upazila: document.getElementById('altUpazila')?.value?.trim() || '',
-                address: `${document.getElementById('altAddress')?.value?.trim() || ''}, ${document.getElementById('altUpazila')?.value?.trim() || ''}, ${document.getElementById('altDistrict')?.value || ''}`
-            };
-        } else {
-            return {
-                name: document.getElementById('guestFullName')?.value?.trim() || '',
-                phone: document.getElementById('guestPhone')?.value?.trim() || '',
-                email: document.getElementById('guestEmail')?.value?.trim() || '',
-                district: document.getElementById('guestDistrict')?.value || '',
-                upazila: document.getElementById('guestUpazila')?.value?.trim() || '',
-                address: `${document.getElementById('guestAddress')?.value?.trim() || ''}, ${document.getElementById('guestUpazila')?.value?.trim() || ''}, ${document.getElementById('guestDistrict')?.value || ''}`
-            };
-        }
-    }
-
-    // Toggle account form
-    function toggleAccountForm() {
-        const collapse = document.getElementById('accountFormCollapse');
-        const toggle = document.getElementById('benefitToggle');
-        collapse.classList.toggle('open');
-        toggle.classList.toggle('open');
-        wantAccount = collapse.classList.contains('open');
-    }
-
-    // Toggle new address for logged-in users
-    function toggleNewAddress() {
-        useAltAddress = !useAltAddress;
-        document.getElementById('newAddressForm').style.display = useAltAddress ? 'block' : 'none';
-        document.getElementById('profileCard').style.borderColor = useAltAddress ? '#e0e0e0' : 'var(--success)';
-    }
-
-    function selectProfileAddress() {
-        useProfileAddress = true;
-        useAltAddress = false;
-        document.getElementById('profileCard').style.borderColor = 'var(--success)';
-        document.getElementById('newAddressForm').style.display = 'none';
-    }
-
-    // Payment selection
-    function selectPayment(method) {
-        selectedPayment = method;
-        document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
-        document.getElementById('payment-' + method)?.classList.add('selected');
-        document.getElementById('bkashDetails').style.display = method === 'bkash' ? 'block' : 'none';
-    }
-
-    // Calculate delivery
-    function calculateDeliveryAndUpdateSummary() {
-        const info = getShippingInfo();
-        let charge = 120;
-        const found = deliveryCharges.find(d => d.upazila?.toLowerCase() === info.upazila?.toLowerCase())
-            || deliveryCharges.find(d => d.district?.toLowerCase() === info.district?.toLowerCase() && !d.upazila)
-            || deliveryCharges.find(d => d.location_name?.toLowerCase() === 'default');
-        if (found) charge = found.charge;
-        
-        const subtotal = cartData.reduce((s, i) => s + i.price, 0);
-        let discount = 0;
-        if (appliedPromo && subtotal >= (appliedPromo.min_order || 0)) {
-            discount = appliedPromo.type === 'percent' ? subtotal * appliedPromo.value / 100 : appliedPromo.value;
-        }
-        
-        orderTotal = { subtotal, discount, delivery: charge };
-        
-        document.getElementById('summarySubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
-        document.getElementById('summaryDelivery').innerText = `৳ ${charge.toFixed(2)}`;
-        document.getElementById('summaryTotal').innerText = `৳ ${(subtotal - discount + charge).toFixed(2)}`;
-        
-        const discRow = document.getElementById('summaryDiscountRow');
-        if (discount > 0) {
-            discRow.style.display = 'flex';
-            document.getElementById('summaryDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
-        } else {
-            discRow.style.display = 'none';
-        }
-    }
-
-    // Populate review
-    function populateReview() {
-        const info = getShippingInfo();
-        document.getElementById('reviewName').innerText = info.name;
-        document.getElementById('reviewPhone').innerText = info.phone;
-        document.getElementById('reviewAddress').innerText = info.address;
-        
-        const labels = { 'cod': 'Cash on Delivery (COD)', 'bkash': 'bKash Payment' };
-        document.getElementById('reviewPayment').innerText = labels[selectedPayment] || selectedPayment;
-        
-        const extraDiv = document.getElementById('reviewPaymentExtra');
-        if (selectedPayment === 'bkash') {
-            extraDiv.style.display = 'block';
-            document.getElementById('reviewBkashNum').innerText = 'From: ' + (document.getElementById('bkashSender')?.value?.trim() || '');
-            document.getElementById('reviewBkashTrx').innerText = 'TrxID: ' + (document.getElementById('bkashTrxId')?.value?.trim() || '');
-        } else {
-            extraDiv.style.display = 'none';
-        }
-        
-        // Items
-        const itemsHtml = cartData.map(item => `
-            <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #eee;align-items:center;">
-                <img src="${item.img}" alt="${item.title}" style="width:40px;height:50px;object-fit:cover;border-radius:8px;background:#f0f0f0;">
-                <div style="flex:1;min-width:0;">
-                    <p style="font-size:12px;font-weight:600;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title}</p>
-                    <p style="font-size:10px;color:#999;margin:0;">${item.variant || 'Standard'} × ${item.quantity || 1}</p>
-                </div>
-                <span style="font-weight:700;font-size:13px;">৳${item.price}</span>
-            </div>`).join('');
-        document.getElementById('reviewItems').innerHTML = itemsHtml || '<p style="font-size:12px;color:#999;">No items</p>';
-        
-        // Totals
-        const { subtotal, discount, delivery } = orderTotal;
-        document.getElementById('reviewSubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
-        document.getElementById('reviewDelivery').innerText = `৳ ${delivery.toFixed(2)}`;
-        document.getElementById('reviewTotal').innerText = `৳ ${(subtotal - discount + delivery).toFixed(2)}`;
-        
-        const discRow = document.getElementById('reviewDiscountRow');
-        if (discount > 0) {
-            discRow.style.display = 'flex';
-            document.getElementById('reviewDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
-        } else {
-            discRow.style.display = 'none';
-        }
-    }
-
-    // Place order
-    async function createAccountAndOrder() {
-        const password = document.getElementById('accountPasswordFinal')?.value;
-        if (!password || password.length < 6) {
-            showToast('Password must be at least 6 characters', 'error');
-            return;
-        }
-        wantAccount = true;
-        await placeOrderDirect();
-    }
-
-    async function placeOrderDirect() {
-        if (!cartData.length) { showToast('Your cart is empty', 'error'); return; }
-        showLoader('Placing your order...');
-        
-        try {
-            const info = getShippingInfo();
-            const { subtotal, discount, delivery } = orderTotal;
-            const items = cartData.map(i => ({
-                id: i.product_id,
-                variant_id: i.variant_id || null,
-                title: i.title,
-                variant: i.variant || null,
-                qty: i.quantity || 1,
-                price: i.price
-            }));
-
-            let result;
-            
-            if (userSession) {
-                // Logged in user - use secure_checkout
-                const memberInfo = {
-                    shipping: { phone: info.phone, district: info.district, upazila: info.upazila, address: info.address },
-                    payment_method: selectedPayment,
-                    subtotal, discount, delivery_charge: delivery,
-                    total: `৳ ${(subtotal - discount + delivery).toFixed(2)}`,
-                    items
-                };
-                if (selectedPayment === 'bkash') {
-                    memberInfo.transaction_id = document.getElementById('bkashTrxId')?.value?.trim();
-                    memberInfo.sender_number = document.getElementById('bkashSender')?.value?.trim();
-                }
-                const { data, error } = await _supabase.rpc('secure_checkout', {
-                    p_member_name: info.name,
-                    p_member_email: info.email,
-                    p_project_title: 'Store Order',
-                    p_member_info: memberInfo
-                });
-                if (error) throw error;
-                result = data;
-            } else if (wantAccount) {
-                // Guest wants account - create and place order
-                const password = document.getElementById('accountPasswordFinal')?.value || document.getElementById('newAccountPassword')?.value;
-                const { data: signUpData, error: signUpError } = await _supabase.auth.signUp({
-                    email: info.email,
-                    password: password,
-                    options: {
-                        data: {
-                            full_name: info.name,
-                            phone: info.phone,
-                            district: info.district,
-                            subdistrict: info.upazila,
-                            address: info.address
-                        }
-                    }
-                });
-                if (signUpError) throw signUpError;
-                
-                // Now place order as authenticated user
-                userSession = signUpData.user;
-                const memberInfo = {
-                    shipping: { phone: info.phone, district: info.district, upazila: info.upazila, address: info.address },
-                    payment_method: selectedPayment,
-                    subtotal, discount, delivery_charge: delivery,
-                    total: `৳ ${(subtotal - discount + delivery).toFixed(2)}`,
-                    items
-                };
-                const { data, error } = await _supabase.rpc('secure_checkout', {
-                    p_member_name: info.name,
-                    p_member_email: info.email,
-                    p_project_title: 'Store Order',
-                    p_member_info: memberInfo
-                });
-                if (error) throw error;
-                result = data;
-            } else {
-                // Pure guest checkout
-                const { data, error } = await _supabase.rpc('guest_checkout', {
-                    p_member_name: info.name,
-                    p_phone: info.phone,
-                    p_email: info.email || null,
-                    p_district: info.district,
-                    p_upazila: info.upazila,
-                    p_address: info.address,
-                    p_payment_method: selectedPayment,
-                    p_bkash_number: selectedPayment === 'bkash' ? document.getElementById('bkashSender')?.value?.trim() : null,
-                    p_transaction_id: selectedPayment === 'bkash' ? document.getElementById('bkashTrxId')?.value?.trim() : null,
-                    p_items: items,
-                    p_promo_code: null
-                });
-                if (error) throw error;
-                result = data;
-            }
-
-            localStorage.removeItem('jayen_cart');
-            hideLoader();
-            document.getElementById('successOrderId').innerText = result?.order_id ? `#${result.order_id}` : '#---';
-            document.getElementById('guestWarningMsg').style.display = userSession ? 'none' : 'block';
-            showStep(4);
-        } catch (e) {
-            hideLoader();
-            showToast('Failed to place order: ' + e.message, 'error');
-        }
-    }
-
-    // Load payment gateways
-    async function loadPaymentGateways() {
-        try {
-            const { data, error } = await _supabase.from('payment_gateways').select('*');
-            if (error) throw error;
-            paymentGateways = data || [];
-            const container = document.getElementById('paymentOptions');
-            const active = paymentGateways.filter(g => g.is_active !== false);
-            
-            container.innerHTML = active.map(g => {
-                const isCOD = g.name === 'cod';
-                return `
-                <div class="payment-option ${isCOD ? 'selected' : ''}" onclick="selectPayment('${g.name}')" id="payment-${g.name}">
-                    <div class="payment-radio"></div>
-                    <div class="payment-info">
-                        <div class="payment-name">${g.display_name || g.name}</div>
-                        <div class="payment-desc">${isCOD ? 'Pay when you receive your order' : 'Send money via bKash to complete payment'}</div>
-                    </div>
-                    <div class="payment-icon">
-                        ${isCOD ? '<i class="fa-solid fa-hand-holding-dollar" style="color:#22c55e;"></i>' : '<span style="background:#D81B60;color:white;padding:4px 8px;border-radius:6px;font-weight:900;font-size:11px;">bKash</span>'}
-                    </div>
-                </div>`;
-            }).join('');
-            
-            // Update bKash account number if available
-            const bkash = active.find(g => g.name === 'bkash');
-            if (bkash?.account_number) {
-                document.getElementById('bkashAccountNumber').innerText = bkash.account_number;
-            }
-        } catch (e) {
-            document.getElementById('paymentOptions').innerHTML = '<p style="font-size:12px;color:#999;text-align:center;">Payment options unavailable</p>';
-        }
-    }
-
-    // Populate districts
-    function populateDistrictDropdowns() {
-        const districts = ['Dhaka', 'Chattogram', 'Khulna', 'Rajshahi', 'Barishal', 'Sylhet', 'Rangpur', 'Mymensingh', 'Gazipur', 'Narayanganj', 'Comilla', 'Bogura', 'Jessore', 'Dinajpur', 'Pabna', 'Natore', 'Sirajganj', 'Tangail', 'Faridpur', 'Kushtia', 'Bagerhat', 'Satkhira', 'Patuakhali', 'Bhola', 'Cox\'s Bazar', 'Bandarban', 'Rangamati', 'Khagrachhari', 'Feni', 'Noakhali', 'Lakshmipur', 'Chandpur', 'Brahmanbaria', 'Habiganj', 'Moulvibazar', 'Sunamganj', 'Netrokona', 'Sherpur', 'Jamalpur', 'Kishoreganj', 'Manikganj', 'Munshiganj', 'Narsingdi', 'Madaripur', 'Shariatpur', 'Rajbari', 'Gopalganj', 'Magura', 'Jhenaidah', 'Chuadanga', 'Meherpur', 'Narail', 'Joypurhat', 'Naogaon', 'Chapainawabganj', 'Gaibandha', 'Kurigram', 'Lalmonirhat', 'Nilphamari', 'Panchagarh', 'Thakurgaon', 'Barguna', 'Jhalokathi', 'Pirojpur'];
-        
-        document.querySelectorAll('#guestDistrict, #altDistrict').forEach(select => {
-            if (select.options.length > 1) return;
-            districts.forEach(d => {
-                const opt = document.createElement('option');
-                opt.value = d;
-                opt.textContent = d;
-                select.appendChild(opt);
-            });
+      } else {
+        await _supabase.rpc('guest_checkout', {
+          p_member_name: shippingInfo.name,
+          p_phone: shippingInfo.phone,
+          p_email: shippingInfo.email,
+          p_district: shippingInfo.district,
+          p_upazila: shippingInfo.upazila,
+          p_address: shippingInfo.address,
+          p_payment_method: selectedPayment,
+          p_bkash_number: selectedPayment==='bkash' ? document.getElementById('bkashSender')?.value : null,
+          p_transaction_id: selectedPayment==='bkash' ? document.getElementById('bkashTrxID')?.value : null,
+          p_items: items,
+          p_promo_code: null
         });
+      }
+      localStorage.removeItem('jayen_cart');
+      document.getElementById('successOrderId').innerText = `Order #JAY-${Math.floor(Math.random()*10000)}`;
+      setStep(4);
+    } catch (e) {
+      showToast('Order failed: ' + e.message, 'fa-circle-xmark');
     }
+  }
 
-    // Initialize
-    async function init() {
-        showLoader('Loading checkout...');
-        try {
-            const { data: { session } } = await _supabase.auth.getSession();
-            userSession = session?.user || null;
+  window.createAccountAndOrder = async () => {
+    const password = document.getElementById('accountPassword').value;
+    if (!password || password.length < 6) { showToast('Password min 6 characters','fa-exclamation-circle'); return; }
+    try {
+      const { data, error } = await _supabase.auth.signUp({
+        email: shippingInfo.email,
+        password: password,
+        options: { data: { full_name: shippingInfo.name, phone: shippingInfo.phone, district: shippingInfo.district, subdistrict: shippingInfo.upazila, address: shippingInfo.address } }
+      });
+      if (error) throw error;
+      userSession = data.user;
+      await placeOrderDirect();
+    } catch (e) { showToast(e.message, 'fa-circle-xmark'); }
+  };
 
-            const cartJson = localStorage.getItem('jayen_cart');
-            cartData = cartJson ? JSON.parse(cartJson) : [];
-            
-            if (!cartData.length) {
-                showToast('Your cart is empty. Redirecting...', 'error');
-                setTimeout(() => window.location.href = '/', 2000);
-                return;
-            }
+  async function init() {
+    const cartJson = localStorage.getItem('jayen_cart');
+    cartData = cartJson ? JSON.parse(cartJson) : [];
+    if (!cartData.length) { document.body.innerHTML = '<div class="text-center p-10">Your cart is empty.</div>'; return; }
+    const { data: { session } } = await _supabase.auth.getSession();
+    userSession = session?.user || null;
+    
+    const { data: del } = await _supabase.from('delivery_settings').select('*');
+    deliveryData = del || [];
+    const { data: gateways } = await _supabase.from('payment_gateways').select('*');
+    activeGateways = (gateways || []).filter(g => g.is_active !== false);
 
-            const { data: dData } = await _supabase.from('delivery_settings').select('*');
-            deliveryCharges = dData || [];
+    const districts = ['Dhaka','Chattogram','Khulna','Rajshahi','Sylhet','Barishal','Rangpur','Mymensingh'];
+    document.querySelectorAll('#district').forEach(s => {
+      districts.forEach(d => { const o = document.createElement('option'); o.value = d; o.textContent = d; s.appendChild(o); });
+    });
 
-            populateDistrictDropdowns();
-            await loadPaymentGateways();
+    document.getElementById('paymentList').innerHTML = activeGateways.map(g => `
+      <div class="payment-option ${g.name==='cod'?'selected':''}" id="pay_${g.name}" onclick="selectPayment('${g.name}')">
+        <div class="radio-custom"><i class="fa-solid fa-check"></i></div>
+        <span class="font-medium">${g.display_name || g.name}</span>
+      </div>
+    `).join('');
 
-            // Setup for logged-in vs guest
-            const profileSection = document.getElementById('profileSection');
-            const guestForm = document.getElementById('guestForm');
-            const benefitCard = document.getElementById('benefitCard');
-
-            if (userSession && userSession.user_metadata) {
-                // Logged in user
-                const m = userSession.user_metadata;
-                document.getElementById('profileNameDisplay').innerText = m.full_name || 'User';
-                document.getElementById('profilePhoneDisplay').innerText = m.phone || '';
-                document.getElementById('profileAddressDisplay').innerText = `${m.address || ''}, ${m.subdistrict || ''}, ${m.district || ''}`;
-                
-                profileSection.style.display = 'block';
-                guestForm.style.display = 'none';
-                benefitCard.style.display = 'none';
-                useProfileAddress = true;
-                
-                // Pre-fill alt address form
-                document.getElementById('altFullName').value = m.full_name || '';
-                document.getElementById('altPhone').value = m.phone || '';
-                document.getElementById('altDistrict').value = m.district || '';
-                document.getElementById('altUpazila').value = m.subdistrict || '';
-                document.getElementById('altAddress').value = m.address || '';
-            } else {
-                // Guest user
-                profileSection.style.display = 'none';
-                guestForm.style.display = 'block';
-                benefitCard.style.display = 'block';
-                useProfileAddress = false;
-            }
-
-            orderTotal.subtotal = cartData.reduce((s, i) => s + i.price, 0);
-            hideLoader();
-        } catch (e) {
-            hideLoader();
-            showToast('Failed to load checkout', 'error');
-        }
+    if (userSession) {
+      document.getElementById('profileAddressBlock').style.display = 'block';
+      document.getElementById('manualAddressForm').style.display = 'none';
+      const m = userSession.user_metadata || {};
+      document.getElementById('profileInitial').innerText = (m.full_name || 'U')[0];
+      document.getElementById('profileNameDisplay').innerText = m.full_name || 'User';
+      document.getElementById('profileAddressDisplay').innerText = `${m.address || ''}, ${m.subdistrict || ''}`;
+      window.useProfileAddress();
+    } else {
+      document.getElementById('profileAddressBlock').style.display = 'none';
+      document.getElementById('manualAddressForm').style.display = 'block';
     }
+    setStep(1);
+  }
 
-    document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', init);
 </script>
-
 </body>
 </html>
