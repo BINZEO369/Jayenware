@@ -417,16 +417,19 @@
 </head>
 <body>
 
+<!-- Animated Background Blobs -->
 <div class="bg-blobs">
     <div class="blob-1"></div>
     <div class="blob-2"></div>
 </div>
 
+<!-- Loader -->
 <div class="loader-overlay" id="loaderOverlay">
     <div class="spinner"></div>
     <p class="mt-5 font-black uppercase tracking-[0.3em] text-xs text-gray-600" id="loaderText">Processing...</p>
 </div>
 
+<!-- Toast -->
 <div class="toast" id="toast">
     <div class="toast-content">
         <span id="toast-icon" class="w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0"></span>
@@ -440,6 +443,7 @@
 <main>
     <div class="checkout-container" id="checkoutContainer">
         
+        <!-- Header -->
         <div class="px-10 pt-8 pb-2 flex items-center justify-between border-b border-white/40">
             <a href="/" class="flex items-center gap-4 text-primary no-underline group">
                 <img src="https://www.jayenware.shop/logo.png" alt="JAYENWARE" class="w-12 h-12 rounded-2xl shadow-lg transition-transform group-hover:scale-105" onerror="this.style.display='none'">
@@ -451,6 +455,7 @@
             </div>
         </div>
 
+        <!-- Step Indicator -->
         <div class="step-indicator">
             <div class="step-item active" id="stepIndicator1">
                 <div class="step-dot">1</div>
@@ -468,6 +473,7 @@
             </div>
         </div>
 
+        <!-- ==================== STEP 1: SHIPPING ==================== -->
         <div class="step-content active-step" id="step1Content">
             <div class="mb-8">
                 <h2 class="text-3xl font-black text-gray-900 mb-2 tracking-tight">Shipping Details</h2>
@@ -484,7 +490,7 @@
                     <input type="tel" id="shippingPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
                 </div>
                 <div class="input-group">
-                    <label>Email Address <span class="text-gray-400 font-normal text-xs">(Optional)</span></label>
+                    <label>Email Address <span class="text-gray-400 font-normal text-xs" id="emailOptionalText">(Optional)</span></label>
                     <input type="email" id="shippingEmail" placeholder="your@email.com" autocomplete="email">
                 </div>
                 <div class="input-row">
@@ -501,6 +507,39 @@
                     <label>Full Address *</label>
                     <textarea id="shippingAddress" placeholder="House/Road/Village, Area details..."></textarea>
                 </div>
+                
+                <!-- Account Creation Section -->
+                <div class="glass-box mt-4 !p-4 transition-all duration-300">
+                    <label class="flex items-center gap-3 cursor-pointer select-none">
+                        <div class="relative flex items-center justify-center">
+                            <input type="checkbox" id="createAccountCheck" onchange="toggleAccountFields()" class="peer appearance-none w-5 h-5 border-2 border-gray-400 rounded-md checked:bg-primary checked:border-primary transition-all">
+                            <i class="fa-solid fa-check absolute text-white text-xs opacity-0 peer-checked:opacity-100 pointer-events-none"></i>
+                        </div>
+                        <span class="font-bold text-gray-800 text-sm">অ্যাকাউন্ট তৈরি করুন (পরবর্তীতে সুবিধার জন্য)</span>
+                    </label>
+                    
+                    <div id="accountBenefits" class="hidden mt-4 pt-4 border-t border-gray-200/50">
+                        <p class="text-xs text-gray-500 mb-3 font-medium">অ্যাকাউন্ট তৈরি করলে যে সুবিধাগুলো পাবেন:</p>
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="flex items-center gap-2 text-xs font-bold text-gray-700">
+                                <i class="fa-solid fa-route text-accent"></i> অর্ডার ট্র্যাকিং
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-bold text-gray-700">
+                                <i class="fa-solid fa-bullhorn text-accent"></i> ক্যাম্পেইন আপডেট
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-bold text-gray-700">
+                                <i class="fa-solid fa-bell text-accent"></i> ডেডিকেটেড অর্ডার আপডেট
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-bold text-gray-700">
+                                <i class="fa-solid fa-crown text-accent"></i> এক্সক্লুসিভ আপডেট
+                            </div>
+                        </div>
+                        <div class="input-group mb-0">
+                            <label>আপনার পাসওয়ার্ড দিন *</label>
+                            <input type="password" id="accountPassword" placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <button class="btn btn-primary mt-6" onclick="goToStep2()">
@@ -511,6 +550,7 @@
             </button>
         </div>
 
+        <!-- ==================== STEP 2: PAYMENT ==================== -->
         <div class="step-content hidden-step" id="step2Content">
             <div class="mb-8">
                 <h2 class="text-3xl font-black text-gray-900 mb-2 tracking-tight">Payment Method</h2>
@@ -548,6 +588,7 @@
             <div class="glass-box mt-8">
                 <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal" class="font-bold">৳ 0.00</span></div>
                 <div class="summary-row text-green-600 hidden" id="summaryDiscountRow"><span>Discount</span><span id="summaryDiscount" class="font-bold">- ৳ 0.00</span></div>
+                <!-- Delivery charge completely removed -->
                 <div class="summary-row total"><span>Total</span><span id="summaryTotal">৳ 0.00</span></div>
             </div>
 
@@ -559,6 +600,7 @@
             </button>
         </div>
 
+        <!-- ==================== STEP 3: REVIEW ==================== -->
         <div class="step-content hidden-step" id="step3Content">
             <div class="mb-8">
                 <h2 class="text-3xl font-black text-gray-900 mb-2 tracking-tight">Final Review</h2>
@@ -602,6 +644,7 @@
             </button>
         </div>
 
+        <!-- ==================== SUCCESS ==================== -->
         <div class="step-content hidden-step text-center" id="successContent" style="padding: 4rem 2rem;">
             <div class="flex justify-center mb-8">
                 <div class="w-24 h-24 bg-gradient-to-tr from-green-500 to-emerald-400 rounded-3xl flex items-center justify-center shadow-2xl shadow-green-500/30 transform hover:scale-110 transition-transform duration-500">
@@ -642,6 +685,8 @@
         checkoutContainer: document.getElementById('checkoutContainer')
     };
 
+    function hideToast() { DOM.toast.classList.remove('show'); }
+
     function showToast(text, type = 'success') {
         const iconMap = {
             success: { icon: 'fa-circle-check', bg: 'bg-green-100 text-green-600' },
@@ -663,6 +708,25 @@
 
     function hideLoader() {
         DOM.loaderOverlay.classList.remove('show');
+    }
+
+    // Toggle Account Creation Visibility
+    function toggleAccountFields() {
+        const isChecked = document.getElementById('createAccountCheck').checked;
+        const benefitsSection = document.getElementById('accountBenefits');
+        const emailLabelOptional = document.getElementById('emailOptionalText');
+        
+        if (isChecked) {
+            benefitsSection.classList.remove('hidden');
+            benefitsSection.classList.add('active-step');
+            emailLabelOptional.innerText = '*(Required for account)';
+            emailLabelOptional.className = 'text-red-500 font-bold text-xs';
+        } else {
+            benefitsSection.classList.add('hidden');
+            benefitsSection.classList.remove('active-step');
+            emailLabelOptional.innerText = '(Optional)';
+            emailLabelOptional.className = 'text-gray-400 font-normal text-xs';
+        }
     }
 
     function updateStepIndicators(step) {
@@ -715,12 +779,26 @@
 
     function goToStep2() {
         const info = getShippingInfo();
+        const createAccount = document.getElementById('createAccountCheck').checked;
+        const password = document.getElementById('accountPassword').value;
+
         if (!info.name || !info.phone || !info.district || !info.upazila || !info.address) { 
             showToast('Please fill all required fields', 'error'); return; 
         }
         if (!/^01[0-9]{9}$/.test(info.phone)) { 
             showToast('Enter a valid 11-digit phone number', 'error'); return; 
         }
+        
+        // Account Creation Validation
+        if (createAccount) {
+            if (!info.email) {
+                showToast('Email is required to create an account', 'error'); return;
+            }
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters', 'error'); return;
+            }
+        }
+
         updateFinancialSummary();
         showStep(2);
     }
@@ -802,7 +880,34 @@
         showLoader('Processing Order...');
         try {
             const info = getShippingInfo();
+            const createAccount = document.getElementById('createAccountCheck').checked;
+            let userId = null;
+
+            // Handle Account Creation logic if user checked the box
+            if (createAccount && info.email) {
+                const password = document.getElementById('accountPassword').value;
+                const { data: authData, error: authError } = await _supabase.auth.signUp({
+                    email: info.email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: info.name,
+                            phone: info.phone
+                        }
+                    }
+                });
+                
+                if (authError && authError.message !== 'User already registered') {
+                    console.error('Auth Error:', authError);
+                    // Decide if you want to block order or proceed as guest. We proceed as guest if error occurs.
+                    showToast('Order placing... but account creation had an issue.', 'error');
+                } else if (authData.user) {
+                    userId = authData.user.id;
+                }
+            }
+
             const orderData = {
+                user_id: userId, // Associates order with the newly created account if successful
                 customer_name: info.name,
                 phone: info.phone,
                 email: info.email || null,
@@ -827,10 +932,17 @@
             hideLoader();
             document.getElementById('successOrderId').innerText = `#${data.id}`;
             showStep(4);
-            showToast('Order confirmed!', 'success');
+            
+            if(createAccount && userId) {
+                showToast('Order confirmed & Account created successfully!', 'success');
+            } else {
+                showToast('Order confirmed!', 'success');
+            }
+            
         } catch (error) {
             hideLoader();
             showToast('Failed to place order. Try again.', 'error');
+            console.error(error);
         }
     }
 
@@ -867,9 +979,10 @@
         const cartJson = localStorage.getItem('jayen_cart');
         cartData = cartJson ? JSON.parse(cartJson) : [];
         if (!cartData.length) {
-            showToast('Cart is empty', 'error');
-            setTimeout(() => window.location.href = '/', 1500);
-            return;
+            // For testing purposes, you might want to uncomment these lines during development.
+            // showToast('Cart is empty', 'error');
+            // setTimeout(() => window.location.href = '/', 1500);
+            // return;
         }
         populateDistricts();
         renderPaymentOptions();
