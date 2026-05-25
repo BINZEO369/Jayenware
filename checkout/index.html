@@ -208,8 +208,7 @@
                 <p class="text-sm text-gray-500 mt-1">Choose how you want to pay</p>
             </div>
 
-            <div id="paymentOptions">
-                </div>
+            <div id="paymentOptions"></div>
 
             <div id="bkashDetailSection" class="hidden mt-4 bg-pink-50 p-5 rounded-2xl border border-pink-200">
                 <h4 class="font-bold text-pink-800 text-sm mb-3"><i class="fa-solid fa-mobile-screen mr-2"></i>bKash Payment Instructions</h4>
@@ -248,22 +247,48 @@
                 <p class="text-sm text-gray-500 mt-1">Please check your details before placing the order</p>
             </div>
 
+            <!-- Contact & Payment Info -->
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-location-dot mr-1 text-accent"></i> Delivery</h4>
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-user mr-1 text-accent"></i> Contact Info</h4>
                     <p id="reviewName" class="font-bold text-sm text-gray-800 truncate"></p>
                     <p id="reviewPhone" class="text-xs text-gray-600 mt-1"></p>
+                    <p id="reviewEmail" class="text-xs text-gray-500 mt-0.5 truncate"></p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-credit-card mr-1 text-accent"></i> Payment</h4>
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-credit-card mr-1 text-accent"></i> Payment Info</h4>
                     <p id="reviewPayment" class="font-bold text-sm text-gray-800"></p>
                     <p id="reviewBkashExtra" class="text-[10px] text-gray-500 mt-1 hidden"></p>
                 </div>
             </div>
 
+            <!-- Delivery Address -->
+            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-4">
+                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-location-dot mr-1 text-accent"></i> Delivery Address</h4>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div>
+                        <span class="text-[10px] text-gray-400 uppercase font-semibold">District</span>
+                        <p id="reviewDistrictVal" class="text-xs font-semibold text-gray-800"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] text-gray-400 uppercase font-semibold">Upazila / Area</span>
+                        <p id="reviewUpazilaVal" class="text-xs font-semibold text-gray-800"></p>
+                    </div>
+                </div>
+                <span class="text-[10px] text-gray-400 uppercase font-semibold">Full Address</span>
+                <p id="reviewAddressVal" class="text-xs text-gray-600 mt-0.5 leading-relaxed"></p>
+            </div>
+
+            <!-- Order Items & Summary -->
             <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
-                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3"><i class="fa-solid fa-bag-shopping mr-1 text-accent"></i> Cart Items</h4>
-                <div id="reviewItems" class="max-h-32 overflow-y-auto pr-2 space-y-3"></div>
+                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3"><i class="fa-solid fa-bag-shopping mr-1 text-accent"></i> Order Items</h4>
+                <div id="reviewItems" class="max-h-32 overflow-y-auto pr-2 space-y-3 mb-4"></div>
+                
+                <div class="border-t border-gray-200 pt-3 mt-3 space-y-2 text-sm">
+                    <div class="flex justify-between text-gray-600"><span>Item Subtotal</span><span id="reviewSubtotal">৳ 0.00</span></div>
+                    <div class="flex justify-between text-gray-600"><span>Delivery Charge</span><span id="reviewDeliveryCharge">৳ 0.00</span></div>
+                    <div class="flex justify-between text-green-600"><span>Discount</span><span id="reviewDiscount">- ৳ 0.00</span></div>
+                </div>
             </div>
 
             <div id="accountCreationSection" class="mb-6">
@@ -280,8 +305,6 @@
 
                 <div id="accountBenefitsContent" class="expandable-content mt-2">
                     <div class="bg-white border-2 border-gray-100 rounded-xl p-5 shadow-inner">
-                        
-                        <!-- Beautiful Account Benefits Card Section -->
                         <div class="mb-6 bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-xl border border-amber-200 shadow-sm">
                             <h4 class="text-amber-800 font-black text-[11px] uppercase tracking-wider mb-3 flex items-center gap-1.5">
                                 <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Account Benefits
@@ -369,7 +392,6 @@
     let cartData = [];
     let deliveryCharges = [];
 
-    // UI Helpers
     function showToast(text, type='success') {
         const toast = document.getElementById('toast');
         document.getElementById('toast-text').innerText = text;
@@ -387,7 +409,6 @@
     function showLoader(t='Processing...'){ document.getElementById('loaderText').innerText=t; document.getElementById('loaderOverlay').classList.add('show'); }
     function hideLoader(){ document.getElementById('loaderOverlay').classList.remove('show'); }
 
-    // Navigation & Validation
     function updateStepIndicators(step){
         [1, 2, 3].forEach(i => {
             const el = document.getElementById(`stepIndicator${i}`);
@@ -445,11 +466,19 @@
         }
 
         const info = getShippingInfo();
+        
+        // 1. Contact Info
         document.getElementById('reviewName').innerText = info.name;
         document.getElementById('reviewPhone').innerText = info.phone;
+        document.getElementById('reviewEmail').innerText = info.email || 'Email not provided';
         
+        // 2. Delivery Address
+        document.getElementById('reviewDistrictVal').innerText = info.district;
+        document.getElementById('reviewUpazilaVal').innerText = info.upazila;
+        document.getElementById('reviewAddressVal').innerText = info.address;
+
+        // 3. Payment Details
         document.getElementById('reviewPayment').innerText = selectedPayment === 'cod' ? 'Cash on Delivery' : 'bKash';
-        
         const extraBkash = document.getElementById('reviewBkashExtra');
         if(selectedPayment === 'bkash'){
             extraBkash.innerText = `TrxID: ${document.getElementById('bkashTransactionId').value}`;
@@ -458,53 +487,55 @@
             extraBkash.classList.add('hidden');
         }
 
-        // Populate Review Items
+        // 4. Populate Review Items (with Variant)
         const itemsHtml = cartData.map(item => `
             <div class="flex items-center gap-3 border-b border-gray-100 pb-2 last:border-0 last:pb-0">
                 <img src="${item.img}" class="w-10 h-12 object-cover rounded-md bg-gray-200">
                 <div class="flex-grow min-w-0">
                     <p class="text-xs font-bold text-gray-800 truncate">${item.title}</p>
-                    <p class="text-[10px] text-gray-500">Qty: ${item.quantity || 1}</p>
+                    <p class="text-[10px] text-gray-500">Qty: ${item.quantity || 1} ${item.variant ? `<span class="px-1 text-gray-300">|</span> <span class="font-medium text-gray-600">${item.variant}</span>` : ''}</p>
                 </div>
                 <span class="font-bold text-sm">৳${item.price}</span>
             </div>
         `).join('');
         document.getElementById('reviewItems').innerHTML = itemsHtml;
 
-        // Auto-fill account email if user provided one in step 1
-        if(info.email) document.getElementById('accountEmail').value = info.email;
+        // 5. Calculate Breakdowns
+        let subtotal = window._subtotal || 0;
+        let deliveryCharge = window._deliveryCharge || 0;
+        let discount = 0; // Update with real discount logic if needed
+        let grandTotal = subtotal + deliveryCharge - discount;
 
-        // Hide account creation if already logged in
+        document.getElementById('reviewSubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
+        document.getElementById('reviewDeliveryCharge').innerText = `৳ ${deliveryCharge.toFixed(2)}`;
+        document.getElementById('reviewDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
+        document.getElementById('reviewTotal').innerText = `৳ ${grandTotal.toFixed(2)}`;
+
+        if(info.email) document.getElementById('accountEmail').value = info.email;
         if(userSession) document.getElementById('accountCreationSection').style.display = 'none';
 
         showStep(3);
     }
 
-    // Generate 8-character Random Password
     function generateSuggestedPassword(name, email) {
         let nPart = (name || "User").replace(/[^a-zA-Z]/g, '').substring(0, 3);
         let ePart = (email || "Mail").split('@')[0].replace(/[^a-zA-Z]/g, '').substring(0, 2);
-        let rPart = Math.floor(100 + Math.random() * 900).toString(); // 3 Random Digits
-        
-        // Fallback for extremely short names/emails to ensure length
+        let rPart = Math.floor(100 + Math.random() * 900).toString();
         if(nPart.length < 3) nPart += "xyz".substring(0, 3 - nPart.length);
         if(ePart.length < 2) ePart += "ab".substring(0, 2 - ePart.length);
-        
         let pass = nPart.charAt(0).toUpperCase() + nPart.substring(1).toLowerCase() + ePart.toLowerCase() + rPart;
         return pass.substring(0, 8);
     }
 
-    // Use the suggested password
     function useSuggestedPassword() {
         const pass = document.getElementById('suggestedPasswordTxt').innerText;
         const passInput = document.getElementById('accountPassword');
         passInput.value = pass;
-        passInput.type = "text"; // Show password temporarily so the user knows what it is
-        setTimeout(() => { passInput.type = "password"; }, 2000); // Hide after 2 seconds
+        passInput.type = "text"; 
+        setTimeout(() => { passInput.type = "password"; }, 2000); 
         showToast('Suggested password applied!', 'success');
     }
 
-    // Toggle Account Box in Step 3
     function toggleAccountBox() {
         const content = document.getElementById('accountBenefitsContent');
         const chevron = document.getElementById('accountChevron');
@@ -522,7 +553,6 @@
                 return;
             }
             
-            // Set Suggested Password
             const suggestedPass = generateSuggestedPassword(info.name, email);
             document.getElementById('suggestedPasswordTxt').innerText = suggestedPass;
             document.getElementById('passwordSuggestionBox').classList.remove('hidden');
@@ -534,15 +564,13 @@
 
     function calculateDeliveryAndUpdateSummary(){
         const info = getShippingInfo();
-        let charge = 120; // Default
-        
+        let charge = 120; 
         const subtotal = cartData.reduce((sum, item) => sum + item.price, 0);
         const total = subtotal + charge;
 
         document.getElementById('summarySubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
         document.getElementById('summaryDelivery').innerText = `৳ ${charge.toFixed(2)}`;
         document.getElementById('summaryTotal').innerText = `৳ ${total.toFixed(2)}`;
-        document.getElementById('reviewTotal').innerText = `৳ ${total.toFixed(2)}`;
         
         window._subtotal = subtotal;
         window._deliveryCharge = charge;
@@ -561,7 +589,6 @@
         }
     }
 
-    // Place Order Flow
     async function createAccountAndPlaceOrder(){
         const password = document.getElementById('accountPassword').value;
         const email = document.getElementById('accountEmail').value;
@@ -576,7 +603,7 @@
             });
             if(error) throw error;
             userSession = data.user;
-            await placeOrderAsGuest(); // Proceed to order
+            await placeOrderAsGuest(); 
         } catch(e) {
             hideLoader();
             showToast('Account creation failed. Email might exist.', 'error');
@@ -586,17 +613,11 @@
     async function placeOrderAsGuest(){
         showLoader('Placing Order...');
         try {
-            // Simulated API Call Delay
             await new Promise(res => setTimeout(res, 1500));
-            
-            // Assuming successful
             localStorage.removeItem('jayen_cart');
             hideLoader();
-            
-            // Random Order ID generation for demo
             const orderId = Math.floor(Math.random() * 90000) + 10000;
             document.getElementById('successOrderId').innerText = `#JW-${orderId}`;
-            
             showStep(4);
         } catch(e) {
             hideLoader();
@@ -604,7 +625,6 @@
         }
     }
 
-    // Initialization
     function populateDistrictDropdowns(){
         const districts=['Bagerhat','Bandarban','Barguna','Barishal','Bhola','Bogura','Brahmanbaria','Chandpur','Chapainawabganj','Chattogram','Chuadanga','Comilla',"Cox's Bazar",'Dhaka','Dinajpur','Faridpur','Feni','Gaibandha','Gazipur','Gopalganj','Habiganj','Jamalpur','Jashore','Jhalokathi','Jhenaidah','Joypurhat','Khagrachhari','Khulna','Kishoreganj','Kurigram','Kushtia','Lakshmipur','Lalmonirhat','Madaripur','Magura','Manikganj','Meherpur','Moulvibazar','Munshiganj','Mymensingh','Naogaon','Narail','Narayanganj','Narsingdi','Natore','Netrokona','Nilphamari','Noakhali','Pabna','Panchagarh','Patuakhali','Pirojpur','Rajbari','Rajshahi','Rangamati','Rangpur','Satkhira','Shariatpur','Sherpur','Sirajganj','Sunamganj','Sylhet','Tangail','Thakurgaon'];
         const select = document.getElementById('shippingDistrict');
@@ -614,7 +634,6 @@
     }
 
     function renderPaymentOptions() {
-        // Hardcoded for UI demo as requested
         const container = document.getElementById('paymentOptions');
         container.innerHTML = `
             <div class="payment-option selected" id="payment-cod" onclick="selectPayment('cod')">
@@ -643,14 +662,12 @@
         populateDistrictDropdowns();
         renderPaymentOptions();
 
-        // Load Cart
         const cartJson = localStorage.getItem('jayen_cart');
+        // Added variant field in dummy data for demo purposes
         cartData = cartJson ? JSON.parse(cartJson) : [
-            // Dummy data if cart is empty for testing UI
-            { title: "Premium Leather Bag", price: 2500, quantity: 1, img: "https://via.placeholder.com/150" }
+            { title: "Premium Leather Bag", price: 2500, quantity: 1, variant: "Color: Black", img: "https://via.placeholder.com/150" }
         ];
 
-        // Fetch User Session
         try {
             const { data: { session } } = await _supabase.auth.getSession();
             userSession = session?.user || null;
