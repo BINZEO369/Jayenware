@@ -311,6 +311,13 @@
                         <div class="input-group mb-4">
                             <label>Set a Password <span class="text-gray-400 font-normal">(Min 6 chars)</span></label>
                             <input type="password" id="accountPassword" placeholder="••••••••">
+                            <div id="passwordSuggestionBox" class="mt-2 hidden">
+                                <p class="text-[11px] text-gray-500 flex items-center gap-1">
+                                    <i class="fa-solid fa-lightbulb text-amber-500"></i> Suggested: 
+                                    <span id="suggestedPasswordTxt" class="font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded cursor-pointer hover:bg-gray-200 transition-colors shadow-sm" onclick="useSuggestedPassword()"></span>
+                                    <span class="text-[9px] ml-1">(Click to use)</span>
+                                </p>
+                            </div>
                         </div>
                         
                         <button class="btn bg-gray-800 text-white hover:bg-black w-full text-sm" onclick="createAccountAndPlaceOrder()">
@@ -473,6 +480,30 @@
         showStep(3);
     }
 
+    // Generate 8-character Random Password
+    function generateSuggestedPassword(name, email) {
+        let nPart = (name || "User").replace(/[^a-zA-Z]/g, '').substring(0, 3);
+        let ePart = (email || "Mail").split('@')[0].replace(/[^a-zA-Z]/g, '').substring(0, 2);
+        let rPart = Math.floor(100 + Math.random() * 900).toString(); // 3 Random Digits
+        
+        // Fallback for extremely short names/emails to ensure length
+        if(nPart.length < 3) nPart += "xyz".substring(0, 3 - nPart.length);
+        if(ePart.length < 2) ePart += "ab".substring(0, 2 - ePart.length);
+        
+        let pass = nPart.charAt(0).toUpperCase() + nPart.substring(1).toLowerCase() + ePart.toLowerCase() + rPart;
+        return pass.substring(0, 8);
+    }
+
+    // Use the suggested password
+    function useSuggestedPassword() {
+        const pass = document.getElementById('suggestedPasswordTxt').innerText;
+        const passInput = document.getElementById('accountPassword');
+        passInput.value = pass;
+        passInput.type = "text"; // Show password temporarily so the user knows what it is
+        setTimeout(() => { passInput.type = "password"; }, 2000); // Hide after 2 seconds
+        showToast('Suggested password applied!', 'success');
+    }
+
     // Toggle Account Box in Step 3
     function toggleAccountBox() {
         const content = document.getElementById('accountBenefitsContent');
@@ -483,12 +514,19 @@
             content.classList.remove('open');
             chevron.style.transform = 'rotate(0deg)';
         } else {
-            const email = document.getElementById('shippingEmail').value.trim();
+            const info = getShippingInfo();
+            const email = info.email;
             if(!email) {
                 showToast("Please provide an Email in Step 1 to create an account.", "error");
                 setTimeout(goToStep1, 1500);
                 return;
             }
+            
+            // Set Suggested Password
+            const suggestedPass = generateSuggestedPassword(info.name, email);
+            document.getElementById('suggestedPasswordTxt').innerText = suggestedPass;
+            document.getElementById('passwordSuggestionBox').classList.remove('hidden');
+
             content.classList.add('open');
             chevron.style.transform = 'rotate(180deg)';
         }
