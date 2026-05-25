@@ -4,1555 +4,791 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Secure Checkout | JAYENWARE</title>
-    <meta name="description" content="Secure checkout at JAYENWARE. Complete your order with Cash on Delivery or bKash payment.">
+    <meta name="description" content="Secure checkout at JAYENWARE. Complete your order with Cash on Delivery or bKash payment. Fast shipping across Bangladesh.">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#1a1a1a">
+    <link rel="canonical" href="https://www.jayenware.shop/checkout">
     <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
-    
+    <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/api-config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { 
-                        sans: ['Inter', 'sans-serif'], 
-                        serif: ['Playfair Display', 'serif'] 
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
                     },
-                    colors: { 
-                        primary: '#1a1a1a', 
-                        accent: '#c9a96e', 
-                        soft: '#f9f9f9', 
-                        border: '#eaeaea' 
+                    colors: {
+                        primary: '#1a1a1a',
+                        accent: '#c9a96e',
+                        soft: '#f8f6f3',
+                        border: '#eaeaea'
                     }
                 }
             }
         }
     </script>
-    
+
     <style>
-        :root { 
-            --primary: #1a1a1a; 
-            --accent: #c9a96e; 
-            --soft: #f9f9f9; 
-            --border: #eaeaea; 
+        :root {
+            --primary: #1a1a1a;
+            --accent: #c9a96e;
+            --soft: #f8f6f3;
+            --border: #e5e5e5;
         }
-        
-        * { 
-            -webkit-tap-highlight-color: transparent; 
-            box-sizing: border-box; 
+        * {
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
         }
-        
-        body { 
-            background-color: #f3f4f6; 
-            color: var(--primary); 
-            font-family: 'Inter', sans-serif; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
+        body {
+            background-color: #f3f4f6;
+            color: #1a1a1a;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
-        main { 
-            flex-grow: 1; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px; 
+        main {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        
-        .checkout-container { 
-            width: 100%; 
-            max-width: 540px; 
-            background: white; 
-            border-radius: 24px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
-            overflow: hidden; 
-            animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1); 
+        .checkout-container {
+            width: 100%;
+            max-width: 540px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(30px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        
-        /* Step Indicator */
-        .step-indicator { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 24px 32px 16px; 
-            position: relative; 
-        }
-        
-        .step-indicator::before { 
-            content: ''; 
-            position: absolute; 
-            top: 40px; 
-            left: 60px; 
-            right: 60px; 
-            height: 2px; 
-            background: var(--border); 
-            z-index: 1; 
-        }
-        
-        .step-item { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 8px; 
-            position: relative; 
-            z-index: 2; 
-            width: 70px; 
-        }
-        
-        .step-dot { 
-            width: 32px; 
-            height: 32px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 13px; 
-            font-weight: 700; 
-            transition: all 0.3s; 
-            background: white; 
-            border: 2px solid var(--border); 
-            color: #999; 
-        }
-        
-        .step-label { 
-            font-size: 10px; 
-            font-weight: 600; 
-            color: #999; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            transition: all 0.3s; 
-            text-align: center; 
-        }
-        
-        .step-item.active .step-dot { 
-            border-color: var(--primary); 
-            background: var(--primary); 
-            color: white; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-        }
-        
-        .step-item.active .step-label { 
-            color: var(--primary); 
-            font-weight: 800; 
-        }
-        
-        .step-item.done .step-dot { 
-            border-color: #10b981; 
-            background: #10b981; 
-            color: white; 
-        }
-        
-        .step-item.done .step-dot::after { 
-            content: '\f00c'; 
-            font-family: 'Font Awesome 6 Free'; 
-            font-weight: 900; 
-            font-size: 14px; 
-        }
-        
-        .step-item.done .step-label { 
-            color: #10b981; 
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .step-content { 
-            padding: 10px 32px 32px; 
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 28px 24px 16px;
         }
-        
-        /* Inputs */
-        .input-group { 
-            margin-bottom: 20px; 
+        .step-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all 0.4s;
+            flex-shrink: 0;
         }
-        
-        .input-group label { 
-            display: block; 
-            font-size: 12px; 
-            font-weight: 600; 
-            color: #4b5563; 
-            margin-bottom: 8px; 
+        .step-dot.pending {
+            background: #f3f4f6;
+            color: #9ca3af;
+            border: 2px solid #e5e5e5;
         }
-        
-        .input-group input, 
-        .input-group textarea, 
-        .input-group select { 
-            width: 100%; 
-            padding: 14px 16px; 
-            border: 1.5px solid var(--border); 
-            border-radius: 12px; 
-            font-size: 14px; 
-            font-family: 'Inter', sans-serif; 
-            transition: all 0.2s; 
-            background: #fff; 
-            color: #1f2937; 
+        .step-dot.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--primary);
         }
-        
-        .input-group input:focus, 
-        .input-group textarea:focus, 
-        .input-group select:focus { 
-            border-color: var(--primary); 
-            outline: none; 
-            box-shadow: 0 0 0 3px rgba(26,26,26,0.1); 
+        .step-dot.done {
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+            border: 2px solid #10b981;
         }
-        
-        .input-group textarea { 
-            min-height: 90px; 
-            resize: vertical; 
+        .step-line {
+            width: 50px;
+            height: 3px;
+            background: #e5e5e5;
+            border-radius: 4px;
+            transition: background 0.4s;
         }
-        
-        .input-row { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 16px; 
+        .step-line.done {
+            background: #10b981;
+        }
+
+        /* Content Steps */
+        .step-content {
+            padding: 8px 28px 32px;
+        }
+        .hidden-step {
+            display: none;
+        }
+        .active-step {
+            display: block;
+            animation: fadeIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+        .input-group input,
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #e5e5e5;
+            border-radius: 14px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.25s;
+            background: #fafafa;
+            color: #1f2937;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.08);
+        }
+        .input-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
         }
 
         /* Buttons */
-        .btn { 
-            width: 100%; 
-            padding: 16px; 
-            border-radius: 14px; 
-            font-size: 14px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-            border: none; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 8px; 
-            font-family: 'Inter', sans-serif; 
+        .btn {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-        
-        .btn-primary { 
-            background: var(--primary); 
-            color: white; 
+        .btn-primary {
+            background: var(--primary);
+            color: white;
         }
-        
-        .btn-primary:hover { 
-            background: #2d2d2d; 
-            transform: translateY(-1px); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+        .btn-primary:hover {
+            background: #2d2d2d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
-        .btn-primary:disabled { 
-            background: #ccc; 
-            cursor: not-allowed; 
-            transform: none; 
-            box-shadow: none; 
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
-        
-        .btn-outline { 
-            background: white; 
-            color: var(--primary); 
-            border: 1.5px solid var(--border); 
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid #e5e5e5;
         }
-        
-        .btn-outline:hover { 
-            background: var(--soft); 
-            border-color: #d1d5db; 
+        .btn-outline:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
         }
 
-        /* Payment Cards */
-        .payment-option { 
-            display: flex; 
-            align-items: center; 
-            gap: 16px; 
-            padding: 16px; 
-            border: 2px solid var(--border); 
-            border-radius: 16px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            margin-bottom: 12px; 
-            background: white; 
+        /* Payment Options */
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            border: 2px solid #f0f0f0;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 12px;
+            background: white;
         }
-        
-        .payment-option:hover { 
-            border-color: #d1d5db; 
+        .payment-option:hover {
+            border-color: #d1d5db;
+            background: #fcfcfc;
         }
-        
-        .payment-option.selected { 
-            border-color: var(--primary); 
-            background: #fdfdfd; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+        .payment-option.selected {
+            border-color: var(--primary);
+            background: #fafafa;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
-        
-        .payment-option .radio-indicator { 
-            width: 20px; 
-            height: 20px; 
-            border-radius: 50%; 
-            border: 2px solid #d1d5db; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            flex-shrink: 0; 
-            transition: all 0.2s; 
+        .payment-option .radio-indicator {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s;
         }
-        
-        .payment-option.selected .radio-indicator { 
-            border-color: var(--primary); 
-            background: var(--primary); 
+        .payment-option.selected .radio-indicator {
+            border-color: var(--primary);
+            background: var(--primary);
         }
-        
-        .payment-option.selected .radio-indicator::after { 
-            content: '\f00c'; 
-            font-family: 'Font Awesome 6 Free'; 
-            font-weight: 900; 
-            font-size: 10px; 
-            color: white; 
+        .payment-option.selected .radio-indicator::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 10px;
+            color: white;
         }
 
         /* Order Summary */
-        .order-summary { 
-            background: var(--soft); 
-            border-radius: 16px; 
-            padding: 20px; 
-            margin-top: 24px; 
-            border: 1px solid var(--border); 
+        .order-summary {
+            background: #f9fafb;
+            border-radius: 16px;
+            padding: 18px;
+            margin-top: 16px;
+            border: 1px solid #f0f0f0;
         }
-        
-        .summary-row { 
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 14px; 
-            padding: 8px 0; 
-            color: #4b5563; 
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 6px 0;
+            color: #4b5563;
+            font-weight: 500;
         }
-        
-        .summary-row.total { 
-            border-top: 1.5px dashed #d1d5db; 
-            margin-top: 12px; 
-            padding-top: 16px; 
-            font-size: 18px; 
-            font-weight: 800; 
-            color: var(--primary); 
+        .summary-row.total {
+            border-top: 1.5px dashed #e5e5e5;
+            margin-top: 10px;
+            padding-top: 14px;
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--primary);
         }
 
-        /* Hidden/Active Steps */
-        .hidden-step { 
-            display: none; 
+        /* Expandable Section */
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
         }
-        
-        .active-step { 
-            display: block; 
-            animation: fadeIn 0.4s ease-out; 
-        }
-        
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(10px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        
-        /* Expandable */
-        .expandable-content { 
-            max-height: 0; 
-            overflow: hidden; 
-            transition: max-height 0.4s ease-in-out; 
-        }
-        
-        .expandable-content.open { 
-            max-height: 800px; 
+        .expandable-content.open {
+            max-height: 800px;
         }
 
         /* Toast & Loader */
-        .toast { 
-            position: fixed; 
-            top: 20px; 
-            right: 20px; 
-            z-index: 9999; 
-            transform: translateX(120%); 
-            transition: transform 0.4s; 
-            max-width: calc(100vw - 40px); 
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: calc(100vw - 40px);
         }
-        
-        .toast.show { 
-            transform: translateX(0); 
+        .toast.show {
+            transform: translateX(0);
         }
-        
-        .toast-content { 
-            background: white; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            border-radius: 12px; 
-            padding: 16px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            min-width: 300px; 
-            border-left: 4px solid var(--primary); 
+        .toast-content {
+            background: white;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+            border-left: 4px solid #10b981;
         }
-        
-        .loader-overlay { 
-            position: fixed; 
-            inset: 0; 
-            background: rgba(255,255,255,0.9); 
-            backdrop-filter: blur(5px); 
-            z-index: 9998; 
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            flex-direction: column; 
+        .toast-content.error {
+            border-left-color: #ef4444;
         }
-        
-        .loader-overlay.show { 
-            display: flex; 
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
-        
-        .spinner { 
-            width: 40px; 
-            height: 40px; 
-            border: 3px solid #f3f4f6; 
-            border-top-color: var(--primary); 
-            border-radius: 50%; 
-            animation: spin 0.8s linear infinite; 
+        .loader-overlay.show {
+            display: flex;
         }
-        
-        @keyframes spin { 
-            to { transform: rotate(360deg); } 
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid #e5e5e5;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
-        /* Responsive */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.2);
+        }
+        @keyframes popIn {
+            from {
+                transform: scale(0) rotate(-10deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
         @media (max-width: 480px) {
-            .step-indicator { 
-                padding: 20px 16px 12px; 
+            .checkout-container {
+                border-radius: 20px;
             }
-            
-            .step-indicator::before { 
-                left: 45px; 
-                right: 45px; 
+            .step-content {
+                padding: 8px 18px 24px;
             }
-            
-            .step-content { 
-                padding: 10px 20px 24px; 
+            .input-group input,
+            .input-group textarea,
+            .input-group select {
+                padding: 13px 14px;
+                font-size: 16px;
+                border-radius: 12px;
             }
-            
-            .input-row { 
-                grid-template-columns: 1fr; 
-                gap: 0; 
+            .input-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
-            
-            .toast { 
-                left: 20px; 
-                right: 20px; 
+            .step-indicator {
+                padding: 20px 16px 12px;
             }
-            
-            .toast-content { 
-                min-width: auto; 
+            .step-line {
+                width: 35px;
             }
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<!-- Loader Overlay -->
-<div class="loader-overlay" id="loaderOverlay">
-    <div class="spinner"></div>
-    <p class="mt-4 font-bold uppercase tracking-widest text-xs text-gray-600" id="loaderText">Processing...</p>
-</div>
-
-<!-- Toast Notification -->
-<div class="toast" id="toast">
-    <div class="toast-content border-l-green-500">
-        <span id="toast-icon" class="text-green-500 text-xl"><i class="fa-solid fa-circle-check"></i></span>
-        <p id="toast-text" class="text-sm font-semibold text-gray-800 flex-grow"></p>
-        <button onclick="hideToast()" class="text-gray-400 hover:text-gray-800 p-1 bg-transparent border-none cursor-pointer">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+    <!-- ========== LOADER ========== -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="spinner"></div>
+        <p class="mt-4 font-black uppercase tracking-[0.3em] text-xs text-gray-500" id="loaderText">Processing...</p>
     </div>
-</div>
 
-<main>
-    <div class="checkout-container" id="checkoutContainer">
-        
-        <!-- Header -->
-        <div class="px-8 pt-6 pb-2 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-3 text-primary no-underline">
-                <img src="https://www.jayenware.shop/logo.png" alt="JAYENWARE" class="w-10 h-10 rounded-xl shadow-sm" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Crect width=%2240%22 height=%2240%22 fill=%22%231a1a1a%22 rx=%2210%22/%3E%3Ctext x=%2250%25%22 y=%2255%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%23c9a96e%22 font-family=%22serif%22 font-size=%2220%22 font-weight=%22900%22%3EJ%3C/text%3E%3C/svg%3E'">
-                <span class="font-serif font-black text-xl tracking-tight">JAYENWARE</span>
-            </a>
-            <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
-                <i class="fa-solid fa-shield-halved text-green-600 text-xs"></i>
-                <span class="text-[10px] font-bold uppercase tracking-wide text-gray-600">Secure</span>
-            </div>
+    <!-- ========== TOAST ========== -->
+    <div class="toast" id="toast">
+        <div class="toast-content" id="toastContent">
+            <span id="toast-icon" class="text-green-500 text-xl"><i class="fa-solid fa-circle-check"></i></span>
+            <p id="toast-text" class="text-sm font-semibold text-gray-800 flex-grow"></p>
+            <button onclick="hideToast()" class="text-gray-400 hover:text-gray-800 p-1 bg-transparent border-none cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
+    </div>
 
-        <!-- Step Indicator -->
-        <div class="step-indicator">
-            <div class="step-item active" id="stepIndicator1">
-                <div class="step-dot">1</div>
-                <div class="step-label">Shipping</div>
-            </div>
-            <div class="step-item" id="stepIndicator2">
-                <div class="step-dot">2</div>
-                <div class="step-label">Payment</div>
-            </div>
-            <div class="step-item" id="stepIndicator3">
-                <div class="step-dot">3</div>
-                <div class="step-label">Review</div>
-            </div>
-        </div>
+    <!-- ========== MAIN CHECKOUT ========== -->
+    <main>
+        <div class="checkout-container" id="checkoutContainer">
 
-        <!-- ==================== STEP 1: SHIPPING DETAILS ==================== -->
-        <div class="step-content active-step" id="step1Content">
-            <div class="mb-6 text-center">
-                <h2 class="text-2xl font-black text-gray-800">Shipping Details</h2>
-                <p class="text-sm text-gray-500 mt-1">Where should we deliver your order?</p>
+            <!-- Header -->
+            <div class="px-8 pt-6 pb-2 flex items-center justify-between">
+                <a href="/" class="flex items-center gap-3 text-primary no-underline">
+                    <img src="https://www.jayenware.shop/logo.png" alt="JAYENWARE" class="w-10 h-10 rounded-xl shadow-sm">
+                    <span class="font-serif font-black text-xl tracking-tight">JAYENWARE</span>
+                </a>
+                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                    <i class="fa-solid fa-shield-halved text-green-600 text-xs"></i>
+                    <span class="text-[10px] font-bold uppercase tracking-wide text-gray-600">Secure</span>
+                </div>
             </div>
 
-            <!-- Saved Profile Address (shown when logged in) -->
-            <div id="profileAddressSection" class="hidden mb-4">
-                <div class="bg-white border-2 border-gray-100 rounded-xl p-4 flex items-center gap-4 cursor-pointer hover:border-gray-300 transition-colors" id="savedProfileCard" onclick="useProfileAddress()">
-                    <div class="w-12 h-12 bg-primary text-white rounded-xl flex items-center justify-center font-serif font-black text-xl" id="profileInitial">U</div>
-                    <div class="flex-grow">
-                        <h4 class="font-bold text-sm" id="profileNameDisplay">User Name</h4>
-                        <p class="text-xs text-gray-500" id="profileAddressDisplay">Address not set</p>
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step-dot active" id="stepDot1">1</div>
+                <div class="step-line" id="stepLine1"></div>
+                <div class="step-dot pending" id="stepDot2">2</div>
+                <div class="step-line" id="stepLine2"></div>
+                <div class="step-dot pending" id="stepDot3">3</div>
+            </div>
+
+            <!-- ==================== STEP 1: SHIPPING ==================== -->
+            <div class="step-content active-step" id="step1Content">
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-black text-gray-800">Shipping Details</h2>
+                    <p class="text-sm text-gray-500 mt-1">Where should we deliver your order?</p>
+                </div>
+
+                <div id="guestAddressForm">
+                    <div class="input-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="shippingName" placeholder="Enter your full name" autocomplete="name">
                     </div>
-                    <div class="w-6 h-6 rounded-full border-2 border-green-500 bg-green-500 flex items-center justify-center" id="profileCheck">
-                        <i class="fa-solid fa-check text-white text-[10px]"></i>
+                    <div class="input-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="shippingPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
+                    </div>
+                    <div class="input-group">
+                        <label>Email <span class="text-gray-400 font-normal normal-case">(Optional, for order updates)</span></label>
+                        <input type="email" id="shippingEmail" placeholder="your@email.com" autocomplete="email">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>District *</label>
+                            <select id="shippingDistrict"><option value="">Select District</option></select>
+                        </div>
+                        <div class="input-group">
+                            <label>Upazila / Area *</label>
+                            <input type="text" id="shippingUpazila" placeholder="e.g. Gulshan, Savar" autocomplete="address-level3">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Full Address *</label>
+                        <textarea id="shippingAddress" placeholder="House/Road/Village, Area details..." autocomplete="street-address"></textarea>
                     </div>
                 </div>
-                <button class="text-xs text-gray-500 hover:text-primary mt-2 pl-2 bg-transparent border-none cursor-pointer" onclick="switchToNewAddress()">
-                    <i class="fa-solid fa-pen mr-1"></i> Use a different address
+
+                <button class="btn btn-primary mt-4" onclick="goToStep2()">
+                    Continue to Payment <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <button class="btn btn-outline mt-3" onclick="window.location.href='/'">
+                    <i class="fa-solid fa-arrow-left"></i> Continue Shopping
                 </button>
             </div>
 
-            <!-- Guest / New Address Form -->
-            <div id="shippingFormSection">
-                <div class="input-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="shippingName" placeholder="Enter your full name" autocomplete="name">
+            <!-- ==================== STEP 2: PAYMENT ==================== -->
+            <div class="step-content hidden-step" id="step2Content">
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-black text-gray-800">Payment Method</h2>
+                    <p class="text-sm text-gray-500 mt-1">All transactions are secure and encrypted</p>
                 </div>
-                <div class="input-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" id="shippingPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
-                </div>
-                <div class="input-group">
-                    <label>Email Address <span class="text-gray-400 font-normal">(Optional - for order updates)</span></label>
-                    <input type="email" id="shippingEmail" placeholder="your@email.com" autocomplete="email">
-                </div>
-                <div class="input-row">
-                    <div class="input-group">
-                        <label>District *</label>
-                        <select id="shippingDistrict"><option value="">Select District</option></select>
-                    </div>
-                    <div class="input-group">
-                        <label>Upazila / Area *</label>
-                        <input type="text" id="shippingUpazila" placeholder="e.g. Gulshan, Savar">
-                    </div>
-                </div>
-                <div class="input-group mb-2">
-                    <label>Full Address *</label>
-                    <textarea id="shippingAddress" placeholder="House, Road, Area details..."></textarea>
-                </div>
-            </div>
 
-            <button class="btn btn-primary mt-6" onclick="goToStep2()" id="step1ContinueBtn">
-                Continue to Payment <i class="fa-solid fa-arrow-right ml-1"></i>
-            </button>
-            <button class="btn btn-outline mt-3" onclick="window.location.href='/'">
-                <i class="fa-solid fa-arrow-left mr-1"></i> Back to Cart
-            </button>
-        </div>
+                <div id="paymentOptions"></div>
 
-        <!-- ==================== STEP 2: PAYMENT METHOD ==================== -->
-        <div class="step-content hidden-step" id="step2Content">
-            <div class="mb-6 text-center">
-                <h2 class="text-2xl font-black text-gray-800">Payment Method</h2>
-                <p class="text-sm text-gray-500 mt-1">Choose how you want to pay</p>
-            </div>
-
-            <div id="paymentOptions"></div>
-
-            <!-- bKash Details Section -->
-            <div id="bkashDetailSection" class="hidden mt-4 bg-pink-50 p-5 rounded-2xl border border-pink-200">
-                <h4 class="font-bold text-pink-800 text-sm mb-3">
-                    <i class="fa-solid fa-mobile-screen mr-2"></i>bKash Payment Instructions
-                </h4>
-                
-                <div class="bg-white p-4 rounded-xl border border-pink-100 mb-4">
-                    <p class="text-xs text-pink-600 font-semibold mb-2">Step 1: Send money to this merchant number</p>
-                    <div class="flex items-center justify-between bg-pink-50 p-3 rounded-lg">
-                        <span class="text-xs text-pink-700 font-medium">Merchant bKash Number</span>
-                        <span class="font-black text-lg text-pink-900 bkash-account-number">01767863670</span>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-4 rounded-xl border border-pink-100 mb-4">
-                    <p class="text-xs text-pink-600 font-semibold mb-2">Step 2: Fill in your payment details</p>
-                    <div class="input-group mb-3">
-                        <label class="text-pink-800 text-xs">Your bKash Number (the number you sent from) *</label>
-                        <input type="tel" id="bkashSenderNumber" placeholder="01XXXXXXXXX" class="bg-white">
-                    </div>
-                    <div class="input-group mb-0">
-                        <label class="text-pink-800 text-xs">Transaction ID (TrxID from bKash SMS) *</label>
-                        <input type="text" id="bkashTransactionId" placeholder="e.g. 9X2A3B4C5D" class="font-mono uppercase tracking-wider bg-white">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Order Summary -->
-            <div class="order-summary mt-6" id="orderSummaryStep2">
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span id="summarySubtotal" class="font-semibold">৳ 0.00</span>
-                </div>
-                <div class="summary-row" id="summaryDiscountRow" style="display:none; color:#10b981;">
-                    <span>Discount</span>
-                    <span id="summaryDiscount">- ৳ 0.00</span>
-                </div>
-                <div class="summary-row">
-                    <span>Delivery Charge</span>
-                    <span id="summaryDelivery" class="font-semibold">৳ 0.00</span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total to Pay</span>
-                    <span id="summaryTotal">৳ 0.00</span>
-                </div>
-            </div>
-
-            <button class="btn btn-primary mt-6" onclick="goToStep3()">
-                Review Order <i class="fa-solid fa-eye ml-1"></i>
-            </button>
-            <button class="btn btn-outline mt-3" onclick="goToStep1()">
-                <i class="fa-solid fa-arrow-left mr-1"></i> Edit Shipping
-            </button>
-        </div>
-
-        <!-- ==================== STEP 3: REVIEW & CONFIRM ==================== -->
-        <div class="step-content hidden-step" id="step3Content">
-            <div class="mb-6 text-center">
-                <h2 class="text-2xl font-black text-gray-800">Review & Confirm</h2>
-                <p class="text-sm text-gray-500 mt-1">Please verify your order details before placing</p>
-            </div>
-
-            <!-- Contact & Payment Info -->
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2">
-                        <i class="fa-solid fa-user mr-1" style="color: var(--accent);"></i> Contact Info
-                    </h4>
-                    <p id="reviewName" class="font-bold text-sm text-gray-800 truncate"></p>
-                    <p id="reviewPhone" class="text-xs text-gray-600 mt-1"></p>
-                    <p id="reviewEmail" class="text-xs text-gray-500 mt-0.5 truncate"></p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2">
-                        <i class="fa-solid fa-credit-card mr-1" style="color: var(--accent);"></i> Payment Info
-                    </h4>
-                    <p id="reviewPayment" class="font-bold text-sm text-gray-800"></p>
-                    <p id="reviewBkashExtra" class="text-[10px] text-gray-500 mt-1 hidden"></p>
-                </div>
-            </div>
-
-            <!-- Delivery Address -->
-            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-4">
-                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2">
-                    <i class="fa-solid fa-location-dot mr-1" style="color: var(--accent);"></i> Delivery Address
-                </h4>
-                <div class="grid grid-cols-2 gap-2 mb-2">
-                    <div>
-                        <span class="text-[10px] text-gray-400 uppercase font-semibold">District</span>
-                        <p id="reviewDistrictVal" class="text-xs font-semibold text-gray-800"></p>
-                    </div>
-                    <div>
-                        <span class="text-[10px] text-gray-400 uppercase font-semibold">Upazila / Area</span>
-                        <p id="reviewUpazilaVal" class="text-xs font-semibold text-gray-800"></p>
-                    </div>
-                </div>
-                <span class="text-[10px] text-gray-400 uppercase font-semibold">Full Address</span>
-                <p id="reviewAddressVal" class="text-xs text-gray-600 mt-0.5 leading-relaxed"></p>
-            </div>
-
-            <!-- Order Items -->
-            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
-                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3">
-                    <i class="fa-solid fa-bag-shopping mr-1" style="color: var(--accent);"></i> Order Items
-                </h4>
-                <div id="reviewItems" class="max-h-44 overflow-y-auto pr-2 space-y-3 mb-4"></div>
-                
-                <div class="border-t border-gray-200 pt-3 mt-3 space-y-2 text-sm">
-                    <div class="flex justify-between text-gray-600">
-                        <span>Item Subtotal</span>
-                        <span id="reviewSubtotal">৳ 0.00</span>
-                    </div>
-                    <div class="flex justify-between text-gray-600">
-                        <span>Delivery Charge</span>
-                        <span id="reviewDeliveryCharge">৳ 0.00</span>
-                    </div>
-                    <div class="flex justify-between text-green-600" id="reviewDiscountRow" style="display:none;">
-                        <span>Discount</span>
-                        <span id="reviewDiscount">- ৳ 0.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Account Creation Section (only for guests) -->
-            <div id="accountCreationSection" class="mb-6">
-                <div onclick="toggleAccountBox()" class="cursor-pointer bg-white border-2 border-amber-200 rounded-xl p-4 flex justify-between items-center hover:border-amber-400 transition-colors shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-amber-100 text-amber-500 w-10 h-10 rounded-lg flex items-center justify-center text-lg">
-                            <i class="fa-solid fa-gift"></i>
+                <!-- bKash Details (Hidden by default) -->
+                <div id="bkashDetailSection" class="hidden mt-4 bg-pink-50 p-5 rounded-2xl border border-pink-200">
+                    <div class="flex gap-4 items-start flex-wrap">
+                        <div class="w-28 h-28 bg-white rounded-xl border-2 border-pink-100 flex items-center justify-center overflow-hidden shrink-0">
+                            <img src="/paybkashqr.png" alt="bKash QR" class="w-full h-full object-contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="hidden w-full h-full items-center justify-center bg-gray-50 text-gray-400 text-[10px] text-center p-2">Scan QR<br>to Pay</div>
                         </div>
-                        <div>
-                            <h3 class="font-bold text-gray-800 text-sm">Create an account & track your order?</h3>
-                            <p class="text-[11px] text-gray-500 mt-0.5">Save your info for faster checkout next time.</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300" id="accountChevron"></i>
-                </div>
-
-                <div id="accountBenefitsContent" class="expandable-content mt-2">
-                    <div class="bg-white border-2 border-gray-100 rounded-xl p-5 shadow-inner">
-                        <!-- Benefits Cards -->
-                        <div class="mb-5 bg-gradient-to-br from-amber-50 to-orange-50 p-4 rounded-xl border border-amber-200">
-                            <h4 class="text-amber-800 font-black text-[11px] uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Account Benefits
-                            </h4>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-amber-100">
-                                    <div class="w-8 h-8 bg-blue-50 text-blue-500 rounded-lg flex items-center justify-center text-sm mb-2 shadow-sm">
-                                        <i class="fa-solid fa-map-location-dot"></i>
-                                    </div>
-                                    <h5 class="text-[11px] font-bold text-gray-800">Live Tracking</h5>
-                                    <p class="text-[10px] text-gray-500 leading-snug mt-1">Track your order status in real-time.</p>
-                                </div>
-                                <div class="bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-amber-100">
-                                    <div class="w-8 h-8 bg-emerald-50 text-emerald-500 rounded-lg flex items-center justify-center text-sm mb-2 shadow-sm">
-                                        <i class="fa-solid fa-bolt-lightning"></i>
-                                    </div>
-                                    <h5 class="text-[11px] font-bold text-gray-800">Quick Checkout</h5>
-                                    <p class="text-[10px] text-gray-500 leading-snug mt-1">One-click checkout for future orders.</p>
-                                </div>
+                        <div class="flex-1 min-w-[200px]">
+                            <h4 class="font-bold text-pink-800 text-sm mb-2"><i class="fa-solid fa-mobile-screen mr-1"></i> bKash Payment Steps</h4>
+                            <ol id="bkashGuideSteps" class="text-[11px] text-pink-700 space-y-1 pl-4" style="list-style:decimal;">
+                                <li>Go to your bKash app</li>
+                                <li>Send payment to the merchant number below</li>
+                                <li>Copy the Transaction ID from the confirmation message</li>
+                            </ol>
+                            <div class="mt-3 bg-white p-3 rounded-xl border border-pink-100">
+                                <p class="text-[10px] font-bold text-pink-500 uppercase">Merchant Account</p>
+                                <p class="bkash-account-number text-lg font-black text-pink-900">01767863670</p>
                             </div>
                         </div>
-                        
-                        <div class="input-group mb-3">
-                            <label>Account Email</label>
-                            <input type="email" id="accountEmail" class="bg-gray-50 cursor-not-allowed" readonly>
+                    </div>
+                    <div class="mt-4 space-y-3">
+                        <div class="input-group">
+                            <label class="text-pink-800">Your bKash Number *</label>
+                            <input type="tel" id="bkashSenderNumber" placeholder="01XXXXXXXXX" class="bg-white">
                         </div>
-                        <div class="input-group mb-4">
-                            <label>Set a Password <span class="text-gray-400 font-normal">(Min 6 characters)</span></label>
-                            <input type="password" id="accountPassword" placeholder="••••••••">
-                            <div id="passwordSuggestionBox" class="mt-2 hidden">
-                                <p class="text-[11px] text-gray-500 flex items-center gap-1 flex-wrap">
-                                    <i class="fa-solid fa-lightbulb text-amber-500"></i> Suggested: 
-                                    <span id="suggestedPasswordTxt" class="font-bold text-gray-800 bg-gray-100 border border-gray-200 px-2 py-0.5 rounded cursor-pointer hover:bg-gray-200 transition-colors shadow-sm" onclick="useSuggestedPassword()"></span>
-                                    <span class="text-[9px]">(Click to use)</span>
-                                </p>
-                            </div>
+                        <div class="input-group">
+                            <label class="text-pink-800">bKash Transaction ID *</label>
+                            <input type="text" id="bkashTransactionId" placeholder="e.g. TRX123456789" class="bg-white font-mono uppercase tracking-wider">
                         </div>
-                        
-                        <button class="btn bg-gray-800 text-white hover:bg-black w-full text-sm" onclick="createAccountAndPlaceOrder()">
-                            <i class="fa-solid fa-user-plus mr-1"></i> Create Account & Place Order
-                        </button>
-                        <p class="text-center text-xs text-gray-400 mt-3">— or —</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Grand Total -->
-            <div class="flex items-center justify-between mb-4 px-2">
-                <span class="text-gray-500 font-bold text-sm">Grand Total</span>
-                <span id="reviewTotal" class="text-2xl font-black text-primary">৳ 0.00</span>
-            </div>
-
-            <!-- Place Order Button -->
-            <button class="btn btn-primary h-14 text-base shadow-lg shadow-black/10" onclick="placeOrderAsGuest()" id="placeOrderBtn">
-                Confirm & Place Order <i class="fa-solid fa-check-circle ml-1"></i>
-            </button>
-            
-            <button class="btn btn-outline mt-3" onclick="goToStep2()">
-                <i class="fa-solid fa-arrow-left mr-1"></i> Change Payment
-            </button>
-            
-            <p class="text-[10px] text-gray-400 text-center mt-4">
-                By placing this order, you agree to our Terms of Service.
-            </p>
-        </div>
-
-        <!-- ==================== SUCCESS ==================== -->
-        <div class="step-content hidden-step" id="successContent" style="text-align:center; padding: 60px 20px;">
-            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-6 shadow-lg shadow-green-100">
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <h2 class="text-3xl font-black text-gray-800 mb-2">Order Confirmed!</h2>
-            <p class="text-gray-500 text-sm mb-2">Thank you for your purchase.</p>
-            
-            <div class="bg-gray-50 inline-block px-6 py-3 rounded-xl border border-gray-100 mb-6">
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order ID</span>
-                <p id="successOrderId" class="text-xl font-black text-primary mt-1">#---</p>
-            </div>
-            
-            <p id="guestSuccessNote" class="text-xs text-amber-600 mb-4 hidden">
-                <i class="fa-solid fa-triangle-exclamation mr-1"></i> 
-                You won't be able to track this order. 
-                <a href="/sign-up" class="font-bold underline">Sign up</a> to manage your orders.
-            </p>
-            
-            <button class="btn btn-primary" onclick="window.location.href='/'">
-                <i class="fa-solid fa-house mr-1"></i> Back to Home
-            </button>
-            <button class="btn btn-outline mt-3" onclick="window.location.href='/account'" id="trackOrderBtn">
-                <i class="fa-solid fa-box mr-1"></i> Track Orders
-            </button>
-        </div>
-
-    </div>
-</main>
-
-<script>
-    // ==================== SUPABASE INIT ====================
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // ==================== GLOBAL VARIABLES ====================
-    let currentStep = 1;
-    let selectedPayment = 'cod';
-    let userSession = null;
-    let cartData = [];
-    let deliveryCharges = [];
-    let useProfileAddress = false;
-    
-    // Calculation globals
-    window._subtotal = 0;
-    window._deliveryCharge = 120;
-    window._discount = 0;
-    window._total = 0;
-
-    // ==================== UTILITY FUNCTIONS ====================
-    function showToast(text, type = 'success') {
-        const toast = document.getElementById('toast');
-        const iconContainer = document.getElementById('toast-icon');
-        const content = toast.querySelector('.toast-content');
-        
-        document.getElementById('toast-text').innerText = text;
-        
-        // Set icon and border color based on type
-        if (type === 'error') {
-            content.className = 'toast-content border-l-red-500';
-            iconContainer.innerHTML = '<i class="fa-solid fa-circle-exclamation text-red-500"></i>';
-        } else if (type === 'info') {
-            content.className = 'toast-content border-l-blue-500';
-            iconContainer.innerHTML = '<i class="fa-solid fa-circle-info text-blue-500"></i>';
-        } else {
-            content.className = 'toast-content border-l-green-500';
-            iconContainer.innerHTML = '<i class="fa-solid fa-circle-check text-green-500"></i>';
-        }
-        
-        toast.classList.add('show');
-        clearTimeout(toast._timeout);
-        toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function hideToast() {
-        document.getElementById('toast').classList.remove('show');
-    }
-
-    function showLoader(text = 'Processing...') {
-        document.getElementById('loaderText').innerText = text;
-        document.getElementById('loaderOverlay').classList.add('show');
-    }
-
-    function hideLoader() {
-        document.getElementById('loaderOverlay').classList.remove('show');
-    }
-
-    // ==================== STEP NAVIGATION ====================
-    function updateStepIndicators(step) {
-        [1, 2, 3].forEach(i => {
-            const el = document.getElementById(`stepIndicator${i}`);
-            if (!el) return;
-            el.className = 'step-item';
-            if (i < step) el.classList.add('done');
-            else if (i === step) el.classList.add('active');
-        });
-    }
-
-    function showStep(step) {
-        const steps = ['step1Content', 'step2Content', 'step3Content', 'successContent'];
-        
-        steps.forEach((id, index) => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const isTarget = (step === 4 && id === 'successContent') || (index + 1 === step);
-            el.classList.toggle('hidden-step', !isTarget);
-            el.classList.toggle('active-step', isTarget);
-        });
-        
-        currentStep = step;
-        updateStepIndicators(step);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ==================== GET SHIPPING INFO ====================
-    function getShippingInfo() {
-        return {
-            name: document.getElementById('shippingName')?.value?.trim() || '',
-            phone: document.getElementById('shippingPhone')?.value?.trim() || '',
-            email: document.getElementById('shippingEmail')?.value?.trim() || '',
-            district: document.getElementById('shippingDistrict')?.value || '',
-            upazila: document.getElementById('shippingUpazila')?.value?.trim() || '',
-            address: document.getElementById('shippingAddress')?.value?.trim() || ''
-        };
-    }
-
-    // ==================== PROFILE ADDRESS HANDLING ====================
-    function useProfileAddress() {
-        if (!userSession) return;
-        
-        useProfileAddress = true;
-        const card = document.getElementById('savedProfileCard');
-        card.classList.add('border-green-500', 'bg-green-50');
-        
-        const m = userSession.user_metadata || {};
-        document.getElementById('shippingName').value = m.full_name || '';
-        document.getElementById('shippingPhone').value = m.phone || '';
-        document.getElementById('shippingEmail').value = userSession.email || '';
-        document.getElementById('shippingDistrict').value = m.district || '';
-        document.getElementById('shippingUpazila').value = m.subdistrict || '';
-        document.getElementById('shippingAddress').value = m.address || '';
-        
-        document.getElementById('shippingFormSection').classList.add('hidden');
-        document.getElementById('profileAddressSection').classList.remove('hidden');
-        document.getElementById('profileCheck')?.classList.remove('hidden');
-        
-        showToast('Profile address selected', 'success');
-    }
-
-    function switchToNewAddress() {
-        useProfileAddress = false;
-        document.getElementById('shippingFormSection').classList.remove('hidden');
-        document.getElementById('savedProfileCard')?.classList.remove('border-green-500', 'bg-green-50');
-        document.getElementById('profileCheck')?.classList.add('hidden');
-        
-        // Clear form
-        ['shippingName', 'shippingPhone', 'shippingUpazila', 'shippingAddress'].forEach(id => {
-            document.getElementById(id).value = '';
-        });
-        document.getElementById('shippingDistrict').value = '';
-        if (userSession) document.getElementById('shippingEmail').value = userSession.email || '';
-    }
-
-    // ==================== STEP TRANSITIONS ====================
-    function goToStep1() {
-        showStep(1);
-    }
-
-    function goToStep2() {
-        const info = getShippingInfo();
-        
-        // Validate required fields
-        if (!info.name || !info.phone || !info.district || !info.upazila || !info.address) {
-            showToast('Please fill all required fields (Name, Phone, District, Upazila, Address).', 'error');
-            return;
-        }
-        
-        // Validate phone number
-        if (!/^01[0-9]{9}$/.test(info.phone)) {
-            showToast('Enter a valid 11-digit phone number starting with 01.', 'error');
-            return;
-        }
-        
-        calculateDeliveryAndUpdateSummary();
-        showStep(2);
-    }
-
-    function goToStep3() {
-        // Validate bKash fields if selected
-        if (selectedPayment === 'bkash') {
-            const sender = document.getElementById('bkashSenderNumber').value.trim();
-            const trx = document.getElementById('bkashTransactionId').value.trim();
-            
-            if (!sender || !/^01[0-9]{9}$/.test(sender)) {
-                showToast('Enter a valid bKash number.', 'error');
-                return;
-            }
-            if (!trx || trx.length < 6) {
-                showToast('Enter a valid Transaction ID (TrxID).', 'error');
-                return;
-            }
-        }
-
-        const info = getShippingInfo();
-        
-        // 1. Contact Info
-        document.getElementById('reviewName').innerText = info.name;
-        document.getElementById('reviewPhone').innerText = info.phone;
-        document.getElementById('reviewEmail').innerText = info.email || 'Not provided';
-        
-        // 2. Delivery Address
-        document.getElementById('reviewDistrictVal').innerText = info.district;
-        document.getElementById('reviewUpazilaVal').innerText = info.upazila;
-        document.getElementById('reviewAddressVal').innerText = info.address;
-
-        // 3. Payment Details
-        const paymentLabels = { 'cod': 'Cash on Delivery (COD)', 'bkash': 'bKash Payment' };
-        document.getElementById('reviewPayment').innerText = paymentLabels[selectedPayment] || selectedPayment;
-        
-        const extraBkash = document.getElementById('reviewBkashExtra');
-        if (selectedPayment === 'bkash') {
-            extraBkash.innerText = `TrxID: ${document.getElementById('bkashTransactionId').value.trim()}`;
-            extraBkash.classList.remove('hidden');
-        } else {
-            extraBkash.classList.add('hidden');
-        }
-
-        // 4. Review Items
-        const itemsHtml = cartData.map((item, index) => `
-            <div class="flex items-center gap-3 border-b border-gray-100 pb-2 last:border-0 last:pb-0">
-                <img src="${item.img || 'https://via.placeholder.com/40'}" 
-                     class="w-10 h-12 object-cover rounded-md bg-gray-200 flex-shrink-0" 
-                     alt="${item.title}"
-                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2248%22%3E%3Crect width=%2240%22 height=%2248%22 fill=%22%23e5e7eb%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%239ca3af%22 font-size=%2210%22%3E📦%3C/text%3E%3C/svg%3E'">
-                <div class="flex-grow min-w-0">
-                    <p class="text-xs font-bold text-gray-800 truncate">${item.title || 'Product'}</p>
-                    <p class="text-[10px] text-gray-500">
-                        Qty: ${item.quantity || 1} 
-                        ${item.variant ? `| ${item.variant}` : ''}
-                    </p>
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">৳ 0.00</span></div>
+                    <div class="summary-row"><span>Delivery Charge</span><span id="summaryDelivery">৳ 0.00</span></div>
+                    <div class="summary-row total"><span>Total</span><span id="summaryTotal">৳ 0.00</span></div>
                 </div>
-                <span class="font-bold text-sm flex-shrink-0">৳ ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}</span>
+
+                <button class="btn btn-primary mt-6" onclick="goToStep3()">
+                    Review Order <i class="fa-solid fa-circle-check"></i>
+                </button>
+                <button class="btn btn-outline mt-3" onclick="goToStep1()">
+                    <i class="fa-solid fa-chevron-left"></i> Edit Shipping
+                </button>
             </div>
-        `).join('');
-        
-        document.getElementById('reviewItems').innerHTML = itemsHtml || '<p class="text-sm text-gray-400 text-center py-4">No items in cart</p>';
 
-        // 5. Calculation
-        const subtotal = window._subtotal || 0;
-        const deliveryCharge = window._deliveryCharge || 120;
-        const discount = window._discount || 0;
-        const total = subtotal + deliveryCharge - discount;
+            <!-- ==================== STEP 3: REVIEW ==================== -->
+            <div class="step-content hidden-step" id="step3Content">
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-black text-gray-800">Review & Confirm</h2>
+                    <p class="text-sm text-gray-500 mt-1">Please verify your order details</p>
+                </div>
 
-        document.getElementById('reviewSubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
-        document.getElementById('reviewDeliveryCharge').innerText = `৳ ${deliveryCharge.toFixed(2)}`;
-        
-        if (discount > 0) {
-            document.getElementById('reviewDiscountRow').style.display = 'flex';
-            document.getElementById('reviewDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
-        } else {
-            document.getElementById('reviewDiscountRow').style.display = 'none';
-        }
-        
-        document.getElementById('reviewTotal').innerText = `৳ ${total.toFixed(2)}`;
+                <!-- Contact & Payment Cards -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-user text-accent mr-1"></i> Contact</h4>
+                        <p id="reviewName" class="font-bold text-sm text-gray-800 truncate"></p>
+                        <p id="reviewPhone" class="text-xs text-gray-600 mt-0.5"></p>
+                        <p id="reviewEmail" class="text-[11px] text-gray-500 mt-1 truncate"></p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-credit-card text-accent mr-1"></i> Payment</h4>
+                        <p id="reviewPayment" class="font-bold text-sm text-gray-800"></p>
+                        <p id="reviewBkashExtra" class="text-[11px] text-gray-500 mt-1 hidden"></p>
+                    </div>
+                </div>
 
-        // 6. Account creation section
-        if (info.email) {
-            document.getElementById('accountEmail').value = info.email;
-        }
-        
-        if (userSession) {
-            document.getElementById('accountCreationSection').style.display = 'none';
-        } else {
-            document.getElementById('accountCreationSection').style.display = 'block';
-            // Reset the expandable box
-            document.getElementById('accountBenefitsContent').classList.remove('open');
-            document.getElementById('accountChevron').style.transform = 'rotate(0deg)';
-            document.getElementById('passwordSuggestionBox').classList.add('hidden');
-            document.getElementById('accountPassword').value = '';
-        }
+                <!-- Shipping Address -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-4">
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-location-dot text-accent mr-1"></i> Shipping To</h4>
+                    <p id="reviewDistrictVal" class="text-xs font-semibold text-gray-700"></p>
+                    <p id="reviewUpazilaVal" class="text-xs text-gray-600"></p>
+                    <p id="reviewAddressVal" class="text-xs text-gray-500 mt-1 leading-relaxed"></p>
+                </div>
 
-        showStep(3);
-    }
+                <!-- Items -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-4">
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3"><i class="fa-solid fa-bag-shopping text-accent mr-1"></i> Order Items</h4>
+                    <div id="reviewItems" class="max-h-40 overflow-y-auto pr-1 space-y-3"></div>
+                </div>
 
-    // ==================== DELIVERY CALCULATION ====================
-    async function calculateDeliveryAndUpdateSummary() {
-        const info = getShippingInfo();
-        let charge = 120; // Default delivery charge
-        
-        // Try to get delivery charge from database
-        try {
-            const { data, error } = await _supabase
-                .from('delivery_settings')
-                .select('*');
-            
-            if (!error && data && data.length > 0) {
-                deliveryCharges = data;
-                
-                // Find matching delivery charge
-                const found = 
-                    deliveryCharges.find(d => 
-                        d.upazila?.toLowerCase() === info.upazila.toLowerCase()
-                    ) ||
-                    deliveryCharges.find(d => 
-                        d.district?.toLowerCase() === info.district.toLowerCase() && !d.upazila
-                    ) ||
-                    deliveryCharges.find(d => 
-                        (d.location_name?.toLowerCase() === 'default') || 
-                        (d.upazila?.toLowerCase() === 'default')
-                    );
-                
-                if (found && found.charge) {
-                    charge = found.charge;
-                }
-            }
-        } catch (e) {
-            console.warn('Could not load delivery settings, using default:', e.message);
-        }
-        
-        // Calculate totals
-        const subtotal = cartData.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
-        const discount = window._discount || 0;
-        const total = subtotal + charge - discount;
-        
-        // Update UI
-        document.getElementById('summarySubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
-        document.getElementById('summaryDelivery').innerText = `৳ ${charge.toFixed(2)}`;
-        
-        if (discount > 0) {
-            document.getElementById('summaryDiscountRow').style.display = 'flex';
-            document.getElementById('summaryDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
-        } else {
-            document.getElementById('summaryDiscountRow').style.display = 'none';
-        }
-        
-        document.getElementById('summaryTotal').innerText = `৳ ${total.toFixed(2)}`;
-        
-        // Store globally
-        window._subtotal = subtotal;
-        window._deliveryCharge = charge;
-        window._total = total;
-    }
+                <!-- Price Breakdown -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
+                    <div class="flex justify-between text-sm text-gray-600 py-1"><span>Subtotal</span><span id="reviewSubtotal">৳ 0.00</span></div>
+                    <div class="flex justify-between text-sm text-gray-600 py-1"><span>Delivery</span><span id="reviewDeliveryCharge">৳ 0.00</span></div>
+                    <div class="flex justify-between text-sm text-green-600 py-1 hidden" id="reviewDiscountRow"><span>Discount</span><span id="reviewDiscount">- ৳ 0.00</span></div>
+                    <div class="flex justify-between font-black text-lg text-gray-900 border-t border-gray-200 pt-3 mt-2"><span>Grand Total</span><span id="reviewTotal">৳ 0.00</span></div>
+                </div>
 
-    // ==================== PAYMENT SELECTION ====================
-    function selectPayment(method) {
-        selectedPayment = method;
-        
-        // Update UI selection
-        document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
-        const selectedEl = document.getElementById('payment-' + method);
-        if (selectedEl) selectedEl.classList.add('selected');
-        
-        // Show/hide bKash details
-        const bkashSection = document.getElementById('bkashDetailSection');
-        if (method === 'bkash') {
-            bkashSection.classList.remove('hidden');
-        } else {
-            bkashSection.classList.add('hidden');
-        }
-    }
+                <!-- Account Creation (Only for Guests) -->
+                <div id="accountCreationSection" class="mb-6">
+                    <div onclick="toggleAccountBox()" class="cursor-pointer bg-white border-2 border-amber-200 rounded-xl p-4 flex justify-between items-center hover:border-amber-400 transition-all shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-amber-100 text-amber-500 w-10 h-10 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-gift"></i></div>
+                            <div>
+                                <h3 class="font-bold text-gray-800 text-sm">Create an Account & Track Order</h3>
+                                <p class="text-[11px] text-gray-500">Save info for faster checkout next time.</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300" id="accountChevron"></i>
+                    </div>
 
-    // ==================== ACCOUNT CREATION ====================
-    function generateSuggestedPassword(name, email) {
-        let nPart = (name || 'User').replace(/[^a-zA-Z]/g, '').substring(0, 3);
-        let ePart = (email || 'mail').split('@')[0].replace(/[^a-zA-Z]/g, '').substring(0, 2);
-        let rPart = Math.floor(100 + Math.random() * 900).toString();
-        
-        if (nPart.length < 3) nPart += 'xyz'.substring(0, 3 - nPart.length);
-        if (ePart.length < 2) ePart += 'ab'.substring(0, 2 - ePart.length);
-        
-        let pass = nPart.charAt(0).toUpperCase() + nPart.substring(1).toLowerCase() + ePart.toLowerCase() + rPart;
-        return pass.substring(0, 8);
-    }
+                    <div id="accountBenefitsContent" class="expandable-content mt-2">
+                        <div class="bg-white border-2 border-gray-100 rounded-xl p-5">
+                            <div class="grid grid-cols-2 gap-3 mb-5">
+                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                                    <i class="fa-solid fa-box text-blue-500 text-lg mb-1"></i>
+                                    <h5 class="font-bold text-xs text-gray-800">Track Orders</h5>
+                                    <p class="text-[10px] text-gray-500">Real-time delivery status</p>
+                                </div>
+                                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
+                                    <i class="fa-solid fa-bolt text-emerald-500 text-lg mb-1"></i>
+                                    <h5 class="font-bold text-xs text-gray-800">Fast Checkout</h5>
+                                    <p class="text-[10px] text-gray-500">One-click future orders</p>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Account Email</label>
+                                <input type="email" id="accountEmail" class="bg-gray-100 cursor-not-allowed" readonly>
+                            </div>
+                            <div class="input-group">
+                                <label>Create Password <span class="text-gray-400 font-normal">(min 6 chars)</span></label>
+                                <input type="password" id="accountPassword" placeholder="••••••••" autocomplete="new-password">
+                                <div id="passwordSuggestionBox" class="mt-2 hidden">
+                                    <p class="text-[11px] text-gray-500 flex items-center gap-2">
+                                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Suggested:
+                                        <span id="suggestedPasswordTxt" class="font-bold text-gray-800 bg-gray-200 px-2 py-0.5 rounded cursor-pointer hover:bg-gray-300" onclick="useSuggestedPassword()"></span>
+                                        <span class="text-[9px]">(Click)</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <button class="btn bg-gray-800 text-white hover:bg-black w-full text-sm" onclick="createAccountAndPlaceOrder()">
+                                <i class="fa-solid fa-user-plus"></i> Create Account & Place Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-    function useSuggestedPassword() {
-        const pass = document.getElementById('suggestedPasswordTxt').innerText;
-        const passInput = document.getElementById('accountPassword');
-        passInput.value = pass;
-        passInput.type = 'text';
-        setTimeout(() => { passInput.type = 'password'; }, 2000);
-        showToast('Suggested password applied!', 'success');
-    }
+                <!-- Place Order Button -->
+                <button class="btn btn-primary h-14 text-base shadow-lg shadow-black/5" id="placeOrderBtn" onclick="placeOrderAsGuest()">
+                    <i class="fa-solid fa-check-circle"></i> Confirm & Place Order
+                </button>
+                <button class="btn btn-outline mt-3" onclick="goToStep2()">
+                    <i class="fa-solid fa-arrow-left"></i> Change Payment
+                </button>
+            </div>
 
-    function toggleAccountBox() {
-        const content = document.getElementById('accountBenefitsContent');
-        const chevron = document.getElementById('accountChevron');
-        const isOpen = content.classList.contains('open');
-        
-        if (isOpen) {
-            content.classList.remove('open');
-            chevron.style.transform = 'rotate(0deg)';
-        } else {
-            const info = getShippingInfo();
-            const email = info.email;
-            
-            if (!email) {
-                showToast('Please provide an Email in Step 1 to create an account.', 'error');
-                setTimeout(goToStep1, 1500);
-                return;
-            }
-            
-            // Generate and show suggested password
-            const suggestedPass = generateSuggestedPassword(info.name, email);
-            document.getElementById('suggestedPasswordTxt').innerText = suggestedPass;
-            document.getElementById('passwordSuggestionBox').classList.remove('hidden');
-            document.getElementById('accountEmail').value = email;
-            
-            content.classList.add('open');
-            chevron.style.transform = 'rotate(180deg)';
-        }
-    }
+            <!-- ==================== SUCCESS ==================== -->
+            <div class="step-content hidden-step text-center py-10" id="successContent">
+                <div class="flex justify-center mb-6">
+                    <div class="success-icon">
+                        <i class="fa-solid fa-check text-white text-3xl"></i>
+                    </div>
+                </div>
+                <h2 class="text-2xl font-black text-gray-800 mb-2">Order Confirmed!</h2>
+                <p class="text-gray-500 text-sm mb-4">Thank you for your purchase.</p>
+                <div class="bg-gray-100 inline-block px-6 py-3 rounded-xl mb-6">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order ID</span>
+                    <p id="successOrderId" class="text-xl font-black text-primary mt-1">#---</p>
+                </div>
+                <p id="guestSuccessNote" class="text-xs text-amber-700 bg-amber-50 p-3 rounded-xl border border-amber-200 mb-6 hidden">
+                    <i class="fa-solid fa-circle-info mr-1"></i> You ordered as a guest. <a href="/sign-up" class="font-bold underline">Sign up</a> with this email to track your order.
+                </p>
+                <button class="btn btn-primary" onclick="window.location.href='/'">
+                    <i class="fa-solid fa-house"></i> Back to Home
+                </button>
+                <button class="btn btn-outline mt-3" onclick="window.location.href='/account'">
+                    <i class="fa-solid fa-user"></i> Track Orders
+                </button>
+            </div>
 
-    // ==================== PLACE ORDER FUNCTIONS ====================
-    async function createAccountAndPlaceOrder() {
-        const password = document.getElementById('accountPassword').value;
-        const email = document.getElementById('accountEmail').value;
-        
-        if (!email) {
-            showToast('Email is required to create an account.', 'error');
-            return;
-        }
-        if (!password || password.length < 6) {
-            showToast('Password must be at least 6 characters.', 'error');
-            return;
+        </div>
+    </main>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        // ──────────────────────────────────────────────
+        //  INITIALIZATION
+        // ──────────────────────────────────────────────
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentStep = 1;
+        let selectedPayment = 'cod';
+        let userSession = null;
+        let cartData = [];
+        let deliveryCharges = [];
+        let paymentGateways = [];
+
+        // ──────────────────────────────────────────────
+        //  UTILITY FUNCTIONS
+        // ──────────────────────────────────────────────
+        function showToast(text, type = 'success') {
+            const toast = document.getElementById('toast');
+            const content = document.getElementById('toastContent');
+            const icon = document.getElementById('toast-icon');
+
+            document.getElementById('toast-text').innerText = text;
+            content.classList.toggle('error', type === 'error');
+            icon.innerHTML = type === 'error' ?
+                '<i class="fa-solid fa-circle-exclamation text-red-500"></i>' :
+                '<i class="fa-solid fa-circle-check text-green-500"></i>';
+
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        showLoader('Creating Account...');
-        
-        try {
-            const info = getShippingInfo();
-            
-            // Sign up user
-            const { data: signUpData, error: signUpError } = await _supabase.auth.signUp({
-                email: email,
-                password: password,
-                options: {
-                    data: {
-                        full_name: info.name,
-                        phone: info.phone,
-                        district: info.district,
-                        subdistrict: info.upazila,
-                        address: info.address
-                    }
+        function hideToast() { document.getElementById('toast').classList.remove('show'); }
+
+        function showLoader(text = 'Processing...') {
+            document.getElementById('loaderText').innerText = text;
+            document.getElementById('loaderOverlay').classList.add('show');
+        }
+
+        function hideLoader() { document.getElementById('loaderOverlay').classList.remove('show'); }
+
+        // ──────────────────────────────────────────────
+        //  STEP NAVIGATION
+        // ──────────────────────────────────────────────
+        function updateStepIndicators(step) {
+            ['stepDot1', 'stepDot2', 'stepDot3'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.className = 'step-dot';
+                if (i + 1 < step) {
+                    el.classList.add('done');
+                    el.innerHTML = '<i class="fa-solid fa-check"></i>';
+                } else if (i + 1 === step) {
+                    el.classList.add('active');
+                    el.innerHTML = i + 1;
+                } else {
+                    el.classList.add('pending');
+                    el.innerHTML = i + 1;
                 }
             });
-            
-            if (signUpError) {
-                if (signUpError.message.includes('already registered') || 
-                    signUpError.message.includes('already exists')) {
-                    hideLoader();
-                    showToast('This email is already registered. Please login or use a different email.', 'error');
-                    return;
-                }
-                throw signUpError;
-            }
-
-            // Set user session
-            userSession = signUpData.user;
-            
-            // Place the order as logged-in user
-            await placeOrderInternal(true);
-            
-        } catch (e) {
-            hideLoader();
-            console.error('Account creation failed:', e);
-            showToast('Account creation failed: ' + e.message, 'error');
+            ['stepLine1', 'stepLine2'].forEach((id, i) => {
+                const el = document.getElementById(id);
+                el.className = 'step-line';
+                if (i + 1 < step) el.classList.add('done');
+            });
         }
-    }
 
-    async function placeOrderAsGuest() {
-        await placeOrderInternal(false);
-    }
-
-    async function placeOrderInternal(isLoggedIn = false) {
-        if (!cartData.length) {
-            showToast('Your cart is empty!', 'error');
-            return;
+        function showStep(step) {
+            ['step1Content', 'step2Content', 'step3Content', 'successContent'].forEach((id, idx) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const isTarget = (step === 4 && id === 'successContent') || (idx + 1 === step);
+                el.classList.toggle('hidden-step', !isTarget);
+                el.classList.toggle('active-step', isTarget);
+            });
+            currentStep = step;
+            updateStepIndicators(step);
+            document.getElementById('checkoutContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
-        showLoader('Placing Order...');
-        
-        try {
-            const info = getShippingInfo();
-            const subtotal = window._subtotal || 0;
-            const deliveryCharge = window._deliveryCharge || 120;
-            const discount = window._discount || 0;
-            const total = subtotal + deliveryCharge - discount;
 
-            // Prepare order items
-            const items = cartData.map(item => ({
-                product_id: item.product_id || null,
-                variant_id: item.variant_id || null,
-                title: item.title || 'Product',
-                variant: item.variant || null,
-                quantity: item.quantity || 1,
-                price: item.price || 0
-            }));
+        function goToStep1() { showStep(1); }
 
-            // Prepare order data
-            const orderData = {
-                customer_name: info.name,
-                phone: info.phone,
-                email: info.email || null,
-                district: info.district,
-                upazila: info.upazila,
-                address: info.address,
-                payment_method: selectedPayment,
-                bkash_number: selectedPayment === 'bkash' ? document.getElementById('bkashSenderNumber')?.value?.trim() || null : null,
-                transaction_id: selectedPayment === 'bkash' ? document.getElementById('bkashTransactionId')?.value?.trim() || null : null,
-                items: items,
-                subtotal: subtotal,
-                delivery_charge: deliveryCharge,
-                discount: discount,
-                total: total,
-                status: 'pending',
-                order_type: isLoggedIn ? 'member' : 'guest',
-                user_id: userSession?.id || null,
-                created_at: new Date().toISOString()
-            };
-
-            let result;
-            
-            // Try using RPC function first (secure_checkout or guest_checkout)
-            if (isLoggedIn && userSession) {
-                try {
-                    const { data, error } = await _supabase.rpc('secure_checkout', {
-                        p_member_name: info.name,
-                        p_member_email: info.email || userSession.email,
-                        p_project_title: 'Store Order',
-                        p_member_info: {
-                            shipping: {
-                                phone: info.phone,
-                                district: info.district,
-                                upazila: info.upazila,
-                                address: info.address
-                            },
-                            payment_method: selectedPayment,
-                            bkash_number: orderData.bkash_number,
-                            transaction_id: orderData.transaction_id,
-                            subtotal: subtotal,
-                            delivery_charge: deliveryCharge,
-                            discount: discount,
-                            total: total,
-                            items: items
-                        }
-                    });
-                    
-                    if (!error && data) {
-                        result = data;
-                    } else {
-                        throw error || new Error('RPC failed');
-                    }
-                } catch (rpcError) {
-                    console.warn('secure_checkout RPC failed, falling back to direct insert:', rpcError.message);
-                    // Fallback: direct insert
-                    const { data, error } = await _supabase
-                        .from('orders')
-                        .insert([orderData])
-                        .select('id')
-                        .single();
-                    
-                    if (error) throw error;
-                    result = { order_id: data.id };
-                }
-            } else {
-                // Guest checkout - try RPC first
-                try {
-                    const { data, error } = await _supabase.rpc('guest_checkout', {
-                        p_member_name: info.name,
-                        p_phone: info.phone,
-                        p_email: info.email || null,
-                        p_district: info.district,
-                        p_upazila: info.upazila,
-                        p_address: info.address,
-                        p_payment_method: selectedPayment,
-                        p_bkash_number: orderData.bkash_number,
-                        p_transaction_id: orderData.transaction_id,
-                        p_items: items,
-                        p_promo_code: null
-                    });
-                    
-                    if (!error && data) {
-                        result = data;
-                    } else {
-                        throw error || new Error('RPC failed');
-                    }
-                } catch (rpcError) {
-                    console.warn('guest_checkout RPC failed, falling back to direct insert:', rpcError.message);
-                    // Fallback: direct insert
-                    const { data, error } = await _supabase
-                        .from('orders')
-                        .insert([orderData])
-                        .select('id')
-                        .single();
-                    
-                    if (error) throw error;
-                    result = { order_id: data.id };
-                }
-            }
-
-            // Success!
-            localStorage.removeItem('jayen_cart');
-            hideLoader();
-            
-            const orderId = result?.order_id || result?.id || 'UNKNOWN';
-            document.getElementById('successOrderId').innerText = `#JW-${orderId}`;
-            
-            // Show/hide guest note
-            const guestNote = document.getElementById('guestSuccessNote');
-            const trackBtn = document.getElementById('trackOrderBtn');
-            if (isLoggedIn) {
-                guestNote.classList.add('hidden');
-                trackBtn.classList.remove('hidden');
-            } else {
-                guestNote.classList.remove('hidden');
-                trackBtn.classList.add('hidden');
-            }
-            
-            showStep(4);
-            
-            // Notify parent window (if in iframe)
-            if (window.parent && window.parent !== window) {
-                try {
-                    window.parent.postMessage({ type: 'orderPlaced', orderId: orderId }, '*');
-                } catch (e) {}
-            }
-            
-        } catch (e) {
-            hideLoader();
-            console.error('Order placement failed:', e);
-            showToast('Failed to place order: ' + e.message, 'error');
-        }
-    }
-
-    // ==================== PAYMENT OPTIONS RENDERING ====================
-    function renderPaymentOptions() {
-        const container = document.getElementById('paymentOptions');
-        container.innerHTML = `
-            <div class="payment-option selected" id="payment-cod" onclick="selectPayment('cod')">
-                <div class="radio-indicator"></div>
-                <div class="flex-grow">
-                    <span class="font-bold text-sm text-gray-800">Cash on Delivery</span>
-                    <p class="text-[11px] text-gray-500">Pay when you receive the product</p>
-                </div>
-                <i class="fa-solid fa-hand-holding-dollar text-2xl text-green-500 flex-shrink-0"></i>
-            </div>
-            <div class="payment-option" id="payment-bkash" onclick="selectPayment('bkash')">
-                <div class="radio-indicator"></div>
-                <div class="flex-grow">
-                    <span class="font-bold text-sm text-gray-800">bKash Payment</span>
-                    <p class="text-[11px] text-gray-500">Fast and secure mobile banking</p>
-                </div>
-                <div class="w-10 h-10 bg-[#e2136e] rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span class="text-white font-serif font-black text-xl">b</span>
-                </div>
-            </div>
-        `;
-    }
-
-    // ==================== POPULATE DISTRICTS ====================
-    function populateDistrictDropdowns() {
-        const districts = [
-            'Bagerhat', 'Bandarban', 'Barguna', 'Barishal', 'Bhola', 'Bogura', 
-            'Brahmanbaria', 'Chandpur', 'Chapainawabganj', 'Chattogram', 'Chuadanga', 
-            'Comilla', "Cox's Bazar", 'Dhaka', 'Dinajpur', 'Faridpur', 'Feni', 
-            'Gaibandha', 'Gazipur', 'Gopalganj', 'Habiganj', 'Jamalpur', 'Jashore', 
-            'Jhalokathi', 'Jhenaidah', 'Joypurhat', 'Khagrachhari', 'Khulna', 
-            'Kishoreganj', 'Kurigram', 'Kushtia', 'Lakshmipur', 'Lalmonirhat', 
-            'Madaripur', 'Magura', 'Manikganj', 'Meherpur', 'Moulvibazar', 
-            'Munshiganj', 'Mymensingh', 'Naogaon', 'Narail', 'Narayanganj', 
-            'Narsingdi', 'Natore', 'Netrokona', 'Nilphamari', 'Noakhali', 'Pabna', 
-            'Panchagarh', 'Patuakhali', 'Pirojpur', 'Rajbari', 'Rajshahi', 
-            'Rangamati', 'Rangpur', 'Satkhira', 'Shariatpur', 'Sherpur', 
-            'Sirajganj', 'Sunamganj', 'Sylhet', 'Tangail', 'Thakurgaon'
-        ];
-        
-        const select = document.getElementById('shippingDistrict');
-        if (!select) return;
-        
-        // Clear existing options except the first placeholder
-        while (select.options.length > 1) {
-            select.remove(1);
-        }
-        
-        districts.forEach(d => {
-            const option = document.createElement('option');
-            option.value = d;
-            option.textContent = d;
-            select.appendChild(option);
-        });
-    }
-
-    // ==================== INITIALIZATION ====================
-    async function init() {
-        showLoader('Loading Checkout...');
-        
-        try {
-            // Load cart data
-            const cartJson = localStorage.getItem('jayen_cart');
-            cartData = cartJson ? JSON.parse(cartJson) : [];
-            
-            if (!cartData.length) {
-                hideLoader();
-                showToast('Your cart is empty! Redirecting...', 'error');
-                setTimeout(() => { window.location.href = '/'; }, 2000);
-                return;
-            }
-            
-            // Populate districts
-            populateDistrictDropdowns();
-            
-            // Render payment options
-            renderPaymentOptions();
-            
-            // Load delivery settings
-            try {
-                const { data, error } = await _supabase.from('delivery_settings').select('*');
-                if (!error && data) {
-                    deliveryCharges = data;
-                }
-            } catch (e) {
-                console.warn('Delivery settings not loaded:', e.message);
-            }
-            
-            // Check user session
-            try {
-                const { data: { session } } = await _supabase.auth.getSession();
-                userSession = session?.user || null;
-                
-                if (userSession) {
-                    const m = userSession.user_metadata || {};
-                    
-                    // Show profile address section
-                    const profileSection = document.getElementById('profileAddressSection');
-                    if (profileSection) {
-                        profileSection.classList.remove('hidden');
-                        
-                        // Set profile details
-                        document.getElementById('profileInitial').innerText = (m.full_name || 'U').charAt(0).toUpperCase();
-                        document.getElementById('profileNameDisplay').innerText = m.full_name || 'User';
-                        document.getElementById('profileAddressDisplay').innerText = 
-                            [m.address, m.subdistrict, m.district].filter(Boolean).join(', ') || 'Address not set';
-                        
-                        // Auto-fill form with profile data
-                        document.getElementById('shippingName').value = m.full_name || '';
-                        document.getElementById('shippingPhone').value = m.phone || '';
-                        document.getElementById('shippingEmail').value = userSession.email || '';
-                        document.getElementById('shippingDistrict').value = m.district || '';
-                        document.getElementById('shippingUpazila').value = m.subdistrict || '';
-                        document.getElementById('shippingAddress').value = m.address || '';
-                        
-                        // Hide manual form by default
-                        document.getElementById('shippingFormSection').classList.add('hidden');
-                        useProfileAddress = true;
-                    }
-                }
-            } catch (e) {
-                console.warn('Session check failed:', e.message);
-            }
-            
-            // Initialize calculation
-            window._subtotal = cartData.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
-            window._deliveryCharge = 120;
-            window._discount = 0;
-            window._total = window._subtotal + window._deliveryCharge;
-            
-            hideLoader();
-        } catch (e) {
-            hideLoader();
-            console.error('Checkout initialization failed:', e);
-            showToast('Failed to load checkout. Please try again.', 'error');
-        }
-    }
-
-    // ==================== START ====================
-    document.addEventListener('DOMContentLoaded', init);
-</script>
-</body>
-</html>
+        // ──────────────────────────────────────────────
+        //  SHIPPING INFO
+        // ──────────────────────────────────────────────
+        function getShippingInfo() {
+            return {
+                name: document.getElementById('shippingName').value.trim(),
+                phone: document.getElementById('shippingPhone').value.trim(),
+                email: document.getElementById('shippingEmail').value.trim(),
+                district: document.getElementById('shippingDistrict').value,
+                upazila: document.getElementById('shippingUpazila').value.trim(),
+                address: document
