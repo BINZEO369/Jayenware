@@ -3,792 +3,1557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Checkout | JAYENWARE</title>
+    <title>Checkout | JAYENWARE</title>
     <meta name="description" content="Secure checkout at JAYENWARE. Complete your order with Cash on Delivery or bKash payment. Fast shipping across Bangladesh.">
     <meta name="robots" content="noindex, nofollow">
     <meta name="theme-color" content="#1a1a1a">
-    <link rel="canonical" href="https://www.jayenware.shop/checkout">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
-    <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
-
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/api-config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'], 
+                        serif: ['Playfair Display', 'serif'] 
                     },
-                    colors: {
-                        primary: '#1a1a1a',
-                        accent: '#c9a96e',
-                        soft: '#f8f6f3',
-                        border: '#eaeaea'
+                    colors: { 
+                        primary: '#1a1a1a', 
+                        accent: '#c9a96e', 
+                        soft: '#f9f9f9' 
                     }
                 }
             }
         }
     </script>
-
+    
     <style>
-        :root {
-            --primary: #1a1a1a;
-            --accent: #c9a96e;
-            --soft: #f8f6f3;
-            --border: #e5e5e5;
+        :root { 
+            --primary: #1a1a1a; 
+            --accent: #c9a96e; 
+            --soft: #f9f9f9; 
+            --border: #e5e7eb; 
         }
-        * {
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
+        
+        * { 
+            -webkit-tap-highlight-color: transparent; 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
         }
-        body {
-            background-color: #f3f4f6;
-            color: #1a1a1a;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        
+        body { 
+            background: linear-gradient(135deg, #f5f3f0 0%, #f0ede8 100%);
+            color: var(--primary); 
+            font-family: 'Inter', sans-serif; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
         }
-        main {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        
+        main { 
+            flex-grow: 1; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 2rem 1rem; 
         }
-        .checkout-container {
-            width: 100%;
-            max-width: 540px;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        .checkout-container { 
+            width: 100%; 
+            max-width: 560px; 
+            background: white; 
+            border-radius: 24px; 
+            box-shadow: 0 25px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.03); 
+            overflow: hidden; 
+            animation: slideUp 0.5s cubic-bezier(0.4,0,0.2,1); 
         }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(40px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
-
-        /* Step Indicator */
-        .step-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 28px 24px 16px;
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
-        .step-dot {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            transition: all 0.4s;
-            flex-shrink: 0;
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
         }
-        .step-dot.pending {
-            background: #f3f4f6;
-            color: #9ca3af;
-            border: 2px solid #e5e5e5;
+        
+        @keyframes popIn { 
+            from { transform: scale(0) rotate(-10deg); opacity: 0; } 
+            to { transform: scale(1) rotate(0deg); opacity: 1; } 
         }
-        .step-dot.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            border: 2px solid var(--primary);
+        
+        .step-indicator { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0; 
+            padding: 2rem 2rem 1.5rem; 
+            position: relative; 
         }
-        .step-dot.done {
-            background: #10b981;
-            color: white;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
-            border: 2px solid #10b981;
+        
+        .step-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 0.5rem; 
+            position: relative; 
+            z-index: 2; 
+            flex: 1; 
         }
-        .step-line {
-            width: 50px;
-            height: 3px;
-            background: #e5e5e5;
-            border-radius: 4px;
-            transition: background 0.4s;
+        
+        .step-dot { 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 14px; 
+            font-weight: 700; 
+            transition: all 0.3s ease; 
+            background: white; 
+            border: 2px solid #d1d5db; 
+            color: #9ca3af; 
         }
-        .step-line.done {
-            background: #10b981;
+        
+        .step-label { 
+            font-size: 11px; 
+            font-weight: 600; 
+            color: #9ca3af; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            transition: all 0.3s ease; 
         }
-
-        /* Content Steps */
-        .step-content {
-            padding: 8px 28px 32px;
+        
+        .step-connector { 
+            height: 2px; 
+            background: #e5e7eb; 
+            flex: 1; 
+            margin: 0 -4px; 
+            margin-bottom: 24px; 
+            position: relative; 
+            z-index: 1; 
+            transition: background 0.3s ease; 
         }
-        .hidden-step {
-            display: none;
+        
+        .step-item.active .step-dot { 
+            border-color: var(--primary); 
+            background: var(--primary); 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
         }
-        .active-step {
-            display: block;
-            animation: fadeIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        .step-item.active .step-label { 
+            color: var(--primary); 
+            font-weight: 800; 
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        
+        .step-item.done .step-dot { 
+            border-color: #10b981; 
+            background: #10b981; 
+            color: white; 
         }
-
-        /* Form Elements */
-        .input-group {
-            margin-bottom: 18px;
+        
+        .step-item.done .step-label { 
+            color: #10b981; 
         }
-        .input-group label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #6b7280;
-            margin-bottom: 6px;
+        
+        .step-connector.done { 
+            background: #10b981; 
         }
-        .input-group input,
-        .input-group textarea,
-        .input-group select {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 14px;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all 0.25s;
-            background: #fafafa;
-            color: #1f2937;
+        
+        .step-content { 
+            padding: 0 2rem 2rem; 
         }
-        .input-group input:focus,
-        .input-group textarea:focus,
-        .input-group select:focus {
-            border-color: var(--accent);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.08);
+        
+        .input-group { 
+            margin-bottom: 1.25rem; 
         }
-        .input-group textarea {
-            min-height: 90px;
-            resize: vertical;
+        
+        .input-group label { 
+            display: block; 
+            font-size: 12px; 
+            font-weight: 600; 
+            color: #4b5563; 
+            margin-bottom: 0.5rem; 
         }
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
+        
+        .input-group input, 
+        .input-group textarea, 
+        .input-group select { 
+            width: 100%; 
+            padding: 0.875rem 1rem; 
+            border: 1.5px solid #e5e7eb; 
+            border-radius: 12px; 
+            font-size: 14px; 
+            font-family: 'Inter', sans-serif; 
+            transition: all 0.2s ease; 
+            background: white; 
+            color: #1f2937; 
         }
-
-        /* Buttons */
-        .btn {
-            width: 100%;
-            padding: 16px 20px;
-            border-radius: 14px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        
+        .input-group input:focus, 
+        .input-group textarea:focus, 
+        .input-group select:focus { 
+            border-color: var(--primary); 
+            outline: none; 
+            box-shadow: 0 0 0 3px rgba(26,26,26,0.08); 
         }
-        .btn-primary {
-            background: var(--primary);
-            color: white;
+        
+        .input-group textarea { 
+            min-height: 80px; 
+            resize: vertical; 
         }
-        .btn-primary:hover {
-            background: #2d2d2d;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        
+        .input-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 1rem; 
         }
-        .btn-primary:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        
+        .btn { 
+            width: 100%; 
+            padding: 1rem 1.5rem; 
+            border-radius: 14px; 
+            font-size: 13px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            border: none; 
+            font-family: 'Inter', sans-serif; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 0.5rem; 
         }
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
-            border: 1.5px solid #e5e5e5;
+        
+        .btn-primary { 
+            background: var(--primary); 
+            color: white; 
         }
-        .btn-outline:hover {
-            background: #f9fafb;
-            border-color: #d1d5db;
+        
+        .btn-primary:hover:not(:disabled) { 
+            background: #2d2d2d; 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
         }
-
-        /* Payment Options */
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px;
-            border: 2px solid #f0f0f0;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.25s;
-            margin-bottom: 12px;
-            background: white;
+        
+        .btn-primary:disabled { 
+            background: #d1d5db; 
+            cursor: not-allowed; 
+            transform: none; 
+            box-shadow: none; 
         }
-        .payment-option:hover {
-            border-color: #d1d5db;
-            background: #fcfcfc;
+        
+        .btn-outline { 
+            background: white; 
+            color: var(--primary); 
+            border: 1.5px solid #e5e7eb; 
         }
-        .payment-option.selected {
-            border-color: var(--primary);
-            background: #fafafa;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        
+        .btn-outline:hover { 
+            background: #f9fafb; 
+            border-color: #d1d5db; 
         }
-        .payment-option .radio-indicator {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 2px solid #d1d5db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.25s;
+        
+        .btn-ghost { 
+            background: transparent; 
+            color: #6b7280; 
+            border: none; 
+            padding: 0.75rem; 
+            font-size: 12px; 
+            font-weight: 600; 
+            text-transform: none; 
+            letter-spacing: normal; 
+            cursor: pointer; 
         }
-        .payment-option.selected .radio-indicator {
-            border-color: var(--primary);
-            background: var(--primary);
+        
+        .btn-ghost:hover { 
+            color: var(--primary); 
+            background: #f3f4f6; 
         }
-        .payment-option.selected .radio-indicator::after {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 10px;
-            color: white;
+        
+        .payment-option { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            padding: 1rem 1.25rem; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 16px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            margin-bottom: 0.75rem; 
+            background: white; 
         }
-
-        /* Order Summary */
-        .order-summary {
-            background: #f9fafb;
-            border-radius: 16px;
-            padding: 18px;
-            margin-top: 16px;
-            border: 1px solid #f0f0f0;
+        
+        .payment-option:hover { 
+            border-color: #d1d5db; 
+            background: #fafafa; 
         }
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            padding: 6px 0;
-            color: #4b5563;
-            font-weight: 500;
+        
+        .payment-option.selected { 
+            border-color: var(--primary); 
+            background: #fafafa; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
         }
-        .summary-row.total {
-            border-top: 1.5px dashed #e5e5e5;
-            margin-top: 10px;
-            padding-top: 14px;
-            font-size: 18px;
-            font-weight: 900;
-            color: var(--primary);
+        
+        .payment-option .radio-indicator { 
+            width: 22px; 
+            height: 22px; 
+            border-radius: 50%; 
+            border: 2px solid #d1d5db; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            transition: all 0.2s ease; 
         }
-
-        /* Expandable Section */
-        .expandable-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
+        
+        .payment-option.selected .radio-indicator { 
+            border-color: var(--primary); 
+            background: var(--primary); 
         }
-        .expandable-content.open {
-            max-height: 800px;
+        
+        .payment-option.selected .radio-indicator::after { 
+            content: '\f00c'; 
+            font-family: 'Font Awesome 6 Free'; 
+            font-weight: 900; 
+            font-size: 10px; 
+            color: white; 
         }
-
-        /* Toast & Loader */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 200;
-            transform: translateX(120%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: calc(100vw - 40px);
+        
+        .order-summary { 
+            background: #f9fafb; 
+            border-radius: 16px; 
+            padding: 1.25rem; 
+            border: 1px solid #f3f4f6; 
         }
-        .toast.show {
-            transform: translateX(0);
+        
+        .summary-row { 
+            display: flex; 
+            justify-content: space-between; 
+            font-size: 13px; 
+            padding: 0.5rem 0; 
+            color: #6b7280; 
         }
-        .toast-content {
-            background: white;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-            border-radius: 14px;
-            padding: 14px 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 280px;
-            border-left: 4px solid #10b981;
+        
+        .summary-row.total { 
+            border-top: 1.5px dashed #e5e7eb; 
+            margin-top: 0.75rem; 
+            padding-top: 1rem; 
+            font-size: 18px; 
+            font-weight: 800; 
+            color: var(--primary); 
         }
-        .toast-content.error {
-            border-left-color: #ef4444;
+        
+        .hidden-step { 
+            display: none; 
         }
-        .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+        
+        .active-step { 
+            display: block; 
+            animation: fadeIn 0.4s ease-out; 
         }
-        .loader-overlay.show {
-            display: flex;
+        
+        .expandable-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.4s ease-in-out; 
         }
-        .spinner {
-            width: 44px;
-            height: 44px;
-            border: 3px solid #e5e5e5;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+        
+        .expandable-content.open { 
+            max-height: 1000px; 
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        
+        .toast { 
+            position: fixed; 
+            top: 1.25rem; 
+            right: 1.25rem; 
+            z-index: 9999; 
+            transform: translateX(120%); 
+            transition: transform 0.4s ease; 
+            max-width: calc(100vw - 2.5rem); 
         }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: #10b981;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.2);
+        
+        .toast.show { 
+            transform: translateX(0); 
         }
-        @keyframes popIn {
-            from {
-                transform: scale(0) rotate(-10deg);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
+        
+        .toast-content { 
+            background: white; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12); 
+            border-radius: 14px; 
+            padding: 1rem 1.25rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            min-width: 300px; 
+            border: 1px solid #f0f0f0; 
         }
-
+        
+        .loader-overlay { 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(255,255,255,0.95); 
+            backdrop-filter: blur(4px); 
+            z-index: 9998; 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            flex-direction: column; 
+        }
+        
+        .loader-overlay.show { 
+            display: flex; 
+        }
+        
+        .spinner { 
+            width: 44px; 
+            height: 44px; 
+            border: 3px solid #e5e7eb; 
+            border-top-color: var(--primary); 
+            border-radius: 50%; 
+            animation: spin 0.7s linear infinite; 
+        }
+        
+        .success-check { 
+            width: 80px; 
+            height: 80px; 
+            background: #10b981; 
+            border-radius: 24px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); 
+            box-shadow: 0 15px 30px rgba(16,185,129,0.2); 
+        }
+        
         @media (max-width: 480px) {
-            .checkout-container {
-                border-radius: 20px;
+            .checkout-container { 
+                border-radius: 20px; 
             }
-            .step-content {
-                padding: 8px 18px 24px;
+            .step-content { 
+                padding: 0 1.25rem 1.5rem; 
             }
-            .input-group input,
-            .input-group textarea,
-            .input-group select {
-                padding: 13px 14px;
-                font-size: 16px;
-                border-radius: 12px;
+            .step-indicator { 
+                padding: 1.5rem 1rem 1rem; 
             }
-            .input-row {
-                grid-template-columns: 1fr;
-                gap: 10px;
+            .input-row { 
+                grid-template-columns: 1fr; 
+                gap: 0; 
             }
-            .step-indicator {
-                padding: 20px 16px 12px;
+            .input-group input, 
+            .input-group textarea, 
+            .input-group select { 
+                padding: 0.75rem 0.875rem; 
+                font-size: 16px; 
+                border-radius: 10px; 
             }
-            .step-line {
-                width: 35px;
+            .btn { 
+                padding: 0.875rem; 
+                font-size: 12px; 
             }
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- ========== LOADER ========== -->
-    <div class="loader-overlay" id="loaderOverlay">
-        <div class="spinner"></div>
-        <p class="mt-4 font-black uppercase tracking-[0.3em] text-xs text-gray-500" id="loaderText">Processing...</p>
+<!-- Loader Overlay -->
+<div class="loader-overlay" id="loaderOverlay">
+    <div class="spinner"></div>
+    <p class="mt-4 font-black uppercase tracking-[0.3em] text-xs text-gray-500" id="loaderText">Processing...</p>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+    <div class="toast-content">
+        <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
+        <p id="toast-text" class="text-xs font-bold flex-grow"></p>
+        <button onclick="hideToast()" class="text-gray-300 hover:text-gray-600 shrink-0 bg-transparent border-none cursor-pointer p-1">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
     </div>
+</div>
 
-    <!-- ========== TOAST ========== -->
-    <div class="toast" id="toast">
-        <div class="toast-content" id="toastContent">
-            <span id="toast-icon" class="text-green-500 text-xl"><i class="fa-solid fa-circle-check"></i></span>
-            <p id="toast-text" class="text-sm font-semibold text-gray-800 flex-grow"></p>
-            <button onclick="hideToast()" class="text-gray-400 hover:text-gray-800 p-1 bg-transparent border-none cursor-pointer">
-                <i class="fa-solid fa-xmark"></i>
+<main>
+    <div class="checkout-container" id="checkoutContainer">
+        
+        <!-- Header -->
+        <div class="px-8 pt-6 pb-2 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 text-primary no-underline">
+                <img src="https://www.jayenware.shop/logo.png" alt="JAYENWARE" class="w-10 h-10 rounded-xl shadow-sm" onerror="this.style.display='none'">
+                <span class="font-serif font-black text-xl tracking-tight">JAYENWARE</span>
+            </a>
+            <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
+                <i class="fa-solid fa-shield-halved text-green-600 text-xs"></i>
+                <span class="text-[10px] font-bold uppercase tracking-wide text-gray-600">Secure</span>
+            </div>
+        </div>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step-item active" id="stepIndicator1">
+                <div class="step-dot">1</div>
+                <div class="step-label">Shipping</div>
+            </div>
+            <div class="step-connector" id="stepConnector1"></div>
+            <div class="step-item" id="stepIndicator2">
+                <div class="step-dot">2</div>
+                <div class="step-label">Payment</div>
+            </div>
+            <div class="step-connector" id="stepConnector2"></div>
+            <div class="step-item" id="stepIndicator3">
+                <div class="step-dot">3</div>
+                <div class="step-label">Review</div>
+            </div>
+        </div>
+
+        <!-- ==================== STEP 1: SHIPPING ==================== -->
+        <div class="step-content active-step" id="step1Content">
+            <div class="mb-6">
+                <h2 class="text-2xl font-black text-gray-800 mb-1">Shipping Details</h2>
+                <p class="text-sm text-gray-500">Where should we deliver your order?</p>
+            </div>
+
+            <div id="profileCardSection" class="mb-4" style="display:none;">
+                <div class="bg-white border-2 border-green-200 rounded-2xl p-4 flex gap-4 items-center cursor-pointer transition-all hover:shadow-md selected-profile" id="profileCard">
+                    <div class="w-12 h-12 bg-primary text-white rounded-2xl flex items-center justify-center text-xl font-black font-serif uppercase shrink-0" id="profileAvatar">U</div>
+                    <div class="flex-grow min-w-0">
+                        <h4 class="font-bold text-sm" id="profileName">User Name</h4>
+                        <p class="text-xs text-gray-500 truncate" id="profileAddress">Loading address...</p>
+                    </div>
+                    <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs shrink-0">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                <button class="btn btn-ghost mt-2 justify-start text-xs" onclick="toggleAddressMode()" id="toggleAddressBtn">
+                    <i class="fa-solid fa-pen-to-square"></i> Use different address
+                </button>
+                <div class="expandable-content" id="newAddressCollapse">
+                    <div class="border-t border-gray-100 pt-4 mt-2" id="manualAddressForm"></div>
+                </div>
+            </div>
+
+            <div id="guestFormSection">
+                <div class="input-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="shippingName" placeholder="Enter your full name" autocomplete="name">
+                </div>
+                <div class="input-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="shippingPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
+                </div>
+                <div class="input-group">
+                    <label>Email Address <span class="text-gray-400 font-normal text-xs">(Optional, for order updates)</span></label>
+                    <input type="email" id="shippingEmail" placeholder="your@email.com" autocomplete="email">
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>District *</label>
+                        <select id="shippingDistrict"><option value="">Select District</option></select>
+                    </div>
+                    <div class="input-group">
+                        <label>Upazila / Area *</label>
+                        <input type="text" id="shippingUpazila" placeholder="e.g. Gulshan, Savar">
+                    </div>
+                </div>
+                <div class="input-group mb-2">
+                    <label>Full Address *</label>
+                    <textarea id="shippingAddress" placeholder="House/Road/Village, Area details..."></textarea>
+                </div>
+            </div>
+
+            <button class="btn btn-primary mt-4" onclick="goToStep2()">
+                Continue to Payment <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button class="btn btn-outline mt-3" onclick="window.location.href='/'">
+                <i class="fa-solid fa-arrow-left"></i> Continue Shopping
             </button>
         </div>
-    </div>
 
-    <!-- ========== MAIN CHECKOUT ========== -->
-    <main>
-        <div class="checkout-container" id="checkoutContainer">
+        <!-- ==================== STEP 2: PAYMENT ==================== -->
+        <div class="step-content hidden-step" id="step2Content">
+            <div class="mb-6">
+                <h2 class="text-2xl font-black text-gray-800 mb-1">Payment Method</h2>
+                <p class="text-sm text-gray-500">All transactions are secure and encrypted</p>
+            </div>
 
-            <!-- Header -->
-            <div class="px-8 pt-6 pb-2 flex items-center justify-between">
-                <a href="/" class="flex items-center gap-3 text-primary no-underline">
-                    <img src="https://www.jayenware.shop/logo.png" alt="JAYENWARE" class="w-10 h-10 rounded-xl shadow-sm">
-                    <span class="font-serif font-black text-xl tracking-tight">JAYENWARE</span>
-                </a>
-                <div class="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full">
-                    <i class="fa-solid fa-shield-halved text-green-600 text-xs"></i>
-                    <span class="text-[10px] font-bold uppercase tracking-wide text-gray-600">Secure</span>
+            <div id="paymentOptions"></div>
+
+            <div id="bkashDetailSection" class="hidden mt-4 bg-pink-50 p-5 rounded-2xl border border-pink-200">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-pink-600 rounded-xl flex items-center justify-center text-white font-black font-serif text-lg">b</div>
+                    <div>
+                        <h4 class="font-bold text-pink-900 text-sm">bKash Payment</h4>
+                        <p class="text-xs text-pink-600">Send money to merchant account</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl border border-pink-100 mb-4">
+                    <p class="text-xs text-pink-600 font-semibold mb-1">Merchant bKash Number</p>
+                    <p class="font-black text-pink-900 text-2xl bkash-account-number">01767863670</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="input-group mb-0">
+                        <label class="text-pink-800">Your bKash Number *</label>
+                        <input type="tel" id="bkashSenderNumber" placeholder="01XXXXXXXXX (the number you sent from)">
+                    </div>
+                    <div class="input-group mb-0">
+                        <label class="text-pink-800">bKash Transaction ID (TrxID) *</label>
+                        <input type="text" id="bkashTransactionId" placeholder="e.g. TRX123456789" class="font-mono uppercase tracking-wider">
+                    </div>
                 </div>
             </div>
 
-            <!-- Step Indicator -->
-            <div class="step-indicator">
-                <div class="step-dot active" id="stepDot1">1</div>
-                <div class="step-line" id="stepLine1"></div>
-                <div class="step-dot pending" id="stepDot2">2</div>
-                <div class="step-line" id="stepLine2"></div>
-                <div class="step-dot pending" id="stepDot3">3</div>
+            <div class="order-summary mt-6">
+                <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal" class="font-semibold">৳ 0.00</span></div>
+                <div class="summary-row text-green-600 hidden" id="summaryDiscountRow"><span>Discount</span><span id="summaryDiscount">- ৳ 0.00</span></div>
+                <div class="summary-row"><span>Delivery Charge</span><span id="summaryDelivery" class="font-semibold">৳ 0.00</span></div>
+                <div class="summary-row total"><span>Total</span><span id="summaryTotal">৳ 0.00</span></div>
             </div>
 
-            <!-- ==================== STEP 1: SHIPPING ==================== -->
-            <div class="step-content active-step" id="step1Content">
-                <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-black text-gray-800">Shipping Details</h2>
-                    <p class="text-sm text-gray-500 mt-1">Where should we deliver your order?</p>
-                </div>
+            <button class="btn btn-primary mt-6" onclick="goToStep3()">
+                Review Order <i class="fa-solid fa-circle-check"></i>
+            </button>
+            <button class="btn btn-outline mt-3" onclick="goToStep1()">
+                <i class="fa-solid fa-chevron-left"></i> Edit Shipping Details
+            </button>
+        </div>
 
-                <div id="guestAddressForm">
-                    <div class="input-group">
-                        <label>Full Name *</label>
-                        <input type="text" id="shippingName" placeholder="Enter your full name" autocomplete="name">
-                    </div>
-                    <div class="input-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" id="shippingPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
-                    </div>
-                    <div class="input-group">
-                        <label>Email <span class="text-gray-400 font-normal normal-case">(Optional, for order updates)</span></label>
-                        <input type="email" id="shippingEmail" placeholder="your@email.com" autocomplete="email">
-                    </div>
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label>District *</label>
-                            <select id="shippingDistrict"><option value="">Select District</option></select>
-                        </div>
-                        <div class="input-group">
-                            <label>Upazila / Area *</label>
-                            <input type="text" id="shippingUpazila" placeholder="e.g. Gulshan, Savar" autocomplete="address-level3">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>Full Address *</label>
-                        <textarea id="shippingAddress" placeholder="House/Road/Village, Area details..." autocomplete="street-address"></textarea>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary mt-4" onclick="goToStep2()">
-                    Continue to Payment <i class="fa-solid fa-arrow-right"></i>
-                </button>
-                <button class="btn btn-outline mt-3" onclick="window.location.href='/'">
-                    <i class="fa-solid fa-arrow-left"></i> Continue Shopping
-                </button>
+        <!-- ==================== STEP 3: REVIEW ==================== -->
+        <div class="step-content hidden-step" id="step3Content">
+            <div class="mb-6">
+                <h2 class="text-2xl font-black text-gray-800 mb-1">Review & Confirm</h2>
+                <p class="text-sm text-gray-500">Please verify your order details before confirming</p>
             </div>
 
-            <!-- ==================== STEP 2: PAYMENT ==================== -->
-            <div class="step-content hidden-step" id="step2Content">
-                <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-black text-gray-800">Payment Method</h2>
-                    <p class="text-sm text-gray-500 mt-1">All transactions are secure and encrypted</p>
+            <!-- Contact & Payment Cards -->
+            <div class="grid grid-cols-2 gap-3 mb-3">
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-user text-accent mr-1"></i> Contact</h4>
+                    <p id="reviewName" class="font-bold text-sm text-gray-800 truncate"></p>
+                    <p id="reviewPhone" class="text-xs text-gray-600 mt-1"></p>
+                    <p id="reviewEmail" class="text-[10px] text-gray-400 mt-0.5 truncate"></p>
                 </div>
-
-                <div id="paymentOptions"></div>
-
-                <!-- bKash Details (Hidden by default) -->
-                <div id="bkashDetailSection" class="hidden mt-4 bg-pink-50 p-5 rounded-2xl border border-pink-200">
-                    <div class="flex gap-4 items-start flex-wrap">
-                        <div class="w-28 h-28 bg-white rounded-xl border-2 border-pink-100 flex items-center justify-center overflow-hidden shrink-0">
-                            <img src="/paybkashqr.png" alt="bKash QR" class="w-full h-full object-contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-                            <div class="hidden w-full h-full items-center justify-center bg-gray-50 text-gray-400 text-[10px] text-center p-2">Scan QR<br>to Pay</div>
-                        </div>
-                        <div class="flex-1 min-w-[200px]">
-                            <h4 class="font-bold text-pink-800 text-sm mb-2"><i class="fa-solid fa-mobile-screen mr-1"></i> bKash Payment Steps</h4>
-                            <ol id="bkashGuideSteps" class="text-[11px] text-pink-700 space-y-1 pl-4" style="list-style:decimal;">
-                                <li>Go to your bKash app</li>
-                                <li>Send payment to the merchant number below</li>
-                                <li>Copy the Transaction ID from the confirmation message</li>
-                            </ol>
-                            <div class="mt-3 bg-white p-3 rounded-xl border border-pink-100">
-                                <p class="text-[10px] font-bold text-pink-500 uppercase">Merchant Account</p>
-                                <p class="bkash-account-number text-lg font-black text-pink-900">01767863670</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 space-y-3">
-                        <div class="input-group">
-                            <label class="text-pink-800">Your bKash Number *</label>
-                            <input type="tel" id="bkashSenderNumber" placeholder="01XXXXXXXXX" class="bg-white">
-                        </div>
-                        <div class="input-group">
-                            <label class="text-pink-800">bKash Transaction ID *</label>
-                            <input type="text" id="bkashTransactionId" placeholder="e.g. TRX123456789" class="bg-white font-mono uppercase tracking-wider">
-                        </div>
-                    </div>
+                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-credit-card text-accent mr-1"></i> Payment</h4>
+                    <p id="reviewPayment" class="font-bold text-sm text-gray-800"></p>
+                    <p id="reviewBkashExtra" class="text-[10px] text-gray-500 mt-1 hidden"></p>
                 </div>
-
-                <!-- Order Summary -->
-                <div class="order-summary">
-                    <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">৳ 0.00</span></div>
-                    <div class="summary-row"><span>Delivery Charge</span><span id="summaryDelivery">৳ 0.00</span></div>
-                    <div class="summary-row total"><span>Total</span><span id="summaryTotal">৳ 0.00</span></div>
-                </div>
-
-                <button class="btn btn-primary mt-6" onclick="goToStep3()">
-                    Review Order <i class="fa-solid fa-circle-check"></i>
-                </button>
-                <button class="btn btn-outline mt-3" onclick="goToStep1()">
-                    <i class="fa-solid fa-chevron-left"></i> Edit Shipping
-                </button>
             </div>
 
-            <!-- ==================== STEP 3: REVIEW ==================== -->
-            <div class="step-content hidden-step" id="step3Content">
-                <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-black text-gray-800">Review & Confirm</h2>
-                    <p class="text-sm text-gray-500 mt-1">Please verify your order details</p>
-                </div>
+            <!-- Address Card -->
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-3">
+                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-location-dot text-accent mr-1"></i> Delivery Address</h4>
+                <p id="reviewAddressFull" class="text-xs text-gray-700 leading-relaxed"></p>
+            </div>
 
-                <!-- Contact & Payment Cards -->
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-user text-accent mr-1"></i> Contact</h4>
-                        <p id="reviewName" class="font-bold text-sm text-gray-800 truncate"></p>
-                        <p id="reviewPhone" class="text-xs text-gray-600 mt-0.5"></p>
-                        <p id="reviewEmail" class="text-[11px] text-gray-500 mt-1 truncate"></p>
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                        <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-credit-card text-accent mr-1"></i> Payment</h4>
-                        <p id="reviewPayment" class="font-bold text-sm text-gray-800"></p>
-                        <p id="reviewBkashExtra" class="text-[11px] text-gray-500 mt-1 hidden"></p>
-                    </div>
-                </div>
+            <!-- Order Items -->
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-4">
+                <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3"><i class="fa-solid fa-bag-shopping text-accent mr-1"></i> Order Items</h4>
+                <div id="reviewItems" class="max-h-40 overflow-y-auto pr-1 space-y-3"></div>
+            </div>
 
-                <!-- Shipping Address -->
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-4">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-2"><i class="fa-solid fa-location-dot text-accent mr-1"></i> Shipping To</h4>
-                    <p id="reviewDistrictVal" class="text-xs font-semibold text-gray-700"></p>
-                    <p id="reviewUpazilaVal" class="text-xs text-gray-600"></p>
-                    <p id="reviewAddressVal" class="text-xs text-gray-500 mt-1 leading-relaxed"></p>
+            <!-- Financial Summary -->
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 mb-6">
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-gray-600"><span>Subtotal</span><span id="reviewSubtotal">৳ 0.00</span></div>
+                    <div class="flex justify-between text-gray-600"><span>Delivery</span><span id="reviewDelivery">৳ 0.00</span></div>
+                    <div class="flex justify-between text-green-600 hidden" id="reviewDiscountRow"><span>Discount</span><span id="reviewDiscount">- ৳ 0.00</span></div>
+                    <div class="flex justify-between font-black text-lg text-primary pt-3 border-t border-gray-200 mt-3"><span>Grand Total</span><span id="reviewTotal">৳ 0.00</span></div>
                 </div>
+            </div>
 
-                <!-- Items -->
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-4">
-                    <h4 class="text-[10px] font-bold text-gray-400 uppercase mb-3"><i class="fa-solid fa-bag-shopping text-accent mr-1"></i> Order Items</h4>
-                    <div id="reviewItems" class="max-h-40 overflow-y-auto pr-1 space-y-3"></div>
-                </div>
-
-                <!-- Price Breakdown -->
-                <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6">
-                    <div class="flex justify-between text-sm text-gray-600 py-1"><span>Subtotal</span><span id="reviewSubtotal">৳ 0.00</span></div>
-                    <div class="flex justify-between text-sm text-gray-600 py-1"><span>Delivery</span><span id="reviewDeliveryCharge">৳ 0.00</span></div>
-                    <div class="flex justify-between text-sm text-green-600 py-1 hidden" id="reviewDiscountRow"><span>Discount</span><span id="reviewDiscount">- ৳ 0.00</span></div>
-                    <div class="flex justify-between font-black text-lg text-gray-900 border-t border-gray-200 pt-3 mt-2"><span>Grand Total</span><span id="reviewTotal">৳ 0.00</span></div>
-                </div>
-
-                <!-- Account Creation (Only for Guests) -->
-                <div id="accountCreationSection" class="mb-6">
-                    <div onclick="toggleAccountBox()" class="cursor-pointer bg-white border-2 border-amber-200 rounded-xl p-4 flex justify-between items-center hover:border-amber-400 transition-all shadow-sm">
+            <!-- Account Creation Section (for guests) -->
+            <div id="accountCreationSection" class="mb-4">
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 rounded-2xl p-4 cursor-pointer" onclick="toggleAccountCreation()">
+                    <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <div class="bg-amber-100 text-amber-500 w-10 h-10 rounded-lg flex items-center justify-center text-lg"><i class="fa-solid fa-gift"></i></div>
+                            <div class="w-10 h-10 bg-amber-100 text-amber-500 rounded-xl flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-gift"></i>
+                            </div>
                             <div>
-                                <h3 class="font-bold text-gray-800 text-sm">Create an Account & Track Order</h3>
-                                <p class="text-[11px] text-gray-500">Save info for faster checkout next time.</p>
+                                <h3 class="font-bold text-gray-800 text-sm">Create Account & Save Info</h3>
+                                <p class="text-xs text-gray-500">Track orders, faster checkout next time</p>
                             </div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300" id="accountChevron"></i>
                     </div>
-
-                    <div id="accountBenefitsContent" class="expandable-content mt-2">
-                        <div class="bg-white border-2 border-gray-100 rounded-xl p-5">
-                            <div class="grid grid-cols-2 gap-3 mb-5">
-                                <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                                    <i class="fa-solid fa-box text-blue-500 text-lg mb-1"></i>
-                                    <h5 class="font-bold text-xs text-gray-800">Track Orders</h5>
-                                    <p class="text-[10px] text-gray-500">Real-time delivery status</p>
+                </div>
+                
+                <div class="expandable-content" id="accountBenefitsContent">
+                    <div class="bg-white border-2 border-gray-100 rounded-2xl p-5 mt-2">
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="bg-blue-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-blue-100 text-blue-500 rounded-lg flex items-center justify-center text-sm mb-2">
+                                    <i class="fa-solid fa-map-location-dot"></i>
                                 </div>
-                                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                                    <i class="fa-solid fa-bolt text-emerald-500 text-lg mb-1"></i>
-                                    <h5 class="font-bold text-xs text-gray-800">Fast Checkout</h5>
-                                    <p class="text-[10px] text-gray-500">One-click future orders</p>
+                                <h5 class="text-xs font-bold text-gray-800">Live Tracking</h5>
+                                <p class="text-[10px] text-gray-500">Track your order in real-time</p>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-green-100 text-green-500 rounded-lg flex items-center justify-center text-sm mb-2">
+                                    <i class="fa-solid fa-bolt"></i>
                                 </div>
+                                <h5 class="text-xs font-bold text-gray-800">Fast Checkout</h5>
+                                <p class="text-[10px] text-gray-500">One-click for future orders</p>
                             </div>
-                            <div class="input-group">
-                                <label>Account Email</label>
-                                <input type="email" id="accountEmail" class="bg-gray-100 cursor-not-allowed" readonly>
-                            </div>
-                            <div class="input-group">
-                                <label>Create Password <span class="text-gray-400 font-normal">(min 6 chars)</span></label>
-                                <input type="password" id="accountPassword" placeholder="••••••••" autocomplete="new-password">
-                                <div id="passwordSuggestionBox" class="mt-2 hidden">
-                                    <p class="text-[11px] text-gray-500 flex items-center gap-2">
-                                        <i class="fa-solid fa-lightbulb text-amber-500"></i> Suggested:
-                                        <span id="suggestedPasswordTxt" class="font-bold text-gray-800 bg-gray-200 px-2 py-0.5 rounded cursor-pointer hover:bg-gray-300" onclick="useSuggestedPassword()"></span>
-                                        <span class="text-[9px]">(Click)</span>
-                                    </p>
+                            <div class="bg-purple-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-purple-100 text-purple-500 rounded-lg flex items-center justify-center text-sm mb-2">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
                                 </div>
+                                <h5 class="text-xs font-bold text-gray-800">Order History</h5>
+                                <p class="text-[10px] text-gray-500">View all past purchases</p>
                             </div>
-                            <button class="btn bg-gray-800 text-white hover:bg-black w-full text-sm" onclick="createAccountAndPlaceOrder()">
-                                <i class="fa-solid fa-user-plus"></i> Create Account & Place Order
-                            </button>
+                            <div class="bg-orange-50 p-3 rounded-xl">
+                                <div class="w-8 h-8 bg-orange-100 text-orange-500 rounded-lg flex items-center justify-center text-sm mb-2">
+                                    <i class="fa-solid fa-tag"></i>
+                                </div>
+                                <h5 class="text-xs font-bold text-gray-800">Exclusive Offers</h5>
+                                <p class="text-[10px] text-gray-500">Get special promotions</p>
+                            </div>
                         </div>
+                        
+                        <div class="input-group mb-3">
+                            <label>Account Email</label>
+                            <input type="email" id="accountEmail" readonly class="bg-gray-50 cursor-not-allowed">
+                        </div>
+                        <div class="input-group mb-4">
+                            <label>Create Password <span class="text-gray-400 font-normal text-xs">(Min 6 characters)</span></label>
+                            <input type="password" id="accountPassword" placeholder="••••••••" autocomplete="new-password">
+                            <div id="passwordSuggestionBox" class="mt-2 hidden">
+                                <p class="text-xs text-gray-500 flex items-center gap-1 flex-wrap">
+                                    <i class="fa-solid fa-lightbulb text-amber-500"></i> Suggested: 
+                                    <span id="suggestedPasswordTxt" class="font-bold text-gray-800 bg-gray-100 border px-2 py-0.5 rounded cursor-pointer hover:bg-gray-200" onclick="useSuggestedPassword()"></span>
+                                    <span class="text-[9px] text-gray-400">(click to use)</span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn bg-primary text-white w-full text-sm" onclick="createAccountAndPlaceOrder()">
+                            <i class="fa-solid fa-user-plus"></i> Create Account & Place Order
+                        </button>
                     </div>
                 </div>
-
-                <!-- Place Order Button -->
-                <button class="btn btn-primary h-14 text-base shadow-lg shadow-black/5" id="placeOrderBtn" onclick="placeOrderAsGuest()">
-                    <i class="fa-solid fa-check-circle"></i> Confirm & Place Order
-                </button>
-                <button class="btn btn-outline mt-3" onclick="goToStep2()">
-                    <i class="fa-solid fa-arrow-left"></i> Change Payment
-                </button>
             </div>
 
-            <!-- ==================== SUCCESS ==================== -->
-            <div class="step-content hidden-step text-center py-10" id="successContent">
-                <div class="flex justify-center mb-6">
-                    <div class="success-icon">
-                        <i class="fa-solid fa-check text-white text-3xl"></i>
-                    </div>
-                </div>
-                <h2 class="text-2xl font-black text-gray-800 mb-2">Order Confirmed!</h2>
-                <p class="text-gray-500 text-sm mb-4">Thank you for your purchase.</p>
-                <div class="bg-gray-100 inline-block px-6 py-3 rounded-xl mb-6">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order ID</span>
-                    <p id="successOrderId" class="text-xl font-black text-primary mt-1">#---</p>
-                </div>
-                <p id="guestSuccessNote" class="text-xs text-amber-700 bg-amber-50 p-3 rounded-xl border border-amber-200 mb-6 hidden">
-                    <i class="fa-solid fa-circle-info mr-1"></i> You ordered as a guest. <a href="/sign-up" class="font-bold underline">Sign up</a> with this email to track your order.
-                </p>
-                <button class="btn btn-primary" onclick="window.location.href='/'">
-                    <i class="fa-solid fa-house"></i> Back to Home
-                </button>
-                <button class="btn btn-outline mt-3" onclick="window.location.href='/account'">
-                    <i class="fa-solid fa-user"></i> Track Orders
-                </button>
+            <!-- Place Order Button -->
+            <button class="btn btn-primary h-14 text-base shadow-lg shadow-black/5" onclick="placeOrderAsGuest()">
+                <i class="fa-solid fa-check-circle"></i> Confirm & Place Order
+            </button>
+            <button class="btn btn-outline mt-3" onclick="goToStep2()">
+                <i class="fa-solid fa-chevron-left"></i> Change Payment Method
+            </button>
+            
+            <div class="mt-4 p-4 bg-amber-50 rounded-2xl border border-amber-200 flex gap-3 items-start">
+                <i class="fa-solid fa-circle-info text-amber-600 text-sm mt-0.5"></i>
+                <p class="text-xs text-amber-800 leading-relaxed">A confirmation call or SMS will be sent before delivery. For Cash on Delivery, please prepare the exact amount.</p>
             </div>
-
         </div>
-    </main>
 
-    <!-- ==================== SCRIPTS ==================== -->
-    <script>
-        // ──────────────────────────────────────────────
-        //  INITIALIZATION
-        // ──────────────────────────────────────────────
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        <!-- ==================== SUCCESS ==================== -->
+        <div class="step-content hidden-step text-center" id="successContent" style="padding: 3rem 2rem;">
+            <div class="flex justify-center mb-6">
+                <div class="success-check">
+                    <i class="fa-solid fa-check text-white text-4xl"></i>
+                </div>
+            </div>
+            <h2 class="text-2xl font-black text-gray-800 mb-2">Order Confirmed!</h2>
+            <p class="text-gray-500 text-sm mb-4">Thank you for your purchase.</p>
+            
+            <div class="bg-gray-50 inline-block px-6 py-3 rounded-xl border border-gray-100 mb-6">
+                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order ID</span>
+                <p id="successOrderId" class="text-xl font-black text-primary mt-1">#---</p>
+            </div>
+            
+            <p id="guestSuccessMessage" class="text-xs text-amber-700 mb-4 hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i> 
+                You ordered as a guest. <a href="/sign-up" class="text-amber-800 font-bold underline">Sign up</a> to track orders.
+            </p>
+            
+            <button class="btn btn-primary" onclick="window.location.href='/'">
+                <i class="fa-solid fa-house"></i> Back to Home
+            </button>
+            <button class="btn btn-outline mt-3" onclick="window.location.href='/account'">
+                <i class="fa-solid fa-box"></i> Track Orders
+            </button>
+        </div>
+        
+    </div>
+</main>
 
-        let currentStep = 1;
-        let selectedPayment = 'cod';
-        let userSession = null;
-        let cartData = [];
-        let deliveryCharges = [];
-        let paymentGateways = [];
+<script>
+    // ==================== INITIALIZATION ====================
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // ──────────────────────────────────────────────
-        //  UTILITY FUNCTIONS
-        // ──────────────────────────────────────────────
-        function showToast(text, type = 'success') {
-            const toast = document.getElementById('toast');
-            const content = document.getElementById('toastContent');
-            const icon = document.getElementById('toast-icon');
+    // Global State
+    let currentStep = 1;
+    let selectedPayment = 'cod';
+    let userSession = null;
+    let userProfile = null;
+    let cartData = [];
+    let deliveryCharges = [];
+    let isUsingProfileAddress = true;
+    
+    // Cache DOM elements
+    const DOM = {
+        loaderOverlay: document.getElementById('loaderOverlay'),
+        loaderText: document.getElementById('loaderText'),
+        toast: document.getElementById('toast'),
+        toastIcon: document.getElementById('toast-icon'),
+        toastText: document.getElementById('toast-text'),
+        checkoutContainer: document.getElementById('checkoutContainer')
+    };
 
-            document.getElementById('toast-text').innerText = text;
-            content.classList.toggle('error', type === 'error');
-            icon.innerHTML = type === 'error' ?
-                '<i class="fa-solid fa-circle-exclamation text-red-500"></i>' :
-                '<i class="fa-solid fa-circle-check text-green-500"></i>';
+    // ==================== UTILITY FUNCTIONS ====================
+    function showToast(text, type = 'success') {
+        const iconMap = {
+            success: { icon: 'fa-circle-check', bg: 'bg-green-100 text-green-600' },
+            error: { icon: 'fa-circle-exclamation', bg: 'bg-red-100 text-red-600' },
+            info: { icon: 'fa-circle-info', bg: 'bg-blue-100 text-blue-600' }
+        };
+        
+        const config = iconMap[type] || iconMap.info;
+        DOM.toastIcon.className = `w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0 ${config.bg}`;
+        DOM.toastIcon.innerHTML = `<i class="fa-solid ${config.icon}"></i>`;
+        DOM.toastText.innerText = text;
+        
+        DOM.toast.classList.add('show');
+        clearTimeout(DOM.toast._timeout);
+        DOM.toast._timeout = setTimeout(() => DOM.toast.classList.remove('show'), 3500);
+    }
 
-            toast.classList.add('show');
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+    function hideToast() {
+        DOM.toast.classList.remove('show');
+    }
+
+    function showLoader(text = 'Processing...') {
+        DOM.loaderText.innerText = text;
+        DOM.loaderOverlay.classList.add('show');
+    }
+
+    function hideLoader() {
+        DOM.loaderOverlay.classList.remove('show');
+    }
+
+    // ==================== NAVIGATION ====================
+    function updateStepIndicators(step) {
+        for (let i = 1; i <= 3; i++) {
+            const indicator = document.getElementById(`stepIndicator${i}`);
+            const connector = document.getElementById(`stepConnector${i}`);
+            
+            if (indicator) {
+                indicator.className = 'step-item';
+                if (i < step) indicator.classList.add('done');
+                else if (i === step) indicator.classList.add('active');
+                
+                const dot = indicator.querySelector('.step-dot');
+                if (i < step) dot.innerHTML = '<i class="fa-solid fa-check"></i>';
+                else dot.innerHTML = i;
+            }
+            
+            if (connector && i < 3) {
+                connector.className = 'step-connector';
+                if (i < step) connector.classList.add('done');
+            }
         }
+    }
 
-        function hideToast() { document.getElementById('toast').classList.remove('show'); }
+    function showStep(step) {
+        const steps = ['step1Content', 'step2Content', 'step3Content', 'successContent'];
+        
+        steps.forEach((id, index) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            
+            const isTarget = (step === 4 && id === 'successContent') || (index + 1 === step);
+            el.classList.toggle('hidden-step', !isTarget);
+            el.classList.toggle('active-step', isTarget);
+        });
+        
+        currentStep = step;
+        updateStepIndicators(step);
+        DOM.checkoutContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-        function showLoader(text = 'Processing...') {
-            document.getElementById('loaderText').innerText = text;
-            document.getElementById('loaderOverlay').classList.add('show');
+    // ==================== SHIPPING INFO ====================
+    function getShippingInfo() {
+        if (isUsingProfileAddress && userProfile) {
+            return {
+                name: userProfile.full_name || '',
+                phone: userProfile.phone || '',
+                email: userSession?.email || '',
+                district: userProfile.district || '',
+                upazila: userProfile.subdistrict || '',
+                address: userProfile.address || ''
+            };
         }
+        
+        return {
+            name: document.getElementById('shippingName')?.value?.trim() || '',
+            phone: document.getElementById('shippingPhone')?.value?.trim() || '',
+            email: document.getElementById('shippingEmail')?.value?.trim() || '',
+            district: document.getElementById('shippingDistrict')?.value || '',
+            upazila: document.getElementById('shippingUpazila')?.value?.trim() || '',
+            address: document.getElementById('shippingAddress')?.value?.trim() || ''
+        };
+    }
 
-        function hideLoader() { document.getElementById('loaderOverlay').classList.remove('show'); }
+    function getFullAddress(info) {
+        return `${info.address}, ${info.upazila}, ${info.district}`;
+    }
 
-        // ──────────────────────────────────────────────
-        //  STEP NAVIGATION
-        // ──────────────────────────────────────────────
-        function updateStepIndicators(step) {
-            ['stepDot1', 'stepDot2', 'stepDot3'].forEach((id, i) => {
-                const el = document.getElementById(id);
-                el.className = 'step-dot';
-                if (i + 1 < step) {
-                    el.classList.add('done');
-                    el.innerHTML = '<i class="fa-solid fa-check"></i>';
-                } else if (i + 1 === step) {
-                    el.classList.add('active');
-                    el.innerHTML = i + 1;
-                } else {
-                    el.classList.add('pending');
-                    el.innerHTML = i + 1;
+    function goToStep1() { showStep(1); }
+
+    function goToStep2() {
+        const info = getShippingInfo();
+        
+        // Validation
+        if (!info.name) { showToast('Please enter your full name', 'error'); return; }
+        if (!info.phone) { showToast('Please enter your phone number', 'error'); return; }
+        if (!/^01[0-9]{9}$/.test(info.phone)) { showToast('Enter a valid 11-digit phone number (01XXXXXXXXX)', 'error'); return; }
+        if (!info.district) { showToast('Please select your district', 'error'); return; }
+        if (!info.upazila) { showToast('Please enter your upazila/area', 'error'); return; }
+        if (!info.address) { showToast('Please enter your full address', 'error'); return; }
+        
+        calculateDeliveryAndUpdateSummary();
+        showStep(2);
+    }
+
+    function goToStep3() {
+        // bKash validation
+        if (selectedPayment === 'bkash') {
+            const senderNumber = document.getElementById('bkashSenderNumber')?.value?.trim() || '';
+            const trxId = document.getElementById('bkashTransactionId')?.value?.trim() || '';
+            
+            if (!senderNumber) { showToast('Enter your bKash number', 'error'); return; }
+            if (!/^01[0-9]{9}$/.test(senderNumber)) { showToast('Enter a valid bKash number', 'error'); return; }
+            if (!trxId) { showToast('Enter the bKash Transaction ID', 'error'); return; }
+            if (trxId.length < 6) { showToast('Enter a valid Transaction ID', 'error'); return; }
+        }
+        
+        const info = getShippingInfo();
+        
+        // Populate Review Section
+        document.getElementById('reviewName').innerText = info.name;
+        document.getElementById('reviewPhone').innerText = info.phone;
+        document.getElementById('reviewEmail').innerText = info.email || 'Not provided';
+        document.getElementById('reviewAddressFull').innerText = getFullAddress(info);
+        document.getElementById('reviewPayment').innerText = selectedPayment === 'cod' ? 'Cash on Delivery (COD)' : 'bKash Payment';
+        
+        // bKash extra info
+        const bkashExtra = document.getElementById('reviewBkashExtra');
+        if (selectedPayment === 'bkash') {
+            bkashExtra.innerText = `TrxID: ${document.getElementById('bkashTransactionId').value.trim()}`;
+            bkashExtra.classList.remove('hidden');
+        } else {
+            bkashExtra.classList.add('hidden');
+        }
+        
+        // Review Items
+        const itemsHtml = cartData.map(item => `
+            <div class="flex items-center gap-3 border-b border-gray-100 pb-2 last:border-0 last:pb-0">
+                <img src="${item.img || ''}" alt="${item.title}" 
+                     class="w-10 h-12 object-cover rounded-lg bg-gray-200 shrink-0"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="w-10 h-12 rounded-lg bg-gray-200 shrink-0 items-center justify-center text-gray-400 text-xs" style="display:none;">
+                    <i class="fa-solid fa-image"></i>
+                </div>
+                <div class="flex-grow min-w-0">
+                    <p class="text-xs font-bold text-gray-800 truncate">${item.title}</p>
+                    <p class="text-[10px] text-gray-500">
+                        ${item.variant ? `<span class="font-medium text-gray-600">${item.variant}</span> · ` : ''}
+                        Qty: ${item.quantity || 1}
+                    </p>
+                </div>
+                <span class="font-bold text-sm shrink-0">৳${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+            </div>
+        `).join('');
+        
+        document.getElementById('reviewItems').innerHTML = itemsHtml || '<p class="text-xs text-gray-400 text-center py-4">No items in cart</p>';
+        
+        // Financial Summary
+        const subtotal = window._subtotal || 0;
+        const delivery = window._deliveryCharge || 0;
+        const discount = window._discount || 0;
+        const total = subtotal + delivery - discount;
+        
+        document.getElementById('reviewSubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
+        document.getElementById('reviewDelivery').innerText = `৳ ${delivery.toFixed(2)}`;
+        
+        const discountRow = document.getElementById('reviewDiscountRow');
+        if (discount > 0) {
+            discountRow.classList.remove('hidden');
+            document.getElementById('reviewDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
+        } else {
+            discountRow.classList.add('hidden');
+        }
+        
+        document.getElementById('reviewTotal').innerText = `৳ ${total.toFixed(2)}`;
+        
+        // Account Creation Section
+        if (userSession) {
+            document.getElementById('accountCreationSection').style.display = 'none';
+        } else {
+            document.getElementById('accountCreationSection').style.display = 'block';
+            if (info.email) {
+                document.getElementById('accountEmail').value = info.email;
+            }
+            // Reset password field and suggestion
+            document.getElementById('accountPassword').value = '';
+            document.getElementById('passwordSuggestionBox').classList.add('hidden');
+            document.getElementById('accountBenefitsContent').classList.remove('open');
+            document.getElementById('accountChevron').style.transform = 'rotate(0deg)';
+        }
+        
+        showStep(3);
+    }
+
+    // ==================== DELIVERY CALCULATION ====================
+    async function calculateDeliveryAndUpdateSummary() {
+        const info = getShippingInfo();
+        let charge = 120; // Default
+        
+        // Try to find specific delivery charge
+        if (deliveryCharges.length > 0) {
+            const found = deliveryCharges.find(d => 
+                d.upazila?.toLowerCase() === info.upazila.toLowerCase()
+            ) || deliveryCharges.find(d => 
+                d.district?.toLowerCase() === info.district.toLowerCase() && !d.upazila
+            ) || deliveryCharges.find(d => 
+                (d.location_name || '').toLowerCase() === 'default'
+            );
+            
+            if (found) charge = found.charge || 120;
+        }
+        
+        const subtotal = cartData.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+        const discount = window._discount || 0;
+        const total = subtotal + charge - discount;
+        
+        // Update Step 2 Summary
+        document.getElementById('summarySubtotal').innerText = `৳ ${subtotal.toFixed(2)}`;
+        document.getElementById('summaryDelivery').innerText = `৳ ${charge.toFixed(2)}`;
+        document.getElementById('summaryTotal').innerText = `৳ ${total.toFixed(2)}`;
+        
+        const discountRow = document.getElementById('summaryDiscountRow');
+        if (discount > 0) {
+            discountRow.classList.remove('hidden');
+            document.getElementById('summaryDiscount').innerText = `- ৳ ${discount.toFixed(2)}`;
+        } else {
+            discountRow.classList.add('hidden');
+        }
+        
+        // Store globally
+        window._subtotal = subtotal;
+        window._deliveryCharge = charge;
+        window._total = total;
+    }
+
+    // ==================== PAYMENT ====================
+    function selectPayment(method) {
+        selectedPayment = method;
+        
+        document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+        document.getElementById(`payment-${method}`)?.classList.add('selected');
+        
+        const bkashSection = document.getElementById('bkashDetailSection');
+        if (method === 'bkash') {
+            bkashSection.classList.remove('hidden');
+        } else {
+            bkashSection.classList.add('hidden');
+        }
+    }
+
+    // ==================== ADDRESS MANAGEMENT ====================
+    function toggleAddressMode() {
+        const collapse = document.getElementById('newAddressCollapse');
+        const btn = document.getElementById('toggleAddressBtn');
+        const profileCard = document.getElementById('profileCard');
+        
+        if (collapse.classList.contains('open')) {
+            // Switch back to profile address
+            collapse.classList.remove('open');
+            btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Use different address';
+            profileCard.classList.add('selected-profile');
+            profileCard.style.borderColor = '#bbf7d0';
+            isUsingProfileAddress = true;
+            
+            // Hide guest form
+            document.getElementById('guestFormSection').style.display = 'none';
+        } else {
+            // Switch to manual address
+            collapse.classList.add('open');
+            btn.innerHTML = '<i class="fa-solid fa-user-check"></i> Use saved profile address';
+            profileCard.classList.remove('selected-profile');
+            profileCard.style.borderColor = '#e5e7eb';
+            isUsingProfileAddress = false;
+            
+            // Show guest form with profile data pre-filled
+            document.getElementById('guestFormSection').style.display = 'block';
+            if (userProfile) {
+                document.getElementById('shippingName').value = userProfile.full_name || '';
+                document.getElementById('shippingPhone').value = userProfile.phone || '';
+                document.getElementById('shippingEmail').value = userSession?.email || '';
+                document.getElementById('shippingDistrict').value = userProfile.district || '';
+                document.getElementById('shippingUpazila').value = userProfile.subdistrict || '';
+                document.getElementById('shippingAddress').value = userProfile.address || '';
+            }
+        }
+    }
+
+    function getManualAddressFormHTML() {
+        return `
+            <div class="input-group">
+                <label>Full Name *</label>
+                <input type="text" id="manualFullName" placeholder="Enter your full name" autocomplete="name">
+            </div>
+            <div class="input-group">
+                <label>Phone Number *</label>
+                <input type="tel" id="manualPhone" placeholder="01XXXXXXXXX" autocomplete="tel-national">
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label>District *</label>
+                    <select id="manualDistrict"><option value="">Select District</option></select>
+                </div>
+                <div class="input-group">
+                    <label>Upazila / Area *</label>
+                    <input type="text" id="manualUpazila" placeholder="e.g. Gulshan">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Full Address *</label>
+                <textarea id="manualAddress" placeholder="House/Road/Village details..."></textarea>
+            </div>
+        `;
+    }
+
+    // ==================== ACCOUNT CREATION ====================
+    function generateSuggestedPassword(name, email) {
+        const namePart = (name || 'User').replace(/[^a-zA-Z]/g, '').substring(0, 3).toLowerCase();
+        const emailPart = (email || 'mail').split('@')[0].replace(/[^a-zA-Z]/g, '').substring(0, 3).toLowerCase();
+        const randomNum = Math.floor(100 + Math.random() * 900);
+        
+        let password = namePart + emailPart + randomNum;
+        if (password.length < 8) password += 'xyz'.substring(0, 8 - password.length);
+        
+        return password.charAt(0).toUpperCase() + password.slice(1, 8);
+    }
+
+    function useSuggestedPassword() {
+        const passText = document.getElementById('suggestedPasswordTxt').innerText;
+        const passInput = document.getElementById('accountPassword');
+        passInput.value = passText;
+        passInput.type = 'text';
+        setTimeout(() => { passInput.type = 'password'; }, 1500);
+        showToast('Password applied!', 'success');
+    }
+
+    function toggleAccountCreation() {
+        const content = document.getElementById('accountBenefitsContent');
+        const chevron = document.getElementById('accountChevron');
+        const info = getShippingInfo();
+        
+        if (!info.email) {
+            showToast('Please add an email in Step 1 to create an account', 'info');
+            return;
+        }
+        
+        const isOpen = content.classList.contains('open');
+        
+        if (isOpen) {
+            content.classList.remove('open');
+            chevron.style.transform = 'rotate(0deg)';
+        } else {
+            // Generate password suggestion
+            const suggestedPass = generateSuggestedPassword(info.name, info.email);
+            document.getElementById('suggestedPasswordTxt').innerText = suggestedPass;
+            document.getElementById('passwordSuggestionBox').classList.remove('hidden');
+            document.getElementById('accountEmail').value = info.email;
+            
+            content.classList.add('open');
+            chevron.style.transform = 'rotate(180deg)';
+        }
+    }
+
+    // ==================== ORDER PLACEMENT ====================
+    async function placeOrderAsGuest() {
+        if (!cartData.length) {
+            showToast('Your cart is empty', 'error');
+            return;
+        }
+        
+        showLoader('Placing your order...');
+        
+        try {
+            const info = getShippingInfo();
+            const subtotal = window._subtotal || 0;
+            const delivery = window._deliveryCharge || 0;
+            const discount = window._discount || 0;
+            const total = subtotal + delivery - discount;
+            
+            // Prepare order items
+            const items = cartData.map(item => ({
+                product_id: item.product_id || null,
+                variant_id: item.variant_id || null,
+                title: item.title,
+                variant: item.variant || null,
+                quantity: item.quantity || 1,
+                price: item.price
+            }));
+            
+            // Prepare order data
+            const orderData = {
+                customer_name: info.name,
+                phone: info.phone,
+                email: info.email || null,
+                district: info.district,
+                upazila: info.upazila,
+                address: info.address,
+                full_address: getFullAddress(info),
+                payment_method: selectedPayment,
+                bkash_number: selectedPayment === 'bkash' ? document.getElementById('bkashSenderNumber')?.value?.trim() : null,
+                transaction_id: selectedPayment === 'bkash' ? document.getElementById('bkashTransactionId')?.value?.trim() : null,
+                items: items,
+                subtotal: subtotal,
+                delivery_charge: delivery,
+                discount: discount,
+                total: total,
+                status: 'pending',
+                order_type: userSession ? 'member' : 'guest',
+                user_id: userSession?.id || null
+            };
+            
+            let result;
+            
+            // Try RPC first (for member orders), fallback to direct insert
+            if (userSession) {
+                try {
+                    const { data, error } = await _supabase.rpc('secure_checkout', {
+                        p_member_name: info.name,
+                        p_member_email: info.email || userSession.email,
+                        p_project_title: 'Store Order',
+                        p_member_info: orderData
+                    });
+                    
+                    if (error) throw error;
+                    result = data;
+                } catch (rpcError) {
+                    console.warn('RPC failed, using direct insert:', rpcError);
+                    // Fallback to direct insert
+                    const { data, error } = await _supabase
+                        .from('orders')
+                        .insert([orderData])
+                        .select('id')
+                        .single();
+                    
+                    if (error) throw error;
+                    result = { order_id: data.id };
+                }
+            } else {
+                // Guest order - direct insert
+                const { data, error } = await _supabase
+                    .from('orders')
+                    .insert([orderData])
+                    .select('id')
+                    .single();
+                
+                if (error) throw error;
+                result = { order_id: data.id };
+            }
+            
+            // Success
+            localStorage.removeItem('jayen_cart');
+            hideLoader();
+            
+            const orderId = result?.order_id || `JW-${Date.now().toString(36).toUpperCase()}`;
+            document.getElementById('successOrderId').innerText = `#${orderId}`;
+            
+            // Show guest message if applicable
+            const guestMsg = document.getElementById('guestSuccessMessage');
+            if (!userSession) {
+                guestMsg.classList.remove('hidden');
+            } else {
+                guestMsg.classList.add('hidden');
+            }
+            
+            showStep(4);
+            
+            // Notify parent window (if in iframe)
+            if (window.parent && window.parent !== window) {
+                try {
+                    window.parent.postMessage({ type: 'orderPlaced', orderId: orderId }, '*');
+                } catch (e) {
+                    // Ignore cross-origin errors
+                }
+            }
+            
+            showToast('Order placed successfully!', 'success');
+            
+        } catch (error) {
+            hideLoader();
+            console.error('Order placement failed:', error);
+            showToast('Failed to place order: ' + (error.message || 'Unknown error'), 'error');
+        }
+    }
+
+    async function createAccountAndPlaceOrder() {
+        const email = document.getElementById('accountEmail').value.trim();
+        const password = document.getElementById('accountPassword').value;
+        
+        if (!email) {
+            showToast('Email is required to create account', 'error');
+            return;
+        }
+        if (!password || password.length < 6) {
+            showToast('Password must be at least 6 characters', 'error');
+            return;
+        }
+        
+        showLoader('Creating your account...');
+        
+        try {
+            const info = getShippingInfo();
+            
+            // Step 1: Sign up
+            const { data: signUpData, error: signUpError } = await _supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        full_name: info.name,
+                        phone: info.phone,
+                        district: info.district,
+                        subdistrict: info.upazila,
+                        address: info.address
+                    }
                 }
             });
-            ['stepLine1', 'stepLine2'].forEach((id, i) => {
-                const el = document.getElementById(id);
-                el.className = 'step-line';
-                if (i + 1 < step) el.classList.add('done');
+            
+            if (signUpError) {
+                // Check if email already exists
+                if (signUpError.message.includes('already registered') || 
+                    signUpError.message.includes('already exists') ||
+                    signUpError.message.includes('duplicate')) {
+                    hideLoader();
+                    showToast('This email is already registered. Please login or use a different email.', 'error');
+                    return;
+                }
+                throw signUpError;
+            }
+            
+            // Step 2: Set user session
+            userSession = signUpData.user;
+            userProfile = signUpData.user.user_metadata;
+            isUsingProfileAddress = true;
+            
+            // Step 3: Place the order
+            await placeOrderAsGuest();
+            
+        } catch (error) {
+            hideLoader();
+            console.error('Account creation failed:', error);
+            showToast('Account creation failed: ' + (error.message || 'Please try again'), 'error');
+        }
+    }
+
+    // ==================== DATA LOADING ====================
+    function populateDistrictDropdown() {
+        const districts = [
+            'Bagerhat', 'Bandarban', 'Barguna', 'Barishal', 'Bhola', 'Bogura', 
+            'Brahmanbaria', 'Chandpur', 'Chapainawabganj', 'Chattogram', 'Chuadanga', 
+            'Comilla', "Cox's Bazar", 'Dhaka', 'Dinajpur', 'Faridpur', 'Feni', 
+            'Gaibandha', 'Gazipur', 'Gopalganj', 'Habiganj', 'Jamalpur', 'Jashore', 
+            'Jhalokathi', 'Jhenaidah', 'Joypurhat', 'Khagrachhari', 'Khulna', 
+            'Kishoreganj', 'Kurigram', 'Kushtia', 'Lakshmipur', 'Lalmonirhat', 
+            'Madaripur', 'Magura', 'Manikganj', 'Meherpur', 'Moulvibazar', 'Munshiganj', 
+            'Mymensingh', 'Naogaon', 'Narail', 'Narayanganj', 'Narsingdi', 'Natore', 
+            'Netrokona', 'Nilphamari', 'Noakhali', 'Pabna', 'Panchagarh', 'Patuakhali', 
+            'Pirojpur', 'Rajbari', 'Rajshahi', 'Rangamati', 'Rangpur', 'Satkhira', 
+            'Shariatpur', 'Sherpur', 'Sirajganj', 'Sunamganj', 'Sylhet', 'Tangail', 
+            'Thakurgaon'
+        ];
+        
+        const selectElement = document.getElementById('shippingDistrict');
+        if (selectElement && selectElement.options.length <= 1) {
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                selectElement.appendChild(option);
             });
         }
+    }
 
-        function showStep(step) {
-            ['step1Content', 'step2Content', 'step3Content', 'successContent'].forEach((id, idx) => {
-                const el = document.getElementById(id);
-                if (!el) return;
-                const isTarget = (step === 4 && id === 'successContent') || (idx + 1 === step);
-                el.classList.toggle('hidden-step', !isTarget);
-                el.classList.toggle('active-step', isTarget);
-            });
-            currentStep = step;
-            updateStepIndicators(step);
-            document.getElementById('checkoutContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function renderPaymentOptions() {
+        const container = document.getElementById('paymentOptions');
+        if (!container) return;
+        
+        container.innerHTML = `
+            <div class="payment-option selected" id="payment-cod" onclick="selectPayment('cod')">
+                <div class="radio-indicator"></div>
+                <div class="flex-grow">
+                    <span class="font-bold text-sm text-gray-800">Cash on Delivery</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Pay with cash when your order arrives</p>
+                </div>
+                <i class="fa-solid fa-hand-holding-dollar text-2xl text-green-500 shrink-0"></i>
+            </div>
+            <div class="payment-option" id="payment-bkash" onclick="selectPayment('bkash')">
+                <div class="radio-indicator"></div>
+                <div class="flex-grow">
+                    <span class="font-bold text-sm text-gray-800">bKash Payment</span>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Send payment via bKash to merchant account</p>
+                </div>
+                <div class="w-10 h-10 bg-[#e2136e] rounded-xl flex items-center justify-center shrink-0">
+                    <span class="text-white font-serif font-black text-xl">b</span>
+                </div>
+            </div>
+        `;
+    }
+
+    async function loadDeliveryCharges() {
+        try {
+            const { data, error } = await _supabase
+                .from('delivery_settings')
+                .select('*');
+            
+            if (!error && data) {
+                deliveryCharges = data;
+                console.log('Delivery charges loaded:', deliveryCharges.length, 'entries');
+            }
+        } catch (e) {
+            console.warn('Could not load delivery charges, using default');
+            deliveryCharges = [];
         }
+    }
 
-        function goToStep1() { showStep(1); }
+    // ==================== INITIALIZATION ====================
+    async function init() {
+        showLoader('Loading checkout...');
+        
+        try {
+            // Load cart data
+            const cartJson = localStorage.getItem('jayen_cart');
+            cartData = cartJson ? JSON.parse(cartJson) : [];
+            
+            if (!cartData.length) {
+                hideLoader();
+                showToast('Your cart is empty! Redirecting...', 'error');
+                setTimeout(() => { window.location.href = '/'; }, 2000);
+                return;
+            }
+            
+            // Initialize UI components
+            populateDistrictDropdown();
+            renderPaymentOptions();
+            
+            // Load delivery charges
+            await loadDeliveryCharges();
+            
+            // Check user session
+            const { data: { session } } = await _supabase.auth.getSession();
+            
+            if (session?.user) {
+                userSession = session.user;
+                userProfile = session.user.user_metadata || {};
+                
+                // Show profile card, hide guest form
+                const profileSection = document.getElementById('profileCardSection');
+                const guestSection = document.getElementById('guestFormSection');
+                
+                if (profileSection) {
+                    profileSection.style.display = 'block';
+                    
+                    // Update profile card
+                    document.getElementById('profileName').innerText = userProfile.full_name || 'User';
+                    document.getElementById('profileAvatar').innerText = (userProfile.full_name || 'U').charAt(0).toUpperCase();
+                    document.getElementById('profileAddress').innerText = 
+                        `${userProfile.address || ''}, ${userProfile.subdistrict || ''}, ${userProfile.district || ''}`;
+                    
+                    // Set manual address form
+                    document.getElementById('manualAddressForm').innerHTML = getManualAddressFormHTML();
+                    populateManualDistrictDropdown();
+                }
+                
+                if (guestSection) {
+                    guestSection.style.display = 'none';
+                }
+                
+                isUsingProfileAddress = true;
+            } else {
+                // Guest mode
+                const profileSection = document.getElementById('profileCardSection');
+                const guestSection = document.getElementById('guestFormSection');
+                
+                if (profileSection) profileSection.style.display = 'none';
+                if (guestSection) guestSection.style.display = 'block';
+                
+                isUsingProfileAddress = false;
+            }
+            
+            // Initialize financial globals
+            window._subtotal = cartData.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+            window._deliveryCharge = 120;
+            window._discount = 0;
+            window._total = window._subtotal + window._deliveryCharge;
+            
+            hideLoader();
+            
+        } catch (error) {
+            hideLoader();
+            console.error('Initialization failed:', error);
+            showToast('Failed to load checkout. Please refresh.', 'error');
+        }
+    }
 
-        // ──────────────────────────────────────────────
-        //  SHIPPING INFO
-        // ──────────────────────────────────────────────
-        function getShippingInfo() {
-            return {
-                name: document.getElementById('shippingName').value.trim(),
-                phone: document.getElementById('shippingPhone').value.trim(),
-                email: document.getElementById('shippingEmail').value.trim(),
-                district: document.getElementById('shippingDistrict').value,
-                upazila: document.getElementById('shippingUpazila').value.trim(),
-                address: document
+    function populateManualDistrictDropdown() {
+        const districts = [
+            'Bagerhat', 'Bandarban', 'Barguna', 'Barishal', 'Bhola', 'Bogura', 
+            'Brahmanbaria', 'Chandpur', 'Chapainawabganj', 'Chattogram', 'Chuadanga', 
+            'Comilla', "Cox's Bazar", 'Dhaka', 'Dinajpur', 'Faridpur', 'Feni', 
+            'Gaibandha', 'Gazipur', 'Gopalganj', 'Habiganj', 'Jamalpur', 'Jashore', 
+            'Jhalokathi', 'Jhenaidah', 'Joypurhat', 'Khagrachhari', 'Khulna', 
+            'Kishoreganj', 'Kurigram', 'Kushtia', 'Lakshmipur', 'Lalmonirhat', 
+            'Madaripur', 'Magura', 'Manikganj', 'Meherpur', 'Moulvibazar', 'Munshiganj', 
+            'Mymensingh', 'Naogaon', 'Narail', 'Narayanganj', 'Narsingdi', 'Natore', 
+            'Netrokona', 'Nilphamari', 'Noakhali', 'Pabna', 'Panchagarh', 'Patuakhali', 
+            'Pirojpur', 'Rajbari', 'Rajshahi', 'Rangamati', 'Rangpur', 'Satkhira', 
+            'Shariatpur', 'Sherpur', 'Sirajganj', 'Sunamganj', 'Sylhet', 'Tangail', 
+            'Thakurgaon'
+        ];
+        
+        const selectElement = document.getElementById('manualDistrict');
+        if (selectElement && selectElement.options.length <= 1) {
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                selectElement.appendChild(option);
+            });
+        }
+    }
+
+    // Start the application
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
