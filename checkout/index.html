@@ -40,6 +40,7 @@
         body { background-color: var(--soft); color: #1a1a1a; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
         main { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .checkout-container { width: 100%; max-width: 520px; background: white; border-radius: 32px; box-shadow: 0 25px 70px rgba(0,0,0,0.06); overflow: hidden; animation: slideUp 0.6s cubic-bezier(0.4,0,0.2,1); }
+        .checkout-container.international { max-width: 620px; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         .step-indicator { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 28px 24px 20px; }
         .step-dot { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; transition: all 0.4s; }
@@ -55,16 +56,22 @@
         .input-group input:focus, .input-group textarea:focus, .input-group select:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 4px rgba(201,169,110,0.08); }
         .input-group textarea { min-height: 80px; resize: vertical; }
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .input-row.three-col { grid-template-columns: 1fr 1fr 1fr; }
         .btn { width: 100%; padding: 16px 20px; border-radius: 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; transition: all 0.3s; border: none; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: #2d2d2d; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .btn-primary:disabled { background: #d0d0d0; cursor: not-allowed; transform: none; box-shadow: none; }
         .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid #e0e0e0; }
         .btn-outline:hover { background: #f5f5f5; border-color: #ccc; }
+        .btn-accent { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-accent:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.3); }
         .btn-ghost { background: transparent; color: #777; border: none; padding: 12px; font-size: 11px; font-weight: 600; text-transform: none; letter-spacing: normal; cursor: pointer; }
         .btn-ghost:hover { color: var(--primary); background: #f5f5f5; }
-        .btn-international { background: linear-gradient(135deg, #1e3a5f, #2d5a87); color: white; }
-        .btn-international:hover { background: linear-gradient(135deg, #2d5a87, #3d6a97); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(30,58,95,0.2); }
+        .checkout-type-selector { display: flex; gap: 10px; margin: 0 28px 20px; background: #f5f5f5; border-radius: 20px; padding: 6px; }
+        .checkout-type-btn { flex: 1; padding: 12px; border-radius: 16px; border: none; background: transparent; cursor: pointer; font-weight: 600; font-size: 12px; transition: all 0.3s; color: #888; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Inter', sans-serif; }
+        .checkout-type-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .checkout-type-btn.active .flag-icon { opacity: 1; }
+        .flag-icon { width: 24px; height: 18px; border-radius: 3px; object-fit: cover; opacity: 0.6; transition: all 0.3s; }
         .payment-option { display: flex; align-items: center; gap: 14px; padding: 18px; border: 2px solid #f0f0f0; border-radius: 18px; cursor: pointer; transition: all 0.25s; margin-bottom: 12px; background: white; }
         .payment-option:hover { border-color: #d5d5d5; background: #fcfcfc; }
         .payment-option.selected { border-color: var(--primary); background: #fafafa; box-shadow: 0 6px 15px rgba(0,0,0,0.03); }
@@ -88,6 +95,7 @@
         .divider-text::before, .divider-text::after { content: ''; flex-grow: 1; height: 1px; background: #e8e8e8; }
         .guest-banner { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 18px; padding: 18px; margin-top: 24px; text-align: center; }
         .guest-banner p { font-size: 11px; color: #0369a1; margin: 6px 0 0; }
+        .intl-banner { background: linear-gradient(135deg, #667eea15, #764ba215); border: 2px solid #667eea30; border-radius: 18px; padding: 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
         .tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: #e5e5e5; font-size: 10px; font-weight: 700; color: #666; cursor: help; margin-left: 4px; transition: background 0.2s; }
         .tooltip-icon:hover { background: #ccc; }
         .success-check { width: 80px; height: 80px; background: #22c55e; border-radius: 24px; display: flex; align-items: center; justify-content: center; animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275); box-shadow: 0 15px 30px rgba(34,197,94,0.15); }
@@ -102,21 +110,21 @@
         .hidden-step { display: none; }
         .active-step { display: block; animation: fadeIn 0.45s cubic-bezier(0.4,0,0.2,1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .checkout-type-toggle { display: flex; gap: 0; margin-bottom: 20px; background: #f0f0f0; border-radius: 14px; padding: 4px; }
-        .checkout-type-btn { flex: 1; padding: 12px 16px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s; border: none; background: transparent; color: #777; }
-        .checkout-type-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-        .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
-        .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--primary); }
-        .checkbox-group label { font-size: 12px; color: #555; line-height: 1.5; }
+        .country-flag-sm { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; display: inline-block; vertical-align: middle; margin-right: 6px; }
+        .checkbox-group { display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; }
+        .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); margin-top: 2px; }
+        .checkbox-group label { font-size: 11px; color: #666; line-height: 1.5; cursor: pointer; }
         @media (max-width: 480px) {
             .checkout-container { border-radius: 24px; }
             .step-content { padding: 0 18px 22px; }
             .input-group input, .input-group textarea, .input-group select { padding: 13px 15px; font-size: 16px; border-radius: 14px; }
             .input-row { grid-template-columns: 1fr; gap: 10px; }
+            .input-row.three-col { grid-template-columns: 1fr; }
             .profile-card { padding: 16px; gap: 12px; }
             .profile-avatar { width: 44px; height: 44px; font-size: 18px; border-radius: 14px; }
             .btn { padding: 15px; font-size: 11px; }
-            .checkout-type-btn { padding: 10px 12px; font-size: 11px; }
+            .checkout-type-selector { margin: 0 18px 16px; }
+            .checkout-type-btn { font-size: 10px; padding: 10px; }
         }
     </style>
 </head>
@@ -151,20 +159,18 @@
             </div>
         </div>
 
-        <!-- Checkout Type Toggle -->
-        <div style="padding: 24px 28px 0;">
-            <div class="checkout-type-toggle" id="checkoutTypeToggle">
-                <button class="checkout-type-btn active" onclick="switchCheckoutType('domestic')" id="domesticBtn">
-                    <i class="fa-solid fa-house mr-1"></i> Bangladesh
-                </button>
-                <button class="checkout-type-btn" onclick="switchCheckoutType('international')" id="internationalBtn">
-                    <i class="fa-solid fa-globe mr-1"></i> International
-                </button>
-            </div>
+        <!-- CHECKOUT TYPE SELECTOR - NEW -->
+        <div class="checkout-type-selector" style="margin-top: 20px;">
+            <button class="checkout-type-btn active" id="domesticBtn" onclick="switchCheckoutType('domestic')">
+                🇧🇩 Domestic
+            </button>
+            <button class="checkout-type-btn" id="internationalBtn" onclick="switchCheckoutType('international')">
+                🌍 International
+            </button>
         </div>
 
-        <!-- DOMESTIC CHECKOUT SECTION -->
-        <div id="domesticCheckoutSection">
+        <!-- ==================== DOMESTIC CHECKOUT SECTION ==================== -->
+        <div id="domesticSection">
             <div class="step-indicator">
                 <div class="step-dot active" id="stepDot1">1</div>
                 <div class="step-line" id="stepLine1"></div>
@@ -351,7 +357,7 @@
                 </div>
             </div>
 
-            <!-- SUCCESS -->
+            <!-- DOMESTIC SUCCESS -->
             <div class="step-content hidden-step" id="successContent" style="text-align:center; padding:50px 28px;">
                 <div style="display:flex; justify-content:center; margin-bottom:28px;">
                     <div class="success-check"><i class="fa-solid fa-check" style="font-size:38px;"></i></div>
@@ -371,8 +377,8 @@
             </div>
         </div>
 
-        <!-- INTERNATIONAL CHECKOUT SECTION -->
-        <div id="internationalCheckoutSection" style="display: none;">
+        <!-- ==================== INTERNATIONAL CHECKOUT SECTION (NEW) ==================== -->
+        <div id="internationalSection" style="display: none;">
             <div class="step-indicator">
                 <div class="step-dot active" id="intlStepDot1">1</div>
                 <div class="step-line" id="intlStepLine1"></div>
@@ -381,151 +387,135 @@
                 <div class="step-dot pending" id="intlStepDot3">3</div>
             </div>
 
-            <!-- INTERNATIONAL STEP 1: CUSTOMER & SHIPPING INFO -->
+            <!-- INT'L STEP 1: CUSTOMER INFO + SHIPPING -->
             <div class="step-content active-step" id="intlStep1Content">
-                <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 2px;">International Order</h2>
-                <p style="font-size: 12px; color: #888; margin-bottom: 24px;">👤 Customer & Shipping Information</p>
-
-                <div class="input-group"><label>Full Name *</label><input type="text" id="intlFullName" placeholder="Enter your full name" autocomplete="name"></div>
-                <div class="input-group"><label>Phone Number *</label><input type="tel" id="intlPhone" placeholder="+1XXXXXXXXXX" autocomplete="tel"></div>
-                <div class="input-group"><label>Email *</label><input type="email" id="intlEmail" placeholder="your@email.com" autocomplete="email"></div>
-                
-                <div class="divider-text">📍 Shipping Address</div>
-                
-                <div class="input-group">
-                    <label>Country *</label>
-                    <select id="intlCountry">
-                        <option value="">Select Country</option>
-                    </select>
+                <div class="intl-banner">
+                    <i class="fa-solid fa-globe-americas text-2xl" style="color: #667eea;"></i>
+                    <div>
+                        <h4 style="font-weight: 800; font-size: 14px; color: #4a4a8a;">International Shipping</h4>
+                        <p style="font-size: 11px; color: #666; margin: 2px 0 0;">We ship to over 60 countries worldwide. Delivery times vary by location.</p>
+                    </div>
                 </div>
-                <div class="input-group"><label>City / State *</label><input type="text" id="intlCity" placeholder="e.g. New York, Dubai, London" autocomplete="address-level2"></div>
-                <div class="input-group"><label>Full Address *</label><textarea id="intlAddress" placeholder="Street, Building, Apartment, etc." autocomplete="street-address"></textarea></div>
-                <div class="input-group"><label>Postal Code <span style="font-weight:400;text-transform:none;color:#999;">(optional)</span></label><input type="text" id="intlPostalCode" placeholder="e.g. 10001" autocomplete="postal-code"></div>
 
-                <button class="btn btn-primary" onclick="intlGoToStep2()" style="margin-top: 8px;">
-                    Continue <i class="fa-solid fa-arrow-right"></i>
+                <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; color: #444;">
+                    <i class="fa-solid fa-user-circle" style="color: #667eea;"></i> Customer Information
+                </h3>
+                <div class="input-group"><label>Full Name *</label><input type="text" id="intlFullName" placeholder="Enter your full name" autocomplete="name"></div>
+                <div class="input-row">
+                    <div class="input-group"><label>Phone Number *</label><input type="tel" id="intlPhone" placeholder="+1234567890" autocomplete="tel"></div>
+                    <div class="input-group"><label>Email *</label><input type="email" id="intlEmail" placeholder="your@email.com" autocomplete="email"></div>
+                </div>
+
+                <h3 style="font-size: 16px; font-weight: 800; margin: 20px 0 16px; color: #444;">
+                    <i class="fa-solid fa-map-pin" style="color: #667eea;"></i> Shipping Address
+                </h3>
+                <div class="input-group"><label>Country *</label><select id="intlCountry"><option value="">Select your country</option></select></div>
+                <div class="input-row">
+                    <div class="input-group"><label>City / District *</label><input type="text" id="intlCity" placeholder="e.g. Dubai, New York" autocomplete="address-level2"></div>
+                    <div class="input-group"><label>Postal Code <span style="font-weight:400;text-transform:none;color:#999;">(optional)</span></label><input type="text" id="intlPostalCode" placeholder="e.g. 12345" autocomplete="postal-code"></div>
+                </div>
+                <div class="input-group"><label>Full Address *</label><textarea id="intlAddress" placeholder="Street, Building, Apartment, etc." autocomplete="street-address"></textarea></div>
+
+                <button class="btn btn-accent" onclick="intlGoToStep2()" style="margin-top: 8px;">
+                    Continue to Delivery <i class="fa-solid fa-arrow-right"></i>
                 </button>
-                <button class="btn btn-outline" style="margin-top: 10px;" onclick="switchCheckoutType('domestic')">
-                    <i class="fa-solid fa-arrow-left"></i> Switch to Bangladesh
+                <button class="btn btn-outline" style="margin-top: 10px;" onclick="window.location.href='/'">
+                    <i class="fa-solid fa-arrow-left"></i> Continue Shopping
                 </button>
             </div>
 
-            <!-- INTERNATIONAL STEP 2: PRODUCT & DELIVERY INFO -->
+            <!-- INT'L STEP 2: DELIVERY + PRODUCT REVIEW + PAYMENT -->
             <div class="step-content hidden-step" id="intlStep2Content">
-                <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 2px;">Product & Delivery</h2>
-                <p style="font-size: 12px; color: #888; margin-bottom: 24px;">👕 Select your items and delivery method</p>
+                <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; color: #444;">
+                    <i class="fa-solid fa-truck-fast" style="color: #667eea;"></i> Delivery Options
+                </h3>
+                <div id="intlDeliveryOptions" style="margin-bottom: 20px;"></div>
 
-                <div class="input-group"><label>Product Name *</label><input type="text" id="intlProductName" placeholder="e.g. Premium Panjabi" value="" readonly style="background:#f5f5f5;"></div>
-                <div class="input-row">
-                    <div class="input-group"><label>Size</label><input type="text" id="intlSize" placeholder="M / L / XL"></div>
-                    <div class="input-group"><label>Color</label><input type="text" id="intlColor" placeholder="e.g. Black, White"></div>
-                </div>
-                <div class="input-group"><label>Quantity *</label><input type="number" id="intlQuantity" value="1" min="1" max="10" onchange="intlUpdateSummary()"></div>
+                <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; color: #444;">
+                    <i class="fa-solid fa-box-open" style="color: #667eea;"></i> Product Information
+                </h3>
+                <div id="intlProductReview" style="background: var(--soft); border-radius: 18px; padding: 16px; margin-bottom: 20px; max-height: 250px; overflow-y: auto;"></div>
 
-                <div class="divider-text">🚚 Delivery Options</div>
-                
-                <div class="payment-option selected" onclick="intlSelectDelivery('standard')" id="intlDeliveryStandard" style="cursor:pointer;">
-                    <div class="radio-indicator"></div>
-                    <div>
-                        <span style="font-weight:700; font-size:14px;">Standard Shipping</span>
-                        <p style="font-size:11px; color:#999; margin:2px 0 0;">7-15 business days</p>
-                    </div>
-                    <span style="margin-left:auto; font-weight:700;">$15.00</span>
-                </div>
-                <div class="payment-option" onclick="intlSelectDelivery('express')" id="intlDeliveryExpress" style="cursor:pointer;">
-                    <div class="radio-indicator"></div>
-                    <div>
-                        <span style="font-weight:700; font-size:14px;">Express Shipping</span>
-                        <p style="font-size:11px; color:#999; margin:2px 0 0;">3-7 business days</p>
-                    </div>
-                    <span style="margin-left:auto; font-weight:700;">$30.00</span>
-                </div>
+                <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; color: #444;">
+                    <i class="fa-solid fa-credit-card" style="color: #667eea;"></i> Payment Method
+                </h3>
+                <div id="intlPaymentOptions"></div>
 
-                <div class="order-summary">
-                    <div class="summary-row"><span>Product Price</span><span id="intlSummaryPrice">$0.00</span></div>
-                    <div class="summary-row"><span>Shipping</span><span id="intlSummaryShipping">$15.00</span></div>
+                <div class="order-summary" id="intlOrderSummary">
+                    <div class="summary-row"><span>Subtotal</span><span id="intlSummarySubtotal">$0.00</span></div>
+                    <div class="summary-row" id="intlSummaryDiscountRow" style="display:none; color:#22c55e;"><span>Discount</span><span id="intlSummaryDiscount">- $0.00</span></div>
+                    <div class="summary-row"><span>Shipping Charge</span><span id="intlSummaryShipping">$0.00</span></div>
                     <div class="summary-row total"><span>Total</span><span id="intlSummaryTotal">$0.00</span></div>
                 </div>
 
-                <button class="btn btn-primary" onclick="intlGoToStep3()" style="margin-top:18px;">
-                    Continue to Payment <i class="fa-solid fa-credit-card"></i>
-                </button>
-                <button class="btn btn-outline" style="margin-top:10px;" onclick="intlGoToStep1()">
-                    <i class="fa-solid fa-chevron-left"></i> Edit Information
-                </button>
+                <button class="btn btn-accent" onclick="intlGoToStep3()" style="margin-top:18px;">Review Order <i class="fa-solid fa-circle-check"></i></button>
+                <button class="btn btn-outline" style="margin-top:10px;" onclick="intlGoToStep1()"><i class="fa-solid fa-chevron-left"></i> Edit Information</button>
             </div>
 
-            <!-- INTERNATIONAL STEP 3: PAYMENT & CONFIRMATION -->
+            <!-- INT'L STEP 3: REVIEW & CONFIRM -->
             <div class="step-content hidden-step" id="intlStep3Content">
-                <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 2px;">Payment & Confirmation</h2>
-                <p style="font-size: 12px; color: #888; margin-bottom: 24px;">💳 Choose your payment method</p>
+                <h2 style="font-size: 22px; font-weight: 900; margin-bottom: 2px;">Review & Confirm</h2>
+                <p style="font-size: 12px; color: #888; margin-bottom: 24px;">Please verify all details before placing your international order</p>
 
-                <div class="payment-option selected" onclick="intlSelectPayment('card')" id="intlPaymentCard" style="cursor:pointer;">
-                    <div class="radio-indicator"></div>
-                    <div>
-                        <span style="font-weight:700; font-size:14px;">Card Payment</span>
-                        <p style="font-size:11px; color:#999; margin:2px 0 0;">Visa, Mastercard, Amex</p>
-                    </div>
-                    <i class="fa-solid fa-credit-card" style="margin-left:auto; font-size:22px; color:#1a1a1a;"></i>
+                <div style="background: #f0f4ff; border-radius: 18px; padding: 18px; margin-bottom: 14px; border: 1px solid #d0d8f0;">
+                    <h4 style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#667eea; margin-bottom:10px;"><i class="fa-solid fa-user"></i> Customer</h4>
+                    <p id="intlReviewName" style="font-weight:700; font-size:15px; margin-bottom:2px;"></p>
+                    <p id="intlReviewPhone" style="font-size:12px; color:#666; margin-bottom:2px;"></p>
+                    <p id="intlReviewEmail" style="font-size:12px; color:#666;"></p>
                 </div>
-                <div class="payment-option" onclick="intlSelectPayment('bkash')" id="intlPaymentBkash" style="cursor:pointer;">
-                    <div class="radio-indicator"></div>
-                    <div>
-                        <span style="font-weight:700; font-size:14px;">bKash / Nagad</span>
-                        <p style="font-size:11px; color:#999; margin:2px 0 0;">Mobile payment</p>
-                    </div>
-                    <i class="fa-solid fa-mobile-screen" style="margin-left:auto; font-size:22px; color:#D81B60;"></i>
+                <div style="background: #f0f4ff; border-radius: 18px; padding: 18px; margin-bottom: 14px; border: 1px solid #d0d8f0;">
+                    <h4 style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#667eea; margin-bottom:10px;"><i class="fa-solid fa-map-pin"></i> Shipping Address</h4>
+                    <p id="intlReviewCountry" style="font-weight:700; font-size:15px; margin-bottom:2px;"></p>
+                    <p id="intlReviewCity" style="font-size:12px; color:#666; margin-bottom:2px;"></p>
+                    <p id="intlReviewAddress" style="font-size:12px; color:#666;"></p>
                 </div>
-
-                <div class="order-summary" style="margin-top: 18px;">
-                    <h4 style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#999; margin-bottom:10px;">📦 Order Summary</h4>
-                    <div class="summary-row"><span>Product</span><span id="intlConfirmProduct">-</span></div>
-                    <div class="summary-row"><span>Shipping To</span><span id="intlConfirmCountry">-</span></div>
-                    <div class="summary-row"><span>Delivery</span><span id="intlConfirmDelivery">-</span></div>
-                    <div class="summary-row"><span>Subtotal</span><span id="intlConfirmSubtotal">$0.00</span></div>
-                    <div class="summary-row" style="color:#22c55e;"><span>Discount</span><span id="intlConfirmDiscount">- $0.00</span></div>
-                    <div class="summary-row"><span>Shipping</span><span id="intlConfirmShipping">$0.00</span></div>
-                    <div class="summary-row total"><span>Total</span><span id="intlConfirmTotal">$0.00</span></div>
+                <div style="background: #f0f4ff; border-radius: 18px; padding: 18px; margin-bottom: 14px; border: 1px solid #d0d8f0;">
+                    <h4 style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#667eea; margin-bottom:10px;"><i class="fa-solid fa-truck-fast"></i> Delivery & Payment</h4>
+                    <p id="intlReviewDelivery" style="font-weight:700; font-size:15px; margin-bottom:2px;"></p>
+                    <p id="intlReviewPayment" style="font-size:13px; color:#666;"></p>
+                </div>
+                <div style="background: #f0f4ff; border-radius: 18px; padding: 18px; margin-bottom: 18px; border: 1px solid #d0d8f0;">
+                    <h4 style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#667eea; margin-bottom:10px;"><i class="fa-solid fa-bag-shopping"></i> Items</h4>
+                    <div id="intlReviewItems" style="max-height:200px; overflow-y:auto; padding-right:4px;"></div>
                 </div>
 
-                <div class="checkbox-group" style="margin-top: 18px;">
+                <div class="order-summary" style="margin-top:0;">
+                    <div class="summary-row"><span>Subtotal</span><span id="intlReviewSubtotal">$0.00</span></div>
+                    <div class="summary-row" id="intlReviewDiscountRow" style="display:none; color:#22c55e;"><span>Discount</span><span id="intlReviewDiscount">- $0.00</span></div>
+                    <div class="summary-row"><span>Shipping</span><span id="intlReviewShipping">$0.00</span></div>
+                    <div class="summary-row total"><span>Grand Total</span><span id="intlReviewTotal">$0.00</span></div>
+                </div>
+
+                <div class="checkbox-group">
                     <input type="checkbox" id="intlTermsCheckbox">
-                    <label for="intlTermsCheckbox">I agree to the <a href="/terms" style="color:var(--accent); font-weight:600;">Terms & Conditions</a> and confirm that all information provided is accurate.</label>
+                    <label for="intlTermsCheckbox">I agree to the <a href="/terms" style="color:#667eea; font-weight:700;">Terms & Conditions</a> and <a href="/privacy" style="color:#667eea; font-weight:700;">Privacy Policy</a>. I understand that international shipping may incur customs duties and taxes.</label>
                 </div>
 
-                <button class="btn btn-international" onclick="intlPlaceOrder()" style="margin-top: 8px;">
-                    <i class="fa-solid fa-globe"></i> Place International Order
+                <button class="btn btn-accent" onclick="intlPlaceOrder()" style="margin-top:18px;" id="intlPlaceOrderBtn" disabled>
+                    <i class="fa-solid fa-check"></i> Confirm & Place International Order
                 </button>
-                <button class="btn btn-outline" style="margin-top:10px;" onclick="intlGoToStep2()">
-                    <i class="fa-solid fa-chevron-left"></i> Edit Delivery
-                </button>
+                <button class="btn btn-outline" style="margin-top:10px;" onclick="intlGoToStep2()"><i class="fa-solid fa-chevron-left"></i> Edit Details</button>
 
-                <div style="margin-top:18px; padding:14px; background:#f0f9ff; border-radius:14px; border:1px solid #bae6fd; display:flex; gap:10px; align-items:flex-start;">
-                    <i class="fa-solid fa-circle-info text-sky-600 text-sm mt-0.5"></i>
-                    <p style="font-size:11px; color:#0369a1; margin:0; line-height:1.5;">International orders may be subject to customs duties. Delivery times vary by destination. You will receive a confirmation email with tracking details.</p>
+                <div style="margin-top:18px; padding:14px; background:#fef9e7; border-radius:14px; border:1px solid #f9e79f; display:flex; gap:10px; align-items:flex-start;">
+                    <i class="fa-solid fa-circle-info text-amber-600 text-sm mt-0.5"></i>
+                    <p style="font-size:11px; color:#92400e; margin:0; line-height:1.5;">International orders may take 7-21 business days depending on location and customs clearance. Shipping charges are calculated based on destination and weight.</p>
                 </div>
             </div>
 
-            <!-- INTERNATIONAL SUCCESS -->
+            <!-- INT'L SUCCESS -->
             <div class="step-content hidden-step" id="intlSuccessContent" style="text-align:center; padding:50px 28px;">
                 <div style="display:flex; justify-content:center; margin-bottom:28px;">
-                    <div class="success-check" style="background: linear-gradient(135deg, #1e3a5f, #2d5a87);">
-                        <i class="fa-solid fa-globe" style="font-size:38px;"></i>
-                    </div>
+                    <div class="success-check" style="background: #667eea;"><i class="fa-solid fa-check" style="font-size:38px;"></i></div>
                 </div>
-                <h2 style="font-size:26px; font-weight:900; margin-bottom:6px;">International Order Placed!</h2>
-                <p style="font-size:14px; color:#666; margin-bottom:4px;">Your order has been received successfully.</p>
-                <div style="background:#f5f5f5; display:inline-block; padding:8px 18px; border-radius:50px; margin:12px 0 4px;">
-                    <span style="font-size:10px; font-weight:700; color:#888; text-transform:uppercase;">Order ID</span>
-                    <p id="intlSuccessOrderId" style="font-size:16px; font-weight:900; color:#1e3a5f; margin:0;">#---</p>
+                <h2 style="font-size:26px; font-weight:900; margin-bottom:6px;">International Order Confirmed!</h2>
+                <p style="font-size:14px; color:#666; margin-bottom:4px;">Your order is being processed for international shipping.</p>
+                <div style="background:#f0f4ff; display:inline-block; padding:8px 18px; border-radius:50px; margin:12px 0 4px; border: 1px solid #d0d8f0;">
+                    <span style="font-size:10px; font-weight:700; color:#667eea; text-transform:uppercase;">Order ID</span>
+                    <p id="intlSuccessOrderId" style="font-size:16px; font-weight:900; color:#4a4a8a; margin:0;">#INTL-000</p>
                 </div>
-                <p style="font-size:12px; color:#666; margin:8px 0 24px;">
-                    <i class="fa-solid fa-envelope"></i> A confirmation email has been sent to your email address.
-                </p>
-                <button class="btn btn-international" onclick="window.location.href='/'"><i class="fa-solid fa-house"></i> Back to Home</button>
-                <button class="btn btn-outline" style="margin-top:10px;" onclick="switchCheckoutType('domestic')">
-                    <i class="fa-solid fa-shop"></i> Shop Bangladesh
-                </button>
+                <p style="font-size:11px; color:#666; margin-top:8px;">A confirmation email will be sent to your email address with tracking details once available.</p>
+                <button class="btn btn-accent" onclick="window.location.href='/'"><i class="fa-solid fa-house"></i> Back to Home</button>
+                <button class="btn btn-outline" style="margin-top:10px;" onclick="window.location.href='/contact'"><i class="fa-solid fa-headset"></i> Contact Support</button>
             </div>
         </div>
     </div>
@@ -534,6 +524,7 @@
 <script>
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // Global state
     let currentStep = 1;
     let selectedPayment = 'cod';
     let userSession = null;
@@ -543,28 +534,73 @@
     let paymentGateways = [];
     let orderMode = 'guest';
     let isUsingProfileAddress = false;
-    let currentCheckoutType = 'domestic';
+    let currentCheckoutType = 'domestic'; // NEW
 
-    // International checkout variables
+    // International state
     let intlCurrentStep = 1;
-    let intlSelectedDelivery = 'standard';
     let intlSelectedPayment = 'card';
-    let intlDeliveryCharge = 15;
-    let intlProductPrice = 0;
+    let intlSelectedDelivery = 'standard';
 
+    // Countries list
     const supportedCountries = [
-        'India', 'China', 'Pakistan', 'Sri Lanka', 'Nepal', 'Bhutan', 'Maldives',
-        'Indonesia', 'Malaysia', 'Thailand', 'Vietnam', 'Philippines', 'Singapore',
-        'Japan', 'South Korea',
-        'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Kuwait', 'Oman', 'Bahrain', 'Jordan', 'Turkey', 'Israel', 'Iran',
-        'United Kingdom', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium',
-        'Poland', 'Sweden', 'Norway', 'Denmark', 'Finland', 'Switzerland', 'Austria',
-        'Portugal', 'Greece',
-        'United States', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'Chile', 'Colombia', 'Peru',
-        'Australia', 'New Zealand',
-        'Russia', 'Kazakhstan', 'Turkmenistan'
-    ].sort();
+        // Asia
+        { name: 'India', code: 'IN' },
+        { name: 'China', code: 'CN' },
+        { name: 'Pakistan', code: 'PK' },
+        { name: 'Sri Lanka', code: 'LK' },
+        { name: 'Nepal', code: 'NP' },
+        { name: 'Bhutan', code: 'BT' },
+        { name: 'Maldives', code: 'MV' },
+        { name: 'Indonesia', code: 'ID' },
+        { name: 'Malaysia', code: 'MY' },
+        { name: 'Thailand', code: 'TH' },
+        { name: 'Vietnam', code: 'VN' },
+        { name: 'Philippines', code: 'PH' },
+        { name: 'Singapore', code: 'SG' },
+        { name: 'Japan', code: 'JP' },
+        { name: 'South Korea', code: 'KR' },
+        // Middle East
+        { name: 'United Arab Emirates', code: 'AE' },
+        { name: 'Saudi Arabia', code: 'SA' },
+        { name: 'Qatar', code: 'QA' },
+        { name: 'Kuwait', code: 'KW' },
+        { name: 'Oman', code: 'OM' },
+        { name: 'Bahrain', code: 'BH' },
+        { name: 'Jordan', code: 'JO' },
+        { name: 'Turkey', code: 'TR' },
+        { name: 'Israel', code: 'IL' },
+        // Europe
+        { name: 'United Kingdom', code: 'GB' },
+        { name: 'Germany', code: 'DE' },
+        { name: 'France', code: 'FR' },
+        { name: 'Italy', code: 'IT' },
+        { name: 'Spain', code: 'ES' },
+        { name: 'Netherlands', code: 'NL' },
+        { name: 'Belgium', code: 'BE' },
+        { name: 'Poland', code: 'PL' },
+        { name: 'Sweden', code: 'SE' },
+        { name: 'Norway', code: 'NO' },
+        { name: 'Denmark', code: 'DK' },
+        { name: 'Finland', code: 'FI' },
+        { name: 'Switzerland', code: 'CH' },
+        { name: 'Austria', code: 'AT' },
+        { name: 'Portugal', code: 'PT' },
+        { name: 'Greece', code: 'GR' },
+        // Americas
+        { name: 'United States', code: 'US' },
+        { name: 'Canada', code: 'CA' },
+        { name: 'Mexico', code: 'MX' },
+        { name: 'Brazil', code: 'BR' },
+        { name: 'Argentina', code: 'AR' },
+        { name: 'Chile', code: 'CL' },
+        { name: 'Colombia', code: 'CO' },
+        { name: 'Peru', code: 'PE' },
+        // Oceania
+        { name: 'Australia', code: 'AU' },
+        { name: 'New Zealand', code: 'NZ' }
+    ];
 
+    // Toast functions
     function showToast(text, type='success') {
         const toast = document.getElementById('toast');
         const icon = document.getElementById('toast-icon');
@@ -581,213 +617,37 @@
     function showLoader(t='Processing...'){ document.getElementById('loaderText').innerText=t; document.getElementById('loaderOverlay').classList.add('show'); }
     function hideLoader(){ document.getElementById('loaderOverlay').classList.remove('show'); }
 
-    // Checkout type switcher
+    // ==================== CHECKOUT TYPE SWITCHER (NEW) ====================
     function switchCheckoutType(type) {
         currentCheckoutType = type;
-        document.getElementById('domesticBtn').classList.toggle('active', type === 'domestic');
-        document.getElementById('internationalBtn').classList.toggle('active', type === 'international');
-        document.getElementById('domesticCheckoutSection').style.display = type === 'domestic' ? 'block' : 'none';
-        document.getElementById('internationalCheckoutSection').style.display = type === 'international' ? 'block' : 'none';
-        
-        if (type === 'international') {
-            intlShowStep(1);
-            intlInitProductInfo();
-        } else {
+        const domBtn = document.getElementById('domesticBtn');
+        const intlBtn = document.getElementById('internationalBtn');
+        const domSection = document.getElementById('domesticSection');
+        const intlSection = document.getElementById('internationalSection');
+        const container = document.getElementById('checkoutContainer');
+
+        if (type === 'domestic') {
+            domBtn.classList.add('active');
+            intlBtn.classList.remove('active');
+            domSection.style.display = 'block';
+            intlSection.style.display = 'none';
+            container.classList.remove('international');
             showStep(1);
+        } else {
+            domBtn.classList.remove('active');
+            intlBtn.classList.add('active');
+            domSection.style.display = 'none';
+            intlSection.style.display = 'block';
+            container.classList.add('international');
+            intlShowStep(1);
+            populateIntlCountries();
+            renderIntlDeliveryOptions();
+            renderIntlPaymentOptions();
+            renderIntlProductReview();
         }
     }
 
-    // Populate international country dropdown
-    function populateIntlCountries() {
-        const select = document.getElementById('intlCountry');
-        if (select.options.length > 1) return;
-        supportedCountries.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country;
-            option.textContent = country;
-            select.appendChild(option);
-        });
-    }
-
-    // Initialize international product info from cart
-    function intlInitProductInfo() {
-        if (cartData.length > 0) {
-            const firstItem = cartData[0];
-            document.getElementById('intlProductName').value = firstItem.title || '';
-            intlProductPrice = firstItem.price || 0;
-            
-            // Convert BDT to USD (approximate)
-            if (intlProductPrice > 0) {
-                intlProductPrice = parseFloat((intlProductPrice / 110).toFixed(2));
-            }
-            if (intlProductPrice < 1) intlProductPrice = 1;
-        }
-        intlUpdateSummary();
-    }
-
-    // International step indicators
-    function intlUpdateStepIndicators(step) {
-        ['intlStepDot1','intlStepDot2','intlStepDot3'].forEach((id,i)=>{
-            const el=document.getElementById(id); el.className='step-dot';
-            if(i+1<step){ el.classList.add('done'); el.innerHTML='<i class="fa-solid fa-check"></i>'; }
-            else if(i+1===step){ el.classList.add('active'); el.innerHTML=i+1; }
-            else{ el.classList.add('pending'); el.innerHTML=i+1; }
-        });
-        ['intlStepLine1','intlStepLine2'].forEach((id,i)=>{
-            const el=document.getElementById(id); el.className='step-line';
-            if(i+1<step) el.classList.add('done');
-        });
-    }
-
-    function intlShowStep(step) {
-        ['intlStep1Content','intlStep2Content','intlStep3Content','intlSuccessContent'].forEach(id=>{
-            const el=document.getElementById(id);
-            if(!el) return;
-            const isTarget=(step===4 && id==='intlSuccessContent') || ['intlStep1Content','intlStep2Content','intlStep3Content'].indexOf(id)+1===step;
-            el.classList.toggle('hidden-step',!isTarget);
-            el.classList.toggle('active-step',isTarget);
-        });
-        intlCurrentStep=step;
-        intlUpdateStepIndicators(step);
-        document.getElementById('checkoutContainer').scrollIntoView({behavior:'smooth',block:'start'});
-    }
-
-    function intlGoToStep1() { intlShowStep(1); }
-    function intlGoToStep2() {
-        const name = document.getElementById('intlFullName').value.trim();
-        const phone = document.getElementById('intlPhone').value.trim();
-        const email = document.getElementById('intlEmail').value.trim();
-        const country = document.getElementById('intlCountry').value;
-        const city = document.getElementById('intlCity').value.trim();
-        const address = document.getElementById('intlAddress').value.trim();
-
-        if (!name || !phone || !email || !country || !city || !address) {
-            showToast('Please fill all required fields','error');
-            return;
-        }
-        if (!/^[\w.-]+@[\w.-]+\.\w+$/.test(email)) {
-            showToast('Enter a valid email address','error');
-            return;
-        }
-        intlUpdateSummary();
-        intlShowStep(2);
-    }
-
-    function intlGoToStep3() {
-        intlUpdateSummary();
-        intlShowStep(3);
-    }
-
-    function intlSelectDelivery(type) {
-        intlSelectedDelivery = type;
-        intlDeliveryCharge = type === 'standard' ? 15 : 30;
-        document.getElementById('intlDeliveryStandard').classList.toggle('selected', type === 'standard');
-        document.getElementById('intlDeliveryExpress').classList.toggle('selected', type === 'express');
-        intlUpdateSummary();
-    }
-
-    function intlSelectPayment(method) {
-        intlSelectedPayment = method;
-        document.getElementById('intlPaymentCard').classList.toggle('selected', method === 'card');
-        document.getElementById('intlPaymentBkash').classList.toggle('selected', method === 'bkash');
-    }
-
-    function intlUpdateSummary() {
-        const qty = parseInt(document.getElementById('intlQuantity')?.value || 1);
-        const subtotal = intlProductPrice * qty;
-        const shipping = intlDeliveryCharge;
-        const total = subtotal + shipping;
-
-        // Step 2 summary
-        const summaryPrice = document.getElementById('intlSummaryPrice');
-        const summaryShipping = document.getElementById('intlSummaryShipping');
-        const summaryTotal = document.getElementById('intlSummaryTotal');
-        if (summaryPrice) summaryPrice.innerText = `$${subtotal.toFixed(2)}`;
-        if (summaryShipping) summaryShipping.innerText = `$${shipping.toFixed(2)}`;
-        if (summaryTotal) summaryTotal.innerText = `$${total.toFixed(2)}`;
-
-        // Step 3 confirmation
-        const confirmProduct = document.getElementById('intlConfirmProduct');
-        const confirmCountry = document.getElementById('intlConfirmCountry');
-        const confirmDelivery = document.getElementById('intlConfirmDelivery');
-        const confirmSubtotal = document.getElementById('intlConfirmSubtotal');
-        const confirmShipping = document.getElementById('intlConfirmShipping');
-        const confirmTotal = document.getElementById('intlConfirmTotal');
-
-        if (confirmProduct) confirmProduct.innerText = `${document.getElementById('intlProductName').value} x${qty}`;
-        if (confirmCountry) confirmCountry.innerText = `${document.getElementById('intlCity').value}, ${document.getElementById('intlCountry').value}`;
-        if (confirmDelivery) confirmDelivery.innerText = intlSelectedDelivery === 'standard' ? 'Standard (7-15 days)' : 'Express (3-7 days)';
-        if (confirmSubtotal) confirmSubtotal.innerText = `$${subtotal.toFixed(2)}`;
-        if (confirmShipping) confirmShipping.innerText = `$${shipping.toFixed(2)}`;
-        if (confirmTotal) confirmTotal.innerText = `$${total.toFixed(2)}`;
-    }
-
-    async function intlPlaceOrder() {
-        const termsChecked = document.getElementById('intlTermsCheckbox').checked;
-        if (!termsChecked) {
-            showToast('Please agree to Terms & Conditions','error');
-            return;
-        }
-
-        const name = document.getElementById('intlFullName').value.trim();
-        const phone = document.getElementById('intlPhone').value.trim();
-        const email = document.getElementById('intlEmail').value.trim();
-        const country = document.getElementById('intlCountry').value;
-        const city = document.getElementById('intlCity').value.trim();
-        const address = document.getElementById('intlAddress').value.trim();
-        const postalCode = document.getElementById('intlPostalCode').value.trim();
-        const productName = document.getElementById('intlProductName').value;
-        const size = document.getElementById('intlSize').value.trim();
-        const color = document.getElementById('intlColor').value.trim();
-        const quantity = parseInt(document.getElementById('intlQuantity').value || 1);
-        const deliveryType = intlSelectedDelivery;
-        const shippingCharge = intlDeliveryCharge;
-        const subtotal = intlProductPrice * quantity;
-        const total = subtotal + shippingCharge;
-
-        showLoader('Placing international order...');
-
-        try {
-            const { data, error } = await _supabase
-                .from('international_orders')
-                .insert({
-                    customer_name: name,
-                    phone: phone,
-                    email: email,
-                    country: country,
-                    city: city,
-                    full_address: address,
-                    postal_code: postalCode || null,
-                    product_name: productName,
-                    size: size || null,
-                    color: color || null,
-                    quantity: quantity,
-                    delivery_type: deliveryType,
-                    shipping_charge: shippingCharge,
-                    payment_method: intlSelectedPayment,
-                    subtotal: subtotal,
-                    discount: 0,
-                    total: total,
-                    terms_accepted: true,
-                    user_id: userSession?.id || null,
-                    status: 'pending'
-                })
-                .select();
-
-            if (error) throw error;
-
-            hideLoader();
-            const orderId = data?.[0]?.id || '---';
-            document.getElementById('intlSuccessOrderId').innerText = `#${orderId}`;
-            intlShowStep(4);
-            
-        } catch (e) {
-            hideLoader();
-            showToast('Failed to place order: ' + e.message, 'error');
-        }
-    }
-
-    // Domestic checkout functions
+    // ==================== DOMESTIC STEP INDICATORS ====================
     function updateStepIndicators(step){
         ['stepDot1','stepDot2','stepDot3'].forEach((id,i)=>{
             const el=document.getElementById(id); el.className='step-dot';
@@ -813,6 +673,33 @@
         document.getElementById('checkoutContainer').scrollIntoView({behavior:'smooth',block:'start'});
     }
 
+    // ==================== INTERNATIONAL STEP INDICATORS (NEW) ====================
+    function intlUpdateStepIndicators(step){
+        ['intlStepDot1','intlStepDot2','intlStepDot3'].forEach((id,i)=>{
+            const el=document.getElementById(id); el.className='step-dot';
+            if(i+1<step){ el.classList.add('done'); el.innerHTML='<i class="fa-solid fa-check"></i>'; }
+            else if(i+1===step){ el.classList.add('active'); el.innerHTML=i+1; }
+            else{ el.classList.add('pending'); el.innerHTML=i+1; }
+        });
+        ['intlStepLine1','intlStepLine2'].forEach((id,i)=>{
+            const el=document.getElementById(id); el.className='step-line';
+            if(i+1<step) el.classList.add('done');
+        });
+    }
+    function intlShowStep(step){
+        ['intlStep1Content','intlStep2Content','intlStep3Content','intlSuccessContent'].forEach(id=>{
+            const el=document.getElementById(id);
+            if(!el) return;
+            const isTarget=(step===4 && id==='intlSuccessContent') || ['intlStep1Content','intlStep2Content','intlStep3Content'].indexOf(id)+1===step;
+            el.classList.toggle('hidden-step',!isTarget);
+            el.classList.toggle('active-step',isTarget);
+        });
+        intlCurrentStep=step;
+        intlUpdateStepIndicators(step);
+        document.getElementById('checkoutContainer').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    // ==================== DOMESTIC FUNCTIONS ====================
     function switchToGuestMode(){
         orderMode='guest'; isUsingProfileAddress=false;
         document.getElementById('profileCard')?.classList.remove('selected');
@@ -997,11 +884,9 @@
                 }
             });
             if(signUpError) throw signUpError;
-
             userSession = signUpData.user;
             orderMode = 'profile';
             isUsingProfileAddress = true;
-
             await placeOrder();
         } catch(e){
             hideLoader();
@@ -1126,6 +1011,255 @@
         }
     }
 
+    // ==================== INTERNATIONAL FUNCTIONS (NEW) ====================
+    function populateIntlCountries(){
+        const select = document.getElementById('intlCountry');
+        if(select.options.length > 1) return;
+        supportedCountries.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.name;
+            opt.textContent = c.name;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderIntlDeliveryOptions(){
+        const container = document.getElementById('intlDeliveryOptions');
+        container.innerHTML = `
+            <div class="payment-option selected" onclick="selectIntlDelivery('standard')" id="intlDelivery-standard">
+                <div class="radio-indicator"></div>
+                <div>
+                    <span style="font-weight:700;font-size:14px;">Standard Shipping</span>
+                    <p style="font-size:11px;color:#999;margin:2px 0 0;">15-21 business days · Starting from $15</p>
+                </div>
+                <i class="fa-solid fa-ship" style="margin-left:auto;font-size:22px;color:#667eea;"></i>
+            </div>
+            <div class="payment-option" onclick="selectIntlDelivery('express')" id="intlDelivery-express">
+                <div class="radio-indicator"></div>
+                <div>
+                    <span style="font-weight:700;font-size:14px;">Express Shipping</span>
+                    <p style="font-size:11px;color:#999;margin:2px 0 0;">7-12 business days · Starting from $30</p>
+                </div>
+                <i class="fa-solid fa-plane" style="margin-left:auto;font-size:22px;color:#667eea;"></i>
+            </div>
+        `;
+        updateIntlOrderSummary();
+    }
+
+    function selectIntlDelivery(type){
+        intlSelectedDelivery = type;
+        document.querySelectorAll('#intlDeliveryOptions .payment-option').forEach(el=>el.classList.remove('selected'));
+        document.getElementById('intlDelivery-'+type)?.classList.add('selected');
+        updateIntlOrderSummary();
+    }
+
+    function renderIntlPaymentOptions(){
+        const container = document.getElementById('intlPaymentOptions');
+        container.innerHTML = `
+            <div class="payment-option selected" onclick="selectIntlPayment('card')" id="intlPayment-card">
+                <div class="radio-indicator"></div>
+                <div>
+                    <span style="font-weight:700;font-size:14px;">Card Payment</span>
+                    <p style="font-size:11px;color:#999;margin:2px 0 0;">Visa, Mastercard, Amex · Secure payment</p>
+                </div>
+                <i class="fa-solid fa-credit-card" style="margin-left:auto;font-size:22px;color:#667eea;"></i>
+            </div>
+            <div class="payment-option" onclick="selectIntlPayment('bkash')" id="intlPayment-bkash">
+                <div class="radio-indicator"></div>
+                <div>
+                    <span style="font-weight:700;font-size:14px;">bKash Payment</span>
+                    <p style="font-size:11px;color:#999;margin:2px 0 0;">Send via bKash to merchant account</p>
+                </div>
+                <div style="margin-left:auto;width:38px;height:38px;background:#D81B60;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="color:white;font-weight:900;font-size:18px;">b</span></div>
+            </div>
+            <div class="payment-option" onclick="selectIntlPayment('cod')" id="intlPayment-cod">
+                <div class="radio-indicator"></div>
+                <div>
+                    <span style="font-weight:700;font-size:14px;">Cash on Delivery</span>
+                    <p style="font-size:11px;color:#999;margin:2px 0 0;">Pay when order arrives (available for select countries)</p>
+                </div>
+                <i class="fa-solid fa-hand-holding-dollar" style="margin-left:auto;font-size:22px;color:#22c55e;"></i>
+            </div>
+        `;
+    }
+
+    function selectIntlPayment(method){
+        intlSelectedPayment = method;
+        document.querySelectorAll('#intlPaymentOptions .payment-option').forEach(el=>el.classList.remove('selected'));
+        document.getElementById('intlPayment-'+method)?.classList.add('selected');
+    }
+
+    function getIntlShippingCost(){
+        const base = intlSelectedDelivery === 'express' ? 30 : 15;
+        return base;
+    }
+
+    function updateIntlOrderSummary(){
+        const subtotal = cartData.reduce((s,i)=>s+i.price,0);
+        const shipping = getIntlShippingCost();
+        const total = subtotal + shipping;
+        document.getElementById('intlSummarySubtotal').innerText = `$${subtotal.toFixed(2)}`;
+        document.getElementById('intlSummaryShipping').innerText = `$${shipping.toFixed(2)}`;
+        document.getElementById('intlSummaryTotal').innerText = `$${total.toFixed(2)}`;
+        window._intlSubtotal = subtotal;
+        window._intlShipping = shipping;
+        window._intlDiscount = 0;
+    }
+
+    function renderIntlProductReview(){
+        const container = document.getElementById('intlProductReview');
+        container.innerHTML = cartData.map(item => `
+            <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #d0d8f0;align-items:center;">
+                <img src="${item.img}" alt="${item.title}" style="width:50px;height:64px;object-fit:cover;border-radius:10px;background:#e0e5f0;">
+                <div style="flex-grow:1;min-width:0;">
+                    <p style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.title}</p>
+                    <p style="font-size:11px;color:#888;">${item.variant||'Standard'} · Qty: ${item.quantity||1}</p>
+                    <p style="font-size:11px;color:#667eea;font-weight:600;">${item.description||''}</p>
+                </div>
+                <span style="font-weight:700;font-size:14px;color:#4a4a8a;">$${item.price}</span>
+            </div>
+        `).join('') || '<p class="text-sm text-gray-400 text-center py-4">No items in cart</p>';
+    }
+
+    function intlGoToStep1(){ intlShowStep(1); }
+    function intlGoToStep2(){
+        const name = document.getElementById('intlFullName').value.trim();
+        const phone = document.getElementById('intlPhone').value.trim();
+        const email = document.getElementById('intlEmail').value.trim();
+        const country = document.getElementById('intlCountry').value;
+        const city = document.getElementById('intlCity').value.trim();
+        const address = document.getElementById('intlAddress').value.trim();
+        if(!name || !phone || !email || !country || !city || !address){ showToast('Please fill all required fields','error'); return; }
+        updateIntlOrderSummary();
+        renderIntlProductReview();
+        intlShowStep(2);
+    }
+    function intlGoToStep3(){
+        const name = document.getElementById('intlFullName').value.trim();
+        const phone = document.getElementById('intlPhone').value.trim();
+        const email = document.getElementById('intlEmail').value.trim();
+        const country = document.getElementById('intlCountry').value;
+        const city = document.getElementById('intlCity').value.trim();
+        const postalCode = document.getElementById('intlPostalCode').value.trim();
+        const address = document.getElementById('intlAddress').value.trim();
+
+        document.getElementById('intlReviewName').innerText = name;
+        document.getElementById('intlReviewPhone').innerText = phone;
+        document.getElementById('intlReviewEmail').innerText = email;
+        document.getElementById('intlReviewCountry').innerText = country;
+        document.getElementById('intlReviewCity').innerText = city + (postalCode ? ' - ' + postalCode : '');
+        document.getElementById('intlReviewAddress').innerText = address;
+
+        const delLabels = { 'standard': 'Standard Shipping (15-21 days)', 'express': 'Express Shipping (7-12 days)' };
+        const payLabels = { 'card': 'Card Payment', 'bkash': 'bKash Payment', 'cod': 'Cash on Delivery' };
+        document.getElementById('intlReviewDelivery').innerText = delLabels[intlSelectedDelivery]||intlSelectedDelivery;
+        document.getElementById('intlReviewPayment').innerText = payLabels[intlSelectedPayment]||intlSelectedPayment;
+
+        const itemsHtml = cartData.map(item => `
+            <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #d0d8f0;align-items:center;">
+                <img src="${item.img}" alt="${item.title}" style="width:44px;height:56px;object-fit:cover;border-radius:10px;background:#e0e5f0;">
+                <div style="flex-grow:1;min-width:0;">
+                    <p style="font-size:13px;font-weight:600;">${item.title}</p>
+                    <p style="font-size:11px;color:#888;">${item.variant||'Standard'} · Qty: ${item.quantity||1}</p>
+                </div>
+                <span style="font-weight:700;font-size:14px;color:#4a4a8a;">$${item.price}</span>
+            </div>
+        `).join('');
+        document.getElementById('intlReviewItems').innerHTML = itemsHtml||'<p class="text-sm text-gray-400">No items</p>';
+
+        const s = window._intlSubtotal||0;
+        const ship = window._intlShipping||0;
+        const d = window._intlDiscount||0;
+        document.getElementById('intlReviewSubtotal').innerText = `$${s.toFixed(2)}`;
+        document.getElementById('intlReviewShipping').innerText = `$${ship.toFixed(2)}`;
+        document.getElementById('intlReviewTotal').innerText = `$${(s-d+ship).toFixed(2)}`;
+
+        intlShowStep(3);
+    }
+
+    async function intlPlaceOrder(){
+        if(!document.getElementById('intlTermsCheckbox').checked){
+            showToast('Please agree to Terms & Conditions','error'); return;
+        }
+        if(!cartData.length){ showToast('Cart empty','error'); return; }
+
+        showLoader('Placing international order...');
+        try {
+            const name = document.getElementById('intlFullName').value.trim();
+            const phone = document.getElementById('intlPhone').value.trim();
+            const email = document.getElementById('intlEmail').value.trim();
+            const country = document.getElementById('intlCountry').value;
+            const city = document.getElementById('intlCity').value.trim();
+            const postalCode = document.getElementById('intlPostalCode').value.trim();
+            const address = document.getElementById('intlAddress').value.trim();
+            const s = window._intlSubtotal||0;
+            const ship = window._intlShipping||0;
+            const d = window._intlDiscount||0;
+            const total = (s-d+ship);
+
+            const items = cartData.map(i=>({
+                product_id: i.product_id,
+                variant_id: i.variant_id||null,
+                title: i.title,
+                variant: i.variant||null,
+                quantity: i.quantity||1,
+                price: i.price
+            }));
+
+            const orderData = {
+                customer: { name, phone, email },
+                shipping: { country, city, postal_code: postalCode, address },
+                delivery_type: intlSelectedDelivery,
+                payment_method: intlSelectedPayment,
+                items: items,
+                subtotal: s,
+                discount: d,
+                shipping_charge: ship,
+                total: total,
+                currency: 'USD'
+            };
+
+            const { data, error } = await _supabase.rpc('create_international_order', {
+                p_customer_name: name,
+                p_phone: phone,
+                p_email: email,
+                p_country: country,
+                p_city: city,
+                p_postal_code: postalCode || null,
+                p_address: address,
+                p_delivery_type: intlSelectedDelivery,
+                p_payment_method: intlSelectedPayment,
+                p_items: items,
+                p_subtotal: s,
+                p_discount: d,
+                p_shipping_charge: ship,
+                p_total: total,
+                p_currency: 'USD'
+            });
+
+            if(error) throw error;
+
+            localStorage.removeItem('jayen_cart');
+            hideLoader();
+            document.getElementById('intlSuccessOrderId').innerText = data?.order_id ? `#INTL-${data.order_id}` : '#INTL-000';
+            intlShowStep(4);
+        } catch(e){
+            hideLoader();
+            showToast('Failed to place international order: '+e.message,'error');
+        }
+    }
+
+    // Terms checkbox listener
+    document.addEventListener('DOMContentLoaded', function() {
+        const termsCheckbox = document.getElementById('intlTermsCheckbox');
+        if(termsCheckbox) {
+            termsCheckbox.addEventListener('change', function() {
+                document.getElementById('intlPlaceOrderBtn').disabled = !this.checked;
+            });
+        }
+    });
+
+    // ==================== INIT ====================
     async function init(){
         showLoader('Loading checkout...');
         try{
@@ -1140,7 +1274,6 @@
             deliveryCharges=dData||[];
 
             populateDistrictDropdowns();
-            populateIntlCountries();
             await loadPaymentGateways();
 
             const profileSection=document.getElementById('profileCardSection');
@@ -1167,6 +1300,13 @@
             window._subtotal=cartData.reduce((s,i)=>s+i.price,0);
             window._deliveryCharge=120;
             window._discount=0;
+
+            // Initialize international section
+            populateIntlCountries();
+            renderIntlDeliveryOptions();
+            renderIntlPaymentOptions();
+            renderIntlProductReview();
+            updateIntlOrderSummary();
 
             hideLoader();
         } catch(e){
