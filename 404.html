@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <script>
+        // GitHub Pages SPA Redirect - Fixed version
+        (function() {
+            var path = window.location.pathname;
+            var search = window.location.search;
+            var hash = window.location.hash;
+            
+            // If it's already the main page or the 404 itself, don't redirect
+            if (path === '/' || path === '/index.html' || path === '/404.html') {
+                return;
+            }
+            
+            // Redirect to main page with the path stored for SPA routing
+            sessionStorage.setItem('redirectPath', path);
+            window.location.replace('/index.html');
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>
