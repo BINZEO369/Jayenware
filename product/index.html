@@ -1,720 +1,413 @@
 <!DOCTYPE html>
 <html lang="en-BD" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Product | JAYENWARE</title>
-    
-    <!-- SEO মেটা ট্যাগ - ডায়নামিকভাবে আপডেট হবে -->
-    <meta name="description" content="Shop premium products at JAYENWARE official store">
-    <meta property="og:title" content="Product | JAYENWARE">
-    <meta property="og:description" content="Discover luxury Bangladesh clothing and accessories">
-    <meta property="og:image" content="https://www.jayenware.shop/logo.png">
-    <meta property="og:url" content="https://www.jayenware.shop/product">
-    <meta property="og:type" content="product">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="canonical" href="https://www.jayenware.shop/product">
-    
-    <link rel="icon" type="image/png" href="https://www.jayenware.shop/logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/api-config.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
-                    },
-                    colors: {
-                        primary: '#1d1d1f',
-                        accent: '#86868b',
-                        soft: '#f5f5f7',
-                        blue: '#007aff'
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <!-- Dynamic title & SEO will be injected by JS -->
+  <title>Product | JAYENWARE</title>
+  <meta name="description" content="Shop premium lifestyle product at JAYENWARE official store. Fast delivery across Bangladesh.">
+  <meta name="theme-color" content="#1d1d1f">
+  <meta property="og:title" content="Product | JAYENWARE">
+  <meta property="og:description" content="Discover quality fashion at JAYENWARE.">
+  <meta property="og:image" content="https://www.jayenware.shop/logo.png">
+  <meta property="og:url" content="https://www.jayenware.shop/product">
+  <meta property="og:type" content="product">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.jayenware.shop/product">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
+  <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase config must be globally accessible; using same pattern as original -->
+  <script src="/api-config.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          },
+          colors: {
+            primary: '#1d1d1f',
+            accent: '#86868b',
+            soft: '#f5f5f7',
+            blue: '#007aff'
+          }
         }
-    </script>
-    
-    <style>
-        :root {
-            --primary: #1d1d1f;
-            --accent: #86868b;
-            --soft: #f5f5f7;
-            --blue: #007aff;
-        }
-        
-        * {
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background-color: #ffffff;
-            color: #1d1d1f;
-            overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        img { max-width: 100%; height: auto; }
-        
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(50px) saturate(180%);
-            -webkit-backdrop-filter: blur(50px) saturate(180%);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            transition: all 0.3s ease;
-        }
-        
-        .product-img-container { 
-            position: relative; 
-            overflow: hidden; 
-            background: #f5f5f7; 
-            aspect-ratio: 3/4;
-        }
-        
-        .product-img-container img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            display: block; 
-            transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-        
-        #product-zoom-container { cursor: crosshair; overflow: hidden; }
-        #product-zoom-image { transition: transform 0.1s ease-out; will-change: transform; }
-        
-        .variant-btn { transition: all 0.2s ease; white-space: nowrap; flex-shrink: 0; }
-        .variant-btn.selected { border-color: #1d1d1f !important; background: #1d1d1f !important; color: white !important; }
-        
-        .star-rating { direction: rtl; display: inline-flex; }
-        .star-rating input[type="radio"] { display: none; }
-        .star-rating label { color: #d2d2d7; font-size: 20px; cursor: pointer; transition: color 0.2s; }
-        .star-rating input[type="radio"]:checked ~ label,
-        .star-rating label:hover, .star-rating label:hover ~ label { color: #ff9500; }
-        
-        .product-card {
-            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-            display: flex; flex-direction: column; height: 100%;
-        }
-        
-        #toast { will-change: transform; }
-        
-        button, a, [onclick] { -webkit-tap-highlight-color: transparent; cursor: pointer; }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #d2d2d7; border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        @media (max-width: 640px) {
-            .product-img-container { aspect-ratio: 3/4; }
-        }
-        @media (min-width: 641px) and (max-width: 1023px) { .product-img-container { aspect-ratio: 3/4; } }
-        @media (min-width: 1024px) { .product-img-container { aspect-ratio: 3/4; } }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    :root { --primary: #1d1d1f; --accent: #86868b; --soft: #f5f5f7; --blue: #007aff; }
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    body { background: #ffffff; color: #1d1d1f; font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; padding-top: 80px; }
+    @media (min-width: 1024px) { main { padding-top: 96px; } }
+    .glass-nav {
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+      border-bottom: 1px solid rgba(0,0,0,0.06); position: fixed; width: 100%; top: 0; z-index: 50;
+    }
+    .product-img-container { background: #f5f5f7; border-radius: 24px; overflow: hidden; aspect-ratio: 3/4; }
+    #zoom-image { transition: transform 0.1s ease-out; will-change: transform; cursor: crosshair; }
+    .variant-btn { transition: all 0.2s ease; white-space: nowrap; }
+    .variant-btn.selected { border-color: #1d1d1f !important; background: #1d1d1f !important; color: white !important; }
+    .star-rating { direction: rtl; display: inline-flex; }
+    .star-rating input[type="radio"] { display: none; }
+    .star-rating label { color: #d2d2d7; font-size: 20px; cursor: pointer; transition: color 0.2s; }
+    .star-rating input[type="radio"]:checked ~ label,
+    .star-rating label:hover, .star-rating label:hover ~ label { color: #ff9500; }
+    #toast {
+      position: fixed; top: 16px; right: 16px; z-index: 200; transform: translateX(120%);
+      transition: transform 0.35s ease; max-width: calc(100vw - 32px);
+    }
+    .custom-scroll::-webkit-scrollbar { width: 4px; }
+    .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #d2d2d7; border-radius: 10px; }
+    button:active { transform: scale(0.96); }
+  </style>
 </head>
 <body class="antialiased">
 
-    <!-- লোডার -->
-    <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
-        <div style="text-align:center;">
-            <div style="width:36px;height:36px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
-            <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-primary/60">JAYENWARE</p>
-        </div>
+  <!-- Toast notification -->
+  <div id="toast">
+    <div class="bg-white shadow-2xl rounded-2xl p-3 flex items-center gap-3 min-w-[260px] border border-gray-100">
+      <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
+      <p id="toast-text" class="text-xs font-bold flex-grow"></p>
+      <button onclick="hideToast()" class="text-gray-300 hover:text-gray-600 shrink-0"><i class="fa-solid fa-xmark"></i></button>
     </div>
+  </div>
 
-    <!-- টোস্ট নোটিফিকেশন -->
-    <div id="toast" style="position:fixed;top:16px;right:16px;z-index:200;transform:translateX(120%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);max-width:calc(100vw - 32px);">
-        <div class="bg-white shadow-2xl rounded-2xl p-3 flex items-center gap-3 min-w-[260px] border border-gray-100">
-            <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
-            <p id="toast-text" class="text-xs font-bold flex-grow"></p>
-            <button onclick="hideToast()" class="text-gray-300 hover:text-gray-600 shrink-0"><i class="fa-solid fa-xmark"></i></button>
-        </div>
+  <!-- Navigation -->
+  <nav class="glass-nav">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 lg:h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 sm:gap-3 no-underline text-primary">
+        <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 lg:w-10 lg:h-10 rounded-lg" alt="JAYENWARE Logo">
+        <span class="text-xl lg:text-2xl font-black font-serif tracking-tight">JAYENWARE</span>
+      </a>
+      <div class="flex items-center gap-3 lg:gap-5">
+        <a href="/products" class="text-xs font-bold uppercase tracking-wider text-primary hover:text-blue transition no-underline hidden sm:inline">All Products</a>
+        <a href="/" class="text-xs font-bold uppercase tracking-wider text-primary hover:text-blue transition no-underline">Home</a>
+      </div>
     </div>
+  </nav>
 
-    <!-- নেভিগেশন বার -->
-    <nav class="glass-nav fixed w-full top-0 z-50" id="main-nav">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 lg:h-20 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline" aria-label="JAYENWARE Home">
-                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg" alt="JAYENWARE Logo" loading="eager" width="40" height="40">
-                <span class="text-lg sm:text-xl lg:text-2xl font-black tracking-tight font-serif text-primary">JAYENWARE</span>
-            </a>
-            <div class="hidden lg:flex items-center gap-0">
-                <a href="/" class="nav-link px-5 no-underline text-[11px] font-semibold uppercase tracking-[0.15em] text-primary hover:text-primary/70 transition">Home</a>
-                <a href="/products" class="nav-link px-5 no-underline text-[11px] font-semibold uppercase tracking-[0.15em] text-primary hover:text-primary/70 transition">Shop</a>
-                <a href="/journal" class="nav-link px-5 no-underline text-[11px] font-semibold uppercase tracking-[0.15em] text-primary hover:text-primary/70 transition">Journal</a>
-            </div>
-            <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
-                <a href="/wishlist" class="relative p-1.5 no-underline text-primary hover:text-blue transition" aria-label="Wishlist">
-                    <i class="fa-regular fa-heart text-lg lg:text-xl"></i>
-                    <span id="wish-count" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
-                </a>
-                <a href="/cart" class="relative p-1.5 no-underline text-primary hover:text-blue transition" aria-label="Shopping Cart">
-                    <i class="fa-solid fa-bag-shopping text-lg lg:text-xl"></i>
-                    <span id="cart-count" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
-                </a>
-                <div id="auth-nav-area" class="hidden lg:block">
-                    <a href="/login" class="px-5 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-blue transition-all no-underline inline-block">Sign In</a>
-                </div>
-                <button onclick="openMobileMenu()" class="lg:hidden text-xl p-1.5 text-primary hover:text-blue transition" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
-            </div>
-        </div>
-    </nav>
+  <main>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
+      <!-- Back link -->
+      <a href="/products" class="inline-flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-primary transition mb-6 lg:mb-8 no-underline">
+        <i class="fa-solid fa-arrow-left"></i> Back to Collection
+      </a>
 
-    <!-- মোবাইল মেনু -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
-    <div class="mobile-menu-drawer" id="mobileMenuDrawer">
-        <div class="mobile-menu-header">
-            <a href="/" class="flex items-center gap-3 no-underline">
-                <img src="https://www.jayenware.shop/logo.png" class="w-9 h-9 rounded-lg" alt="Logo">
-                <span class="font-black font-serif text-lg text-primary">JAYENWARE</span>
-            </a>
-            <button onclick="closeMobileMenu()" class="text-2xl text-gray-400 hover:text-primary transition p-2"><i class="fa-solid fa-xmark"></i></button>
+      <!-- Product skeleton / content injected here -->
+      <div id="product-content" class="animate-pulse">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          <div class="product-img-container bg-gray-200"></div>
+          <div class="space-y-4">
+            <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+            <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-6 bg-gray-200 rounded w-1/3"></div>
+            <div class="h-20 bg-gray-200 rounded"></div>
+          </div>
         </div>
-        <div class="mobile-menu-scroll">
-            <a href="/" class="mobile-cat-item no-underline"><span><i class="fa-solid fa-house mr-3 text-gray-300"></i> Home</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-            <a href="/products" class="mobile-cat-item no-underline"><span><i class="fa-solid fa-bag-shopping mr-3 text-gray-300"></i> All Products</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-            <a href="/journal" class="mobile-cat-item no-underline"><span><i class="fa-solid fa-newspaper mr-3 text-gray-300"></i> Journal</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-            <a href="/wishlist" class="mobile-cat-item no-underline"><span><i class="fa-regular fa-heart mr-3 text-gray-300"></i> Wishlist</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-        </div>
-        <div class="mobile-footer" id="mobileMenuFooter">
-            <a href="/login" class="auth-btn primary no-underline">Sign In</a>
-            <a href="/sign-up" class="auth-btn outline no-underline">Create Account</a>
-        </div>
+      </div>
+
+      <!-- Complete the look section -->
+      <div id="complete-look-section" class="mt-16 lg:mt-20 border-t pt-10 hidden">
+        <h3 class="text-2xl font-bold tracking-tight text-primary mb-6">Complete the Look</h3>
+        <div id="complete-look-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6"></div>
+      </div>
     </div>
+  </main>
 
-    <!-- মেইন কনটেন্ট -->
-    <main class="pt-14 sm:pt-16 lg:pt-20">
-        <div class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 lg:py-12">
-            <!-- ব্যাক বাটন -->
-            <a href="/products" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline inline-flex">
-                <i class="fa-solid fa-arrow-left"></i> Back to Collection
-            </a>
-            
-            <!-- প্রোডাক্ট ডিটেইলস -->
-            <div id="product-detail-content"></div>
-            
-            <!-- কমপ্লিট দ্য লুক -->
-            <div id="complete-the-look-section" class="mt-12 sm:mt-16 border-t pt-10 sm:pt-16 hidden">
-                <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-primary mb-6 sm:mb-8">Complete the Look</h3>
-                <div id="complete-the-look-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
+  <footer class="bg-primary text-gray-400 py-8 mt-10">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-xs uppercase tracking-wider">© <span id="display-year"></span> JAYENWARE. A concern of BINZEO.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- SUPABASE CLIENT ----------
+    const _supabase = supabase.createClient(
+      window.SUPABASE_URL || 'https://vdqbjwzixppbtkbgvhlq.supabase.co',
+      window.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkcWJqd3ppeHBwYnRrYmd2aGxxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ2NjYwNjcsImV4cCI6MjA2MDI0MjA2N30.lSWgT7R4N1XkQH3MxH4fFwKQaJ8YlZ9t0vXaJxZ9t0vX'
+    );
+
+    // Global state
+    let allProducts = [];
+    let allVariants = [];
+    let allReviews = [];
+    let currentProduct = null;
+    let selectedVariant = null;
+
+    // ---------- UTILS ----------
+    function getProductSlug(product) {
+      if (!product || !product.title) return '';
+      return product.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 80);
+    }
+
+    function showToast(text, type = 'success') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').innerText = text;
+      const icon = document.getElementById('toast-icon');
+      if (type === 'success') {
+        icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-green-100 text-green-600 shrink-0';
+        icon.innerHTML = '<i class="fa-solid fa-check"></i>';
+      } else if (type === 'error') {
+        icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-red-100 text-red-600 shrink-0';
+        icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
+      } else {
+        icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-blue-100 text-blue-600 shrink-0';
+        icon.innerHTML = '<i class="fa-solid fa-info"></i>';
+      }
+      toast.style.transform = 'translateX(0)';
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => { toast.style.transform = 'translateX(120%)'; }, 3000);
+    }
+    function hideToast() { document.getElementById('toast').style.transform = 'translateX(120%)'; }
+
+    // ---------- DATA FETCH ----------
+    async function fetchAllData() {
+      const [prodRes, varRes, revRes] = await Promise.all([
+        _supabase.from('products').select('*').order('created_at', { ascending: false }),
+        _supabase.from('product_variants').select('*'),
+        _supabase.from('product_reviews').select('*')
+      ]);
+      if (prodRes.data) allProducts = prodRes.data;
+      if (varRes.data) allVariants = varRes.data;
+      if (revRes.data) allReviews = revRes.data;
+    }
+
+    // ---------- FIND PRODUCT BY SLUG ----------
+    function findProductBySlug() {
+      const path = window.location.pathname;
+      // Expected pattern: /product/your-product-slug
+      const parts = path.split('/').filter(p => p);
+      if (parts.length < 2 || parts[0] !== 'product') return null;
+      const slug = parts[1];
+      return allProducts.find(p => getProductSlug(p) === slug) || null;
+    }
+
+    // ---------- RENDER PRODUCT DETAIL ----------
+    function renderProductDetail(product) {
+      currentProduct = product;
+      selectedVariant = null;
+      if (!product) {
+        document.getElementById('product-content').innerHTML = `<div class="text-center py-20"><h2 class="text-2xl font-bold">Product not found</h2><a href="/products" class="text-blue font-bold mt-4 inline-block">Browse collection</a></div>`;
+        return;
+      }
+
+      // Update SEO dynamically
+      document.title = `${product.title} | Buy Online at JAYENWARE`;
+      const descMeta = document.querySelector('meta[name="description"]');
+      if (descMeta) descMeta.content = (product.description || '').substring(0, 155) + '...';
+      document.querySelector('meta[property="og:title"]').setAttribute('content', product.title + ' | JAYENWARE');
+      document.querySelector('meta[property="og:description"]').setAttribute('content', (product.description || '').substring(0, 155));
+      document.querySelector('meta[property="og:image"]').setAttribute('content', product.img);
+      document.querySelector('meta[property="og:url"]').setAttribute('content', window.location.href);
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.href = window.location.href;
+
+      const variants = allVariants.filter(v => v.product_id === product.id);
+      const productReviews = allReviews.filter(r => r.product_id === product.id);
+      const allImages = product.images ? product.images.split(',') : [product.img];
+      const isOutOfStock = product.stock <= 0;
+
+      // Build variant buttons HTML
+      let variantHTML = '';
+      if (variants.length) {
+        variantHTML = `
+          <div class="mb-6">
+            <p class="text-xs font-black uppercase text-accent mb-3">Select Variant</p>
+            <div class="flex flex-wrap gap-2" id="variant-container">
+              ${variants.map((v, idx) => `
+                <button onclick="selectVariant(this, '${v.id}', '${v.name}', ${v.price})" 
+                  class="variant-btn px-5 py-2.5 border-2 rounded-2xl text-xs font-bold transition ${idx === 0 ? 'selected' : ''}" 
+                  data-vid="${v.id}">${v.name} - ৳${v.price}</button>
+              `).join('')}
             </div>
+          </div>`;
+        // Set initial selected variant
+        selectedVariant = { id: variants[0].id, name: variants[0].name, price: variants[0].price };
+      }
+
+      // Reviews HTML
+      const reviewsHTML = productReviews.length ? productReviews.map(r => `
+        <div class="bg-white p-4 rounded-xl border">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-[#ff9500] text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+            <span class="text-xs font-bold">${r.user_name || 'Anonymous'}</span>
+            <span class="text-[10px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span>
+          </div>
+          <p class="text-xs text-gray-600">${r.review_text}</p>
         </div>
-    </main>
+      `).join('') : '<p class="text-gray-400 text-sm italic">No reviews yet.</p>';
 
-    <!-- ফুটার -->
-    <footer class="bg-primary text-gray-400 pt-12 sm:pt-16 pb-6 sm:pb-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 sm:mb-12">
-                <div class="col-span-2 md:col-span-1">
-                    <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3 sm:mb-4">JAYENWARE</h4>
-                    <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-blue font-bold hover:text-white transition no-underline">BINZEO</a>.</p>
-                    <div class="flex gap-3 text-base sm:text-lg">
-                        <a href="https://www.facebook.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hover:text-blue transition"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-blue transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://youtube.com/@jayenware" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-blue transition"><i class="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Quick Links</h5>
-                    <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                        <li><a href="/about" class="hover:text-white transition no-underline">About</a></li>
-                        <li><a href="/shipping" class="hover:text-white transition no-underline">Shipping</a></li>
-                        <li><a href="/returns" class="hover:text-white transition no-underline">Returns</a></li>
-                        <li><a href="/contact" class="hover:text-white transition no-underline">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Legal</h5>
-                    <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                        <li><a href="/privacy-policy" class="hover:text-white transition no-underline">Privacy Policy</a></li>
-                        <li><a href="/terms-and-conditions" class="hover:text-white transition no-underline">Terms & Conditions</a></li>
-                        <li><a href="https://support.jayenware.shop" target="_blank" rel="noopener noreferrer" class="hover:text-white transition no-underline">Help Center</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">We Accept</h5>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506245655_download_(2).jpeg" alt="Google Pay" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506292766_download_(1).png" alt="Visa" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506270475_download_(1).jpeg" alt="Mastercard" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506143729_download_(2).png" alt="Cash on Delivery" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                    </div>
-                    <p class="text-[9px] text-gray-500">Secured by BINZEO</p>
-                </div>
+      const reviewFormHTML = `
+        <div class="bg-soft p-5 rounded-2xl mt-6">
+          <h4 class="font-bold text-xs uppercase mb-3">Write a Review</h4>
+          <div class="star-rating mb-3" id="review-stars">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i class="fa-solid fa-star"></i></label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1"><i class="fa-solid fa-star"></i></label>
+          </div>
+          <textarea id="review-text" placeholder="Share your experience..." class="w-full p-3 border rounded-xl text-xs h-20 mb-3 outline-none"></textarea>
+          <button onclick="submitReview()" class="px-6 py-2.5 bg-primary text-white rounded-full text-xs font-bold uppercase hover:bg-blue transition">Submit</button>
+        </div>`;
+
+      const mainHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          <div>
+            <div id="zoom-container" class="product-img-container" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
+              <img id="zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover">
             </div>
-            <div class="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-blue font-bold hover:text-white transition no-underline">BINZEO</a></p>
-                <p class="text-[8px] sm:text-[9px]">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved.</p>
+            <div class="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-1">
+              ${allImages.map(img => `<img src="${img}" onclick="document.getElementById('zoom-image').src='${img}';resetZoom()" class="w-16 h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" alt="view">`).join('')}
             </div>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xs font-bold uppercase tracking-wider text-blue">${product.category}</span>
+            <h1 class="text-2xl lg:text-4xl font-bold tracking-tight mt-2 mb-4">${product.title}</h1>
+            <div class="mb-4"><span class="text-3xl font-black">৳ ${product.price}</span>${product.old_price ? `<span class="ml-3 text-lg text-accent line-through">৳${product.old_price}</span>` : ''}</div>
+            <div class="flex items-center gap-2 mb-4">
+              <span class="w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}"></span>
+              <span class="text-xs font-bold ${isOutOfStock ? 'text-red-500' : 'text-green-600'}">${isOutOfStock ? 'Out of Stock' : `In Stock: ${product.stock}`}</span>
+              ${productReviews.length ? `<span class="text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-[#ff9500] text-xs"></i> ${(productReviews.reduce((s,r)=>s+r.rating,0)/productReviews.length).toFixed(1)}</span>` : ''}
+            </div>
+            ${variantHTML}
+            <div class="grid grid-cols-2 gap-3 mb-6">
+              <button onclick="addToCart()" ${isOutOfStock ? 'disabled' : ''} class="py-3.5 ${isOutOfStock ? 'bg-gray-200' : 'bg-primary hover:bg-blue'} text-white rounded-2xl font-bold text-xs uppercase tracking-wider transition">Add to Bag</button>
+              <button onclick="buyNow()" ${isOutOfStock ? 'disabled' : ''} class="py-3.5 border-2 border-primary rounded-2xl font-bold text-xs uppercase hover:bg-primary hover:text-white transition">Buy Now</button>
+            </div>
+            <div class="bg-soft p-5 rounded-2xl">
+              <h3 class="font-bold text-xs uppercase mb-2">Description</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">${product.description}</p>
+            </div>
+          </div>
         </div>
-    </footer>
+        <div class="border-t pt-10 mt-10">
+          <h3 class="text-xl font-bold mb-4">Customer Reviews (${productReviews.length})</h3>
+          <div class="space-y-3">${reviewsHTML}</div>
+          ${reviewFormHTML}
+        </div>`;
 
-    <style>
-        /* মোবাইল মেনু স্টাইল */
-        .mobile-menu-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 199; opacity: 0; visibility: hidden;
-            transition: all 0.3s ease;
-        }
-        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
-        .mobile-menu-drawer {
-            position: fixed; top: 0; left: 0;
-            width: 85%; max-width: 380px;
-            height: 100vh; height: 100dvh;
-            background: white; z-index: 200;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column;
-        }
-        .mobile-menu-drawer.open { transform: translateX(0); }
-        .mobile-menu-drawer .mobile-menu-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 18px 20px; border-bottom: 1px solid #f0f0f0;
-            background: white; flex-shrink: 0;
-        }
-        .mobile-menu-drawer .mobile-menu-scroll {
-            flex: 1; overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 12px 20px;
-        }
-        .mobile-menu-drawer .mobile-cat-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px 0; border-bottom: 1px solid #f5f5f5;
-            font-size: 14px; font-weight: 600; letter-spacing: 0.05em;
-            cursor: pointer; color: #1d1d1f; text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .mobile-menu-drawer .mobile-footer {
-            padding: 20px; border-top: 1px solid #f0f0f0;
-            background: #f5f5f7; flex-shrink: 0;
-        }
-        .mobile-menu-drawer .mobile-footer .auth-btn {
-            display: block; width: 100%; padding: 14px;
-            border-radius: 14px; font-size: 12px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.1em;
-            text-align: center; cursor: pointer; transition: all 0.3s ease;
-            border: none; font-family: 'Inter', sans-serif;
-            margin-bottom: 8px; text-decoration: none;
-        }
-        .mobile-menu-drawer .mobile-footer .auth-btn.primary { background: #1d1d1f; color: white; }
-        .mobile-menu-drawer .mobile-footer .auth-btn.outline { background: transparent; color: #1d1d1f; border: 2px solid #1d1d1f; }
-        
-        .nav-link {
-            position: relative;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-            color: #1d1d1f;
-            text-decoration: none;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 0; height: 1.5px;
-            background: #1d1d1f;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after { width: 100%; }
-    </style>
+      document.getElementById('product-content').innerHTML = mainHTML;
+      document.getElementById('product-content').classList.remove('animate-pulse');
+      renderCompleteTheLook(product);
+    }
 
-    <script>
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        let currentProduct = null;
-        let selectedVariantObj = null;
-        let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
-        let wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
+    // Variant selection
+    window.selectVariant = function(btn, vId, vName, vPrice) {
+      document.querySelectorAll('#variant-container .variant-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedVariant = { id: vId, name: vName, price: vPrice };
+    };
 
-        // ============================================
-        // URL থেকে প্রোডাক্ট স্লাগ বের করা
-        // ============================================
-        function getProductSlugFromURL() {
-            const path = window.location.pathname;
-            // /product/t-shirt-name থেকে স্লাগ বের করে
-            const slug = path.replace(/^\/product\//, '').replace(/\/$/, '');
-            return slug || null;
-        }
+    // Zoom
+    window.zoomImage = function(e) {
+      const container = document.getElementById('zoom-container');
+      const img = document.getElementById('zoom-image');
+      if (!container || !img) return;
+      const rect = container.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const x = (clientX - rect.left) / rect.width;
+      const y = (clientY - rect.top) / rect.height;
+      img.style.transformOrigin = `${x*100}% ${y*100}%`;
+      img.style.transform = 'scale(2)';
+    };
+    window.resetZoom = function() {
+      const img = document.getElementById('zoom-image');
+      if (img) img.style.transform = 'scale(1)';
+    };
 
-        // ============================================
-        // ইউটিলিটি ফাংশন
-        // ============================================
-        function getProductSlug(product) {
-            if (!product || !product.title) return '';
-            return product.title.toLowerCase()
-                .replace(/[^\w\s-]/g, '')
-                .replace(/[\s_]+/g, '-')
-                .replace(/^-+|-+$/g, '')
-                .substring(0, 80);
-        }
+    // Cart actions (simple localStorage based)
+    function addToCart(buyNow = false) {
+      if (!currentProduct) return;
+      let finalPrice = currentProduct.price;
+      let variantId = null, variantName = null;
+      const hasVariants = allVariants.some(v => v.product_id === currentProduct.id);
+      if (hasVariants) {
+        if (!selectedVariant) return showToast('Please select a variant', 'error');
+        variantId = selectedVariant.id;
+        variantName = selectedVariant.name;
+        finalPrice = selectedVariant.price;
+      }
+      let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
+      cart.push({
+        id: Date.now(),
+        product_id: currentProduct.id,
+        variant_id: variantId,
+        title: currentProduct.title,
+        price: finalPrice,
+        img: currentProduct.img,
+        variant: variantName,
+        quantity: 1
+      });
+      localStorage.setItem('jayen_cart', JSON.stringify(cart));
+      showToast('Added to bag!');
+      if (buyNow) window.location.href = '/cart';
+    }
+    window.addToCart = () => addToCart(false);
+    window.buyNow = () => addToCart(true);
 
-        function showToast(text, type = 'success') {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-text').innerText = text;
-            const icon = document.getElementById('toast-icon');
-            if (type === 'success') {
-                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-green-100 text-green-600 shrink-0';
-                icon.innerHTML = '<i class="fa-solid fa-check"></i>';
-            } else if (type === 'error') {
-                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-red-100 text-red-600 shrink-0';
-                icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-            } else {
-                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-blue-100 text-blue-600 shrink-0';
-                icon.innerHTML = '<i class="fa-solid fa-info"></i>';
-            }
-            toast.style.transform = 'translateX(0)';
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => { toast.style.transform = 'translateX(120%)'; }, 3000);
-        }
-        function hideToast() { document.getElementById('toast').style.transform = 'translateX(120%)'; }
+    // Submit review (anonymous allowed for demo)
+    window.submitReview = async function() {
+      const text = document.getElementById('review-text')?.value;
+      const starsEl = document.querySelector('input[name="rating"]:checked');
+      if (!text || !starsEl || !currentProduct) return showToast('Complete all fields', 'error');
+      const { error } = await _supabase.from('product_reviews').insert([{
+        product_id: currentProduct.id,
+        user_name: 'Guest',
+        rating: parseInt(starsEl.value),
+        review_text: text
+      }]);
+      if (error) showToast(error.message, 'error');
+      else {
+        showToast('Review submitted!');
+        setTimeout(() => location.reload(), 1500);
+      }
+    };
 
-        function updateCounts() {
-            document.getElementById('cart-count').innerText = cart.length;
-            document.getElementById('wish-count').innerText = wishlist.length;
-        }
+    function renderCompleteTheLook(product) {
+      const grid = document.getElementById('complete-look-grid');
+      const section = document.getElementById('complete-look-section');
+      // Random 4 products from same category, excluding current
+      const related = allProducts.filter(p => p.id !== product.id && p.category === product.category).slice(0, 4);
+      if (!related.length) {
+        section.classList.add('hidden');
+        return;
+      }
+      section.classList.remove('hidden');
+      grid.innerHTML = related.map(p => {
+        const slug = getProductSlug(p);
+        return `<a href="/product/${slug}" class="bg-white rounded-2xl border no-underline text-primary overflow-hidden group">
+          <div class="aspect-[3/4] bg-soft"><img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+          <div class="p-3"><p class="text-xs font-bold truncate">${p.title}</p><p class="font-black text-sm">৳${p.price}</p></div>
+        </a>`;
+      }).join('');
+    }
 
-        function toggleWishlist(id) {
-            if (wishlist.includes(id)) {
-                wishlist = wishlist.filter(x => x !== id);
-            } else {
-                wishlist.push(id);
-            }
-            localStorage.setItem('jayen_wish', JSON.stringify(wishlist));
-            updateCounts();
-            showToast('Wishlist Updated', 'info');
-        }
+    // ---------- INIT ----------
+    async function init() {
+      document.getElementById('display-year').innerText = new Date().getFullYear();
+      await fetchAllData();
+      const product = findProductBySlug();
+      renderProductDetail(product);
+    }
 
-        function addToCart(productId, buyNow = false) {
-            const product = currentProduct;
-            if (!product) return;
-            
-            // স্টক চেক
-            const inCart = cart.filter(i => i.product_id === productId).length;
-            if (inCart >= product.stock) {
-                showToast('Stock limit reached', 'error');
-                return;
-            }
-            
-            // ভ্যারিয়েন্ট চেক
-            const variants = currentData?.variants?.filter(v => v.product_id === productId) || [];
-            if (variants.length > 0 && !selectedVariantObj) {
-                showToast('Please select a variant', 'error');
-                return;
-            }
-            
-            let finalPrice = product.price;
-            let vId = null;
-            let vName = null;
-            
-            if (selectedVariantObj) {
-                vId = selectedVariantObj.id;
-                vName = selectedVariantObj.name;
-                finalPrice = selectedVariantObj.price;
-            }
-            
-            cart.push({
-                id: Date.now(),
-                product_id: product.id,
-                variant_id: vId,
-                title: product.title,
-                price: finalPrice,
-                img: product.img,
-                variant: vName,
-                quantity: 1
-            });
-            
-            localStorage.setItem('jayen_cart', JSON.stringify(cart));
-            updateCounts();
-            showToast('Added to Bag!');
-        }
-
-        function selectVariant(btn, vId, vName, vPrice) {
-            document.querySelectorAll('#detail-variant-container .variant-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            selectedVariantObj = { id: vId, name: vName, price: vPrice };
-        }
-
-        function zoomImage(e) {
-            const container = document.getElementById('product-zoom-container');
-            const img = document.getElementById('product-zoom-image');
-            if (!container || !img) return;
-            const rect = container.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            const x = (clientX - rect.left) / rect.width;
-            const y = (clientY - rect.top) / rect.height;
-            img.style.transformOrigin = `${x * 100}% ${y * 100}%`;
-            img.style.transform = 'scale(2)';
-        }
-        function resetZoom() {
-            const img = document.getElementById('product-zoom-image');
-            if (img) img.style.transform = 'scale(1)';
-        }
-
-        function updateProductSEO(product) {
-            const title = product.title + " | JAYENWARE";
-            document.title = title;
-            
-            const metaDesc = document.querySelector('meta[name="description"]');
-            if (metaDesc) metaDesc.content = (product.description || '').substring(0, 155) + "...";
-            
-            const ogTitle = document.querySelector('meta[property="og:title"]');
-            if (ogTitle) ogTitle.content = title;
-            
-            const ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.content = (product.description || '').substring(0, 155) + "...";
-            
-            const ogImage = document.querySelector('meta[property="og:image"]');
-            if (ogImage) ogImage.content = product.img || 'https://www.jayenware.shop/logo.png';
-            
-            const ogUrl = document.querySelector('meta[property="og:url"]');
-            if (ogUrl) ogUrl.content = window.location.href;
-            
-            const canonical = document.querySelector('link[rel="canonical"]');
-            if (canonical) canonical.href = window.location.href;
-        }
-
-        // ============================================
-        // রিলেটেড প্রোডাক্ট
-        // ============================================
-        function getRandomProducts(currentProductId, category, count = 4) {
-            let available = currentData.products.filter(p => p.id !== currentProductId);
-            const shuffle = (array) => {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-            };
-            return shuffle(available).slice(0, count);
-        }
-
-        function productCardHTML(p) {
-            const wished = wishlist.includes(p.id);
-            return `<a href="/product/${getProductSlug(p)}" class="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 cursor-pointer group no-underline block">
-                <div class="product-img-container">
-                    <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
-                </div>
-                <div class="p-2.5 sm:p-4">
-                    <p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-0.5 sm:mb-1">${p.category}</p>
-                    <h3 class="font-bold text-xs sm:text-sm text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3>
-                    <div class="flex justify-between items-end">
-                        <span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>
-                    </div>
-                </div>
-            </a>`;
-        }
-
-        // ============================================
-        // মোবাইল মেনু
-        // ============================================
-        function openMobileMenu() {
-            document.getElementById('mobileMenuDrawer').classList.add('open');
-            document.getElementById('mobileMenuOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeMobileMenu() {
-            document.getElementById('mobileMenuDrawer').classList.remove('open');
-            document.getElementById('mobileMenuOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // ============================================
-        // গ্লোবাল ডাটা স্টোর
-        // ============================================
-        let currentData = { products: [], categories: [], variants: [], reviews: [] };
-
-        // ============================================
-        // প্রোডাক্ট লোড করা (স্লাগ থেকে)
-        // ============================================
-        async function loadProductBySlug() {
-            const slug = getProductSlugFromURL();
-            if (!slug) {
-                // কোন স্লাগ না থাকলে 404 বা রিডিরেক্ট
-                document.getElementById('product-detail-content').innerHTML = `
-                    <div class="text-center py-20">
-                        <p class="text-2xl font-bold text-gray-400 mb-4">Product Not Found</p>
-                        <a href="/products" class="px-6 py-3 bg-primary text-white rounded-full text-sm font-bold hover:bg-blue transition no-underline inline-block">Browse Products</a>
-                    </div>`;
-                return;
-            }
-            
-            try {
-                // Supabase থেকে সব প্রোডাক্ট লোড
-                const { data: products, error: prodError } = await _supabase
-                    .from('products')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (prodError) throw prodError;
-                currentData.products = products || [];
-                
-                // স্লাগ ম্যাচিং প্রোডাক্ট খোঁজা
-                const product = currentData.products.find(p => getProductSlug(p) === slug);
-                
-                if (!product) {
-                    // টাইটেল দিয়ে partial match ট্রাই করা
-                    const slugDecoded = decodeURIComponent(slug).replace(/-/g, ' ');
-                    const fuzzyMatch = currentData.products.find(p => 
-                        p.title.toLowerCase().includes(slugDecoded.toLowerCase())
-                    );
-                    
-                    if (fuzzyMatch) {
-                        // সঠিক স্লাগে রিডিরেক্ট
-                        window.location.replace('/product/' + getProductSlug(fuzzyMatch));
-                        return;
-                    }
-                    
-                    // একদম পাওয়া যায়নি
-                    document.getElementById('product-detail-content').innerHTML = `
-                        <div class="text-center py-20">
-                            <p class="text-2xl font-bold text-gray-400 mb-4">Product Not Found</p>
-                            <a href="/products" class="px-6 py-3 bg-primary text-white rounded-full text-sm font-bold hover:bg-blue transition no-underline inline-block">Browse Products</a>
-                        </div>`;
-                    return;
-                }
-                
-                // একই সাথে অন্যান্য ডাটা লোড
-                const [{ data: variants }, { data: reviews }, { data: categories }] = await Promise.all([
-                    _supabase.from('product_variants').select('*').eq('product_id', product.id),
-                    _supabase.from('product_reviews').select('*').eq('product_id', product.id),
-                    _supabase.from('categories').select('*')
-                ]);
-                
-                currentData.variants = variants || [];
-                currentData.reviews = reviews || [];
-                currentData.categories = categories || [];
-                
-                currentProduct = product;
-                renderProductDetails(product, variants || [], reviews || []);
-                updateProductSEO(product);
-                
-                // রিসেন্টলি ভিউড আপডেট
-                let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
-                recent = [product.id.toString(), ...recent.filter(id => id !== product.id.toString())].slice(0, 8);
-                localStorage.setItem('jayen_recent', JSON.stringify(recent));
-                
-                // কমপ্লিট দ্য লুক
-                const related = getRandomProducts(product.id, product.category, 4);
-                const ctl = document.getElementById('complete-the-look-section');
-                if (related.length) {
-                    ctl.classList.remove('hidden');
-                    document.getElementById('complete-the-look-grid').innerHTML = related.map(p => productCardHTML(p)).join('');
-                } else {
-                    ctl.classList.add('hidden');
-                }
-                
-            } catch (error) {
-                console.error('Error loading product:', error);
-                document.getElementById('product-detail-content').innerHTML = `
-                    <div class="text-center py-20">
-                        <p class="text-2xl font-bold text-gray-400 mb-4">Error Loading Product</p>
-                        <a href="/products" class="px-6 py-3 bg-primary text-white rounded-full text-sm font-bold hover:bg-blue transition no-underline inline-block">Browse Products</a>
-                    </div>`;
-            }
-        }
-
-        function renderProductDetails(product, variants, reviews) {
-            const allImages = product.images ? product.images.split(',') : [product.img];
-            const isOut = product.stock <= 0;
-            selectedVariantObj = variants.length > 0 ? { id: variants[0].id, name: variants[0].name, price: variants[0].price } : null;
-            
-            const reviewsHTML = reviews.length ? reviews.map(r => `
-                <div class="bg-white p-3 sm:p-4 rounded-xl border border-gray-100">
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="text-[#ff9500] text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
-                        <span class="text-[10px] sm:text-xs font-bold">${r.user_name||'Anonymous'}</span>
-                        <span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span>
-                    </div>
-                    <p class="text-[10px] sm:text-xs text-gray-600">${r.review_text}</p>
-                </div>`).join('') : '<p class="text-gray-400 text-xs sm:text-sm italic">No reviews yet. Be the first to review!</p>';
-            
-            document.getElementById('product-detail-content').innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 mb-8 sm:mb-10">
-                    <div>
-                        <div id="product-zoom-container" class="rounded-3xl overflow-hidden bg-soft" style="aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
-                            <img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 overflow-x-auto no-scrollbar pb-1">
-                            ${allImages.map(img => `<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" loading="lazy" alt="${product.title}">`).join('')}
-                        </div>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-blue">${product.category}</span>
-                        <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-primary mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1>
-                        <div class="mb-4 sm:mb-6">
-                            <span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>
-                            ${product.old_price ? `<span class="ml-2 sm:ml-3 text-base sm:text-lg text-accent line-through">৳${product.old_price}</span>` : ''}
-                        </div>
-                        <div class="flex items-center gap-2 mb-4 sm:mb-6">
-                            <span class="w-2 h-2 rounded-full ${isOut ? 'bg-red-500' : 'bg-green-500'}"></span>
-                            <span class="text-[10px] sm:text-xs font-bold ${isOut ? 'text-red-500' : 'text-green-600'}">${isOut ? 'Out of Stock' : `In Stock: ${product.stock}`}</span>
-                            ${reviews.length ? `<span class="text-[10px] sm:text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-[#ff9500] text-[9px]"></i> ${(reviews.reduce((sum,r)=>sum+r.rating,0)/reviews.length).toFixed(1)} (${reviews.length} reviews)</span>` : ''}
-                        </div>
-                        ${variants.length ? `
-                        <div class="mb-6 sm:mb-8">
-                            <p class="text-[9px] sm:text-[10px] font-black uppercase text-accent mb-2 sm:mb-3">Select Variant</p>
-                            <div class="flex flex-wrap gap-1.5 sm:gap-2" id="detail-variant-container">
-                                ${variants.map((v, i) => `<button onclick="selectVariant(this,'${v.id}','${v.name}',${v.price})" class="variant-btn px-4 sm:px-5 py-2.5 sm:py-3 border-2 rounded-2xl text-[10px] sm:text-xs font-bold transition ${i === 0 ? 'selected' : ''}" data-vid="${v.id}">${v.name} - ৳${v.price}</button>`).join('')}
-                            </div>
-                        </div>` : ''}
-                        <div class="grid grid-cols-2 gap-2 sm:gap-3 mb-6 sm:mb-8">
-                            <button onclick="addToCart(${product.id}, false)" ${isOut ? 'disabled' : ''} class="py-3 sm:py-4 ${isOut ? 'bg-gray-200' : 'bg-primary hover:bg-blue'} text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Add to Bag</button>
-                            <button onclick="addToCart(${product.id}, true)" ${isOut ? 'disabled' : ''} class="py-3 sm:py-4 ${isOut ? 'bg-gray-100' : 'bg-white border-2 border-primary hover:bg-primary hover:text-white'} rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Buy Now</button>
-                        </div>
-                        <div class="bg-soft p-4 sm:p-6 rounded-2xl mb-6">
-                            <h3 class="font-bold text-[10px] sm:text-xs uppercase mb-2">Description</h3>
-                            <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">${product.description || ''}</p>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-auto">
-                            <div class="flex items-center gap-1 bg-green-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-shield-halved text-green-600"></i> 100% Authentic</div>
-                            <div class="flex items-center gap-1 bg-blue-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-truck-fast text-blue-600"></i> Fast Delivery</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-t pt-8 sm:pt-10">
-                    <div class="flex items-center gap-3 mb-6">
-                        <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-primary">Customer Reviews</h3>
-                        <span class="text-xs sm:text-sm text-gray-400 font-bold">(${reviews.length})</span>
-                    </div>
-                    <div class="space-y-3 sm:space-y-4">${reviewsHTML}</div>
-                </div>`;
-        }
-
-        // ============================================
-        // ইনিশিয়ালাইজ
-        // ============================================
-        window.addEventListener('DOMContentLoaded', async () => {
-            document.getElementById('display-year').innerText = new Date().getFullYear();
-            updateCounts();
-            document.getElementById('global-loader').style.display = 'flex';
-            await loadProductBySlug();
-            document.getElementById('global-loader').style.opacity = '0';
-            document.getElementById('global-loader').style.transition = 'opacity 0.5s ease';
-            setTimeout(() => { document.getElementById('global-loader').style.display = 'none'; }, 600);
-        });
-
-        window.addEventListener('scroll', () => {
-            document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
-        });
-    </script>
+    window.addEventListener('DOMContentLoaded', init);
+    // Handle popstate (browser back/forward)
+    window.addEventListener('popstate', () => {
+      const product = findProductBySlug();
+      renderProductDetail(product);
+    });
+  </script>
 </body>
 </html>
