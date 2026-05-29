@@ -9,7 +9,7 @@
     <meta name="keywords" content="buy t-shirts online Bangladesh, premium lifestyle products BD, quality cotton t-shirt, JAYENWARE shop, BINZEO store, stylish apparel, printed t-shirts, oversized t-shirts, fashion accessories, online shopping Bangladesh, authentic clothing, best t-shirt brand Bangladesh">
     <meta name="author" content="BINZEO">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="theme-color" content="#1a1a1a">
+    <meta name="theme-color" content="#1d1d1f">
     <meta name="geo.region" content="BD">
     <meta name="geo.placename" content="Bangladesh">
     
@@ -68,72 +68,24 @@
         "description": "Premium lifestyle products and quality cotton T-shirts store by BINZEO. Shop authentic apparel with fast delivery across World.",
         "priceRange": "৳450 - ৳5000",
         "image": "https://www.jayenware.shop/logo.png",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Dhaka",
-            "addressRegion": "Dhaka Division",
-            "addressCountry": "BD"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "23.8103",
-            "longitude": "90.4125"
-        },
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "contactType": "customer service",
-            "url": "https://m.me/861762253694814",
-            "availableLanguage": ["English", "Bengali"]
-        },
-        "sameAs": [
-            "https://www.facebook.com/jayenware",
-            "https://www.instagram.com/jayenware",
-            "https://www.twitter.com/jayenware"
-        ],
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            "opens": "09:00",
-            "closes": "21:00"
-        },
-        "parentOrganization": {
-            "@type": "Organization",
-            "name": "BINZEO",
-            "url": "https://binzeo.vercel.app"
-        }
+        "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressRegion": "Dhaka Division", "addressCountry": "BD" },
+        "geo": { "@type": "GeoCoordinates", "latitude": "23.8103", "longitude": "90.4125" },
+        "contactPoint": { "@type": "ContactPoint", "contactType": "customer service", "url": "https://m.me/861762253694814", "availableLanguage": ["English", "Bengali"] },
+        "sameAs": ["https://www.facebook.com/jayenware", "https://www.instagram.com/jayenware", "https://www.twitter.com/jayenware"],
+        "openingHoursSpecification": { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "09:00", "closes": "21:00" },
+        "parentOrganization": { "@type": "Organization", "name": "BINZEO", "url": "https://binzeo.vercel.app" }
     }
     </script>
 
     <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
     {
-      "@type": "WebSite",
-      "name": "JAYENWARE",
-      "alternateName": "JAYENWARE SHOP",
-      "url": "https://www.jayenware.shop/",
-      "description": "Premium lifestyle products and quality cotton T-shirts store by BINZEO."
-    },
-    {
-      "@type": "Organization",
-      "name": "JAYENWARE",
-      "url": "https://www.jayenware.shop/",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://www.jayenware.shop/logo.png",
-        "width": 512,
-        "height": 512
-      },
-      "sameAs": [
-        "https://www.facebook.com/jayenware",
-        "https://www.instagram.com/jayenware",
-        "https://www.twitter.com/jayenware"
-      ]
+        "@context": "https://schema.org",
+        "@graph": [
+            { "@type": "WebSite", "name": "JAYENWARE", "alternateName": "JAYENWARE SHOP", "url": "https://www.jayenware.shop/", "description": "Premium lifestyle products and quality cotton T-shirts store by BINZEO." },
+            { "@type": "Organization", "name": "JAYENWARE", "url": "https://www.jayenware.shop/", "logo": { "@type": "ImageObject", "url": "https://www.jayenware.shop/logo.png", "width": 512, "height": 512 }, "sameAs": ["https://www.facebook.com/jayenware","https://www.instagram.com/jayenware","https://www.twitter.com/jayenware"] }
+        ]
     }
-  ]
-}
-</script>
+    </script>
 
     <script>
         tailwind.config = {
@@ -144,9 +96,10 @@
                         serif: ['Playfair Display', 'serif']
                     },
                     colors: {
-                        primary: '#1a1a1a',
-                        accent: '#c9a96e',
-                        soft: '#f8f6f3'
+                        primary: '#1d1d1f',
+                        accent: '#86868b',
+                        soft: '#f5f5f7',
+                        blue: '#007aff'
                     }
                 }
             }
@@ -155,9 +108,10 @@
     
     <style>
         :root {
-            --primary: #1a1a1a;
-            --accent: #c9a96e;
-            --soft: #f8f6f3;
+            --primary: #1d1d1f;
+            --accent: #86868b;
+            --soft: #f5f5f7;
+            --blue: #007aff;
         }
         
         * {
@@ -167,7 +121,7 @@
         
         body {
             background-color: #ffffff;
-            color: #1a1a1a;
+            color: #1d1d1f;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
@@ -187,14 +141,11 @@
             overflow-y: scroll;
         }
 
-        img {
-            max-width: 100%;
-            height: auto;
-        }
+        img { max-width: 100%; height: auto; }
         
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #d2d2d7; border-radius: 10px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -210,67 +161,176 @@
         .page-section.fade-in { opacity: 1; transform: translateY(0); }
         
         .glass-nav {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(50px) saturate(180%);
             -webkit-backdrop-filter: blur(50px) saturate(180%);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
             transition: all 0.3s ease;
         }
-        .glass-nav.scrolled { box-shadow: 0 1px 20px rgba(0,0,0,0.06); }
         
-        @media (min-width: 1024px) {
-            .mega-menu {
-                opacity: 0; visibility: hidden; transform: translateY(10px);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                position: absolute; top: 100%; left: 0; right: 0;
-                background: rgba(255,255,255,0.98); backdrop-filter: blur(20px);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-radius: 0 0 24px 24px; z-index: 40;
-            }
-            .mega-menu-trigger:hover .mega-menu, .mega-menu:hover { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-link {
+            position: relative;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 8px 0;
+            transition: color 0.3s ease;
+            color: #1d1d1f;
+            text-decoration: none;
         }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1.5px;
+            background: #1d1d1f;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: #1d1d1f; }
+        
+        .luxury-mega-menu {
+            opacity: 0; visibility: hidden;
+            transform: translateY(15px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(15px);
+            width: 100vw; max-width: 1400px;
+            background: #fff;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+            z-index: 50; padding: 40px 50px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .mega-menu-trigger:hover .luxury-mega-menu,
+        .luxury-mega-menu:hover {
+            opacity: 1; visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .luxury-mega-menu .menu-category-title {
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: #86868b; margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1d1d1f;
+            display: inline-block;
+        }
+        .luxury-mega-menu .menu-product-item {
+            display: flex; gap: 10px; padding: 6px 8px;
+            border-radius: 8px; transition: background 0.2s ease;
+            cursor: pointer; text-decoration: none; color: inherit;
+        }
+        .luxury-mega-menu .menu-product-item:hover { background: #f5f5f7; }
+        .luxury-mega-menu .menu-product-img {
+            width: 50px; height: 65px;
+            object-fit: cover; border-radius: 6px; flex-shrink: 0;
+        }
+        .luxury-mega-menu .menu-featured-section {
+            position: relative; border-radius: 16px;
+            overflow: hidden; height: 100%; min-height: 300px;
+        }
+        .luxury-mega-menu .menu-featured-section img { width: 100%; height: 100%; object-fit: cover; }
+        .luxury-mega-menu .menu-featured-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 30px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 199; opacity: 0; visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .mobile-menu-overlay.active { opacity: 1; visibility: visible; }
+        .mobile-menu-drawer {
+            position: fixed; top: 0; left: 0;
+            width: 85%; max-width: 380px;
+            height: 100vh; height: 100dvh;
+            background: white; z-index: 200;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        .mobile-menu-drawer.open { transform: translateX(0); }
+        .mobile-menu-drawer .mobile-menu-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 20px; border-bottom: 1px solid #f0f0f0;
+            background: white; flex-shrink: 0;
+        }
+        .mobile-menu-drawer .mobile-menu-scroll {
+            flex: 1; overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px 20px;
+        }
+        .mobile-menu-drawer .mobile-cat-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 0; border-bottom: 1px solid #f5f5f5;
+            font-size: 14px; font-weight: 600; letter-spacing: 0.05em;
+            cursor: pointer; color: #1d1d1f; text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .mobile-menu-drawer .mobile-cat-item:hover { color: #007aff; }
+        .mobile-menu-drawer .mobile-sub-cat {
+            padding: 12px 0 12px 20px;
+            border-bottom: 1px solid #fafafa;
+            font-size: 13px; color: #86868b; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; transition: color 0.2s ease;
+        }
+        .mobile-menu-drawer .mobile-sub-cat:hover { color: #007aff; }
+        .mobile-menu-drawer .mobile-sub-cat::before {
+            content: ''; width: 5px; height: 5px;
+            background: #007aff; border-radius: 50%; flex-shrink: 0;
+        }
+        .mobile-menu-drawer .mobile-footer {
+            padding: 20px; border-top: 1px solid #f0f0f0;
+            background: #f5f5f7; flex-shrink: 0;
+        }
+        .mobile-menu-drawer .mobile-footer .auth-btn {
+            display: block; width: 100%; padding: 14px;
+            border-radius: 14px; font-size: 12px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            text-align: center; cursor: pointer; transition: all 0.3s ease;
+            border: none; font-family: 'Inter', sans-serif;
+            margin-bottom: 8px; text-decoration: none;
+        }
+        .mobile-menu-drawer .mobile-footer .auth-btn.primary { background: #1d1d1f; color: white; }
+        .mobile-menu-drawer .mobile-footer .auth-btn.outline { background: transparent; color: #1d1d1f; border: 2px solid #1d1d1f; }
+        .mobile-menu-drawer .mobile-footer .auth-btn.danger { background: transparent; color: #ef4444; border: 2px solid #ef4444; }
         
         .product-card {
-            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-            will-change: transform;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            display: flex; flex-direction: column; height: 100%;
         }
         @media (hover: hover) {
-            .product-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+            .product-card:hover { transform: translateY(-2px); }
             .product-card:hover .product-image { transform: scale(1.03); }
         }
         .product-card .product-image {
             transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
             will-change: transform;
         }
-        
-        .product-img-container { position: relative; overflow: hidden; background: #f5f5f5; }
+        .product-img-container { position: relative; overflow: hidden; background: #f5f5f7; }
         .product-img-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
         #product-zoom-container { cursor: crosshair; overflow: hidden; }
         #product-zoom-image { transition: transform 0.1s ease-out; will-change: transform; }
         
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 12px;
-        }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        
         .variant-btn { transition: all 0.2s ease; white-space: nowrap; flex-shrink: 0; }
-        .variant-btn.selected {
-            border-color: #1a1a1a !important; background: #1a1a1a !important;
-            color: white !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+        .variant-btn.selected { border-color: #1d1d1f !important; background: #1d1d1f !important; color: white !important; }
         
         .star-rating { direction: rtl; display: inline-flex; }
         .star-rating input[type="radio"] { display: none; }
-        .star-rating label { color: #ddd; font-size: 20px; cursor: pointer; transition: color 0.2s; }
+        .star-rating label { color: #d2d2d7; font-size: 20px; cursor: pointer; transition: color 0.2s; }
         .star-rating input[type="radio"]:checked ~ label,
-        .star-rating label:hover, .star-rating label:hover ~ label { color: #c9a96e; }
+        .star-rating label:hover, .star-rating label:hover ~ label { color: #ff9500; }
         
         #cart-drawer {
-            transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
         }
         #cart-drawer.open { transform: translateX(0); }
@@ -287,28 +347,10 @@
         @media (min-width: 641px) and (max-width: 1023px) { .product-img-container { aspect-ratio: 3/4; } }
         @media (min-width: 1024px) { .product-img-container { aspect-ratio: 3/4; } }
         
-        .products-fade-out {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .products-fade-in {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
-        }
-
-        .product-card-enter {
-            animation: cardSlideIn 0.4s ease forwards;
-            opacity: 0;
-        }
-
-        @keyframes cardSlideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        .products-fade-out { opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .products-fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s; }
+        .product-card-enter { animation: cardSlideIn 0.4s ease forwards; opacity: 0; }
+        @keyframes cardSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .product-card-enter:nth-child(1) { animation-delay: 0.05s; }
         .product-card-enter:nth-child(2) { animation-delay: 0.1s; }
         .product-card-enter:nth-child(3) { animation-delay: 0.15s; }
@@ -321,378 +363,255 @@
         .product-card-enter:nth-child(10) { animation-delay: 0.5s; }
         .product-card-enter:nth-child(11) { animation-delay: 0.55s; }
         .product-card-enter:nth-child(12) { animation-delay: 0.6s; }
+        #products-grid { transition: opacity 0.3s ease; min-height: 400px; }
 
-        #products-grid {
-            transition: opacity 0.3s ease;
-            min-height: 400px;
-        }
-
-        /* Luxury Mega Menu Styles */
-        .nav-link {
+        /* ============================================
+           APPLE LIQUID CAROUSEL DESIGN
+           ============================================ */
+        .carousel-wrapper {
             position: relative;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-            color: #1a1a1a;
-            text-decoration: none;
+            overflow: hidden;
+            padding: 4px 0;
         }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1.5px;
-            background: #c9a96e;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: #c9a96e;
-        }
-
-        .luxury-mega-menu {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(15px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(15px);
-            width: 100vw;
-            max-width: 1400px;
-            background: #fff;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
-            z-index: 50;
-            padding: 40px 50px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .mega-menu-trigger:hover .luxury-mega-menu,
-        .luxury-mega-menu:hover {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .luxury-mega-menu .menu-category-title {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: #999;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #c9a96e;
-            display: inline-block;
-        }
-
-        .luxury-mega-menu .menu-product-item {
+        .carousel-track {
             display: flex;
-            gap: 10px;
-            padding: 6px 8px;
-            border-radius: 8px;
-            transition: background 0.2s ease;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: grab;
+            user-select: none;
+            padding: 4px 0;
+            scroll-snap-type: x mandatory;
+        }
+        .carousel-track::-webkit-scrollbar { display: none; }
+        .carousel-track:active { cursor: grabbing; }
+
+        .carousel-card {
+            flex: 0 0 auto;
+            width: 260px;
+            scroll-snap-align: start;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-        }
-
-        .luxury-mega-menu .menu-product-item:hover {
-            background: #f9f9f9;
-        }
-
-        .luxury-mega-menu .menu-product-img {
-            width: 50px;
-            height: 65px;
-            object-fit: cover;
-            border-radius: 6px;
-            flex-shrink: 0;
-        }
-
-        .luxury-mega-menu .menu-featured-section {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            height: 100%;
-            min-height: 300px;
-        }
-
-        .luxury-mega-menu .menu-featured-section img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .luxury-mega-menu .menu-featured-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 30px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            color: white;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 199;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-menu-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 85%;
-            max-width: 380px;
-            height: 100vh;
-            height: 100dvh;
-            background: white;
-            z-index: 200;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            box-shadow: 10px 0 40px rgba(0,0,0,0.15);
         }
-
-        .mobile-menu-drawer.open {
-            transform: translateX(0);
-        }
-
-        .mobile-menu-drawer .mobile-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            background: white;
-            flex-shrink: 0;
-        }
-
-        .mobile-menu-drawer .mobile-menu-scroll {
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 12px 20px;
-        }
-
-        .mobile-menu-drawer .mobile-cat-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #f5f5f5;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            color: #1a1a1a;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .mobile-menu-drawer .mobile-cat-item:hover {
-            color: #c9a96e;
-        }
-
-        .mobile-menu-drawer .mobile-sub-cat {
-            padding: 12px 0 12px 20px;
-            border-bottom: 1px solid #fafafa;
-            font-size: 13px;
-            color: #666;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .mobile-menu-drawer .mobile-sub-cat:hover {
-            color: #c9a96e;
-        }
-
-        .mobile-menu-drawer .mobile-sub-cat::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            background: #c9a96e;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .mobile-menu-drawer .mobile-footer {
-            padding: 20px;
-            border-top: 1px solid #f0f0f0;
-            background: #fafafa;
-            flex-shrink: 0;
-        }
-
-        .mobile-menu-drawer .mobile-footer .auth-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 14px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            margin-bottom: 8px;
-            text-decoration: none;
-        }
-
-        .mobile-menu-drawer .mobile-footer .auth-btn.primary {
-            background: #1a1a1a;
-            color: white;
-        }
-
-        .mobile-menu-drawer .mobile-footer .auth-btn.outline {
-            background: transparent;
-            color: #1a1a1a;
-            border: 2px solid #1a1a1a;
-        }
-
-        .mobile-menu-drawer .mobile-footer .auth-btn.danger {
-            background: transparent;
-            color: #ef4444;
-            border: 2px solid #ef4444;
-        }
-
-        .auth-input-wrapper {
+        .carousel-card:hover { transform: translateY(-2px); }
+        .carousel-card:active { transform: scale(0.98); }
+        .carousel-card .card-img {
             position: relative;
+            aspect-ratio: 3/4;
+            background: #f5f5f7;
+            overflow: hidden;
+        }
+        .carousel-card .card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .carousel-card:hover .card-img img { transform: scale(1.04); }
+        .carousel-card .card-body {
+            padding: 14px 16px 16px;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .carousel-card .card-category {
+            font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: #86868b;
+        }
+        .carousel-card .card-title {
+            font-size: 14px; font-weight: 600;
+            color: #1d1d1f; line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .carousel-card .card-price-row {
+            display: flex; align-items: center;
+            justify-content: space-between; margin-top: 4px;
+        }
+        .carousel-card .card-price { font-size: 15px; font-weight: 700; color: #1d1d1f; }
+        .carousel-card .card-old-price {
+            font-size: 12px; color: #86868b;
+            text-decoration: line-through; margin-left: 6px; font-weight: 400;
+        }
+        .carousel-card .card-add-btn {
+            width: 32px; height: 32px;
+            border-radius: 50%; background: #f5f5f7;
+            border: none; display: flex;
+            align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
+            color: #1d1d1f; font-size: 14px; flex-shrink: 0;
+        }
+        .carousel-card .card-add-btn:hover { background: #1d1d1f; color: #fff; }
+        .carousel-card .card-add-btn:active { transform: scale(0.9); transition: transform 0.15s ease; }
+        .carousel-card .card-add-btn.disabled { background: #f5f5f7; color: #c7c7cc; cursor: not-allowed; pointer-events: none; }
+
+        .carousel-card .card-badge {
+            position: absolute; top: 12px; left: 12px; z-index: 5;
+            padding: 4px 10px; border-radius: 100px;
+            font-size: 9px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .badge-new { background: rgba(52, 199, 89, 0.15); color: #34c759; }
+        .badge-hot { background: rgba(255, 59, 48, 0.15); color: #ff3b30; }
+        .badge-sale { background: rgba(255, 149, 0, 0.15); color: #ff9500; }
+        .badge-limited { background: rgba(175, 82, 222, 0.15); color: #af52de; }
+        .badge-featured { background: rgba(0, 122, 255, 0.15); color: #007aff; }
+
+        .carousel-card .card-wishlist-btn {
+            position: absolute; top: 12px; right: 12px; z-index: 5;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none; display: flex;
+            align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
+            color: #8e8e93; font-size: 12px;
+        }
+        .carousel-card .card-wishlist-btn:hover { background: rgba(255, 255, 255, 0.95); color: #ff3b30; }
+        .carousel-card .card-wishlist-btn.wished { color: #ff3b30; }
+
+        .carousel-card .card-soldout-overlay {
+            position: absolute; inset: 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; z-index: 10;
+        }
+        .carousel-card .card-soldout-overlay span {
+            background: #1d1d1f; color: #fff;
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            padding: 6px 14px; border-radius: 100px;
         }
 
+        .carousel-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            z-index: 20; width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            color: #1d1d1f; font-size: 14px;
+        }
+        .carousel-nav:hover { background: #fff; transform: translateY(-50%) scale(1.05); }
+        .carousel-nav:active { transform: translateY(-50%) scale(0.95); }
+        .carousel-nav.prev { left: 8px; }
+        .carousel-nav.next { right: 8px; }
+        .carousel-wrapper:hover .carousel-nav { opacity: 1; }
+
+        .carousel-scrollbar {
+            display: flex; justify-content: center;
+            gap: 6px; margin-top: 16px; padding: 0 16px;
+        }
+        .carousel-scrollbar .scroll-dot {
+            width: 6px; height: 6px;
+            border-radius: 3px; background: #d2d2d7;
+            transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            cursor: pointer;
+        }
+        .carousel-scrollbar .scroll-dot.active { width: 24px; background: #1d1d1f; }
+
+        .carousel-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .carousel-section.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 640px) {
+            .carousel-card { width: 200px; }
+            .carousel-track { gap: 12px; }
+            .carousel-card .card-body { padding: 10px 12px 12px; }
+            .carousel-card .card-title { font-size: 13px; }
+            .carousel-card .card-price { font-size: 14px; }
+        }
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .carousel-card { width: 230px; }
+            .carousel-track { gap: 14px; }
+        }
+        @media (min-width: 1024px) {
+            .carousel-card { width: 270px; }
+            .carousel-track { gap: 18px; }
+        }
+
+        .auth-input-wrapper { position: relative; }
         .auth-input-wrapper .input-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            font-size: 14px;
-            transition: color 0.2s ease;
-            pointer-events: none;
+            position: absolute; left: 14px; top: 50%;
+            transform: translateY(-50%); color: #86868b;
+            font-size: 14px; transition: color 0.2s ease; pointer-events: none;
         }
-
-        .auth-input-wrapper textarea ~ .input-icon {
-            top: 16px;
-            transform: none;
-        }
-
+        .auth-input-wrapper textarea ~ .input-icon { top: 16px; transform: none; }
         .auth-input-wrapper input:focus ~ .input-icon,
-        .auth-input-wrapper textarea:focus ~ .input-icon {
-            color: #c9a96e;
-        }
-
+        .auth-input-wrapper textarea:focus ~ .input-icon { color: #007aff; }
         .auth-input-wrapper input,
         .auth-input-wrapper textarea {
-            padding-left: 40px;
-            padding-right: 14px;
-            padding-top: 13px;
-            padding-bottom: 13px;
-            width: 100%;
-            border: 1.5px solid #e5e5e5;
-            border-radius: 12px;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.2s ease;
-            background: #fafafa;
-            font-family: 'Inter', sans-serif;
+            padding-left: 40px; padding-right: 14px;
+            padding-top: 13px; padding-bottom: 13px;
+            width: 100%; border: 1.5px solid #e5e5e5;
+            border-radius: 12px; font-size: 14px;
+            outline: none; transition: all 0.2s ease;
+            background: #f5f5f7; font-family: 'Inter', sans-serif;
         }
-
         .auth-input-wrapper input:focus,
         .auth-input-wrapper textarea:focus {
-            border-color: #c9a96e;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(201,169,110,0.1);
+            border-color: #007aff; background: white;
+            box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
         }
 
         .cookie-consent-overlay {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            z-index: 9999;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #1d1d1f; z-index: 9999;
             transform: translateY(100%);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
-            border-top: 2px solid #c9a96e;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
-        
         .cookie-consent-overlay.show { transform: translateY(0); }
-        
         .cookie-banner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
+            max-width: 1200px; margin: 0 auto;
+            padding: 16px 24px; display: flex;
+            align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap;
         }
-        
         .cookie-icon {
-            width: 40px;
-            height: 40px;
-            background: #c9a96e;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            width: 40px; height: 40px;
+            background: #007aff; border-radius: 12px;
+            display: flex; align-items: center;
+            justify-content: center; flex-shrink: 0;
         }
-        
         .cookie-text { flex: 1; min-width: 200px; color: white; }
-        .cookie-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #c9a96e; }
-        .cookie-text p { font-size: 11px; color: #ccc; line-height: 1.4; margin: 0; }
-        .cookie-text a { color: #c9a96e; text-decoration: underline; }
+        .cookie-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #fff; }
+        .cookie-text p { font-size: 11px; color: #a1a1a6; line-height: 1.4; margin: 0; }
+        .cookie-text a { color: #007aff; text-decoration: underline; }
         .cookie-buttons { display: flex; gap: 10px; flex-shrink: 0; }
-        
         .cookie-btn {
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            outline: none;
+            padding: 10px 24px; border-radius: 50px;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.3s;
+            border: none; outline: none;
             font-family: 'Inter', sans-serif;
         }
-        
-        .cookie-btn.accept { background: #c9a96e; color: white; }
-        .cookie-btn.accept:hover { background: #b8944f; }
-        .cookie-btn.decline { background: transparent; color: #999; border: 1px solid #555; }
-        .cookie-btn.decline:hover { color: white; border-color: #999; }
+        .cookie-btn.accept { background: #007aff; color: white; }
+        .cookie-btn.accept:hover { background: #0056cc; }
+        .cookie-btn.decline { background: transparent; color: #a1a1a6; border: 1px solid #48484a; }
+        .cookie-btn.decline:hover { color: white; border-color: #a1a1a6; }
         
         @media (max-width: 768px) {
             .cookie-banner { flex-direction: column; padding: 16px; text-align: center; }
@@ -700,79 +619,23 @@
             .cookie-btn { width: 100%; text-align: center; }
         }
 
-        /* Horizontal Carousel Styles */
-        .carousel-track {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            cursor: grab;
-            user-select: none;
-        }
-
-        .carousel-track:active {
-            cursor: grabbing;
-        }
-
-        .carousel-track::-webkit-scrollbar {
-            display: none;
-        }
-
-        .carousel-track .product-card {
-            flex: 0 0 auto;
-            width: 260px;
-        }
-
-        @media (max-width: 640px) {
-            .carousel-track .product-card {
-                width: 220px;
-            }
-        }
-
-        @media (min-width: 641px) and (max-width: 1023px) {
-            .carousel-track .product-card {
-                width: 240px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .carousel-track .product-card {
-                width: 280px;
-            }
-        }
-
-        .carousel-nav-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .carousel-nav-btn:active {
-            transform: scale(0.95);
-        }
-
-        .payment-method-card { transition: all 0.3s ease; cursor: pointer; }
-        .payment-method-card:hover { border-color: #c9a96e; box-shadow: 0 4px 12px rgba(201, 169, 110, 0.15); }
-        input[type="radio"] { accent-color: #1a1a1a; }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Global Loader -->
     <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
         <div style="text-align:center;">
-            <div style="width:40px;height:40px;border:3px solid #e5e5e5;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
+            <div style="width:36px;height:36px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
             <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-primary/60">JAYENWARE</p>
         </div>
     </div>
 
-    <!-- Order Loader -->
     <div id="order-loader-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,0.98);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;">
-        <div style="width:44px;height:44px;border:3px solid #e5e5e5;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.6s linear infinite;"></div>
+        <div style="width:44px;height:44px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.6s linear infinite;"></div>
         <p class="mt-4 font-black uppercase tracking-[0.3em] text-xs">Processing Order...</p>
     </div>
 
-    <!-- Toast -->
     <div id="toast" style="position:fixed;top:16px;right:16px;z-index:200;transform:translateX(120%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);max-width:calc(100vw - 32px);">
         <div class="bg-white shadow-2xl rounded-2xl p-3 flex items-center gap-3 min-w-[260px] border border-gray-100">
             <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
@@ -781,60 +644,36 @@
         </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
-
-    <!-- Mobile Menu Drawer -->
     <div class="mobile-menu-drawer" id="mobileMenuDrawer">
         <div class="mobile-menu-header">
             <a href="/" onclick="event.preventDefault();navigate('home');closeMobileMenu()" class="flex items-center gap-3 no-underline">
-                <img src="https://www.jayenware.shop/logo.png" class="w-9 h-9 rounded-lg shadow-sm" alt="Logo">
+                <img src="https://www.jayenware.shop/logo.png" class="w-9 h-9 rounded-lg" alt="Logo">
                 <span class="font-black font-serif text-lg text-primary">JAYENWARE</span>
             </a>
-            <button onclick="closeMobileMenu()" class="text-2xl text-gray-400 hover:text-primary transition p-2">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button onclick="closeMobileMenu()" class="text-2xl text-gray-400 hover:text-primary transition p-2"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="mobile-menu-scroll">
-            <a href="/" onclick="event.preventDefault();navigate('home');closeMobileMenu()" class="mobile-cat-item">
-                <span><i class="fa-solid fa-house mr-3 text-gray-300"></i> Home</span>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-            </a>
-            <a href="/products" onclick="event.preventDefault();navigate('products');closeMobileMenu()" class="mobile-cat-item">
-                <span><i class="fa-solid fa-bag-shopping mr-3 text-gray-300"></i> All Products</span>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-            </a>
-            <div class="mobile-cat-item" onclick="toggleMobileSubCategories(event)" style="border-bottom: none;">
-                <span><i class="fa-solid fa-grid-2 mr-3 text-gray-300"></i> Categories</span>
-                <i class="fa-solid fa-chevron-down text-xs text-gray-300 transition-transform duration-300" id="mobileCatArrow"></i>
-            </div>
+            <a href="/" onclick="event.preventDefault();navigate('home');closeMobileMenu()" class="mobile-cat-item"><span><i class="fa-solid fa-house mr-3 text-gray-300"></i> Home</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
+            <a href="/products" onclick="event.preventDefault();navigate('products');closeMobileMenu()" class="mobile-cat-item"><span><i class="fa-solid fa-bag-shopping mr-3 text-gray-300"></i> All Products</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
+            <div class="mobile-cat-item" onclick="toggleMobileSubCategories(event)" style="border-bottom: none;"><span><i class="fa-solid fa-grid-2 mr-3 text-gray-300"></i> Categories</span><i class="fa-solid fa-chevron-down text-xs text-gray-300 transition-transform duration-300" id="mobileCatArrow"></i></div>
             <div id="mobileSubCategories" style="display: none;"></div>
-            <a href="/journal" onclick="event.preventDefault();navigate('news');closeMobileMenu()" class="mobile-cat-item">
-                <span><i class="fa-solid fa-newspaper mr-3 text-gray-300"></i> Journal</span>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-            </a>
-            <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist');closeMobileMenu()" class="mobile-cat-item">
-                <span><i class="fa-regular fa-heart mr-3 text-gray-300"></i> Wishlist</span>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
-            </a>
+            <a href="/journal" onclick="event.preventDefault();navigate('news');closeMobileMenu()" class="mobile-cat-item"><span><i class="fa-solid fa-newspaper mr-3 text-gray-300"></i> Journal</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
+            <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist');closeMobileMenu()" class="mobile-cat-item"><span><i class="fa-regular fa-heart mr-3 text-gray-300"></i> Wishlist</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
         </div>
         <div class="mobile-footer" id="mobileMenuFooter"></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="glass-nav fixed w-full top-0 z-50" id="main-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 lg:h-20 flex justify-between items-center">
             <a href="/" onclick="event.preventDefault();navigate('home')" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline" aria-label="JAYENWARE Home">
-                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg shadow-sm" alt="JAYENWARE Logo" loading="eager" width="40" height="40">
+                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg" alt="JAYENWARE Logo" loading="eager" width="40" height="40">
                 <span class="text-lg sm:text-xl lg:text-2xl font-black tracking-tight font-serif text-primary">JAYENWARE</span>
             </a>
-            
             <div class="hidden lg:flex items-center gap-0">
                 <a href="/" onclick="event.preventDefault();navigate('home')" class="nav-link px-5" aria-label="Home">Home</a>
                 <div class="relative mega-menu-trigger">
-                    <a href="/products" onclick="event.preventDefault();navigate('products')" class="nav-link px-5 flex items-center gap-1.5" aria-label="Shop Products">
-                        Shop <i class="fa-solid fa-chevron-down text-[7px] opacity-50"></i>
-                    </a>
+                    <a href="/products" onclick="event.preventDefault();navigate('products')" class="nav-link px-5 flex items-center gap-1.5" aria-label="Shop Products">Shop <i class="fa-solid fa-chevron-down text-[7px] opacity-50"></i></a>
                     <div class="luxury-mega-menu" id="luxury-mega-menu">
                         <div class="flex gap-8">
                             <div class="w-1/4" id="mega-menu-categories"></div>
@@ -843,9 +682,9 @@
                                 <div class="menu-featured-section">
                                     <img src="https://www.jayenware.shop/logo.png" alt="Featured Collection" class="w-full h-full object-cover">
                                     <div class="menu-featured-overlay">
-                                        <p class="text-[9px] font-bold uppercase tracking-[0.2em] text-accent mb-1">New Season</p>
+                                        <p class="text-[9px] font-bold uppercase tracking-[0.2em] text-white/80 mb-1">New Season</p>
                                         <h4 class="font-black font-serif text-lg mb-2">Summer '26</h4>
-                                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-white text-[10px] font-bold uppercase tracking-wider underline underline-offset-4 hover:text-accent transition no-underline">Explore Collection</a>
+                                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-white text-[10px] font-bold uppercase tracking-wider underline underline-offset-4 hover:text-white/80 transition no-underline">Explore Collection</a>
                                     </div>
                                 </div>
                             </div>
@@ -854,32 +693,22 @@
                 </div>
                 <a href="/journal" onclick="event.preventDefault();navigate('news')" class="nav-link px-5" aria-label="Journal">Journal</a>
             </div>
-
             <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
-                <button onclick="toggleMobileSearch()" class="lg:hidden text-lg p-1.5 text-primary hover:text-accent transition" aria-label="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                
-                <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="relative p-1.5 no-underline text-primary hover:text-accent transition" aria-label="Wishlist">
+                <button onclick="toggleMobileSearch()" class="lg:hidden text-lg p-1.5 text-primary hover:text-blue transition" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="relative p-1.5 no-underline text-primary hover:text-blue transition" aria-label="Wishlist">
                     <i class="fa-regular fa-heart text-lg lg:text-xl"></i>
                     <span id="wish-count" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
-                
-                <a href="/cart" onclick="event.preventDefault();toggleCart()" class="relative p-1.5 no-underline text-primary hover:text-accent transition" aria-label="Shopping Cart">
+                <a href="/cart" onclick="event.preventDefault();toggleCart()" class="relative p-1.5 no-underline text-primary hover:text-blue transition" aria-label="Shopping Cart">
                     <i class="fa-solid fa-bag-shopping text-lg lg:text-xl"></i>
                     <span id="cart-count" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
-                
                 <div id="auth-nav-area" class="hidden lg:block">
-                    <a href="/login" class="px-5 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-accent transition-all shadow-sm no-underline inline-block">Sign In</a>
+                    <a href="/login" class="px-5 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-blue transition-all no-underline inline-block">Sign In</a>
                 </div>
-                
-                <button onclick="openMobileMenu()" class="lg:hidden text-xl p-1.5 text-primary hover:text-accent transition" aria-label="Menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+                <button onclick="openMobileMenu()" class="lg:hidden text-xl p-1.5 text-primary hover:text-blue transition" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
             </div>
         </div>
-        
         <div id="mobile-search-bar" class="hidden lg:hidden px-4 pb-3">
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -888,13 +717,10 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="pt-14 sm:pt-16 lg:pt-20">
         
-        <!-- Home Page -->
         <section id="home" class="page-section active-page fade-in">
             
-            <!-- Hero Banner -->
             <div class="relative overflow-hidden hero-img bg-gray-100 hero-banner-container" style="height:50vh;min-height:280px;" id="hero-container">
                 <div id="hero-banner-slides" class="absolute inset-0"></div>
                 <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
@@ -902,13 +728,12 @@
                     <p id="hero-subtitle" class="text-white/80 text-[10px] sm:text-xs lg:text-sm font-medium uppercase tracking-[0.2em] mb-2 sm:mb-3"></p>
                     <h1 id="hero-title" class="text-white text-2xl sm:text-4xl lg:text-6xl xl:text-7xl font-black font-serif mb-4 sm:mb-6 leading-tight"></h1>
                     <div class="flex gap-2 sm:gap-3 hero-buttons">
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-5 sm:px-8 lg:px-10 py-2.5 sm:py-3 lg:py-4 bg-white text-primary rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-accent hover:text-white transition-all shadow-lg no-underline inline-block">Shop Now</a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-5 sm:px-8 lg:px-10 py-2.5 sm:py-3 lg:py-4 bg-white text-primary rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-blue hover:text-white transition-all no-underline inline-block">Shop Now</a>
                         <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-5 sm:px-8 lg:px-10 py-2.5 sm:py-3 lg:py-4 border-2 border-white text-white rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-primary transition-all no-underline inline-block">Explore</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Search Bar -->
             <div class="max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto px-4 -mt-6 sm:-mt-8 relative z-30">
                 <div class="bg-white shadow-2xl rounded-2xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2">
                     <div class="relative flex-grow">
@@ -916,188 +741,132 @@
                         <input type="text" id="main-search-input" placeholder="Search products, categories..." autocomplete="off" class="w-full pl-8 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 lg:py-4 rounded-xl bg-gray-50 border-none outline-none text-xs sm:text-sm" aria-label="Search products">
                         <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border z-50 max-h-60 sm:max-h-80 overflow-y-auto custom-scroll"></div>
                     </div>
-                    <button onclick="handleMainSearch()" class="px-4 sm:px-6 bg-primary text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-accent transition shrink-0" aria-label="Search">Search</button>
+                    <button onclick="handleMainSearch()" class="px-4 sm:px-6 bg-primary text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-blue transition shrink-0" aria-label="Search">Search</button>
                 </div>
             </div>
 
-            <!-- New Arrivals Carousel -->
-            <section id="new-arrivals-section" class="py-10 sm:py-14 lg:py-20 hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex items-center justify-between mb-6 sm:mb-8">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-green-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
-                                <i class="fa-solid fa-sparkles"></i>
-                            </span>
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">New Arrivals</h2>
+            <!-- New Arrivals -->
+            <section id="new-arrivals-section" class="py-12 sm:py-16 lg:py-20 hidden carousel-section">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div class="flex items-end justify-between mb-8 sm:mb-10">
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent mb-2">Just Dropped</p>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">New Arrivals</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
-                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-xs font-semibold text-blue hover:text-blue/80 transition no-underline flex items-center gap-1.5">View All <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="relative group/carousel">
-                        <button onclick="slideCarousel('new-arrivals-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div id="new-arrivals-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
-                        <button onclick="slideCarousel('new-arrivals-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-white z-10 pointer-events-none"></div>
+                    <div class="carousel-wrapper">
+                        <button onclick="slideCarousel('new-arrivals-carousel', 'left')" class="carousel-nav prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <div id="new-arrivals-carousel" class="carousel-track" data-speed="0.8" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('new-arrivals-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
+                    <div class="carousel-scrollbar" id="new-arrivals-scrollbar"></div>
                 </div>
             </section>
 
-            <!-- Hot Products Carousel -->
-            <section id="hot-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex items-center justify-between mb-6 sm:mb-8">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
-                                <i class="fa-solid fa-fire"></i>
-                            </span>
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Trending Now</h2>
+            <!-- Hot Products -->
+            <section id="hot-products-section" class="py-12 sm:py-16 lg:py-20 hidden carousel-section">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div class="flex items-end justify-between mb-8 sm:mb-10">
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent mb-2">Popular Right Now</p>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">Trending Now</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
-                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-xs font-semibold text-blue hover:text-blue/80 transition no-underline flex items-center gap-1.5">View All <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="relative group/carousel">
-                        <button onclick="slideCarousel('hot-products-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div id="hot-products-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.5" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
-                        <button onclick="slideCarousel('hot-products-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-white z-10 pointer-events-none"></div>
+                    <div class="carousel-wrapper">
+                        <button onclick="slideCarousel('hot-products-carousel', 'left')" class="carousel-nav prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <div id="hot-products-carousel" class="carousel-track" data-speed="1.2" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('hot-products-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
+                    <div class="carousel-scrollbar" id="hot-products-scrollbar"></div>
                 </div>
             </section>
 
-            <!-- Featured Products Carousel -->
-            <section id="featured-products-section" class="py-10 sm:py-14 lg:py-20 bg-soft hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex items-center justify-between mb-6 sm:mb-8">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
-                                <i class="fa-solid fa-star"></i>
-                            </span>
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Featured Products</h2>
+            <!-- Featured Products -->
+            <section id="featured-products-section" class="py-12 sm:py-16 lg:py-20 bg-soft hidden carousel-section">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div class="flex items-end justify-between mb-8 sm:mb-10">
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent mb-2">Editor's Pick</p>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">Featured Products</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
-                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-xs font-semibold text-blue hover:text-blue/80 transition no-underline flex items-center gap-1.5">View All <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="relative group/carousel">
-                        <button onclick="slideCarousel('featured-products-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div id="featured-products-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.2" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
-                        <button onclick="slideCarousel('featured-products-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#f8f6f3] to-transparent z-10 pointer-events-none"></div>
-                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#f8f6f3] z-10 pointer-events-none"></div>
+                    <div class="carousel-wrapper">
+                        <button onclick="slideCarousel('featured-products-carousel', 'left')" class="carousel-nav prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <div id="featured-products-carousel" class="carousel-track" data-speed="1" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('featured-products-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
+                    <div class="carousel-scrollbar" id="featured-products-scrollbar"></div>
                 </div>
             </section>
 
-            <!-- Best Sellers Carousel -->
-            <section id="best-selling-section" class="py-10 sm:py-14 lg:py-20 hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex items-center justify-between mb-6 sm:mb-8">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-white flex items-center justify-center rounded-full text-base sm:text-lg">
-                                <i class="fa-solid fa-crown"></i>
-                            </span>
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Best Sellers</h2>
+            <!-- Best Sellers -->
+            <section id="best-selling-section" class="py-12 sm:py-16 lg:py-20 hidden carousel-section">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div class="flex items-end justify-between mb-8 sm:mb-10">
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent mb-2">Most Loved</p>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">Best Sellers</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
-                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-xs font-semibold text-blue hover:text-blue/80 transition no-underline flex items-center gap-1.5">View All <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="relative group/carousel">
-                        <button onclick="slideCarousel('best-selling-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div id="best-selling-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.3" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
-                        <button onclick="slideCarousel('best-selling-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-white z-10 pointer-events-none"></div>
+                    <div class="carousel-wrapper">
+                        <button onclick="slideCarousel('best-selling-carousel', 'left')" class="carousel-nav prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <div id="best-selling-carousel" class="carousel-track" data-speed="1.1" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('best-selling-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
+                    <div class="carousel-scrollbar" id="best-selling-scrollbar"></div>
                 </div>
             </section>
 
-            <!-- On Sale Carousel -->
-            <section id="on-sale-section" class="py-10 sm:py-14 lg:py-20 bg-red-50 hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex items-center justify-between mb-6 sm:mb-8">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-orange-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
-                                <i class="fa-solid fa-tag"></i>
-                            </span>
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">On Sale</h2>
+            <!-- On Sale -->
+            <section id="on-sale-section" class="py-12 sm:py-16 lg:py-20 bg-soft hidden carousel-section">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div class="flex items-end justify-between mb-8 sm:mb-10">
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#ff9500] mb-2">Limited Time</p>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">On Sale</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
-                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-xs font-semibold text-blue hover:text-blue/80 transition no-underline flex items-center gap-1.5">View All <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="relative group/carousel">
-                        <button onclick="slideCarousel('on-sale-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div id="on-sale-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.4" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
-                        <button onclick="slideCarousel('on-sale-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
-                        </button>
-                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-red-50 to-transparent z-10 pointer-events-none"></div>
-                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-red-50 z-10 pointer-events-none"></div>
+                    <div class="carousel-wrapper">
+                        <button onclick="slideCarousel('on-sale-carousel', 'left')" class="carousel-nav prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <div id="on-sale-carousel" class="carousel-track" data-speed="1.3" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('on-sale-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
+                    <div class="carousel-scrollbar" id="on-sale-scrollbar"></div>
                 </div>
             </section>
 
-            <!-- Limited Edition Carousel -->
-            <section id="limited-edition-section" class="py-10 sm:py-14 lg:py-20 bg-primary hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex items-center justify-between mb-6 sm:mb-8">
-                        <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-primary flex items-center justify-center rounded-full text-base sm:text-lg">
-                                <i class="fa-solid fa-gem"></i>
-                            </span>
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif text-white">Limited Edition</h2>
+            <!-- Limited Edition -->
+            <section id="limited-edition-section" class="py-12 sm:py-16 lg:py-20 bg-primary hidden carousel-section">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <div class="flex items-end justify-between mb-8 sm:mb-10">
+                        <div>
+                            <p class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-accent mb-2">Exclusive Drop</p>
+                            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">Limited Edition</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-accent hover:text-white transition no-underline">
-                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-xs font-semibold text-blue hover:text-blue/80 transition no-underline flex items-center gap-1.5">View All <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="relative group/carousel">
-                        <button onclick="slideCarousel('limited-edition-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center text-white opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white/30 hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
-                            <i class="fa-solid fa-chevron-left text-sm sm:text-base"></i>
-                        </button>
-                        <div id="limited-edition-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.1" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
-                        <button onclick="slideCarousel('limited-edition-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center text-white opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white/30 hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
-                            <i class="fa-solid fa-chevron-right text-sm sm:text-base"></i>
-                        </button>
-                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
-                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#1a1a1a] z-10 pointer-events-none"></div>
+                    <div class="carousel-wrapper">
+                        <button onclick="slideCarousel('limited-edition-carousel', 'left')" class="carousel-nav prev !bg-white/20 !text-white !border-white/20 hover:!bg-white/30" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        <div id="limited-edition-carousel" class="carousel-track" data-speed="0.9" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('limited-edition-carousel', 'right')" class="carousel-nav next !bg-white/20 !text-white !border-white/20 hover:!bg-white/30" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
+                    <div class="carousel-scrollbar" id="limited-edition-scrollbar"><style>#limited-edition-scrollbar .scroll-dot{background:rgba(255,255,255,0.3)}#limited-edition-scrollbar .scroll-dot.active{background:#fff}</style></div>
                 </div>
             </section>
 
-            <!-- Recently Viewed -->
-            <section id="recent-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
-                <div class="max-w-7xl mx-auto px-4">
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif mb-6 sm:mb-8">Recently Viewed</h2>
+            <section id="recent-products-section" class="py-12 sm:py-16 lg:py-20 hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary mb-8 sm:mb-10">Recently Viewed</h2>
                     <div id="recent-products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
                 </div>
             </section>
         </section>
 
-        <!-- Products Page -->
         <section id="products" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -1113,22 +882,17 @@
                                     <input type="number" id="filter-min-price" placeholder="Min" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs">
                                     <input type="number" id="filter-max-price" placeholder="Max" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs">
                                 </div>
-                                <button onclick="applyPriceFilter()" class="mt-2 w-full py-2 bg-primary text-white rounded-lg text-[10px] font-bold uppercase">Apply</button>
+                                <button onclick="applyPriceFilter()" class="mt-2 w-full py-2 bg-primary text-white rounded-lg text-[10px] font-bold uppercase hover:bg-blue transition">Apply</button>
                             </div>
                         </div>
                     </aside>
-                    
                     <div class="flex-grow min-w-0">
                         <div class="flex justify-between items-center mb-4 sm:mb-6">
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif truncate">All Products</h2>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-primary truncate">All Products</h2>
                             <div class="flex gap-1.5 sm:gap-2 shrink-0">
                                 <button onclick="toggleMobileFilters()" class="lg:hidden px-3 sm:px-4 py-2 border rounded-full text-[9px] sm:text-[10px] font-bold"><i class="fa-solid fa-sliders mr-1"></i>Filter</button>
                                 <div class="relative" id="sort-container">
-                                    <button onclick="toggleSortMenu()" class="px-3 sm:px-4 py-2 border rounded-full text-[9px] sm:text-[10px] font-bold flex items-center gap-1.5">
-                                        <i class="fa-solid fa-arrow-down-wide-short"></i>
-                                        <span id="current-sort-label" class="hidden sm:inline">Latest</span>
-                                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                                    </button>
+                                    <button onclick="toggleSortMenu()" class="px-3 sm:px-4 py-2 border rounded-full text-[9px] sm:text-[10px] font-bold flex items-center gap-1.5"><i class="fa-solid fa-arrow-down-wide-short"></i><span id="current-sort-label" class="hidden sm:inline">Latest</span><i class="fa-solid fa-chevron-down text-[8px]"></i></button>
                                     <div id="sort-dropdown" class="hidden absolute right-0 mt-2 w-40 sm:w-48 bg-white rounded-2xl shadow-2xl border z-50 p-1">
                                         <button onclick="handleSorting('new','Latest')" class="w-full text-left px-4 py-2.5 text-[10px] font-bold hover:bg-gray-50 rounded-xl transition">Latest</button>
                                         <button onclick="handleSorting('price-low','Price: Low-High')" class="w-full text-left px-4 py-2.5 text-[10px] font-bold hover:bg-gray-50 rounded-xl transition">Low-High</button>
@@ -1140,7 +904,6 @@
                         <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5"></div>
                     </div>
                 </div>
-                
                 <div id="mobile-filter-modal" class="hidden fixed inset-0 z-[100] bg-white overflow-y-auto">
                     <div class="p-4 sm:p-6">
                         <div class="flex justify-between items-center mb-6"><h3 class="font-black text-lg uppercase">Filters</h3><button onclick="toggleMobileFilters()" class="text-2xl p-1">&times;</button></div>
@@ -1148,62 +911,29 @@
                             <div><h4 class="font-bold text-xs uppercase mb-3">Categories</h4><div id="mobile-filter-categories" class="space-y-1 max-h-[40vh] overflow-y-auto"></div></div>
                             <div><h4 class="font-bold text-xs uppercase mb-3">Price Range</h4><div class="flex gap-2"><input type="number" id="m-filter-min-price" placeholder="Min" class="w-full p-3 border rounded-xl text-sm"><input type="number" id="m-filter-max-price" placeholder="Max" class="w-full p-3 border rounded-xl text-sm"></div></div>
                         </div>
-                        <button onclick="applyMobileFilters();toggleMobileFilters()" class="w-full py-4 bg-primary text-white rounded-2xl font-bold mt-8 uppercase text-sm">Apply Filters</button>
+                        <button onclick="applyMobileFilters();toggleMobileFilters()" class="w-full py-4 bg-primary text-white rounded-2xl font-bold mt-8 uppercase text-sm hover:bg-blue transition">Apply Filters</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Product Details Page -->
-        <section id="product-details" class="page-section py-6 sm:py-8 lg:py-12">
-            <div class="max-w-7xl mx-auto px-3 sm:px-4">
-                <a href="/products" onclick="event.preventDefault();navigate('products')" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline">
-                    <i class="fa-solid fa-arrow-left"></i> Back to Collection
-                </a>
-                <div id="product-detail-content"></div>
-                <div id="complete-the-look-section" class="mt-12 sm:mt-16 border-t pt-10 sm:pt-16 hidden">
-                    <h3 class="text-xl sm:text-2xl font-black font-serif mb-6 sm:mb-8">Complete the Look</h3>
-                    <div id="complete-the-look-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Wishlist Page -->
-        <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12">
-            <div class="max-w-7xl mx-auto px-3 sm:px-4">
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-8 sm:mb-12">My Wishlist</h2>
-                <div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
-                <div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden">
-                    <i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i>
-                    <p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p>
-                    <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition no-underline inline-block">Start Shopping</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- News/Journal Page -->
-        <section id="news" class="page-section py-6 sm:py-8 lg:py-12">
-            <div class="max-w-7xl mx-auto px-3 sm:px-4">
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-2 sm:mb-4">The Journal</h2>
-                <p class="text-center text-gray-500 text-xs sm:text-sm mb-8 sm:mb-12">Style stories, guides & inspiration</p>
-                <div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"></div>
-            </div>
-        </section>
+        <section id="product-details" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><a href="/products" onclick="event.preventDefault();navigate('products')" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline"><i class="fa-solid fa-arrow-left"></i> Back to Collection</a><div id="product-detail-content"></div><div id="complete-the-look-section" class="mt-12 sm:mt-16 border-t pt-10 sm:pt-16 hidden"><h3 class="text-xl sm:text-2xl font-bold tracking-tight text-primary mb-6 sm:mb-8">Complete the Look</h3><div id="complete-the-look-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div></div></div></section>
+        <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary text-center mb-8 sm:mb-12">My Wishlist</h2><div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div><div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden"><i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i><p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p><a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-blue transition no-underline inline-block">Start Shopping</a></div></div></section>
+        <section id="news" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary text-center mb-2 sm:mb-4">The Journal</h2><p class="text-center text-gray-500 text-xs sm:text-sm mb-8 sm:mb-12">Style stories, guides & inspiration</p><div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"></div></div></section>
         
     </main>
 
-    <!-- Footer -->
     <footer class="bg-primary text-gray-400 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 sm:mb-12">
                 <div class="col-span-2 md:col-span-1">
                     <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3 sm:mb-4">JAYENWARE</h4>
-                    <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition">BINZEO</a>.</p>
+                    <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-blue font-bold hover:text-white transition">BINZEO</a>.</p>
                     <div class="flex gap-3 text-base sm:text-lg">
-                        <a href="https://www.facebook.com/share/1GAZnrgvH8/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Page" class="hover:text-accent transition"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://www.facebook.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Facebook Messenger" class="hover:text-accent transition"><i class="fa-brands fa-facebook-messenger"></i></a>
-                        <a href="https://www.instagram.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-accent transition"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://youtube.com/@jayenware" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-accent transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/share/1GAZnrgvH8/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Page" class="hover:text-blue transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.facebook.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Facebook Messenger" class="hover:text-blue transition"><i class="fa-brands fa-facebook-messenger"></i></a>
+                        <a href="https://www.instagram.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-blue transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://youtube.com/@jayenware" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-blue transition"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
                 <div>
@@ -1238,123 +968,34 @@
                 </div>
             </div>
             <div class="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition no-underline">BINZEO</a></p>
+                <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-blue font-bold hover:text-white transition no-underline">BINZEO</a></p>
                 <p class="text-[8px] sm:text-[9px]">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved. | A Concern of BINZEO</p>
             </div>
         </div>
     </footer>
 
-    <!-- Cart Drawer -->
-    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col">
-        <div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft">
-            <h2 class="text-base sm:text-lg font-black uppercase tracking-tighter">Shopping Bag</h2>
-            <button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div>
-        <div class="p-4 sm:p-6 border-t bg-soft">
-            <div class="mb-3 sm:mb-4">
-                <div class="flex gap-1.5 sm:gap-2">
-                    <input type="text" id="promo-input" placeholder="Promo Code" class="flex-grow p-2.5 sm:p-3 rounded-xl border text-xs sm:text-sm outline-none">
-                    <button onclick="applyPromo()" class="px-3 sm:px-4 bg-primary text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase">Apply</button>
-                </div>
-                <p id="promo-msg" class="text-[9px] sm:text-[10px] mt-1 font-bold"></p>
-            </div>
-            <div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs">
-                <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div>
-                <div id="promo-row" class="hidden flex justify-between text-green-600 font-bold"><span>Discount</span><span id="cart-discount">- ৳ 0.00</span></div>
-                <div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div>
-            </div>
-            <a href="/checkout" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition shadow-lg no-underline text-center block">Checkout</a>
-        </div>
-    </div>
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col"><div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft"><h2 class="text-base sm:text-lg font-black uppercase tracking-tighter">Shopping Bag</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button></div><div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div><div class="p-4 sm:p-6 border-t bg-soft"><div class="mb-3 sm:mb-4"><div class="flex gap-1.5 sm:gap-2"><input type="text" id="promo-input" placeholder="Promo Code" class="flex-grow p-2.5 sm:p-3 rounded-xl border text-xs sm:text-sm outline-none"><button onclick="applyPromo()" class="px-3 sm:px-4 bg-primary text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase hover:bg-blue transition">Apply</button></div><p id="promo-msg" class="text-[9px] sm:text-[10px] mt-1 font-bold"></p></div><div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs"><div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div><div id="promo-row" class="hidden flex justify-between text-green-600 font-bold"><span>Discount</span><span id="cart-discount">- ৳ 0.00</span></div><div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div></div><a href="/checkout" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-blue transition shadow-lg no-underline text-center block">Checkout</a></div></div>
 
-    <!-- Edit Profile Modal -->
-    <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto">
-            <button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6">Update Profile</h2>
-            <div class="space-y-3 sm:space-y-4">
-                <div class="auth-input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="edit-name" placeholder="Full Name" autocomplete="name"></div>
-                <div class="auth-input-wrapper"><i class="fa-solid fa-phone input-icon"></i><input type="tel" id="edit-phone" placeholder="Phone Number" autocomplete="tel-national"></div>
-                <div class="grid grid-cols-2 gap-2 sm:gap-3">
-                    <div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div>
-                    <div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div>
-                </div>
-                <div class="auth-input-wrapper"><i class="fa-solid fa-location-dot input-icon" style="top:16px;transform:none;"></i><textarea id="edit-address" placeholder="Full Address" class="h-16 sm:h-20" autocomplete="street-address" style="padding-left:40px;"></textarea></div>
-                <button onclick="handleUpdateProfile()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-accent transition">Save</button>
-            </div>
-        </div>
-    </div>
+    <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto"><button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button><h2 class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6">Update Profile</h2><div class="space-y-3 sm:space-y-4"><div class="auth-input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="edit-name" placeholder="Full Name" autocomplete="name"></div><div class="auth-input-wrapper"><i class="fa-solid fa-phone input-icon"></i><input type="tel" id="edit-phone" placeholder="Phone Number" autocomplete="tel-national"></div><div class="grid grid-cols-2 gap-2 sm:gap-3"><div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div><div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div></div><div class="auth-input-wrapper"><i class="fa-solid fa-location-dot input-icon" style="top:16px;transform:none;"></i><textarea id="edit-address" placeholder="Full Address" class="h-16 sm:h-20" autocomplete="street-address" style="padding-left:40px;"></textarea></div><button onclick="handleUpdateProfile()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-blue transition">Save</button></div></div></div>
+    <div id="order-details-modal" class="premium-modal fixed inset-0 z-[150] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-lg rounded-3xl p-6 sm:p-8 relative max-h-[85dvh] overflow-y-auto custom-scroll"><button onclick="closeOrderDetails()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button><h2 id="od-title" class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6 border-b pb-3 sm:pb-4"></h2><div id="order-details-body" class="space-y-4 sm:space-y-6 text-xs sm:text-sm"></div><button onclick="closeOrderDetails()" class="mt-6 sm:mt-8 w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-blue transition">Close</button></div></div>
+    <div id="policy-modal" class="premium-modal fixed inset-0 z-[130] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-2xl rounded-3xl p-6 sm:p-10 relative max-h-[80dvh] overflow-y-auto custom-scroll"><button onclick="document.getElementById('policy-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button><h2 id="policy-title" class="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6"></h2><div id="policy-content" class="text-xs sm:text-sm text-gray-600 leading-relaxed space-y-3 sm:space-y-4"></div></div></div>
 
-    <!-- Order Details Modal -->
-    <div id="order-details-modal" class="premium-modal fixed inset-0 z-[150] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm sm:max-w-lg rounded-3xl p-6 sm:p-8 relative max-h-[85dvh] overflow-y-auto custom-scroll">
-            <button onclick="closeOrderDetails()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="od-title" class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6 border-b pb-3 sm:pb-4"></h2>
-            <div id="order-details-body" class="space-y-4 sm:space-y-6 text-xs sm:text-sm"></div>
-            <button onclick="closeOrderDetails()" class="mt-6 sm:mt-8 w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase text-[10px] sm:text-xs tracking-wider">Close</button>
-        </div>
-    </div>
+    <div id="cookieConsent" class="cookie-consent-overlay"><div class="cookie-banner"><div class="cookie-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div><div class="cookie-text"><h4>We Value Your Privacy</h4><p>We use cookies to enhance your browsing experience. By accepting, you allow us to collect location & device data. <a href="#" onclick="event.preventDefault();openPolicy('privacy')">Privacy Policy</a></p></div><div class="cookie-buttons"><button class="cookie-btn decline" onclick="handleCookieDecline()">Decline All</button><button class="cookie-btn accept" onclick="handleCookieAccept()">Accept All Cookies</button></div></div></div>
 
-    <!-- Policy Modal -->
-    <div id="policy-modal" class="premium-modal fixed inset-0 z-[130] hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm sm:max-w-2xl rounded-3xl p-6 sm:p-10 relative max-h-[80dvh] overflow-y-auto custom-scroll">
-            <button onclick="document.getElementById('policy-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="policy-title" class="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6"></h2>
-            <div id="policy-content" class="text-xs sm:text-sm text-gray-600 leading-relaxed space-y-3 sm:space-y-4"></div>
-        </div>
-    </div>
-
-    <!-- Cookie Consent -->
-    <div id="cookieConsent" class="cookie-consent-overlay">
-        <div class="cookie-banner">
-            <div class="cookie-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            </div>
-            <div class="cookie-text">
-                <h4>We Value Your Privacy</h4>
-                <p>We use cookies to enhance your browsing experience and analyze site traffic. By accepting, you allow us to collect location & device data for better service. <a href="#" onclick="event.preventDefault();openPolicy('privacy')">Privacy Policy</a></p>
-            </div>
-            <div class="cookie-buttons">
-                <button class="cookie-btn decline" onclick="handleCookieDecline()">Decline All</button>
-                <button class="cookie-btn accept" onclick="handleCookieAccept()">Accept All Cookies</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Floating Messenger -->
-    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-        <a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-accent transition-all no-underline">
-            <i class="fa-brands fa-facebook-messenger"></i>
-        </a>
-        <span class="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></span>
-    </div>
-
-    <!-- Trust Badge -->
-    <div class="fixed bottom-20 sm:bottom-24 left-3 sm:left-4 z-40 hidden lg:block">
-        <div class="bg-white shadow-xl rounded-2xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3 trust-pulse">
-            <i class="fa-solid fa-shield-halved text-accent text-lg sm:text-xl"></i>
-            <div>
-                <p class="text-[9px] sm:text-[10px] font-bold uppercase">100% Authentic</p>
-                <p class="text-[8px] sm:text-[9px] text-gray-500">Quality Products</p>
-            </div>
-        </div>
-    </div>
+    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"><a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-blue transition-all no-underline"><i class="fa-brands fa-facebook-messenger"></i></a><span class="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></span></div>
 
     <script>
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
         let userSession = null;
         let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
         let wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
         let productsDisplayLimit = 12;
         let productsLoadMoreIncrement = 12;
         let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], orders: [] };
-        let currentSlide = 0, slideInterval, pendingOrderData = null;
+        let currentSlide = 0, slideInterval;
         let appliedPromo = null, selectedVariantObj = null;
         let currentFilters = { cat: 'all', minPrice: null, maxPrice: null };
         const BASE_URL = 'https://www.jayenware.shop';
-        
         const carouselStates = {};
 
         const VISITOR_CONFIG = {
@@ -1418,9 +1059,7 @@
             toast._timeout = setTimeout(()=>{toast.style.transform='translateX(120%)';},3000);
         }
         function hideToast(){document.getElementById('toast').style.transform='translateX(120%)';}
-
         function showGlobalLoader(ms=1500){const l=document.getElementById('global-loader');l.style.display='flex';l.style.opacity='1';setTimeout(()=>{l.style.opacity='0';setTimeout(()=>{l.style.display='none';},500);},ms);}
-        function showOrderLoader(ms=5000){const l=document.getElementById('order-loader-overlay');l.style.display='flex';setTimeout(()=>{l.style.display='none';},ms);}
 
         function openMobileMenu() {
             document.getElementById('mobileMenuDrawer').classList.add('open');
@@ -1428,7 +1067,6 @@
             document.body.style.overflow = 'hidden';
             updateMobileMenuContent();
         }
-
         function closeMobileMenu() {
             document.getElementById('mobileMenuDrawer').classList.remove('open');
             document.getElementById('mobileMenuOverlay').classList.remove('active');
@@ -1438,7 +1076,6 @@
             const arrow = document.getElementById('mobileCatArrow');
             if (arrow) arrow.style.transform = '';
         }
-
         function toggleMobileSubCategories(e) {
             e.preventDefault();
             const subCats = document.getElementById('mobileSubCategories');
@@ -1452,64 +1089,25 @@
                 arrow.style.transform = '';
             }
         }
-
-        function updateMobileMenuContent() {
-            updateMobileSubCategories();
-            updateMobileMenuFooter();
-        }
-
+        function updateMobileMenuContent() { updateMobileSubCategories(); updateMobileMenuFooter(); }
         function updateMobileSubCategories() {
             const container = document.getElementById('mobileSubCategories');
             if (!container) return;
-            container.innerHTML = currentData.categories.map(c => `
-                <a href="/category/${getCategorySlug(c.name)}" 
-                   onclick="event.preventDefault();navigate('products');filterByCategory('${c.name}');closeMobileMenu()" 
-                   class="mobile-sub-cat">
-                    ${c.name}
-                </a>
-            `).join('');
+            container.innerHTML = currentData.categories.map(c => `<a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();navigate('products');filterByCategory('${c.name}');closeMobileMenu()" class="mobile-sub-cat">${c.name}</a>`).join('');
         }
-
         function updateMobileMenuFooter() {
             const footer = document.getElementById('mobileMenuFooter');
             if (!footer) return;
             if (userSession) {
                 const m = userSession.user_metadata;
-                footer.innerHTML = `
-                    <div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-xl">
-                        <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-user"></i></div>
-                        <div class="min-w-0">
-                            <p class="text-sm font-bold text-primary truncate">${m.full_name || 'User'}</p>
-                            <p class="text-[10px] text-gray-400 truncate">${userSession.email}</p>
-                        </div>
-                    </div>
-                    <a href="/account" onclick="closeMobileMenu()" class="auth-btn primary">My Account</a>
-                    <button onclick="handleLogout();closeMobileMenu()" class="auth-btn danger">Sign Out</button>
-                `;
+                footer.innerHTML = `<div class="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-xl"><div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm"><i class="fa-solid fa-user"></i></div><div class="min-w-0"><p class="text-sm font-bold text-primary truncate">${m.full_name || 'User'}</p><p class="text-[10px] text-gray-400 truncate">${userSession.email}</p></div></div><a href="/account" onclick="closeMobileMenu()" class="auth-btn primary">My Account</a><button onclick="handleLogout();closeMobileMenu()" class="auth-btn danger">Sign Out</button>`;
             } else {
-                footer.innerHTML = `
-                    <a href="/login" onclick="closeMobileMenu()" class="auth-btn primary">Sign In</a>
-                    <a href="/sign-up" onclick="closeMobileMenu()" class="auth-btn outline">Create Account</a>
-                `;
+                footer.innerHTML = `<a href="/login" onclick="closeMobileMenu()" class="auth-btn primary">Sign In</a><a href="/sign-up" onclick="closeMobileMenu()" class="auth-btn outline">Create Account</a>`;
             }
         }
 
-        const URL_MAP = {
-            'home': '/', 'products': '/products', 'product-details': '/product/',
-            'wishlist': '/wishlist', 'news': '/journal', 'account': '/account',
-            'login': '/login', 'signup': '/sign-up', 'cart': '/cart',
-            'checkout': '/checkout', 'order': '/order/', 'category': '/category/', 'search': '/search'
-        };
-
-        function getProductSlug(product) {
-            if (!product || !product.title) return '';
-            return product.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 80);
-        }
-
-        function getCategorySlug(category) {
-            if (!category) return '';
-            return category.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '');
-        }
+        function getProductSlug(product) { if (!product || !product.title) return ''; return product.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 80); }
+        function getCategorySlug(category) { if (!category) return ''; return category.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, ''); }
 
         function updateURL(path, title = '') {
             const url = BASE_URL + path;
@@ -1517,31 +1115,10 @@
             document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE';
             let canonical = document.querySelector('link[rel="canonical"]');
             if (canonical) canonical.href = url;
-            updatePageSpecificSEO(path, title);
-        }
-        
-        function updatePageSpecificSEO(path, title) {
-            let robots = document.querySelector('meta[name="robots"]');
-            if (path.startsWith('/cart') || path.startsWith('/checkout') || path.startsWith('/order')) {
-                if (robots) robots.content = "noindex, nofollow";
-            } else {
-                if (robots) robots.content = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
-            }
-            if (path.startsWith('/category/')) {
-                const catName = title || path.replace('/category/', '');
-                let breadcrumbScript = document.getElementById('breadcrumb-schema');
-                if (breadcrumbScript) breadcrumbScript.remove();
-                const schema = { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": BASE_URL + "/" }, { "@type": "ListItem", "position": 2, "name": catName, "item": BASE_URL + path } ] };
-                const scriptEl = document.createElement('script');
-                scriptEl.id = 'breadcrumb-schema'; scriptEl.type = 'application/ld+json'; scriptEl.text = JSON.stringify(schema);
-                document.head.appendChild(scriptEl);
-            }
         }
 
         function navigate(pageId, params = null) {
-            if(pageId !== 'home') {
-                cleanupAllCarousels();
-            }
+            if(pageId !== 'home') cleanupAllCarousels();
             if(pageId === 'account' && userSession) loadUserOrders();
             const mainContent = document.querySelector('main');
             mainContent.style.transition = 'opacity 0.2s ease';
@@ -1553,9 +1130,8 @@
                 if(!target) return;
                 target.style.display = 'block';
                 target.offsetHeight;
-                let urlPath = URL_MAP[pageId] || '/' + pageId;
+                let urlPath = '/' + pageId;
                 if(pageId === 'product-details' && params) { const product = currentData.products.find(p => p.id == params); if(product) { urlPath = '/product/' + getProductSlug(product); updateURL(urlPath, product.title); updateProductSEO(product); } }
-                else if(pageId === 'account' && params && params.orderId) { urlPath = '/order/' + params.orderId; updateURL(urlPath, 'Order #' + params.orderId); }
                 else if(params && params.category) { urlPath = '/category/' + getCategorySlug(params.category); updateURL(urlPath, params.category); }
                 else if(params && params.search) { urlPath = '/search?q=' + encodeURIComponent(params.search); updateURL(urlPath, 'Search: ' + params.search); }
                 else { updateURL(urlPath); }
@@ -1570,19 +1146,7 @@
         function updateProductSEO(product) {
             document.title = product.title + " | Buy Online at JAYENWARE";
             let metaDesc = document.querySelector('meta[name="description"]'); if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = "description"; document.head.appendChild(metaDesc); } metaDesc.content = product.description?.substring(0, 155) + "...";
-            let canonical = document.querySelector('link[rel="canonical"]'); if (!canonical) { canonical = document.createElement('link'); canonical.rel = "canonical"; document.head.appendChild(canonical); } let slug = getProductSlug(product); canonical.href = BASE_URL + '/product/' + slug;
-            let ogTitle = document.querySelector('meta[property="og:title"]'); if (ogTitle) ogTitle.content = product.title + " | JAYENWARE";
-            let ogImage = document.querySelector('meta[property="og:image"]'); if (ogImage) ogImage.content = product.img;
-            let ogUrl = document.querySelector('meta[property="og:url"]'); if (ogUrl) ogUrl.content = BASE_URL + '/product/' + slug;
-            let ogDesc = document.querySelector('meta[property="og:description"]'); if (ogDesc) ogDesc.content = product.description?.substring(0, 160) + "...";
-            let twTitle = document.querySelector('meta[name="twitter:title"]'); if (twTitle) twTitle.content = product.title + " | JAYENWARE";
-            let twImage = document.querySelector('meta[name="twitter:image"]'); if (twImage) twImage.content = product.img;
-            let twDesc = document.querySelector('meta[name="twitter:description"]'); if (twDesc) twDesc.content = product.description?.substring(0, 160) + "...";
-            let existingProductSchema = document.getElementById('product-schema'); if (existingProductSchema) existingProductSchema.remove();
-            let script = document.createElement('script'); script.id = 'product-schema'; script.type = 'application/ld+json'; script.text = JSON.stringify({ "@context": "https://schema.org/", "@type": "Product", "name": product.title, "image": product.img, "description": product.description, "sku": "JW-" + product.id, "brand": { "@type": "Brand", "name": "JAYENWARE" }, "offers": { "@type": "Offer", "url": BASE_URL + '/product/' + slug, "priceCurrency": "BDT", "price": product.price, "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock" } }); document.head.appendChild(script);
-            let breadcrumbScript = document.getElementById('breadcrumb-schema'); if (breadcrumbScript) breadcrumbScript.remove();
-            const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": BASE_URL + "/" }, { "@type": "ListItem", "position": 2, "name": product.category, "item": BASE_URL + "/category/" + getCategorySlug(product.category) }, { "@type": "ListItem", "position": 3, "name": product.title, "item": BASE_URL + "/product/" + slug } ] };
-            const breadcrumbEl = document.createElement('script'); breadcrumbEl.id = 'breadcrumb-schema'; breadcrumbEl.type = 'application/ld+json'; breadcrumbEl.text = JSON.stringify(breadcrumbSchema); document.head.appendChild(breadcrumbEl);
+            let canonical = document.querySelector('link[rel="canonical"]'); if (!canonical) { canonical = document.createElement('link'); canonical.rel = "canonical"; document.head.appendChild(canonical); } canonical.href = BASE_URL + '/product/' + getProductSlug(product);
         }
 
         function toggleMobileSearch(){document.getElementById('mobile-search-bar').classList.toggle('hidden');}
@@ -1605,8 +1169,7 @@
 
         function filterByCategory(cat){ const grid = document.getElementById('products-grid'); grid.style.transition = 'opacity 0.2s ease'; grid.style.opacity = '0.5'; setTimeout(() => { currentFilters.cat=cat; productsDisplayLimit = 12; renderProducts(getFilteredProducts()); grid.style.opacity = '1'; if(cat === 'all') updateURL('/products', 'All Products'); else updateURL('/category/' + getCategorySlug(cat), cat); }, 200); }
         function applyPriceFilter(){ currentFilters.minPrice=parseFloat(document.getElementById('filter-min-price').value)||null; currentFilters.maxPrice=parseFloat(document.getElementById('filter-max-price').value)||null; productsDisplayLimit = 12; renderProducts(getFilteredProducts()); }
-
-        function loadMoreProducts() { productsDisplayLimit += productsLoadMoreIncrement; const currentList = getFilteredProducts(); renderProducts(currentList); setTimeout(() => { const grid = document.getElementById('products-grid'); const lastCard = grid.querySelector('.product-card:last-child'); if(lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100); showToast('More products loaded!', 'info'); }
+        function loadMoreProducts() { productsDisplayLimit += productsLoadMoreIncrement; renderProducts(getFilteredProducts()); showToast('More products loaded!', 'info'); }
 
         async function loadData(){
             const[{data:hero},{data:cats},{data:vars},{data:prods},{data:newsData},{data:delivery},{data:reviews}]=await Promise.all([
@@ -1631,11 +1194,9 @@
             const path = window.location.pathname; const searchParams = new URLSearchParams(window.location.search);
             if(path.startsWith('/product/')) { const slug = path.replace('/product/', ''); const product = currentData.products.find(p => getProductSlug(p) === slug); if(product) openProductDetails(product.id); return; }
             if(path.startsWith('/category/')) { const slug = path.replace('/category/', ''); const category = currentData.categories.find(c => getCategorySlug(c.name) === slug); if(category) { navigate('products'); filterByCategory(category.name); } return; }
-            if(path.startsWith('/order/')) { const orderId = path.replace('/order/', ''); if(userSession && orderId) { window.location.href = '/account?order=' + orderId; } return; }
             if(path === '/search' && searchParams.get('q')) { const query = searchParams.get('q'); navigate('products'); renderProducts(currentData.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase()))); return; }
             const pageRoutes = { '/': 'home', '/products': 'products', '/wishlist': 'wishlist', '/journal': 'news', '/account': 'account' };
-            const targetPage = pageRoutes[path] || 'home';
-            navigate(targetPage);
+            navigate(pageRoutes[path] || 'home');
         }
 
         function renderHero(){ const c=document.getElementById('hero-banner-slides'),list=currentData.hero; if(!list.length){c.innerHTML='<div class="w-full h-full bg-primary"></div>';return;} c.innerHTML=list.map((h,i)=>`<div class="hero-slide absolute inset-0 transition-opacity duration-1000 ${i===0?'':'opacity-0'}"><img src="${h.img}" alt="${h.title||'JAYENWARE Hero Banner'}" class="w-full h-full object-cover" loading="${i===0?'eager':'lazy'}"></div>`).join(''); updateHeroText(0);clearInterval(slideInterval); if(list.length>1) slideInterval=setInterval(()=>{currentSlide=(currentSlide+1)%list.length;updateHeroSlide();},5000); }
@@ -1653,278 +1214,122 @@
         }
 
         // ============================================
-        // HORIZONTAL CAROUSEL SYSTEM
+        // HORIZONTAL CAROUSEL - APPLE LIQUID DESIGN
         // ============================================
         function initCarousel(carouselId) {
             if (!carouselStates[carouselId]) {
-                carouselStates[carouselId] = {
-                    isPaused: false,
-                    animationFrame: null,
-                    scrollSpeed: 1,
-                    lastTimestamp: 0,
-                    touchStartX: 0,
-                    touchStartScrollLeft: 0,
-                    isDragging: false
-                };
+                carouselStates[carouselId] = { isPaused: false, animationFrame: null, lastTimestamp: 0, touchStartX: 0, touchStartScrollLeft: 0, isDragging: false };
             }
             return carouselStates[carouselId];
         }
-
         function autoScrollCarousel(carouselId, timestamp) {
             const carousel = document.getElementById(carouselId);
             if (!carousel) return;
             const state = initCarousel(carouselId);
-            if (state.isPaused) {
-                state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
-                return;
-            }
+            if (state.isPaused) { state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts)); return; }
             if (!state.lastTimestamp) state.lastTimestamp = timestamp;
             const delta = timestamp - state.lastTimestamp;
             const speed = parseFloat(carousel.dataset.speed) || 1;
-            const scrollAmount = (delta * speed * 0.05);
-            carousel.scrollLeft += scrollAmount;
-            if (carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth)) {
-                carousel.scrollLeft = 0;
-            }
+            carousel.scrollLeft += (delta * speed * 0.05);
+            if (carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth)) carousel.scrollLeft = 0;
             state.lastTimestamp = timestamp;
             state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
         }
-
         function startCarouselAutoScroll(carouselId) {
             const carousel = document.getElementById(carouselId);
             if (!carousel) return;
             const state = initCarousel(carouselId);
-            state.isPaused = false;
-            state.lastTimestamp = 0;
+            state.isPaused = false; state.lastTimestamp = 0;
             if (state.animationFrame) cancelAnimationFrame(state.animationFrame);
             state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
         }
-
         function stopCarouselAutoScroll(carouselId) {
             const carousel = document.getElementById(carouselId);
             if (!carousel) return;
             const state = carouselStates[carouselId];
-            if (state && state.animationFrame) {
-                cancelAnimationFrame(state.animationFrame);
-                state.animationFrame = null;
-            }
+            if (state && state.animationFrame) { cancelAnimationFrame(state.animationFrame); state.animationFrame = null; }
         }
-
-        function pauseCarousel(carousel) {
-            const carouselId = carousel.id;
-            const state = initCarousel(carouselId);
-            state.isPaused = true;
-        }
-
-        function resumeCarousel(carousel) {
-            const carouselId = carousel.id;
-            const state = initCarousel(carouselId);
-            state.isPaused = false;
-            state.lastTimestamp = 0;
-        }
-
+        function pauseCarousel(carousel) { const state = initCarousel(carousel.id); state.isPaused = true; }
+        function resumeCarousel(carousel) { const state = initCarousel(carousel.id); state.isPaused = false; state.lastTimestamp = 0; }
         function slideCarousel(carouselId, direction) {
             const carousel = document.getElementById(carouselId);
             if (!carousel) return;
             const state = initCarousel(carouselId);
             state.isPaused = true;
             const scrollAmount = carousel.clientWidth * 0.6;
-            const targetScroll = direction === 'left' ? carousel.scrollLeft - scrollAmount : carousel.scrollLeft + scrollAmount;
-            carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
+            carousel.scrollTo({ left: direction === 'left' ? carousel.scrollLeft - scrollAmount : carousel.scrollLeft + scrollAmount, behavior: 'smooth' });
             clearTimeout(state._resumeTimeout);
             state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
         }
-
         function initCarouselTouchSupport() {
             document.querySelectorAll('.carousel-track').forEach(carousel => {
-                const carouselId = carousel.id;
-                const state = initCarousel(carouselId);
-                carousel.addEventListener('mousedown', (e) => {
-                    state.isDragging = true; state.isPaused = true;
-                    state.touchStartX = e.pageX - carousel.offsetLeft;
-                    state.touchStartScrollLeft = carousel.scrollLeft;
-                    carousel.style.cursor = 'grabbing';
-                });
-                carousel.addEventListener('mousemove', (e) => {
-                    if (!state.isDragging) return;
-                    e.preventDefault();
-                    const x = e.pageX - carousel.offsetLeft;
-                    const walk = (x - state.touchStartX) * 2;
-                    carousel.scrollLeft = state.touchStartScrollLeft - walk;
-                });
-                carousel.addEventListener('mouseup', () => {
-                    state.isDragging = false; carousel.style.cursor = 'grab';
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
-                });
-                carousel.addEventListener('mouseleave', () => {
-                    if (state.isDragging) {
-                        state.isDragging = false; carousel.style.cursor = 'grab';
-                        clearTimeout(state._resumeTimeout);
-                        state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 1500);
-                    }
-                });
-                carousel.addEventListener('touchstart', (e) => {
-                    state.isDragging = true; state.isPaused = true;
-                    state.touchStartX = e.touches[0].pageX - carousel.offsetLeft;
-                    state.touchStartScrollLeft = carousel.scrollLeft;
-                }, { passive: true });
-                carousel.addEventListener('touchmove', (e) => {
-                    if (!state.isDragging) return;
-                    const x = e.touches[0].pageX - carousel.offsetLeft;
-                    const walk = (x - state.touchStartX) * 2;
-                    carousel.scrollLeft = state.touchStartScrollLeft - walk;
-                }, { passive: true });
-                carousel.addEventListener('touchend', () => {
-                    state.isDragging = false;
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
-                });
+                const state = initCarousel(carousel.id);
+                carousel.addEventListener('mousedown', (e) => { state.isDragging = true; state.isPaused = true; state.touchStartX = e.pageX - carousel.offsetLeft; state.touchStartScrollLeft = carousel.scrollLeft; carousel.style.cursor = 'grabbing'; });
+                carousel.addEventListener('mousemove', (e) => { if (!state.isDragging) return; e.preventDefault(); carousel.scrollLeft = state.touchStartScrollLeft - (e.pageX - carousel.offsetLeft - state.touchStartX) * 2; });
+                carousel.addEventListener('mouseup', () => { state.isDragging = false; carousel.style.cursor = 'grab'; clearTimeout(state._resumeTimeout); state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000); });
+                carousel.addEventListener('mouseleave', () => { if (state.isDragging) { state.isDragging = false; carousel.style.cursor = 'grab'; clearTimeout(state._resumeTimeout); state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 1500); } });
+                carousel.addEventListener('touchstart', (e) => { state.isDragging = true; state.isPaused = true; state.touchStartX = e.touches[0].pageX - carousel.offsetLeft; state.touchStartScrollLeft = carousel.scrollLeft; }, { passive: true });
+                carousel.addEventListener('touchmove', (e) => { if (!state.isDragging) return; carousel.scrollLeft = state.touchStartScrollLeft - (e.touches[0].pageX - carousel.offsetLeft - state.touchStartX) * 2; }, { passive: true });
+                carousel.addEventListener('touchend', () => { state.isDragging = false; clearTimeout(state._resumeTimeout); state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000); });
             });
         }
 
         function renderCarouselProducts(carouselId, products) {
             const carousel = document.getElementById(carouselId);
             if (!carousel) return;
-            if (!products || !products.length) {
-                carousel.innerHTML = '<p class="text-gray-400 text-sm py-8 px-4">No products available</p>';
-                return;
-            }
+            if (!products || !products.length) { carousel.innerHTML = '<div class="flex items-center justify-center w-full py-12"><p class="text-sm text-accent">No products available</p></div>'; return; }
             const allProducts = [...products, ...products];
             carousel.innerHTML = allProducts.map(p => {
                 const isOut = p.stock <= 0;
                 const wished = wishlist.includes(p.id);
-                return `
-                <a href="/product/${getProductSlug(p)}" 
-                   onclick="event.preventDefault();openProductDetails(${p.id})" 
-                   class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block flex-shrink-0"
-                   draggable="false">
-                    <div class="product-img-container" style="aspect-ratio:3/4;">
-                        <img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy" draggable="false">
-                        <button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" 
-                                class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition z-10">
-                            <i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i>
-                        </button>
-                        ${isOut ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center z-10"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>' : ''}
-                        ${p.is_hot && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</span></div>' : ''}
-                        ${p.is_new_arrival && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-green-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">New</span></div>' : ''}
-                        ${p.is_on_sale && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-orange-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Sale</span></div>' : ''}
-                    </div>
-                    <div class="p-2.5 sm:p-4">
-                        <p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p>
-                        <h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3>
-                        <div class="flex justify-between items-end">
-                            <div>
-                                <span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>
-                                ${p.old_price ? `<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>` : ''}
-                            </div>
-                            <button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" 
-                                    ${isOut?'disabled':''} 
-                                    class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </a>`;
+                let badgeHTML = '';
+                if (!isOut) {
+                    if (p.is_new_arrival) badgeHTML = '<span class="card-badge badge-new">New</span>';
+                    else if (p.is_hot) badgeHTML = '<span class="card-badge badge-hot">Hot</span>';
+                    else if (p.is_on_sale) badgeHTML = '<span class="card-badge badge-sale">Sale</span>';
+                    else if (p.is_limited_edition) badgeHTML = '<span class="card-badge badge-limited">Limited</span>';
+                    else if (p.is_featured) badgeHTML = '<span class="card-badge badge-featured">Featured</span>';
+                }
+                return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="carousel-card" draggable="false"><div class="card-img"><img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">${badgeHTML}<button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished ? 'wished' : ''}"><i class="fa-${wished ? 'solid' : 'regular'} fa-heart"></i></button>${isOut ? '<div class="card-soldout-overlay"><span>Sold Out</span></div>' : ''}</div><div class="card-body"><span class="card-category">${p.category}</span><h3 class="card-title">${p.title}</h3><div class="card-price-row"><div><span class="card-price">৳${p.price}</span>${p.old_price ? `<span class="card-old-price">৳${p.old_price}</span>` : ''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut ? 'disabled' : ''}" ${isOut ? 'disabled' : ''}><i class="fa-solid fa-plus"></i></button></div></div></a>`;
             }).join('');
             carousel.scrollLeft = 0;
         }
 
         function renderHomepageSections() {
-            // New Arrivals
-            const newArrivals = currentData.products.filter(p => p.is_new_arrival);
-            const newArrivalsSection = document.getElementById('new-arrivals-section');
-            if (newArrivals.length && newArrivalsSection) {
-                newArrivalsSection.classList.remove('hidden');
-                renderCarouselProducts('new-arrivals-carousel', newArrivals);
-                startCarouselAutoScroll('new-arrivals-carousel');
-            } else if (newArrivalsSection) {
-                newArrivalsSection.classList.add('hidden');
-            }
-
-            // Hot Products
-            const hotProducts = currentData.products.filter(p => p.is_hot);
-            const hotSection = document.getElementById('hot-products-section');
-            if (hotProducts.length && hotSection) {
-                hotSection.classList.remove('hidden');
-                renderCarouselProducts('hot-products-carousel', hotProducts);
-                startCarouselAutoScroll('hot-products-carousel');
-            } else if (hotSection) {
-                hotSection.classList.add('hidden');
-            }
-
-            // Featured Products
-            const featuredProducts = currentData.products.filter(p => p.is_featured);
-            const featuredSection = document.getElementById('featured-products-section');
-            if (featuredProducts.length && featuredSection) {
-                featuredSection.classList.remove('hidden');
-                renderCarouselProducts('featured-products-carousel', featuredProducts);
-                startCarouselAutoScroll('featured-products-carousel');
-            } else if (featuredSection) {
-                featuredSection.classList.add('hidden');
-            }
-
-            // Best Sellers
-            const bestSellers = currentData.products.filter(p => p.is_best);
-            const bestSection = document.getElementById('best-selling-section');
-            if (bestSellers.length && bestSection) {
-                bestSection.classList.remove('hidden');
-                renderCarouselProducts('best-selling-carousel', bestSellers);
-                startCarouselAutoScroll('best-selling-carousel');
-            } else if (bestSection) {
-                bestSection.classList.add('hidden');
-            }
-
-            // On Sale
-            const onSaleProducts = currentData.products.filter(p => p.is_on_sale);
-            const saleSection = document.getElementById('on-sale-section');
-            if (onSaleProducts.length && saleSection) {
-                saleSection.classList.remove('hidden');
-                renderCarouselProducts('on-sale-carousel', onSaleProducts);
-                startCarouselAutoScroll('on-sale-carousel');
-            } else if (saleSection) {
-                saleSection.classList.add('hidden');
-            }
-
-            // Limited Edition
-            const limitedEdition = currentData.products.filter(p => p.is_limited_edition);
-            const limitedSection = document.getElementById('limited-edition-section');
-            if (limitedEdition.length && limitedSection) {
-                limitedSection.classList.remove('hidden');
-                renderCarouselProducts('limited-edition-carousel', limitedEdition);
-                startCarouselAutoScroll('limited-edition-carousel');
-            } else if (limitedSection) {
-                limitedSection.classList.add('hidden');
-            }
-            
+            const sections = [
+                { id: 'new-arrivals-section', carousel: 'new-arrivals-carousel', products: currentData.products.filter(p => p.is_new_arrival) },
+                { id: 'hot-products-section', carousel: 'hot-products-carousel', products: currentData.products.filter(p => p.is_hot) },
+                { id: 'featured-products-section', carousel: 'featured-products-carousel', products: currentData.products.filter(p => p.is_featured) },
+                { id: 'best-selling-section', carousel: 'best-selling-carousel', products: currentData.products.filter(p => p.is_best) },
+                { id: 'on-sale-section', carousel: 'on-sale-carousel', products: currentData.products.filter(p => p.is_on_sale) },
+                { id: 'limited-edition-section', carousel: 'limited-edition-carousel', products: currentData.products.filter(p => p.is_limited_edition) }
+            ];
+            sections.forEach((section, index) => {
+                const sectionEl = document.getElementById(section.id);
+                if (!sectionEl) return;
+                if (section.products.length) {
+                    sectionEl.classList.remove('hidden');
+                    renderCarouselProducts(section.carousel, section.products);
+                    startCarouselAutoScroll(section.carousel);
+                    setTimeout(() => { sectionEl.classList.add('visible'); }, index * 100);
+                } else { sectionEl.classList.add('hidden'); }
+            });
             initCarouselTouchSupport();
         }
 
         function cleanupAllCarousels() {
-            const carouselIds = [
-                'new-arrivals-carousel', 'hot-products-carousel', 
-                'featured-products-carousel', 'best-selling-carousel',
-                'on-sale-carousel', 'limited-edition-carousel'
-            ];
-            carouselIds.forEach(id => stopCarouselAutoScroll(id));
+            ['new-arrivals-carousel','hot-products-carousel','featured-products-carousel','best-selling-carousel','on-sale-carousel','limited-edition-carousel'].forEach(id => stopCarouselAutoScroll(id));
         }
 
         function productCard(p){ 
             const isOut=p.stock<=0,wished=wishlist.includes(p.id); 
-            return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</div>':''}${p.is_new_arrival&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-green-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">New</div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
+            return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} active:scale-95 transition"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center"><span class="bg-primary text-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_new_arrival&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3"><span class="badge-new px-2 py-0.5 rounded-full text-[7px] sm:text-[8px] font-black uppercase">New</span></div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-accent line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-blue'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
         }
         
         function getRandomProducts(currentProductId, category, count = 4) { 
             let available = currentData.products.filter(p => p.id !== currentProductId); 
-            let otherCategoryProducts = available.filter(p => p.category !== category); 
-            let sameCategoryProducts = available.filter(p => p.category === category); 
-            let selected = []; 
             const shuffle = (array) => { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; }; 
-            let shuffledOther = shuffle([...otherCategoryProducts]); 
-            let shuffledSame = shuffle([...sameCategoryProducts]); 
-            selected = [...shuffledOther.slice(0, 2), ...shuffledSame.slice(0, 2)]; 
-            if (selected.length < count) { let remaining = available.filter(p => !selected.find(s => s.id === p.id)); selected = [...selected, ...shuffle(remaining).slice(0, count - selected.length)]; } 
-            return shuffle(selected).slice(0, count); 
+            return shuffle(available).slice(0, count); 
         }
         
         function renderProducts(list){ 
@@ -1933,24 +1338,11 @@
             setTimeout(() => { 
                 const totalProducts = list.length; 
                 const displayProducts = list.slice(0, productsDisplayLimit); 
-                let html = ''; 
-                if(displayProducts.length) { 
-                    html = displayProducts.map((p, index) => { 
-                        return productCard(p).replace('class="product-card', 'class="product-card product-card-enter'); 
-                    }).join(''); 
-                } else { 
-                    html = '<div class="col-span-full text-center py-20"><p class="text-gray-400 text-lg">No products found</p></div>'; 
-                } 
-                if(totalProducts > productsDisplayLimit) { 
-                    html += `<div class="col-span-full mt-8 text-center"><button onclick="loadMoreProducts()" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase text-xs tracking-wider hover:bg-accent transition"><i class="fa-solid fa-arrow-down mr-2"></i>Load More (${totalProducts - productsDisplayLimit} remaining)</button></div>`; 
-                } 
+                let html = displayProducts.length ? displayProducts.map(p => productCard(p).replace('class="product-card', 'class="product-card product-card-enter')).join('') : '<div class="col-span-full text-center py-20"><p class="text-accent text-lg">No products found</p></div>'; 
+                if(totalProducts > productsDisplayLimit) html += `<div class="col-span-full mt-8 text-center"><button onclick="loadMoreProducts()" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase text-xs tracking-wider hover:bg-blue transition"><i class="fa-solid fa-arrow-down mr-2"></i>Load More (${totalProducts - productsDisplayLimit} remaining)</button></div>`; 
                 grid.innerHTML = html; 
-                grid.classList.remove('products-fade-out'); 
-                grid.classList.add('products-fade-in'); 
-                setTimeout(() => { 
-                    grid.classList.remove('products-fade-in'); 
-                    grid.querySelectorAll('.product-card-enter').forEach(card => { card.classList.remove('product-card-enter'); }); 
-                }, 800); 
+                grid.classList.remove('products-fade-out'); grid.classList.add('products-fade-in'); 
+                setTimeout(() => { grid.classList.remove('products-fade-in'); grid.querySelectorAll('.product-card-enter').forEach(card => card.classList.remove('product-card-enter')); }, 800); 
             }, 300); 
         }
         
@@ -1962,7 +1354,7 @@
         }
         
         function renderNews(list){ 
-            document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white rounded-2xl overflow-hidden shadow-sm group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); 
+            document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white rounded-2xl overflow-hidden border border-gray-100 group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-blue uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); 
         }
         
         function openProductDetails(productId){ 
@@ -1977,9 +1369,9 @@
             const prodReviews=currentData.reviews.filter(r=>r.product_id==productId); 
             const isOut=product.stock<=0; 
             selectedVariantObj=null; 
-            const reviewsHTML = prodReviews.length ? prodReviews.map(r => `<div class="bg-white p-3 sm:p-4 rounded-xl border border-gray-100"><div class="flex items-center gap-2 mb-1"><span class="text-accent text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span><span class="text-[10px] sm:text-xs font-bold">${r.user_name||'Anonymous'}</span><span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span></div><p class="text-[10px] sm:text-xs text-gray-600">${r.review_text}</p></div>`).join('') : '<p class="text-gray-400 text-xs sm:text-sm italic">No reviews yet. Be the first to review!</p>'; 
-            const reviewFormHTML = userSession ? `<div class="bg-soft p-4 sm:p-5 rounded-2xl"><h4 class="font-bold text-[10px] sm:text-xs uppercase mb-3">Write a Review</h4><div class="star-rating mb-3" id="inline-review-stars-${productId}"><input type="radio" id="star5-${productId}" name="rating-${productId}" value="5"><label for="star5-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star4-${productId}" name="rating-${productId}" value="4"><label for="star4-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star3-${productId}" name="rating-${productId}" value="3"><label for="star3-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star2-${productId}" name="rating-${productId}" value="2"><label for="star2-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star1-${productId}" name="rating-${productId}" value="1"><label for="star1-${productId}"><i class="fa-solid fa-star"></i></label></div><textarea id="inline-review-text-${productId}" placeholder="Share your experience..." class="w-full p-3 border rounded-xl text-xs h-20 mb-3 outline-none"></textarea><button onclick="submitInlineReview(${productId})" class="px-6 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-accent transition">Submit Review</button></div>` : `<div class="bg-soft p-4 sm:p-5 rounded-2xl text-center"><p class="text-[10px] sm:text-xs text-gray-500 mb-2">Login to write a review</p><a href="/login" class="px-5 py-2 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-accent transition no-underline inline-block">Sign In</a></div>`; 
-            document.getElementById('product-detail-content').innerHTML=`<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 mb-8 sm:mb-10"><div><div id="product-zoom-container" class="rounded-3xl overflow-hidden shadow-2xl bg-gray-100" style="aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()"><img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover"></div><div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 overflow-x-auto no-scrollbar pb-1">${allImages.map(img=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" loading="lazy" alt="${product.title} - Image">`).join('')}</div></div><div class="flex flex-col"><span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-accent">${product.category}</span><h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-serif mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1><div class="mb-4 sm:mb-6"><span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>${product.old_price?`<span class="ml-2 sm:ml-3 text-base sm:text-lg text-gray-400 line-through">৳${product.old_price}</span>`:''}</div><div class="flex items-center gap-2 mb-4 sm:mb-6"><span class="w-2 h-2 rounded-full ${isOut?'bg-red-500':'bg-green-500'}"></span><span class="text-[10px] sm:text-xs font-bold ${isOut?'text-red-500':'text-green-600'}">${isOut?'Out of Stock':`In Stock: ${product.stock}`}</span>${prodReviews.length ? `<span class="text-[10px] sm:text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-accent text-[9px]"></i> ${(prodReviews.reduce((sum,r)=>sum+r.rating,0)/prodReviews.length).toFixed(1)} (${prodReviews.length} reviews)</span>` : ''}</div>${variants.length?`<div class="mb-6 sm:mb-8"><p class="text-[9px] sm:text-[10px] font-black uppercase text-gray-400 mb-2 sm:mb-3">Select Variant</p><div class="flex flex-wrap gap-1.5 sm:gap-2" id="detail-variant-container">${variants.map((v,i)=>`<button onclick="selectVariant(this,'${v.id}','${v.name}',${v.price})" class="variant-btn px-4 sm:px-5 py-2.5 sm:py-3 border-2 rounded-2xl text-[10px] sm:text-xs font-bold transition ${i===0?'selected':''}" data-vid="${v.id}">${v.name} - ৳${v.price}</button>`).join('')}</div></div>`:''}<div class="grid grid-cols-2 gap-2 sm:gap-3 mb-6 sm:mb-8"><button onclick="addToCart(${product.id},false,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-200':'bg-primary hover:bg-accent'} text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Add to Bag</button><button onclick="addToCart(${product.id},true,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-100':'bg-white border-2 border-primary hover:bg-primary hover:text-white'} rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Buy Now</button></div><div class="bg-soft p-4 sm:p-6 rounded-2xl mb-6"><h3 class="font-bold text-[10px] sm:text-xs uppercase mb-2">Description</h3><p class="text-xs sm:text-sm text-gray-600 leading-relaxed">${product.description}</p></div><div class="flex flex-wrap gap-1.5 sm:gap-2 mt-auto"><div class="flex items-center gap-1 bg-green-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-shield-halved text-green-600"></i> 100% Authentic</div><div class="flex items-center gap-1 bg-blue-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-truck-fast text-blue-600"></i> Fast Delivery</div></div></div></div><div class="border-t pt-8 sm:pt-10"><div class="flex items-center gap-3 mb-6"><h3 class="text-xl sm:text-2xl font-black font-serif">Customer Reviews</h3><span class="text-xs sm:text-sm text-gray-400 font-bold">(${prodReviews.length})</span></div><div class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">${reviewsHTML}</div>${reviewFormHTML}</div>`; 
+            const reviewsHTML = prodReviews.length ? prodReviews.map(r => `<div class="bg-white p-3 sm:p-4 rounded-xl border border-gray-100"><div class="flex items-center gap-2 mb-1"><span class="text-[#ff9500] text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span><span class="text-[10px] sm:text-xs font-bold">${r.user_name||'Anonymous'}</span><span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span></div><p class="text-[10px] sm:text-xs text-gray-600">${r.review_text}</p></div>`).join('') : '<p class="text-gray-400 text-xs sm:text-sm italic">No reviews yet. Be the first to review!</p>'; 
+            const reviewFormHTML = userSession ? `<div class="bg-soft p-4 sm:p-5 rounded-2xl"><h4 class="font-bold text-[10px] sm:text-xs uppercase mb-3">Write a Review</h4><div class="star-rating mb-3" id="inline-review-stars-${productId}"><input type="radio" id="star5-${productId}" name="rating-${productId}" value="5"><label for="star5-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star4-${productId}" name="rating-${productId}" value="4"><label for="star4-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star3-${productId}" name="rating-${productId}" value="3"><label for="star3-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star2-${productId}" name="rating-${productId}" value="2"><label for="star2-${productId}"><i class="fa-solid fa-star"></i></label><input type="radio" id="star1-${productId}" name="rating-${productId}" value="1"><label for="star1-${productId}"><i class="fa-solid fa-star"></i></label></div><textarea id="inline-review-text-${productId}" placeholder="Share your experience..." class="w-full p-3 border rounded-xl text-xs h-20 mb-3 outline-none focus:border-blue transition"></textarea><button onclick="submitInlineReview(${productId})" class="px-6 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-blue transition">Submit Review</button></div>` : `<div class="bg-soft p-4 sm:p-5 rounded-2xl text-center"><p class="text-[10px] sm:text-xs text-gray-500 mb-2">Login to write a review</p><a href="/login" class="px-5 py-2 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-blue transition no-underline inline-block">Sign In</a></div>`; 
+            document.getElementById('product-detail-content').innerHTML=`<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 mb-8 sm:mb-10"><div><div id="product-zoom-container" class="rounded-3xl overflow-hidden bg-soft" style="aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()"><img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover"></div><div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 overflow-x-auto no-scrollbar pb-1">${allImages.map(img=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" loading="lazy" alt="${product.title} - Image">`).join('')}</div></div><div class="flex flex-col"><span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-blue">${product.category}</span><h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-primary mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1><div class="mb-4 sm:mb-6"><span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>${product.old_price?`<span class="ml-2 sm:ml-3 text-base sm:text-lg text-accent line-through">৳${product.old_price}</span>`:''}</div><div class="flex items-center gap-2 mb-4 sm:mb-6"><span class="w-2 h-2 rounded-full ${isOut?'bg-red-500':'bg-green-500'}"></span><span class="text-[10px] sm:text-xs font-bold ${isOut?'text-red-500':'text-green-600'}">${isOut?'Out of Stock':`In Stock: ${product.stock}`}</span>${prodReviews.length ? `<span class="text-[10px] sm:text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-[#ff9500] text-[9px]"></i> ${(prodReviews.reduce((sum,r)=>sum+r.rating,0)/prodReviews.length).toFixed(1)} (${prodReviews.length} reviews)</span>` : ''}</div>${variants.length?`<div class="mb-6 sm:mb-8"><p class="text-[9px] sm:text-[10px] font-black uppercase text-accent mb-2 sm:mb-3">Select Variant</p><div class="flex flex-wrap gap-1.5 sm:gap-2" id="detail-variant-container">${variants.map((v,i)=>`<button onclick="selectVariant(this,'${v.id}','${v.name}',${v.price})" class="variant-btn px-4 sm:px-5 py-2.5 sm:py-3 border-2 rounded-2xl text-[10px] sm:text-xs font-bold transition ${i===0?'selected':''}" data-vid="${v.id}">${v.name} - ৳${v.price}</button>`).join('')}</div></div>`:''}<div class="grid grid-cols-2 gap-2 sm:gap-3 mb-6 sm:mb-8"><button onclick="addToCart(${product.id},false,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-200':'bg-primary hover:bg-blue'} text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Add to Bag</button><button onclick="addToCart(${product.id},true,true)" ${isOut?'disabled':''} class="py-3 sm:py-4 ${isOut?'bg-gray-100':'bg-white border-2 border-primary hover:bg-primary hover:text-white'} rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Buy Now</button></div><div class="bg-soft p-4 sm:p-6 rounded-2xl mb-6"><h3 class="font-bold text-[10px] sm:text-xs uppercase mb-2">Description</h3><p class="text-xs sm:text-sm text-gray-600 leading-relaxed">${product.description}</p></div><div class="flex flex-wrap gap-1.5 sm:gap-2 mt-auto"><div class="flex items-center gap-1 bg-green-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-shield-halved text-green-600"></i> 100% Authentic</div><div class="flex items-center gap-1 bg-blue-50 px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px]"><i class="fa-solid fa-truck-fast text-blue-600"></i> Fast Delivery</div></div></div></div><div class="border-t pt-8 sm:pt-10"><div class="flex items-center gap-3 mb-6"><h3 class="text-xl sm:text-2xl font-bold tracking-tight text-primary">Customer Reviews</h3><span class="text-xs sm:text-sm text-gray-400 font-bold">(${prodReviews.length})</span></div><div class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">${reviewsHTML}</div>${reviewFormHTML}</div>`; 
             if(variants.length>0){selectedVariantObj={id:variants[0].id,name:variants[0].name,price:variants[0].price};} 
             const related = getRandomProducts(productId, product.category, 4); 
             const ctl = document.getElementById('complete-the-look-section'); 
@@ -1988,23 +1380,8 @@
             navigate('product-details', product.id); 
         }
         
-        function selectVariant(btn,vId,vName,vPrice){ 
-            document.querySelectorAll('#detail-variant-container .variant-btn').forEach(b=>b.classList.remove('selected')); 
-            btn.classList.add('selected'); 
-            selectedVariantObj={id:vId,name:vName,price:vPrice}; 
-        }
-
-        function zoomImage(e){ 
-            const container=document.getElementById('product-zoom-container'),img=document.getElementById('product-zoom-image'); 
-            if(!container||!img)return; 
-            const rect=container.getBoundingClientRect(); 
-            const clientX=e.touches?e.touches[0].clientX:e.clientX; 
-            const clientY=e.touches?e.touches[0].clientY:e.clientY; 
-            const x=(clientX-rect.left)/rect.width,y=(clientY-rect.top)/rect.height; 
-            img.style.transformOrigin=`${x*100}% ${y*100}%`; 
-            img.style.transform='scale(2)'; 
-        }
-        
+        function selectVariant(btn,vId,vName,vPrice){ document.querySelectorAll('#detail-variant-container .variant-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedVariantObj={id:vId,name:vName,price:vPrice}; }
+        function zoomImage(e){ const container=document.getElementById('product-zoom-container'),img=document.getElementById('product-zoom-image'); if(!container||!img)return; const rect=container.getBoundingClientRect(); const clientX=e.touches?e.touches[0].clientX:e.clientX; const clientY=e.touches?e.touches[0].clientY:e.clientY; const x=(clientX-rect.left)/rect.width,y=(clientY-rect.top)/rect.height; img.style.transformOrigin=`${x*100}% ${y*100}%`; img.style.transform='scale(2)'; }
         function resetZoom(){const img=document.getElementById('product-zoom-image');if(img)img.style.transform='scale(1)';}
         
         async function submitInlineReview(productId) { 
@@ -2015,40 +1392,12 @@
             error ? showToast(error.message, 'error') : (showToast('Review submitted!'), setTimeout(() => location.reload(), 1500)); 
         }
         
-        function toggleWishlist(id){ 
-            wishlist.includes(id)?wishlist=wishlist.filter(x=>x!==id):wishlist.push(id); 
-            localStorage.setItem('jayen_wish',JSON.stringify(wishlist));updateCounts(); 
-            showToast('Wishlist Updated','info'); 
-            if(document.getElementById('wishlist').classList.contains('active-page'))renderWishlist(); 
-        }
-        
-        function renderWishlist(){ 
-            const list=currentData.products.filter(p=>wishlist.includes(p.id)); 
-            document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; 
-            document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); 
-        }
-        
+        function toggleWishlist(id){ wishlist.includes(id)?wishlist=wishlist.filter(x=>x!==id):wishlist.push(id); localStorage.setItem('jayen_wish',JSON.stringify(wishlist));updateCounts(); showToast('Wishlist Updated','info'); if(document.getElementById('wishlist').classList.contains('active-page'))renderWishlist(); }
+        function renderWishlist(){ const list=currentData.products.filter(p=>wishlist.includes(p.id)); document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); }
         function updateCounts(){ document.getElementById('cart-count').innerText=cart.length; document.getElementById('wish-count').innerText=wishlist.length; }
         
-        function toggleCart(){ 
-            document.getElementById('cart-drawer').classList.toggle('open'); 
-            if(document.getElementById('cart-drawer').classList.contains('open')) updateURL('/cart', 'Shopping Cart'); 
-            renderCartItems(); 
-        }
-        
-        function addToCart(productId,buyNow=false,isDetail=false){ 
-            const product=currentData.products.find(p=>p.id===productId); 
-            if(cart.filter(i=>i.product_id===productId).length>=product.stock)return showToast('Stock limit reached','error'); 
-            let finalPrice=product.price,vId=null,vName=null; 
-            const hasVariants=currentData.variants.some(v=>v.product_id==productId); 
-            if(isDetail&&hasVariants){ 
-                if(!selectedVariantObj)return showToast('Select a variant','error'); 
-                vId=selectedVariantObj.id;vName=selectedVariantObj.name;finalPrice=selectedVariantObj.price; 
-            }else if(!isDetail&&hasVariants){openProductDetails(productId);return;} 
-            cart.push({id:Date.now(),product_id:product.id,variant_id:vId,title:product.title,price:finalPrice,img:product.img,variant:vName,quantity:1}); 
-            saveCart();buyNow?toggleCart():showToast('Added to Bag!'); 
-        }
-        
+        function toggleCart(){ document.getElementById('cart-drawer').classList.toggle('open'); if(document.getElementById('cart-drawer').classList.contains('open')) updateURL('/cart', 'Shopping Cart'); renderCartItems(); }
+        function addToCart(productId,buyNow=false,isDetail=false){ const product=currentData.products.find(p=>p.id===productId); if(cart.filter(i=>i.product_id===productId).length>=product.stock)return showToast('Stock limit reached','error'); let finalPrice=product.price,vId=null,vName=null; const hasVariants=currentData.variants.some(v=>v.product_id==productId); if(isDetail&&hasVariants){ if(!selectedVariantObj)return showToast('Select a variant','error'); vId=selectedVariantObj.id;vName=selectedVariantObj.name;finalPrice=selectedVariantObj.price; }else if(!isDetail&&hasVariants){openProductDetails(productId);return;} cart.push({id:Date.now(),product_id:product.id,variant_id:vId,title:product.title,price:finalPrice,img:product.img,variant:vName,quantity:1}); saveCart();buyNow?toggleCart():showToast('Added to Bag!'); }
         function saveCart(){localStorage.setItem('jayen_cart',JSON.stringify(cart));updateCounts();}
         function removeFromCart(idx){cart.splice(idx,1);saveCart();renderCartItems();}
         
@@ -2062,30 +1411,9 @@
             s.innerText=`৳${sub.toFixed(2)}`;t.innerText=`৳${(sub-disc).toFixed(2)}`; 
         }
         
-        async function applyPromo(){ 
-            const code=document.getElementById('promo-input').value.toUpperCase(),msg=document.getElementById('promo-msg'); 
-            if(!code)return; 
-            const{data,error}=await _supabase.from('promo_codes').select('*').eq('code',code).eq('is_active',true).single(); 
-            error||!data?(msg.innerText='Invalid code',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-red-500',appliedPromo=null):(appliedPromo=data,msg.innerText='Applied!',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-green-500'); 
-            renderCartItems(); 
-        }
-        
-        async function loadUserOrders(){ 
-            const{data}=await _supabase.from('orders').select('*').eq('member_email',userSession.email).order('created_at',{ascending:false}); 
-            const c=document.getElementById('user-order-list'); 
-            if(!data||!data.length){c.innerHTML='<p class="text-[10px] sm:text-xs text-gray-400">No orders yet</p>';return;} 
-            currentData.orders=data; 
-            c.innerHTML=data.map(o=>`<a href="/order/${o.id}" onclick="event.preventDefault();viewOrderDetails(${o.id})" class="p-3 sm:p-4 bg-soft rounded-2xl flex justify-between items-center cursor-pointer hover:shadow transition no-underline block"><div><p class="text-[9px] sm:text-[10px] font-black text-gray-400 uppercase">#${o.id}</p><p class="font-black text-sm text-primary">${o.member_info?.total}</p></div><div class="text-right"><span class="text-[9px] sm:text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-1 rounded">${o.status||'Pending'}</span><p class="text-[8px] sm:text-[9px] text-gray-400 mt-1">${new Date(o.created_at).toLocaleDateString()}</p></div></a>`).join(''); 
-        }
-        
-        function viewOrderDetails(id){ 
-            const order=currentData.orders.find(o=>o.id==id);if(!order)return; updateURL('/order/' + id, 'Order #' + id); 
-            const info=order.member_info; 
-            document.getElementById('order-details-body').innerHTML=`<p><strong>Items:</strong> ${info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><p><strong>Shipping:</strong> ${info.shipping.address}</p><p><strong>Phone:</strong> ${info.shipping.phone}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${info.subtotal}</p>${info.discount>0?`<p class="text-green-600">Discount: -৳${info.discount}</p>`:''}<p>Delivery: ৳${info.delivery_charge}</p><p class="font-black text-lg">Total: ${info.total}</p></div>`; 
-            document.getElementById('od-title').innerText=`Order #${id}`; 
-            document.getElementById('order-details-modal').classList.remove('hidden'); 
-        }
-        
+        async function applyPromo(){ const code=document.getElementById('promo-input').value.toUpperCase(),msg=document.getElementById('promo-msg'); if(!code)return; const{data,error}=await _supabase.from('promo_codes').select('*').eq('code',code).eq('is_active',true).single(); error||!data?(msg.innerText='Invalid code',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-red-500',appliedPromo=null):(appliedPromo=data,msg.innerText='Applied!',msg.className='text-[9px] sm:text-[10px] mt-1 font-bold text-green-500'); renderCartItems(); }
+        async function loadUserOrders(){ const{data}=await _supabase.from('orders').select('*').eq('member_email',userSession.email).order('created_at',{ascending:false}); const c=document.getElementById('user-order-list'); if(!data||!data.length){c.innerHTML='<p class="text-[10px] sm:text-xs text-gray-400">No orders yet</p>';return;} currentData.orders=data; c.innerHTML=data.map(o=>`<a href="/order/${o.id}" onclick="event.preventDefault();viewOrderDetails(${o.id})" class="p-3 sm:p-4 bg-soft rounded-2xl flex justify-between items-center cursor-pointer hover:shadow transition no-underline block"><div><p class="text-[9px] sm:text-[10px] font-black text-gray-400 uppercase">#${o.id}</p><p class="font-black text-sm text-primary">${o.member_info?.total}</p></div><div class="text-right"><span class="text-[9px] sm:text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-1 rounded">${o.status||'Pending'}</span><p class="text-[8px] sm:text-[9px] text-gray-400 mt-1">${new Date(o.created_at).toLocaleDateString()}</p></div></a>`).join(''); }
+        function viewOrderDetails(id){ const order=currentData.orders.find(o=>o.id==id);if(!order)return; updateURL('/order/' + id, 'Order #' + id); const info=order.member_info; document.getElementById('order-details-body').innerHTML=`<p><strong>Items:</strong> ${info.items.map(i=>`${i.title} x${i.qty}`).join(', ')}</p><p><strong>Shipping:</strong> ${info.shipping.address}</p><p><strong>Phone:</strong> ${info.shipping.phone}</p><div class="bg-soft p-4 rounded-xl"><p>Subtotal: ৳${info.subtotal}</p>${info.discount>0?`<p class="text-green-600">Discount: -৳${info.discount}</p>`:''}<p>Delivery: ৳${info.delivery_charge}</p><p class="font-black text-lg">Total: ${info.total}</p></div>`; document.getElementById('od-title').innerText=`Order #${id}`; document.getElementById('order-details-modal').classList.remove('hidden'); }
         function closeOrderDetails(){document.getElementById('order-details-modal').classList.add('hidden');updateURL('/account', 'My Account');}
         function openEditProfile(){ const m=userSession.user_metadata; document.getElementById('edit-name').value=m.full_name||''; document.getElementById('edit-phone').value=m.phone||''; document.getElementById('edit-district').value=m.district||''; document.getElementById('edit-subdistrict').value=m.subdistrict||''; document.getElementById('edit-address').value=m.address||''; document.getElementById('edit-profile-modal').classList.remove('hidden'); }
         async function handleUpdateProfile(){ showGlobalLoader(2000); const u={full_name:document.getElementById('edit-name').value,phone:document.getElementById('edit-phone').value,district:document.getElementById('edit-district').value,subdistrict:document.getElementById('edit-subdistrict').value,address:document.getElementById('edit-address').value}; const{error}=await _supabase.auth.updateUser({data:u}); error?showToast(error.message,'error'):(showToast('Profile updated!'),setTimeout(()=>location.reload(),1500)); }
@@ -2093,60 +1421,13 @@
         
         function openPolicy(type) {
             const policies = {
-                privacy: {
-                    t: 'Privacy Policy',
-                    c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy and ensuring the security of your personal information.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Information We Collect</h4>
-                        <p><strong>Personal Information:</strong> Full name, email address, phone number, shipping/billing address.</p>
-                        <p><strong>Automatically Collected Data:</strong> IP address, browser type, device information, geolocation data.</p>
-                        <p><strong>Payment Information:</strong> We do NOT store credit/debit card details.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. How We Use Your Data</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>To process and fulfill your orders</li>
-                            <li>To communicate order status and delivery updates</li>
-                            <li>To improve our website functionality</li>
-                        </ul>
-                        <p><strong>We NEVER sell your personal data to third parties.</strong></p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Contact</h4>
-                        <p><strong>Data Protection Officer:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>`
-                },
-                terms: {
-                    t: 'Terms of Service',
-                    c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p>Welcome to <strong>JAYENWARE</strong>. By using this site, you agree to these terms.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Eligibility</h4>
-                        <p>You must be at least 18 years old to use this site.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. Orders</h4>
-                        <p>All orders are subject to availability and confirmation.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Contact</h4>
-                        <p><strong>Legal Inquiries:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>`
-                },
-                cookies: {
-                    t: 'Return & Refund Policy',
-                    c: `<p class="text-xs text-gray-400 mb-4">Effective Date: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Return Eligibility</h4>
-                        <p>Returns accepted within 3 days of delivery. Items must be unused with original tags.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. Non-Returnable Items</h4>
-                        <p>Intimate wear, fragrances, clearance items.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Refund Options</h4>
-                        <p>Store credit or original payment method (7-10 business days).</p>`
-                },
-                shipping: {
-                    t: 'Shipping & Delivery',
-                    c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Delivery Timeframes</h4>
-                        <p>Dhaka Metro: 1-2 days | Other Areas: 3-7 days</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. Shipping Charges</h4>
-                        <p>Inside Dhaka: ৳60 | Outside Dhaka: ৳120 | Free shipping over ৳2,500</p>`
-                }
+                privacy: { t: 'Privacy Policy', c: `<p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy.</p><h4 class="font-bold text-primary mt-4 mb-2">Contact</h4><p><strong>Data Protection Officer:</strong> <a href="mailto:binzeo369@gmail.com" class="text-blue font-bold">binzeo369@gmail.com</a></p>` },
+                terms: { t: 'Terms of Service', c: `<p>Welcome to <strong>JAYENWARE</strong>. By using this site, you agree to these terms.</p><h4 class="font-bold text-primary mt-4 mb-2">Contact</h4><p><strong>Legal Inquiries:</strong> <a href="mailto:binzeo369@gmail.com" class="text-blue font-bold">binzeo369@gmail.com</a></p>` },
+                cookies: { t: 'Return & Refund Policy', c: `<p>Returns accepted within 3 days. Items must be unused with original tags.</p>` },
+                shipping: { t: 'Shipping & Delivery', c: `<p>Dhaka Metro: 1-2 days | Other: 3-7 days. Free shipping over ৳2,500.</p>` }
             };
             const p = policies[type];
-            if(p) {
-                document.getElementById('policy-title').innerText = p.t;
-                document.getElementById('policy-content').innerHTML = p.c;
-                document.getElementById('policy-modal').classList.remove('hidden');
-            }
+            if(p) { document.getElementById('policy-title').innerText = p.t; document.getElementById('policy-content').innerHTML = p.c; document.getElementById('policy-modal').classList.remove('hidden'); }
         }
         
         document.getElementById('main-search-input').addEventListener('input',function(e){ const q=e.target.value.toLowerCase().trim(),box=document.getElementById('search-suggestions'); if(q.length<2){box.classList.add('hidden');return;} const filtered=currentData.products.filter(p=>p.title.toLowerCase().includes(q)).slice(0,6); box.innerHTML=filtered.length?filtered.map(p=>`<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id});box.classList.add('hidden')" class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer no-underline"><img src="${p.img}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover shrink-0" alt="${p.title}"><div class="min-w-0"><p class="text-[10px] sm:text-xs font-bold text-primary truncate">${p.title}</p><p class="text-[9px] sm:text-[10px] font-black text-primary">৳${p.price}</p></div></a>`).join(''):'<p class="p-3 sm:p-4 text-gray-400 text-[10px] sm:text-xs text-center">No results</p>'; box.classList.remove('hidden'); });
@@ -2160,10 +1441,7 @@
             loader.style.opacity = '1'; loader.style.display = 'flex';
             document.getElementById('display-year').innerText = new Date().getFullYear();
             const { data: { session } } = await _supabase.auth.getSession();
-            if(session) {
-                userSession = session.user; const m = userSession.user_metadata;
-                document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`;
-            }
+            if(session) { userSession = session.user; document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`; }
             await loadData();
             await window.visitorTracker.init();
             updateMobileMenuFooter();
