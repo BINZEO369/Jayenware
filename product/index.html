@@ -2,37 +2,24 @@
 <html lang="en-BD">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Product | JAYENWARE</title>
     
-    <meta name="description" content="Buy authentic products at JAYENWARE official store. Premium quality lifestyle products by BINZEO.">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#1d1d1f">
-    
-    <meta property="og:title" content="Product | JAYENWARE">
-    <meta property="og:description" content="Premium lifestyle products by JAYENWARE">
+    <meta name="description" content="Shop premium products at JAYENWARE official store">
+    <meta property="og:title" content="JAYENWARE Product">
+    <meta property="og:description" content="Premium lifestyle products by BINZEO">
     <meta property="og:image" content="https://www.jayenware.shop/logo.png">
-    <meta property="og:url" content="">
+    <meta property="og:url" id="og-url" content="https://www.jayenware.shop/product/">
     <meta property="og:type" content="product">
-    <meta property="og:site_name" content="JAYENWARE">
-    
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Product | JAYENWARE">
-    <meta name="twitter:image" content="https://www.jayenware.shop/logo.png">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" id="canonical-url" href="https://www.jayenware.shop/product/">
     
-    <link rel="canonical" href="">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://www.jayenware.shop/logo.png">
-    <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
-    
+    <link rel="icon" type="image/png" href="https://www.jayenware.shop/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://ozuwazkqyrxiwwfjceth.supabase.co">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/api-config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,248 +44,420 @@
     </script>
     
     <style>
-        :root {
-            --primary: #1d1d1f;
-            --accent: #86868b;
-            --soft: #f5f5f7;
-            --blue: #007aff;
-        }
-        
-        * {
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            background-color: #ffffff;
-            color: #1d1d1f;
-            overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-        }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Navigation */
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        body { background: #fff; color: #1d1d1f; font-family: 'Inter', sans-serif; margin: 0; }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255,255,255,0.92);
             backdrop-filter: blur(50px) saturate(180%);
             -webkit-backdrop-filter: blur(50px) saturate(180%);
             border-bottom: 1px solid rgba(0,0,0,0.06);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
+            position: fixed; top: 0; width: 100%; z-index: 50;
         }
-        
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-        
-        @media (min-width: 640px) { .container { padding: 0 24px; } }
-        @media (min-width: 1024px) { .container { padding: 0 32px; } }
-        
-        /* Zoom */
-        #product-zoom-container { 
-            cursor: crosshair; 
-            overflow: hidden; 
-            border-radius: 24px;
-            background: #f5f5f7;
-        }
-        #product-zoom-image { 
-            transition: transform 0.1s ease-out; 
-            will-change: transform;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Variants */
-        .variant-btn { 
-            transition: all 0.2s ease; 
-            white-space: nowrap; 
-            flex-shrink: 0;
-            padding: 10px 20px;
-            border: 2px solid #e5e5e5;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            background: white;
-        }
-        .variant-btn.selected { 
-            border-color: #1d1d1f !important; 
-            background: #1d1d1f !important; 
-            color: white !important; 
-        }
-        .variant-btn:hover { border-color: #1d1d1f; }
-        
-        /* Star Rating */
+        .variant-btn { transition: all 0.2s ease; }
+        .variant-btn.selected { border-color: #1d1d1f !important; background: #1d1d1f !important; color: white !important; }
         .star-rating { direction: rtl; display: inline-flex; }
         .star-rating input[type="radio"] { display: none; }
         .star-rating label { color: #d2d2d7; font-size: 20px; cursor: pointer; transition: color 0.2s; }
         .star-rating input[type="radio"]:checked ~ label,
         .star-rating label:hover, .star-rating label:hover ~ label { color: #ff9500; }
         
-        /* Toast */
-        #toast {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 200;
-            transform: translateX(120%);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        #product-zoom-container { cursor: crosshair; overflow: hidden; }
+        #product-zoom-image { transition: transform 0.1s ease-out; }
+        
+        .toast {
+            position: fixed; top: 16px; right: 16px; z-index: 200;
+            transform: translateX(120%); transition: transform 0.35s ease;
             max-width: calc(100vw - 32px);
         }
-        
-        /* Skeleton Loading */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 12px;
-        }
-        @keyframes shimmer { 
-            0% { background-position: 200% 0; } 
-            100% { background-position: -200% 0; } 
-        }
-        
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .toast.show { transform: translateX(0); }
         
         @media (max-width: 640px) {
-            .variant-btn { padding: 8px 14px; font-size: 11px; border-radius: 12px; }
+            .product-img-container { aspect-ratio: 3/4; }
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <!-- Toast -->
-    <div id="toast">
-        <div style="background:white;box-shadow:0 20px 60px rgba(0,0,0,0.15);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px;min-width:260px;border:1px solid #f0f0f0;">
-            <span id="toast-icon" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;"></span>
-            <p id="toast-text" style="font-size:12px;font-weight:600;flex-grow:1;"></p>
-            <button onclick="hideToast()" style="color:#ccc;background:none;border:none;cursor:pointer;font-size:16px;">&times;</button>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="bg-white shadow-2xl rounded-2xl p-3 flex items-center gap-3 min-w-[260px] border border-gray-100">
+            <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
+            <p id="toast-text" class="text-xs font-bold flex-grow"></p>
+            <button onclick="hideToast()" class="text-gray-300 hover:text-gray-600 shrink-0"><i class="fa-solid fa-xmark"></i></button>
         </div>
     </div>
 
     <!-- Navigation -->
     <nav class="glass-nav">
-        <div class="container" style="display:flex;justify-content:space-between;align-items:center;height:56px;">
-            <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
-                <img src="https://www.jayenware.shop/logo.png" style="width:32px;height:32px;border-radius:8px;" alt="JAYENWARE Logo">
-                <span style="font-size:18px;font-weight:900;font-family:'Playfair Display',serif;color:#1d1d1f;">JAYENWARE</span>
+        <div class="max-w-7xl mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 no-underline">
+                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 rounded-lg" alt="JAYENWARE">
+                <span class="text-lg font-black font-serif text-primary">JAYENWARE</span>
             </a>
-            <div style="display:flex;align-items:center;gap:12px;">
-                <a href="/wishlist" style="color:#1d1d1f;text-decoration:none;position:relative;padding:4px;">
-                    <i class="fa-regular fa-heart" style="font-size:18px;"></i>
-                </a>
-                <a href="/cart" style="color:#1d1d1f;text-decoration:none;position:relative;padding:4px;">
-                    <i class="fa-solid fa-bag-shopping" style="font-size:18px;"></i>
+            <div class="flex items-center gap-4">
+                <a href="/products" class="text-xs font-bold uppercase tracking-wider text-primary hover:text-blue transition no-underline">Shop All</a>
+                <a href="/cart" class="relative p-1.5 no-underline text-primary">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-primary text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main style="padding-top:72px;padding-bottom:48px;">
-        <div class="container">
-            
-            <!-- Back Button -->
-            <a href="/products" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#86868b;text-decoration:none;margin-bottom:24px;transition:color 0.2s;">
+    <main class="pt-14 sm:pt-16">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 py-6">
+            <a href="/products" class="mb-6 text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline">
                 <i class="fa-solid fa-arrow-left"></i> Back to Collection
             </a>
             
-            <!-- Product Content -->
-            <div id="product-content">
-                <!-- Skeleton Loader -->
-                <div style="display:grid;grid-template-columns:1fr;gap:32px;" id="skeleton-loader">
-                    <div class="skeleton" style="aspect-ratio:3/4;max-height:70vh;"></div>
-                    <div style="display:flex;flex-direction:column;gap:16px;">
-                        <div class="skeleton" style="width:100px;height:14px;"></div>
-                        <div class="skeleton" style="width:80%;height:32px;"></div>
-                        <div class="skeleton" style="width:120px;height:28px;"></div>
-                        <div class="skeleton" style="width:100%;height:80px;"></div>
-                        <div style="display:flex;gap:12px;">
-                            <div class="skeleton" style="flex:1;height:48px;"></div>
-                            <div class="skeleton" style="flex:1;height:48px;"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Actual Content (hidden initially) -->
-                <div id="product-detail" style="display:none;"></div>
+            <!-- Loading State -->
+            <div id="loading-state" class="text-center py-20">
+                <div class="w-10 h-10 border-3 border-gray-200 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-sm text-gray-400">Loading product...</p>
             </div>
             
-            <!-- Related Products -->
-            <div style="margin-top:64px;border-top:1px solid #f0f0f0;padding-top:48px;" id="related-section" hidden>
-                <h3 style="font-size:24px;font-weight:700;color:#1d1d1f;margin-bottom:32px;">Complete the Look</h3>
-                <div id="related-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"></div>
+            <!-- Product Content -->
+            <div id="product-content" class="hidden">
+                <!-- Product details will be injected here -->
+            </div>
+            
+            <!-- Error State -->
+            <div id="error-state" class="hidden text-center py-20">
+                <i class="fa-solid fa-circle-exclamation text-5xl text-gray-300 mb-4"></i>
+                <p class="text-lg text-gray-500 mb-4">Product not found</p>
+                <a href="/products" class="px-6 py-3 bg-primary text-white rounded-full text-xs font-bold uppercase hover:bg-blue transition no-underline inline-block">Browse Products</a>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer style="background:#f5f5f7;padding:32px 0;text-align:center;font-size:11px;color:#86868b;">
-        <div class="container">
-            <p>&copy; <span id="display-year"></span> JAYENWARE. Powered by <a href="https://binzeo.vercel.app" style="color:#007aff;font-weight:600;text-decoration:none;">BINZEO</a></p>
+    <footer class="bg-primary text-gray-400 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-[10px] uppercase tracking-wider">© <span id="display-year"></span> JAYENWARE. A BINZEO Concern</p>
         </div>
     </footer>
 
     <script>
+        // Supabase Setup
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const BASE_URL = 'https://www.jayenware.shop';
+        let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
+        let wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
+        let selectedVariantObj = null;
+        let currentProduct = null;
         
-        // Get product slug from URL
-        function getProductSlugFromURL() {
-            const path = window.location.pathname;
-            const match = path.match(/\/product\/(.+)/);
-            return match ? match[1] : null;
-        }
-        
-        function getProductSlug(product) {
-            if (!product || !product.title) return '';
-            return product.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 80);
-        }
-        
-        function getCategorySlug(category) {
-            if (!category) return '';
-            return category.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '');
-        }
-        
+        // Toast System
         function showToast(text, type = 'success') {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toast-icon');
             document.getElementById('toast-text').innerText = text;
             
             if (type === 'success') {
-                icon.style.background = '#ecfdf5';
-                icon.style.color = '#059669';
+                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-green-100 text-green-600 shrink-0';
                 icon.innerHTML = '<i class="fa-solid fa-check"></i>';
             } else if (type === 'error') {
-                icon.style.background = '#fef2f2';
-                icon.style.color = '#dc2626';
+                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-red-100 text-red-600 shrink-0';
                 icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
             } else {
-                icon.style.background = '#eff6ff';
-                icon.style.color = '#2563eb';
+                icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-blue-100 text-blue-600 shrink-0';
                 icon.innerHTML = '<i class="fa-solid fa-info"></i>';
             }
             
-            toast.style.transform = 'translateX(0)';
+            toast.classList.add('show');
             clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => { toast.style.transform = 'translateX(120%)'; }, 3000);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
         
         function hideToast() {
-            document.getElementById('toast').style.transform = 'translateX(120%)';
+            document.getElementById('toast').classList.remove('show');
         }
         
+        function updateCartCount() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+        
+        function saveCart() {
+            localStorage.setItem('jayen_cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+        
+        // Get product slug from URL
+        function getProductSlugFromURL() {
+            const path = window.location.pathname;
+            const parts = path.split('/');
+            return parts[parts.length - 1] || '';
+        }
+        
+        // Generate product slug
+        function getProductSlug(title) {
+            if (!title) return '';
+            return title.toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .substring(0, 80);
+        }
+        
+        // Load Product
+        async function loadProduct() {
+            const slug = getProductSlugFromURL();
+            
+            if (!slug) {
+                showError();
+                return;
+            }
+            
+            try {
+                // First try to get all products to find the matching slug
+                const { data: products, error } = await _supabase
+                    .from('products')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                if (!products || !products.length) {
+                    showError();
+                    return;
+                }
+                
+                // Find product by matching slug
+                const product = products.find(p => getProductSlug(p.title) === slug);
+                
+                if (!product) {
+                    showError();
+                    return;
+                }
+                
+                // Store current product
+                currentProduct = product;
+                
+                // Add to recently viewed
+                let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
+                recent = [product.id.toString(), ...recent.filter(id => id !== product.id.toString())].slice(0, 8);
+                localStorage.setItem('jayen_recent', JSON.stringify(recent));
+                
+                // Get variants
+                const { data: variants } = await _supabase
+                    .from('product_variants')
+                    .select('*')
+                    .eq('product_id', product.id);
+                
+                // Get reviews
+                const { data: reviews } = await _supabase
+                    .from('product_reviews')
+                    .select('*')
+                    .eq('product_id', product.id);
+                
+                // Render product
+                renderProduct(product, variants || [], reviews || []);
+                
+                // Update SEO
+                updateSEOMeta(product);
+                
+            } catch (error) {
+                console.error('Error loading product:', error);
+                showError();
+            }
+        }
+        
+        function showError() {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('product-content').classList.add('hidden');
+            document.getElementById('error-state').classList.remove('hidden');
+        }
+        
+        function updateSEOMeta(product) {
+            document.title = `${product.title} | Buy Online | JAYENWARE`;
+            document.getElementById('page-title').innerText = document.title;
+            
+            const desc = (product.description || '').substring(0, 155) + '...';
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.content = desc;
+            
+            const canonical = document.getElementById('canonical-url');
+            const ogUrl = document.getElementById('og-url');
+            const slug = getProductSlug(product.title);
+            const url = `https://www.jayenware.shop/product/${slug}`;
+            
+            if (canonical) canonical.href = url;
+            if (ogUrl) ogUrl.content = url;
+            
+            // Update OG meta
+            const ogTitle = document.querySelector('meta[property="og:title"]');
+            const ogDesc = document.querySelector('meta[property="og:description"]');
+            const ogImage = document.querySelector('meta[property="og:image"]');
+            
+            if (ogTitle) ogTitle.content = product.title + ' | JAYENWARE';
+            if (ogDesc) ogDesc.content = desc;
+            if (ogImage) ogImage.content = product.img || 'https://www.jayenware.shop/logo.png';
+            
+            // Update Twitter meta
+            const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+            const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+            const twitterImage = document.querySelector('meta[name="twitter:image"]');
+            
+            if (twitterTitle) twitterTitle.content = product.title + ' | JAYENWARE';
+            if (twitterDesc) twitterDesc.content = desc;
+            if (twitterImage) twitterImage.content = product.img || 'https://www.jayenware.shop/logo.png';
+        }
+        
+        function renderProduct(product, variants, reviews) {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('error-state').classList.add('hidden');
+            
+            const content = document.getElementById('product-content');
+            content.classList.remove('hidden');
+            
+            const allImages = product.images ? product.images.split(',') : [product.img];
+            const isOut = product.stock <= 0;
+            
+            if (variants.length > 0) {
+                selectedVariantObj = { id: variants[0].id, name: variants[0].name, price: variants[0].price };
+            }
+            
+            // Reviews HTML
+            const avgRating = reviews.length 
+                ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) 
+                : 0;
+            
+            const reviewsHTML = reviews.length 
+                ? reviews.map(r => `
+                    <div class="bg-white p-4 rounded-xl border border-gray-100">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[#ff9500] text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                            <span class="text-xs font-bold">${r.user_name || 'Anonymous'}</span>
+                            <span class="text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <p class="text-xs text-gray-600">${r.review_text}</p>
+                    </div>
+                `).join('') 
+                : '<p class="text-gray-400 text-sm italic">No reviews yet. Be the first to review!</p>';
+            
+            content.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-10">
+                    <!-- Image Gallery -->
+                    <div>
+                        <div id="product-zoom-container" class="rounded-3xl overflow-hidden bg-soft" style="aspect-ratio:3/4; max-height:70vh;" 
+                             onmousemove="zoomImage(event)" onmouseleave="resetZoom()" 
+                             ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
+                            <img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex gap-2 mt-4 overflow-x-auto no-scrollbar pb-1">
+                            ${allImages.map(img => `
+                                <img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" 
+                                     class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" 
+                                     alt="${product.title}">
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-blue">${product.category}</span>
+                        <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-primary mt-2 mb-6">${product.title}</h1>
+                        
+                        <!-- Price -->
+                        <div class="mb-6">
+                            <span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>
+                            ${product.old_price ? `<span class="ml-3 text-lg text-accent line-through">৳${product.old_price}</span>` : ''}
+                        </div>
+                        
+                        <!-- Stock Status -->
+                        <div class="flex items-center gap-2 mb-6">
+                            <span class="w-2 h-2 rounded-full ${isOut ? 'bg-red-500' : 'bg-green-500'}"></span>
+                            <span class="text-xs font-bold ${isOut ? 'text-red-500' : 'text-green-600'}">
+                                ${isOut ? 'Out of Stock' : `In Stock: ${product.stock}`}
+                            </span>
+                            ${reviews.length ? `
+                                <span class="text-xs text-gray-400 ml-2">
+                                    <i class="fa-solid fa-star text-[#ff9500] text-[9px]"></i> 
+                                    ${avgRating} (${reviews.length} reviews)
+                                </span>
+                            ` : ''}
+                        </div>
+                        
+                        <!-- Variants -->
+                        ${variants.length ? `
+                            <div class="mb-8">
+                                <p class="text-[10px] font-black uppercase text-accent mb-3">Select Variant</p>
+                                <div class="flex flex-wrap gap-2" id="detail-variant-container">
+                                    ${variants.map((v, i) => `
+                                        <button onclick="selectVariant(this, '${v.id}', '${v.name}', ${v.price})" 
+                                                class="variant-btn px-5 py-2.5 border-2 rounded-2xl text-xs font-bold transition ${i === 0 ? 'selected' : ''}" 
+                                                data-vid="${v.id}">
+                                            ${v.name} - ৳${v.price}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <!-- Action Buttons -->
+                        <div class="grid grid-cols-2 gap-3 mb-8">
+                            <button onclick="addToCart(${product.id}, false)" ${isOut ? 'disabled' : ''} 
+                                    class="py-4 ${isOut ? 'bg-gray-200' : 'bg-primary hover:bg-blue'} text-white rounded-2xl font-bold text-xs uppercase tracking-wider transition">
+                                Add to Bag
+                            </button>
+                            <button onclick="addToCart(${product.id}, true)" ${isOut ? 'disabled' : ''} 
+                                    class="py-4 ${isOut ? 'bg-gray-100' : 'bg-white border-2 border-primary hover:bg-primary hover:text-white'} rounded-2xl font-bold text-xs uppercase tracking-wider transition">
+                                Buy Now
+                            </button>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="bg-soft p-6 rounded-2xl mb-6">
+                            <h3 class="font-bold text-xs uppercase mb-2">Description</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">${product.description}</p>
+                        </div>
+                        
+                        <!-- Trust Badges -->
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <div class="flex items-center gap-1 bg-green-50 px-3 py-1 rounded-full text-[10px]">
+                                <i class="fa-solid fa-shield-halved text-green-600"></i> 100% Authentic
+                            </div>
+                            <div class="flex items-center gap-1 bg-blue-50 px-3 py-1 rounded-full text-[10px]">
+                                <i class="fa-solid fa-truck-fast text-blue-600"></i> Fast Delivery
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reviews Section -->
+                <div class="border-t pt-10">
+                    <div class="flex items-center gap-3 mb-6">
+                        <h3 class="text-2xl font-bold tracking-tight text-primary">Customer Reviews</h3>
+                        <span class="text-sm text-gray-400 font-bold">(${reviews.length})</span>
+                    </div>
+                    <div class="space-y-4 mb-8">
+                        ${reviewsHTML}
+                    </div>
+                    
+                    <!-- Review Form -->
+                    <div class="bg-soft p-5 rounded-2xl">
+                        <h4 class="font-bold text-xs uppercase mb-3">Write a Review</h4>
+                        <div class="star-rating mb-3" id="review-stars">
+                            <input type="radio" id="star5" name="rating" value="5"><label for="star5"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2"><i class="fa-solid fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1"><i class="fa-solid fa-star"></i></label>
+                        </div>
+                        <textarea id="review-text" placeholder="Share your experience..." class="w-full p-3 border rounded-xl text-xs h-20 mb-3 outline-none focus:border-blue transition"></textarea>
+                        <input type="text" id="review-name" placeholder="Your name" class="w-full p-3 border rounded-xl text-xs mb-3 outline-none focus:border-blue transition">
+                        <button onclick="submitReview(${product.id})" class="px-6 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase hover:bg-blue transition">Submit Review</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Variant Selection
+        function selectVariant(btn, vId, vName, vPrice) {
+            document.querySelectorAll('#detail-variant-container .variant-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedVariantObj = { id: vId, name: vName, price: vPrice };
+        }
+        
+        // Image Zoom
         function zoomImage(e) {
             const container = document.getElementById('product-zoom-container');
             const img = document.getElementById('product-zoom-image');
@@ -319,33 +478,31 @@
             if (img) img.style.transform = 'scale(1)';
         }
         
-        function selectVariant(btn, vId, vName, vPrice) {
-            document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            window.selectedVariant = { id: vId, name: vName, price: vPrice };
-        }
-        
+        // Add to Cart
         function addToCart(productId, buyNow = false) {
-            let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
-            const product = window.currentProduct;
+            if (!currentProduct) return;
             
-            if (!product) return;
-            
-            const isOut = product.stock <= 0;
-            if (isOut) return showToast('Product out of stock', 'error');
-            
+            const product = currentProduct;
             let finalPrice = product.price;
-            let vId = null, vName = null;
+            let vId = null;
+            let vName = null;
             
-            if (window.currentVariants.length > 0) {
-                if (!window.selectedVariant) return showToast('Select a variant', 'error');
-                vId = window.selectedVariant.id;
-                vName = window.selectedVariant.name;
-                finalPrice = window.selectedVariant.price;
+            const hasVariants = document.getElementById('detail-variant-container');
+            if (hasVariants) {
+                if (!selectedVariantObj) {
+                    showToast('Please select a variant', 'error');
+                    return;
+                }
+                vId = selectedVariantObj.id;
+                vName = selectedVariantObj.name;
+                finalPrice = selectedVariantObj.price;
             }
             
-            if (cart.filter(i => i.product_id === productId).length >= product.stock) {
-                return showToast('Stock limit reached', 'error');
+            // Check stock
+            const existingCount = cart.filter(i => i.product_id === productId).length;
+            if (existingCount >= product.stock) {
+                showToast('Stock limit reached', 'error');
+                return;
             }
             
             cart.push({
@@ -359,287 +516,53 @@
                 quantity: 1
             });
             
-            localStorage.setItem('jayen_cart', JSON.stringify(cart));
+            saveCart();
+            showToast('Added to Bag!');
             
             if (buyNow) {
                 window.location.href = '/cart';
-            } else {
-                showToast('Added to Bag!');
             }
         }
         
-        function renderProductCard(p) {
-            const isOut = p.stock <= 0;
-            return `
-            <a href="/product/${getProductSlug(p)}" style="text-decoration:none;color:inherit;">
-                <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid #f0f0f0;transition:transform 0.3s ease;cursor:pointer;">
-                    <div style="position:relative;aspect-ratio:3/4;background:#f5f5f7;overflow:hidden;">
-                        <img src="${p.img}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease;" loading="lazy">
-                        ${isOut ? '<div style="position:absolute;inset:0;background:rgba(255,255,255,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;"><span style="background:#1d1d1f;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 16px;border-radius:100px;">Sold Out</span></div>' : ''}
-                    </div>
-                    <div style="padding:12px 14px;">
-                        <p style="font-size:9px;font-weight:600;text-transform:uppercase;color:#86868b;margin-bottom:2px;">${p.category}</p>
-                        <h4 style="font-size:13px;font-weight:600;color:#1d1d1f;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.title}</h4>
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <span style="font-size:14px;font-weight:700;color:#1d1d1f;">৳${p.price}</span>
-                            ${p.old_price ? `<span style="font-size:11px;color:#b0b0b5;text-decoration:line-through;margin-left:6px;">৳${p.old_price}</span>` : ''}
-                        </div>
-                    </div>
-                </div>
-            </a>`;
-        }
-        
-        async function loadProduct() {
-            const slug = getProductSlugFromURL();
-            if (!slug) {
-                document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:80px 0;"><p style="font-size:18px;color:#86868b;">Product not found</p><a href="/products" style="color:#007aff;font-weight:600;margin-top:16px;display:inline-block;">Browse Products</a></div>';
+        // Submit Review
+        async function submitReview(productId) {
+            const text = document.getElementById('review-text').value;
+            const name = document.getElementById('review-name').value;
+            const stars = document.querySelector('input[name="rating"]:checked');
+            
+            if (!text || !name || !stars) {
+                showToast('Please complete all fields', 'error');
                 return;
             }
             
-            // Fetch product
-            const { data: products } = await _supabase.from('products').select('*').eq('status', 'Active');
-            
-            if (!products) {
-                document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:80px 0;"><p style="font-size:18px;color:#86868b;">Error loading product</p></div>';
-                return;
-            }
-            
-            const product = products.find(p => getProductSlug(p) === slug);
-            
-            if (!product) {
-                document.getElementById('product-content').innerHTML = '<div style="text-align:center;padding:80px 0;"><p style="font-size:18px;color:#86868b;">Product not found</p><a href="/products" style="color:#007aff;font-weight:600;margin-top:16px;display:inline-block;">Browse Products</a></div>';
-                return;
-            }
-            
-            window.currentProduct = product;
-            
-            // Fetch variants
-            const { data: variants } = await _supabase.from('product_variants').select('*').eq('product_id', product.id);
-            window.currentVariants = variants || [];
-            if (window.currentVariants.length > 0) {
-                window.selectedVariant = { id: variants[0].id, name: variants[0].name, price: variants[0].price };
-            }
-            
-            // Fetch reviews
-            const { data: reviews } = await _supabase.from('product_reviews').select('*').eq('product_id', product.id);
-            
-            // Fetch related products
-            const relatedProducts = products.filter(p => p.id !== product.id).slice(0, 4);
-            
-            // Update SEO
-            updateSEO(product);
-            
-            // Render product
-            renderProduct(product, window.currentVariants, reviews || [], relatedProducts);
-        }
-        
-        function updateSEO(product) {
-            document.title = product.title + ' | Buy Online at JAYENWARE';
-            
-            let metaDesc = document.querySelector('meta[name="description"]');
-            metaDesc.content = (product.description || product.title).substring(0, 155) + '...';
-            
-            let canonical = document.querySelector('link[rel="canonical"]');
-            canonical.href = BASE_URL + '/product/' + getProductSlug(product);
-            
-            let ogTitle = document.querySelector('meta[property="og:title"]');
-            ogTitle.content = product.title + ' | JAYENWARE';
-            
-            let ogImage = document.querySelector('meta[property="og:image"]');
-            ogImage.content = product.img;
-            
-            let ogUrl = document.querySelector('meta[property="og:url"]');
-            ogUrl.content = BASE_URL + '/product/' + getProductSlug(product);
-            
-            let ogDesc = document.querySelector('meta[property="og:description"]');
-            ogDesc.content = (product.description || product.title).substring(0, 160) + '...';
-            
-            // Product Schema
-            const schema = {
-                "@context": "https://schema.org/",
-                "@type": "Product",
-                "name": product.title,
-                "image": product.img,
-                "description": product.description,
-                "sku": product.sku || "JW-" + product.id,
-                "brand": { "@type": "Brand", "name": "JAYENWARE" },
-                "offers": {
-                    "@type": "Offer",
-                    "url": BASE_URL + '/product/' + getProductSlug(product),
-                    "priceCurrency": "BDT",
-                    "price": product.price,
-                    "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
-                }
-            };
-            
-            let scriptEl = document.getElementById('product-schema');
-            if (!scriptEl) {
-                scriptEl = document.createElement('script');
-                scriptEl.id = 'product-schema';
-                scriptEl.type = 'application/ld+json';
-                document.head.appendChild(scriptEl);
-            }
-            scriptEl.text = JSON.stringify(schema);
-        }
-        
-        function renderProduct(product, variants, reviews, relatedProducts) {
-            const allImages = product.images ? product.images.split(',') : [product.img];
-            const isOut = product.stock <= 0;
-            
-            let variantHTML = '';
-            if (variants.length > 0) {
-                variantHTML = `
-                <div style="margin-bottom:24px;">
-                    <p style="font-size:10px;font-weight:700;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Select Variant</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                        ${variants.map((v, i) => `
-                            <button onclick="selectVariant(this, '${v.id}', '${v.name}', ${v.price})" 
-                                    class="variant-btn ${i === 0 ? 'selected' : ''}" 
-                                    data-vid="${v.id}">
-                                ${v.name} - ৳${v.price}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>`;
-            }
-            
-            let reviewsHTML = '';
-            if (reviews.length > 0) {
-                reviewsHTML = reviews.map(r => `
-                    <div style="background:white;padding:16px;border-radius:12px;border:1px solid #f0f0f0;margin-bottom:12px;">
-                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                            <span style="color:#ff9500;font-size:14px;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
-                            <span style="font-size:11px;font-weight:600;">${r.user_name || 'Anonymous'}</span>
-                            <span style="font-size:9px;color:#86868b;margin-left:auto;">${new Date(r.created_at).toLocaleDateString()}</span>
-                        </div>
-                        <p style="font-size:11px;color:#666;">${r.review_text}</p>
-                    </div>
-                `).join('');
-            } else {
-                reviewsHTML = '<p style="font-size:12px;color:#86868b;font-style:italic;">No reviews yet. Be the first to review!</p>';
-            }
-            
-            const detailHTML = `
-            <div style="display:grid;grid-template-columns:1fr;gap:32px;">
-                <div>
-                    <div id="product-zoom-container" style="aspect-ratio:3/4;max-height:70vh;" 
-                         onmousemove="zoomImage(event)" onmouseleave="resetZoom()" 
-                         ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
-                        <img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}">
-                    </div>
-                    ${allImages.length > 1 ? `
-                    <div style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;" class="no-scrollbar">
-                        ${allImages.map(img => `
-                            <img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" 
-                                 style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid transparent;flex-shrink:0;"
-                                 onmouseover="this.style.borderColor='#1d1d1f'" 
-                                 onmouseout="this.style.borderColor='transparent'"
-                                 alt="${product.title}">
-                        `).join('')}
-                    </div>` : ''}
-                </div>
+            try {
+                const { error } = await _supabase
+                    .from('product_reviews')
+                    .insert([{
+                        product_id: productId,
+                        user_name: name,
+                        rating: parseInt(stars.value),
+                        review_text: text
+                    }]);
                 
-                <div>
-                    <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#007aff;">${product.category}</span>
-                    <h1 style="font-size:clamp(24px,5vw,40px);font-weight:700;color:#1d1d1f;margin:8px 0 16px;line-height:1.2;">${product.title}</h1>
-                    
-                    <div style="margin-bottom:16px;">
-                        <span style="font-size:28px;font-weight:800;color:#1d1d1f;">৳ ${product.price}</span>
-                        ${product.old_price ? `<span style="font-size:16px;color:#86868b;text-decoration:line-through;margin-left:12px;">৳${product.old_price}</span>` : ''}
-                    </div>
-                    
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-                        <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};"></span>
-                        <span style="font-size:11px;font-weight:600;color:${isOut ? '#ef4444' : '#16a34a'};">
-                            ${isOut ? 'Out of Stock' : `In Stock: ${product.stock}`}
-                        </span>
-                        ${reviews.length > 0 ? `
-                        <span style="font-size:11px;color:#86868b;margin-left:8px;">
-                            <i class="fa-solid fa-star" style="color:#ff9500;font-size:9px;"></i> 
-                            ${(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)} (${reviews.length} reviews)
-                        </span>` : ''}
-                    </div>
-                    
-                    ${variantHTML}
-                    
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-                        <button onclick="addToCart(${product.id}, false)" ${isOut ? 'disabled' : ''} 
-                                style="padding:14px;background:${isOut ? '#e5e5e5' : '#1d1d1f'};color:white;border:none;border-radius:16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;cursor:${isOut ? 'not-allowed' : 'pointer'};transition:all 0.2s;">
-                            Add to Bag
-                        </button>
-                        <button onclick="addToCart(${product.id}, true)" ${isOut ? 'disabled' : ''} 
-                                style="padding:14px;background:white;color:#1d1d1f;border:2px solid #1d1d1f;border-radius:16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;cursor:${isOut ? 'not-allowed' : 'pointer'};transition:all 0.2s;">
-                            Buy Now
-                        </button>
-                    </div>
-                    
-                    <div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:16px;">
-                        <h3 style="font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:8px;">Description</h3>
-                        <p style="font-size:13px;color:#666;line-height:1.6;">${product.description || 'No description available.'}</p>
-                    </div>
-                    
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                        <span style="display:inline-flex;align-items:center;gap:4px;background:#ecfdf5;padding:6px 12px;border-radius:100px;font-size:10px;">
-                            <i class="fa-solid fa-shield-halved" style="color:#059669;"></i> 100% Authentic
-                        </span>
-                        <span style="display:inline-flex;align-items:center;gap:4px;background:#eff6ff;padding:6px 12px;border-radius:100px;font-size:10px;">
-                            <i class="fa-solid fa-truck-fast" style="color:#2563eb;"></i> Fast Delivery
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="border-top:1px solid #f0f0f0;margin-top:48px;padding-top:48px;">
-                <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-                    <h3 style="font-size:22px;font-weight:700;">Customer Reviews</h3>
-                    <span style="font-size:13px;color:#86868b;font-weight:600;">(${reviews.length})</span>
-                </div>
-                ${reviewsHTML}
-            </div>`;
-            
-            document.getElementById('skeleton-loader').style.display = 'none';
-            document.getElementById('product-detail').style.display = 'block';
-            document.getElementById('product-detail').innerHTML = detailHTML;
-            
-            // Related products
-            if (relatedProducts.length > 0) {
-                document.getElementById('related-section').hidden = false;
-                document.getElementById('related-grid').innerHTML = relatedProducts.map(p => renderProductCard(p)).join('');
+                if (error) throw error;
                 
-                // Responsive grid
-                if (window.innerWidth >= 1024) {
-                    document.getElementById('related-grid').style.gridTemplateColumns = 'repeat(4,1fr)';
-                }
-            }
-            
-            // Product detail grid responsive
-            if (window.innerWidth >= 1024) {
-                document.querySelector('#product-detail > div').style.gridTemplateColumns = '1fr 1fr';
+                showToast('Review submitted! Thank you.');
+                
+                // Reload product to show new review
+                setTimeout(() => loadProduct(), 1500);
+            } catch (error) {
+                showToast('Failed to submit review', 'error');
+                console.error(error);
             }
         }
-        
-        // Handle responsive layout
-        window.addEventListener('resize', () => {
-            const grid = document.querySelector('#product-detail > div');
-            if (grid && window.innerWidth >= 1024) {
-                grid.style.gridTemplateColumns = '1fr 1fr';
-            } else if (grid) {
-                grid.style.gridTemplateColumns = '1fr';
-            }
-            
-            const relatedGrid = document.getElementById('related-grid');
-            if (relatedGrid && window.innerWidth >= 1024) {
-                relatedGrid.style.gridTemplateColumns = 'repeat(4,1fr)';
-            } else if (relatedGrid) {
-                relatedGrid.style.gridTemplateColumns = 'repeat(2,1fr)';
-            }
-        });
         
         // Initialize
-        window.onload = async () => {
+        document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('display-year').innerText = new Date().getFullYear();
-            await loadProduct();
-        };
+            updateCartCount();
+            loadProduct();
+        });
     </script>
 </body>
 </html>
