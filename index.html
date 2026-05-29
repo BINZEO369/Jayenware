@@ -6,28 +6,38 @@
     <title>Jayenware Official Store | Bangladesh Heritage Fashion</title>
     
     <meta name="description" content="Shop at the official site of Jayenware BD. Discover the latest ready-to-wear, handbags, T-shirt, shoes and accessory collections">
-    <meta name="keywords" content="buy t-shirts online Bangladesh, premium lifestyle products BD, quality cotton t-shirt, JAYENWARE shop, BINZEO store, stylish apparel, printed t-shirts, oversized t-shirts, fashion accessories, online shopping Bangladesh">
+    <meta name="keywords" content="buy t-shirts online Bangladesh, premium lifestyle products BD, quality cotton t-shirt, JAYENWARE shop, BINZEO store, stylish apparel, printed t-shirts, oversized t-shirts, fashion accessories, online shopping Bangladesh, authentic clothing, best t-shirt brand Bangladesh">
     <meta name="author" content="BINZEO">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="theme-color" content="#1a1a1a">
+    <meta name="geo.region" content="BD">
+    <meta name="geo.placename" content="Bangladesh">
     
     <link rel="canonical" href="https://www.jayenware.shop/">
     <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.jayenware.shop/logo.png">
     <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
     
     <meta property="og:title" content="Jayenware Official Store | Bangladesh Heritage Fashion">
     <meta property="og:description" content="Discover luxury Bangladesh clothing, T-shirt, bags, accessories and fragrances for women and men.">
     <meta property="og:image" content="https://www.jayenware.shop/logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://www.jayenware.shop/">
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="JAYENWARE">
+    <meta property="og:locale" content="en_BD">
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Jayenware Official Store | Bangladesh Heritage Fashion">
+    <meta name="twitter:description" content="Discover luxury Bangladesh clothing, T-shirt, bags, accessories and fragrances for women and men.">
     <meta name="twitter:image" content="https://www.jayenware.shop/logo.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://vdqbjwzixppbtkbgvhlq.supabase.co">
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -36,17 +46,6 @@
     <script src="/api-config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Website",
-        "name": "Jayenware",
-        "url": "https://www.jayenware.shop",
-        "logo": "https://www.jayenware.shop/logo.png",
-        "description": "Premium lifestyle products and quality cotton T-shirts store by BINZEO."
-    }
-    </script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -89,11 +88,14 @@
         
         main {
             flex-grow: 1;
+            min-height: calc(100vh - 280px);
+            transition: opacity 0.2s ease;
         }
         
         html {
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            overflow-y: scroll;
         }
 
         img {
@@ -106,6 +108,17 @@
         .custom-scroll::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 10px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .page-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 60vh;
+            will-change: opacity, transform;
+        }
+        .page-section.active-page { display: block; }
+        .page-section.fade-in { opacity: 1; transform: translateY(0); }
         
         .glass-nav {
             background: rgba(255, 255, 255, 0.95);
@@ -140,19 +153,17 @@
             background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 12px;
         }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        
-        /* Auto-sliding animation for Hot Products */
-        @keyframes slideRightToLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+
+        .season-banner {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
         }
-        
-        .animate-slide {
-            animation: slideRightToLeft 25s linear infinite;
-        }
-        
-        .animate-slide:hover {
-            animation-play-state: paused;
+        .season-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         /* Horizontal Carousel */
@@ -160,317 +171,30 @@
             position: relative;
             overflow: hidden;
         }
-        
         .carousel-track {
             display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 0.5rem;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
-        
-        .carousel-track::-webkit-scrollbar { display: none; }
-        .carousel-track { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .carousel-card {
-            scroll-snap-align: start;
-            flex-shrink: 0;
-        }
-        
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-size: 14px;
-            color: #1a1a1a;
-        }
-        
-        .carousel-btn:hover { background: #1a1a1a; color: white; }
-        .carousel-btn.prev { left: 0; }
-        .carousel-btn.next { right: 0; }
-        
-        @media (max-width: 640px) {
-            .carousel-btn { width: 32px; height: 32px; font-size: 12px; }
-        }
-        
-        /* Section Styles */
-        .section-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 8px;
-        }
-        
-        .section-title {
-            font-size: clamp(24px, 4vw, 40px);
-            font-weight: 900;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 4px;
-        }
-        
-        .section-subtitle {
-            font-size: 12px;
-            color: #999;
-            font-weight: 500;
-            margin-bottom: 32px;
-        }
-        
-        /* NEW ARRIVALS - Horizontal Carousel */
-        .new-arrival-card {
-            width: 220px;
-        }
-        
-        @media (max-width: 640px) {
-            .new-arrival-card { width: 160px; }
-        }
-        
-        /* HOT PRODUCTS - Auto Slider */
-        .hot-slider-wrapper {
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .hot-slider-track {
-            display: flex;
-            gap: 1rem;
-            width: max-content;
-        }
-        
-        .hot-product-card {
-            width: 240px;
+        .carousel-track .product-card {
             flex-shrink: 0;
         }
         
         @media (max-width: 640px) {
-            .hot-product-card { width: 170px; }
+            .product-img-container { aspect-ratio: 3/4; }
+            .hero-img { height: 50vh; min-height: 300px; }
         }
+        @media (min-width: 641px) and (max-width: 1023px) { .product-img-container { aspect-ratio: 3/4; } }
+        @media (min-width: 1024px) { .product-img-container { aspect-ratio: 3/4; } }
         
-        /* FEATURED / SALE - Grid */
-        .featured-grid, .sale-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .featured-grid, .sale-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        @media (max-width: 640px) {
-            .featured-grid, .sale-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-        }
-        
-        /* BEST SELLERS / LIMITED EDITION - Carousel */
-        .carousel-product-card {
-            width: 240px;
-        }
-        
-        @media (max-width: 640px) {
-            .carousel-product-card { width: 170px; }
-        }
-        
-        /* Sale Badge */
-        .sale-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: #ef4444;
-            color: white;
-            font-size: 8px;
-            font-weight: 900;
-            padding: 4px 10px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            z-index: 5;
-            letter-spacing: 0.05em;
-        }
-        
-        .limited-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: linear-gradient(135deg, #1a1a1a, #333);
-            color: #c9a96e;
-            font-size: 8px;
-            font-weight: 900;
-            padding: 4px 10px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            z-index: 5;
-            letter-spacing: 0.05em;
-            border: 1px solid #c9a96e;
-        }
-        
-        .new-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: #22c55e;
-            color: white;
-            font-size: 8px;
-            font-weight: 900;
-            padding: 4px 10px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            z-index: 5;
-            letter-spacing: 0.05em;
-        }
-        
-        .best-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: #c9a96e;
-            color: white;
-            font-size: 8px;
-            font-weight: 900;
-            padding: 4px 10px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            z-index: 5;
-            letter-spacing: 0.05em;
-        }
-        
-        .hot-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: #ef4444;
-            color: white;
-            font-size: 8px;
-            font-weight: 900;
-            padding: 4px 10px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            z-index: 5;
-            letter-spacing: 0.05em;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-        
-        /* Season Banner */
-        .season-banner {
-            position: relative;
-            border-radius: 2rem;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        }
-        
-        /* Footer Links */
-        .footer-link {
-            color: #999;
-            text-decoration: none;
-            font-size: 11px;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-link:hover {
-            color: #c9a96e;
-        }
-        
-        /* Toast */
-        #toast {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 200;
-            transform: translateX(120%);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-            max-width: calc(100vw - 32px);
-        }
-        
-        /* Cart Drawer */
-        #cart-drawer {
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        #cart-drawer.open { transform: translateX(0); }
-        
-        /* Loading Spinner */
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
-        /* Mobile Menu */
-        .mobile-menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 199;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+
+        @keyframes floatUp { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
         }
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .mobile-menu-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 85%;
-            max-width: 380px;
-            height: 100vh;
-            height: 100dvh;
-            background: white;
-            z-index: 200;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 10px 0 40px rgba(0,0,0,0.15);
-        }
-        .mobile-menu-drawer.open { transform: translateX(0); }
-        
-        .nav-link {
-            position: relative;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1.5px;
-            background: #c9a96e;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after { width: 100%; }
-        .nav-link:hover { color: #c9a96e; }
     </style>
 </head>
 <body class="antialiased">
@@ -483,8 +207,8 @@
         </div>
     </div>
 
-    <!-- Toast -->
-    <div id="toast">
+    <!-- Toast Notification -->
+    <div id="toast" style="position:fixed;top:16px;right:16px;z-index:200;transform:translateX(120%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);max-width:calc(100vw - 32px);">
         <div class="bg-white shadow-2xl rounded-2xl p-3 flex items-center gap-3 min-w-[260px] border border-gray-100">
             <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
             <p id="toast-text" class="text-xs font-bold flex-grow"></p>
@@ -492,295 +216,233 @@
         </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
-
-    <!-- Mobile Menu Drawer -->
-    <div class="mobile-menu-drawer" id="mobileMenuDrawer">
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #f0f0f0;">
-            <a href="/" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
-                <img src="https://www.jayenware.shop/logo.png" style="width:36px;height:36px;border-radius:8px;" alt="Logo">
-                <span style="font-weight:900;font-family:'Playfair Display',serif;font-size:18px;color:#1a1a1a;">JAYENWARE</span>
-            </a>
-            <button onclick="closeMobileMenu()" style="font-size:24px;color:#999;background:none;border:none;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-        <div style="flex:1;overflow-y:auto;padding:12px 20px;" id="mobileMenuContent"></div>
-        <div style="padding:20px;border-top:1px solid #f0f0f0;background:#fafafa;" id="mobileMenuFooter"></div>
-    </div>
-
-    <!-- Navigation -->
+    <!-- NAVIGATION -->
     <nav class="glass-nav fixed w-full top-0 z-50" id="main-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 lg:h-20 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline">
-                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg shadow-sm" alt="JAYENWARE Logo">
+            <!-- Logo -->
+            <a href="/" onclick="event.preventDefault();navigate('home')" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline" aria-label="JAYENWARE Home">
+                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg shadow-sm" alt="JAYENWARE Logo" loading="eager" width="40" height="40">
                 <span class="text-lg sm:text-xl lg:text-2xl font-black tracking-tight font-serif text-primary">JAYENWARE</span>
             </a>
             
-            <div class="hidden lg:flex items-center gap-0">
-                <a href="/" class="nav-link px-5">Home</a>
-                <a href="/products" class="nav-link px-5">Shop</a>
-                <a href="/journal" class="nav-link px-5">Journal</a>
-                <a href="/about" class="nav-link px-5">About</a>
+            <!-- Desktop Navigation Links -->
+            <div class="hidden lg:flex items-center gap-1">
+                <a href="/" onclick="event.preventDefault();navigate('home')" class="nav-link px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-primary hover:text-accent transition no-underline">Home</a>
+                <a href="/products" onclick="event.preventDefault();navigate('products')" class="nav-link px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-primary hover:text-accent transition no-underline">Shop</a>
+                <a href="/journal" onclick="event.preventDefault();navigate('news')" class="nav-link px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-primary hover:text-accent transition no-underline">Journal</a>
+                <a href="/about" onclick="event.preventDefault();navigate('about')" class="nav-link px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-primary hover:text-accent transition no-underline">About</a>
+                <a href="/contact" onclick="event.preventDefault();navigate('contact')" class="nav-link px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-primary hover:text-accent transition no-underline">Contact</a>
             </div>
 
+            <!-- Right Icons -->
             <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
-                <a href="/wishlist" class="relative p-1.5 no-underline text-primary hover:text-accent transition">
-                    <i class="fa-regular fa-heart text-lg lg:text-xl"></i>
-                    <span id="wish-count" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">0</span>
-                </a>
-                <button onclick="toggleCart()" class="relative p-1.5 text-primary hover:text-accent transition bg-transparent border-none cursor-pointer">
-                    <i class="fa-solid fa-bag-shopping text-lg lg:text-xl"></i>
-                    <span id="cart-count" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">0</span>
+                <!-- Search -->
+                <button onclick="toggleSearchBar()" class="text-lg p-1.5 text-primary hover:text-accent transition" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
+                
+                <!-- Wishlist -->
+                <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="relative p-1.5 no-underline text-primary hover:text-accent transition" aria-label="Wishlist">
+                    <i class="fa-regular fa-heart text-lg lg:text-xl"></i>
+                    <span id="wish-count" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                </a>
+                
+                <!-- Cart -->
+                <a href="/cart" onclick="event.preventDefault();toggleCart()" class="relative p-1.5 no-underline text-primary hover:text-accent transition" aria-label="Shopping Cart">
+                    <i class="fa-solid fa-bag-shopping text-lg lg:text-xl"></i>
+                    <span id="cart-count" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                </a>
+                
+                <!-- Auth / Account -->
                 <div id="auth-nav-area" class="hidden lg:block">
-                    <a href="/login" class="px-5 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-accent transition-all shadow-sm no-underline inline-block">Sign In</a>
+                    <a href="/login" class="px-4 py-2 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-accent transition-all shadow-sm no-underline inline-block">Sign In</a>
                 </div>
-                <button onclick="openMobileMenu()" class="lg:hidden text-xl p-1.5 text-primary hover:text-accent transition bg-transparent border-none cursor-pointer">
+                
+                <!-- Mobile Menu Toggle -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-xl p-1.5 text-primary hover:text-accent transition" aria-label="Menu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="pt-14 sm:pt-16 lg:pt-20">
         
-        <!-- HERO BANNER SLIDER -->
-        <section class="relative overflow-hidden bg-gray-100" style="height:50vh;min-height:280px;" id="hero-container">
-            <div id="hero-banner-slides" class="absolute inset-0"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
-            <div class="relative z-20 h-full flex flex-col justify-end pb-8 sm:pb-12 lg:pb-20 px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto w-full text-center">
-                <p id="hero-subtitle" class="text-white/80 text-[10px] sm:text-xs lg:text-sm font-medium uppercase tracking-[0.2em] mb-2 sm:mb-3"></p>
-                <h1 id="hero-title" class="text-white text-2xl sm:text-4xl lg:text-6xl xl:text-7xl font-black font-serif mb-4 sm:mb-6"></h1>
-                <div class="flex gap-2 sm:gap-3 justify-center">
-                    <a href="/products" class="px-5 sm:px-8 lg:px-10 py-2.5 sm:py-3 lg:py-4 bg-white text-primary rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-accent hover:text-white transition-all shadow-lg no-underline inline-block">Shop Now</a>
-                    <a href="/products" class="px-5 sm:px-8 lg:px-10 py-2.5 sm:py-3 lg:py-4 border-2 border-white text-white rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-primary transition-all no-underline inline-block">Explore</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- SEARCH BAR -->
-        <div class="max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto px-4 -mt-6 sm:-mt-8 relative z-30">
-            <div class="bg-white shadow-2xl rounded-2xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2">
-                <div class="relative flex-grow">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs sm:text-sm"></i>
-                    <input type="text" id="main-search-input" placeholder="Search products, categories..." autocomplete="off" class="w-full pl-8 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 lg:py-4 rounded-xl bg-gray-50 border-none outline-none text-xs sm:text-sm">
-                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border z-50 max-h-60 sm:max-h-80 overflow-y-auto custom-scroll"></div>
-                </div>
-                <button onclick="handleMainSearch()" class="px-4 sm:px-6 bg-primary text-white rounded-xl font-bold text-xs sm:text-sm hover:bg-accent transition shrink-0">Search</button>
+        <!-- Search Bar (Hidden by default) -->
+        <div id="search-bar" class="hidden px-4 pb-3 max-w-7xl mx-auto">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="global-search-input" placeholder="Search products..." class="w-full pl-9 pr-4 py-3 rounded-xl bg-gray-100 text-sm outline-none border-none">
+                <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border z-50 max-h-80 overflow-y-auto custom-scroll"></div>
             </div>
         </div>
+    </nav>
 
-        <!-- ==================== SECTION 1: NEW ARRIVALS ==================== -->
-        <section id="new-arrivals-section" class="py-10 sm:py-14 lg:py-20 hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex items-center justify-between mb-6 sm:mb-8">
-                    <div>
-                        <span class="section-badge bg-green-100 text-green-700"><i class="fa-solid fa-sparkles"></i> Just Dropped</span>
-                        <h2 class="section-title">New Arrivals</h2>
-                        <p class="section-subtitle">Fresh styles just landed. Be the first to grab them.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="scrollCarousel('new-arrivals-track', -300)" class="carousel-btn prev static transform-none mr-1"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button onclick="scrollCarousel('new-arrivals-track', 300)" class="carousel-btn next static transform-none"><i class="fa-solid fa-chevron-right"></i></button>
-                    </div>
-                </div>
-                <div class="carousel-container">
-                    <div id="new-arrivals-track" class="carousel-track" style="gap:1rem;"></div>
-                </div>
-                <div class="text-center mt-6">
-                    <a href="/products?filter=new" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View All New Arrivals <i class="fa-solid fa-arrow-right ml-1"></i></a>
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-drawer" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/50" onclick="toggleMobileMenu()"></div>
+        <div class="absolute top-0 left-0 w-4/5 max-w-sm h-full bg-white shadow-2xl p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-8">
+                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 rounded-lg" alt="Logo">
+                <button onclick="toggleMobileMenu()" class="text-2xl text-gray-400"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="flex flex-col gap-4 flex-grow">
+                <a href="/" onclick="event.preventDefault();navigate('home');toggleMobileMenu()" class="text-base font-bold text-primary no-underline">Home</a>
+                <a href="/products" onclick="event.preventDefault();navigate('products');toggleMobileMenu()" class="text-base font-bold text-primary no-underline">Shop</a>
+                <a href="/journal" onclick="event.preventDefault();navigate('news');toggleMobileMenu()" class="text-base font-bold text-primary no-underline">Journal</a>
+                <a href="/about" onclick="event.preventDefault();navigate('about');toggleMobileMenu()" class="text-base font-bold text-primary no-underline">About</a>
+                <a href="/contact" onclick="event.preventDefault();navigate('contact');toggleMobileMenu()" class="text-base font-bold text-primary no-underline">Contact</a>
+                <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist');toggleMobileMenu()" class="text-base font-bold text-primary no-underline">Wishlist</a>
+                <div id="mobile-auth-area" class="mt-auto pt-4 border-t">
+                    <a href="/login" class="block w-full py-3 bg-primary text-white rounded-xl text-center text-xs font-bold uppercase no-underline">Sign In</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <!-- ==================== SECTION 2: HOT PRODUCTS (Auto Slider) ==================== -->
-        <section id="hot-products-section" class="py-10 sm:py-14 lg:py-20 bg-soft hidden">
-            <div class="max-w-full mx-auto px-4">
-                <div class="text-center mb-6 sm:mb-8">
-                    <span class="section-badge bg-red-100 text-red-600"><i class="fa-solid fa-fire"></i> Trending Now</span>
-                    <h2 class="section-title">Hot Products</h2>
-                    <p class="section-subtitle">Everyone's talking about these. Don't miss out.</p>
-                </div>
-                <div class="hot-slider-wrapper">
-                    <div id="hot-products-track" class="hot-slider-track animate-slide"></div>
-                </div>
-                <div class="text-center mt-6">
-                    <a href="/products?filter=hot" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View All Hot Products <i class="fa-solid fa-arrow-right ml-1"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== SECTION 3: FEATURED PRODUCTS (Grid) ==================== -->
-        <section id="featured-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-6 sm:mb-8">
-                    <span class="section-badge bg-purple-100 text-purple-700"><i class="fa-solid fa-star"></i> Editor's Pick</span>
-                    <h2 class="section-title">Featured Products</h2>
-                    <p class="section-subtitle">Curated selection of our finest pieces.</p>
-                </div>
-                <div id="featured-products-grid" class="featured-grid"></div>
-                <div class="text-center mt-8">
-                    <a href="/products?filter=featured" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View All Featured <i class="fa-solid fa-arrow-right ml-1"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== SECTION 4: BEST SELLERS (Carousel) ==================== -->
-        <section id="best-sellers-section" class="py-10 sm:py-14 lg:py-20 bg-soft hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex items-center justify-between mb-6 sm:mb-8">
-                    <div>
-                        <span class="section-badge bg-amber-100 text-amber-700"><i class="fa-solid fa-crown"></i> Most Loved</span>
-                        <h2 class="section-title">Best Sellers</h2>
-                        <p class="section-subtitle">Tried, tested, and loved by our community.</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="scrollCarousel('best-sellers-track', -300)" class="carousel-btn prev static transform-none mr-1"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button onclick="scrollCarousel('best-sellers-track', 300)" class="carousel-btn next static transform-none"><i class="fa-solid fa-chevron-right"></i></button>
+    <!-- MAIN CONTENT -->
+    <main class="pt-14 sm:pt-16 lg:pt-20">
+        
+        <!-- ==================== HOME PAGE ==================== -->
+        <section id="home" class="page-section active-page fade-in">
+            
+            <!-- HERO SECTION -->
+            <div class="relative overflow-hidden hero-img bg-gray-100" style="height:60vh;min-height:350px;" id="hero-container">
+                <div id="hero-banner-slides" class="absolute inset-0"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
+                <div class="relative z-20 h-full flex flex-col justify-end pb-10 sm:pb-16 lg:pb-24 px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto w-full text-center">
+                    <p id="hero-subtitle" class="text-white/80 text-[10px] sm:text-xs lg:text-sm font-medium uppercase tracking-[0.2em] mb-2 sm:mb-3"></p>
+                    <h1 id="hero-title" class="text-white text-2xl sm:text-4xl lg:text-6xl xl:text-7xl font-black font-serif mb-4 sm:mb-6 leading-tight"></h1>
+                    <div class="flex gap-2 sm:gap-3 justify-center">
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-6 sm:px-8 lg:px-10 py-3 sm:py-4 bg-white text-primary rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-accent hover:text-white transition-all shadow-lg no-underline inline-block">Shop Now</a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-6 sm:px-8 lg:px-10 py-3 sm:py-4 border-2 border-white text-white rounded-full text-[10px] sm:text-xs lg:text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-primary transition-all no-underline inline-block">Explore</a>
                     </div>
                 </div>
-                <div class="carousel-container">
-                    <div id="best-sellers-track" class="carousel-track" style="gap:1rem;"></div>
-                </div>
-                <div class="text-center mt-6">
-                    <a href="/products?filter=best" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View All Best Sellers <i class="fa-solid fa-arrow-right ml-1"></i></a>
-                </div>
             </div>
+
+            <!-- ==================== DYNAMIC HOME SECTIONS ==================== -->
+            <div id="dynamic-home-sections"></div>
+
         </section>
 
-        <!-- ==================== SECTION 5: ON SALE (Grid) ==================== -->
-        <section id="sale-section" class="py-10 sm:py-14 lg:py-20 hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-6 sm:mb-8">
-                    <span class="section-badge bg-red-100 text-red-600"><i class="fa-solid fa-tag"></i> Limited Time</span>
-                    <h2 class="section-title">On Sale</h2>
-                    <p class="section-subtitle">Grab these deals before they're gone.</p>
-                </div>
-                <div id="sale-products-grid" class="sale-grid"></div>
-                <div class="text-center mt-8">
-                    <a href="/products?filter=sale" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View All Sale Items <i class="fa-solid fa-arrow-right ml-1"></i></a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ==================== SECTION 6: LIMITED EDITION (Carousel) ==================== -->
-        <section id="limited-edition-section" class="py-10 sm:py-14 lg:py-20 bg-soft hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex items-center justify-between mb-6 sm:mb-8">
-                    <div>
-                        <span class="section-badge bg-gray-800 text-amber-400"><i class="fa-solid fa-gem"></i> Exclusive</span>
-                        <h2 class="section-title">Limited Edition</h2>
-                        <p class="section-subtitle">Once they're gone, they're gone forever.</p>
+        <!-- ==================== PRODUCTS PAGE ==================== -->
+        <section id="products" class="page-section py-6 sm:py-8 lg:py-12">
+            <div class="max-w-7xl mx-auto px-3 sm:px-4">
+                <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+                    <!-- Sidebar Filters -->
+                    <aside class="hidden lg:block w-56 xl:w-64 shrink-0">
+                        <div class="sticky top-24 space-y-6">
+                            <div>
+                                <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider mb-3">Categories</h3>
+                                <div id="sidebar-categories" class="space-y-1 max-h-[60vh] overflow-y-auto custom-scroll pr-2"></div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider mb-3">Price Range</h3>
+                                <div class="flex gap-2">
+                                    <input type="number" id="filter-min-price" placeholder="Min" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs">
+                                    <input type="number" id="filter-max-price" placeholder="Max" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs">
+                                </div>
+                                <button onclick="applyPriceFilter()" class="mt-2 w-full py-2 bg-primary text-white rounded-lg text-[10px] font-bold uppercase">Apply</button>
+                            </div>
+                        </div>
+                    </aside>
+                    
+                    <!-- Products Grid -->
+                    <div class="flex-grow min-w-0">
+                        <div class="flex justify-between items-center mb-4 sm:mb-6">
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif truncate">All Products</h2>
+                            <div class="flex gap-1.5 sm:gap-2 shrink-0">
+                                <button onclick="toggleMobileFilters()" class="lg:hidden px-3 sm:px-4 py-2 border rounded-full text-[9px] sm:text-[10px] font-bold"><i class="fa-solid fa-sliders mr-1"></i>Filter</button>
+                                <select id="sort-select" onchange="handleSorting(this.value)" class="px-3 sm:px-4 py-2 border rounded-full text-[9px] sm:text-[10px] font-bold bg-white">
+                                    <option value="new">Latest</option>
+                                    <option value="price-low">Price: Low-High</option>
+                                    <option value="price-high">Price: High-Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5"></div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="scrollCarousel('limited-edition-track', -300)" class="carousel-btn prev static transform-none mr-1"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button onclick="scrollCarousel('limited-edition-track', 300)" class="carousel-btn next static transform-none"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                
+                <!-- Mobile Filter Modal -->
+                <div id="mobile-filter-modal" class="hidden fixed inset-0 z-[100] bg-white overflow-y-auto">
+                    <div class="p-4 sm:p-6">
+                        <div class="flex justify-between items-center mb-6"><h3 class="font-black text-lg uppercase">Filters</h3><button onclick="toggleMobileFilters()" class="text-2xl p-1">&times;</button></div>
+                        <div class="space-y-6">
+                            <div><h4 class="font-bold text-xs uppercase mb-3">Categories</h4><div id="mobile-filter-categories" class="space-y-1 max-h-[40vh] overflow-y-auto"></div></div>
+                            <div><h4 class="font-bold text-xs uppercase mb-3">Price Range</h4><div class="flex gap-2"><input type="number" id="m-filter-min-price" placeholder="Min" class="w-full p-3 border rounded-xl text-sm"><input type="number" id="m-filter-max-price" placeholder="Max" class="w-full p-3 border rounded-xl text-sm"></div></div>
+                        </div>
+                        <button onclick="applyMobileFilters();toggleMobileFilters()" class="w-full py-4 bg-primary text-white rounded-2xl font-bold mt-8 uppercase text-sm">Apply Filters</button>
                     </div>
                 </div>
-                <div class="carousel-container">
-                    <div id="limited-edition-track" class="carousel-track" style="gap:1rem;"></div>
-                </div>
-                <div class="text-center mt-6">
-                    <a href="/products?filter=limited" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View All Limited Edition <i class="fa-solid fa-arrow-right ml-1"></i></a>
-                </div>
             </div>
         </section>
 
-        <!-- ==================== SECTION 7: SEASONS (Dynamic) ==================== -->
-        <div id="home-seasons-wrapper"></div>
-
-        <!-- ==================== SECTION 8: RECENTLY VIEWED ==================== -->
-        <section id="recent-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="text-center mb-6 sm:mb-8">
-                    <span class="section-badge bg-gray-100 text-gray-600"><i class="fa-solid fa-clock-rotate-left"></i> Your History</span>
-                    <h2 class="section-title">Recently Viewed</h2>
-                </div>
-                <div class="carousel-container">
-                    <div id="recent-products-track" class="carousel-track" style="gap:1rem;"></div>
-                </div>
-            </div>
-        </section>
-
+        <!-- Other Pages Placeholder -->
+        <section id="product-details" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4" id="product-detail-content"></div></section>
+        <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-8 sm:mb-12">My Wishlist</h2><div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div><div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden"><i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i><p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p><a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition no-underline inline-block">Start Shopping</a></div></div></section>
+        <section id="news" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-2 sm:mb-4">The Journal</h2><p class="text-center text-gray-500 text-xs sm:text-sm mb-8 sm:mb-12">Style stories, guides & inspiration</p><div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"></div></div></section>
+        <section id="about" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-4xl mx-auto px-4 text-center"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif mb-6">About JAYENWARE</h2><p class="text-gray-600 leading-relaxed">Premium lifestyle brand by BINZEO. Crafting quality apparel and accessories for modern Bangladesh.</p></div></section>
+        <section id="contact" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-4xl mx-auto px-4 text-center"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif mb-6">Contact Us</h2><p class="text-gray-600">Email: binzeo369@gmail.com | Messenger: m.me/861762253694814</p></div></section>
     </main>
 
-    <!-- ==================== FOOTER ==================== -->
+    <!-- FOOTER -->
     <footer class="bg-primary text-gray-400 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 sm:mb-12">
-                <!-- Brand -->
                 <div class="col-span-2 md:col-span-1">
-                    <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3">JAYENWARE</h4>
-                    <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener" class="text-accent font-bold hover:text-white transition">BINZEO</a>.</p>
+                    <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3 sm:mb-4">JAYENWARE</h4>
+                    <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition">BINZEO</a>.</p>
                     <div class="flex gap-3 text-base sm:text-lg">
-                        <a href="https://www.facebook.com/share/1GAZnrgvH8/" target="_blank" rel="noopener" aria-label="Facebook" class="footer-link"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://www.facebook.com/jayenware" target="_blank" rel="noopener" aria-label="Messenger" class="footer-link"><i class="fa-brands fa-facebook-messenger"></i></a>
-                        <a href="https://www.instagram.com/jayenware" target="_blank" rel="noopener" aria-label="Instagram" class="footer-link"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://youtube.com/@jayenware" target="_blank" rel="noopener" aria-label="YouTube" class="footer-link"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.facebook.com/share/1GAZnrgvH8/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hover:text-accent transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-accent transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://youtube.com/@jayenware" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-accent transition"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
-                
-                <!-- Quick Links -->
                 <div>
-                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3">Quick Links</h5>
+                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Shop</h5>
                     <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                        <li><a href="/" class="footer-link">Home</a></li>
-                        <li><a href="/products" class="footer-link">All Products</a></li>
-                        <li><a href="/journal" class="footer-link">Journal</a></li>
-                        <li><a href="/wishlist" class="footer-link">Wishlist</a></li>
+                        <li><a href="/products" onclick="event.preventDefault();navigate('products')" class="hover:text-white transition no-underline">All Products</a></li>
+                        <li><a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="hover:text-white transition no-underline">Wishlist</a></li>
+                        <li><a href="/journal" onclick="event.preventDefault();navigate('news')" class="hover:text-white transition no-underline">Journal</a></li>
                     </ul>
                 </div>
-                
-                <!-- Information -->
                 <div>
-                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3">Information</h5>
+                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Company</h5>
                     <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                        <li><a href="/about" class="footer-link">About Us</a></li>
-                        <li><a href="/contact" class="footer-link">Contact Us</a></li>
-                        <li><a href="/shipping" class="footer-link">Shipping Info</a></li>
-                        <li><a href="/returns" class="footer-link">Returns & Exchange</a></li>
-                        <li><a href="/privacy" class="footer-link">Privacy Policy</a></li>
-                        <li><a href="/terms" class="footer-link">Terms & Conditions</a></li>
+                        <li><a href="/about" onclick="event.preventDefault();navigate('about')" class="hover:text-white transition no-underline">About Us</a></li>
+                        <li><a href="/contact" onclick="event.preventDefault();navigate('contact')" class="hover:text-white transition no-underline">Contact</a></li>
+                        <li><a href="/privacy" onclick="event.preventDefault();openPolicy('privacy')" class="hover:text-white transition no-underline">Privacy Policy</a></li>
+                        <li><a href="/terms" onclick="event.preventDefault();openPolicy('terms')" class="hover:text-white transition no-underline">Terms & Conditions</a></li>
+                        <li><a href="/shipping" onclick="event.preventDefault();openPolicy('shipping')" class="hover:text-white transition no-underline">Shipping Info</a></li>
+                        <li><a href="/returns" onclick="event.preventDefault();openPolicy('cookies')" class="hover:text-white transition no-underline">Returns & Exchange</a></li>
                     </ul>
                 </div>
-                
-                <!-- Support -->
                 <div>
-                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3">Support</h5>
-                    <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                        <li><a href="https://support.jayenware.shop" target="_blank" rel="noopener" class="footer-link">Help Center</a></li>
-                        <li><a href="https://verify.jayenware.shop" target="_blank" rel="noopener" class="footer-link">Verify Product</a></li>
-                        <li><a href="mailto:binzeo369@gmail.com" class="footer-link"><i class="fa-regular fa-envelope mr-1"></i> binzeo369@gmail.com</a></li>
-                        <li><a href="mailto:binzeo369@outlook.com" class="footer-link"><i class="fa-regular fa-envelope mr-1"></i> binzeo369@outlook.com</a></li>
-                    </ul>
-                    <div class="flex flex-wrap gap-2 mt-4">
+                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">We Accept</h5>
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506245655_download_(2).jpeg" alt="Google Pay" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
                         <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506292766_download_(1).png" alt="Visa" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
                         <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506270475_download_(1).jpeg" alt="Mastercard" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506143729_download_(2).png" alt="Cash on Delivery" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
                     </div>
+                    <p class="text-[9px] text-gray-500"><i class="fa-regular fa-envelope"></i> binzeo369@gmail.com</p>
                 </div>
             </div>
-            
             <div class="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-[9px] sm:text-[10px] uppercase tracking-wider">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener" class="text-accent font-bold hover:text-white transition no-underline">BINZEO</a></p>
+                <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition no-underline">BINZEO</a></p>
                 <p class="text-[8px] sm:text-[9px]">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Cart Drawer -->
-    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col">
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300">
         <div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft">
             <h2 class="text-base sm:text-lg font-black uppercase">Shopping Bag</h2>
-            <button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition bg-transparent border-none cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div>
         <div class="p-4 sm:p-6 border-t bg-soft">
-            <div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs">
-                <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div>
-                <div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div>
+            <div class="flex justify-between mb-4 text-sm">
+                <span>Total</span>
+                <span id="cart-total" class="text-lg font-black">৳ 0.00</span>
             </div>
             <a href="/checkout" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition shadow-lg no-underline text-center block">Checkout</a>
         </div>
@@ -788,146 +450,148 @@
 
     <!-- Messenger Button -->
     <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-        <a href="https://m.me/861762253694814" target="_blank" rel="noopener" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-accent transition-all no-underline">
+        <a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-accent transition-all no-underline">
             <i class="fa-brands fa-facebook-messenger"></i>
         </a>
         <span class="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></span>
     </div>
 
-    <script>
-        // ==================== SUPABASE CONFIG ====================
-        
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    <!-- Policy Modal -->
+    <div id="policy-modal" class="fixed inset-0 z-[130] hidden items-center justify-center p-4 bg-black/50">
+        <div class="bg-white w-full max-w-2xl rounded-3xl p-6 sm:p-10 relative max-h-[80vh] overflow-y-auto custom-scroll">
+            <button onclick="document.getElementById('policy-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-primary text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="policy-title" class="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6"></h2>
+            <div id="policy-content" class="text-xs sm:text-sm text-gray-600 leading-relaxed space-y-3 sm:space-y-4"></div>
+        </div>
+    </div>
 
-        // ==================== STATE ====================
-        let currentData = { products: [], categories: [], hero: [], seasons: [], seasonProducts: [] };
+    <script>
+        // ==================== INITIALIZATION ====================
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // State
+        let userSession = null;
         let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
         let wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
-        let userSession = null;
-        let heroSlideInterval;
-        let currentHeroSlide = 0;
+        let currentData = { 
+            products: [], categories: [], news: [], hero: [], 
+            deliveryCharges: [], variants: [], reviews: [], 
+            seasons: [], seasonProducts: [], videos: [] 
+        };
+        let currentSlide = 0, slideInterval;
+        let currentFilters = { cat: 'all', minPrice: null, maxPrice: null };
+        let selectedVariantObj = null;
+        let appliedPromo = null;
+        const BASE_URL = 'https://www.jayenware.shop';
+        
+        // URL Routing Map
+        const URL_MAP = {
+            'home': '/', 'products': '/products', 'product-details': '/product/',
+            'wishlist': '/wishlist', 'news': '/journal', 'about': '/about',
+            'contact': '/contact', 'cart': '/cart', 'checkout': '/checkout'
+        };
 
-        // ==================== TOAST ====================
-        function showToast(text, type = 'success') {
+        // ==================== UTILITY FUNCTIONS ====================
+        function showToast(text, type='success') {
             const toast = document.getElementById('toast');
             document.getElementById('toast-text').innerText = text;
             const icon = document.getElementById('toast-icon');
-            if (type === 'success') { icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-green-100 text-green-600 shrink-0'; icon.innerHTML = '<i class="fa-solid fa-check"></i>'; }
-            else if (type === 'error') { icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-red-100 text-red-600 shrink-0'; icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>'; }
+            if(type === 'success') { icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-green-100 text-green-600 shrink-0'; icon.innerHTML = '<i class="fa-solid fa-check"></i>'; }
+            else if(type === 'error') { icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-red-100 text-red-600 shrink-0'; icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>'; }
             else { icon.className = 'w-8 h-8 rounded-full flex items-center justify-center text-sm bg-blue-100 text-blue-600 shrink-0'; icon.innerHTML = '<i class="fa-solid fa-info"></i>'; }
             toast.style.transform = 'translateX(0)';
             clearTimeout(toast._timeout);
             toast._timeout = setTimeout(() => { toast.style.transform = 'translateX(120%)'; }, 3000);
         }
+        
         function hideToast() { document.getElementById('toast').style.transform = 'translateX(120%)'; }
-
-        // ==================== MOBILE MENU ====================
-        function openMobileMenu() {
-            document.getElementById('mobileMenuDrawer').classList.add('open');
-            document.getElementById('mobileMenuOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderMobileMenu();
+        
+        function getProductSlug(product) {
+            if (!product || !product.title) return '';
+            return product.title.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 80);
         }
-        function closeMobileMenu() {
-            document.getElementById('mobileMenuDrawer').classList.remove('open');
-            document.getElementById('mobileMenuOverlay').classList.remove('active');
-            document.body.style.overflow = '';
+        
+        function getCategorySlug(category) {
+            if (!category) return '';
+            return category.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '');
         }
-        function renderMobileMenu() {
-            const content = document.getElementById('mobileMenuContent');
-            content.innerHTML = `
-                <a href="/" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5;font-size:14px;font-weight:600;color:#1a1a1a;text-decoration:none;"><span><i class="fa-solid fa-house mr-3 text-gray-300"></i> Home</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-                <a href="/products" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5;font-size:14px;font-weight:600;color:#1a1a1a;text-decoration:none;"><span><i class="fa-solid fa-bag-shopping mr-3 text-gray-300"></i> Shop</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-                <a href="/journal" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5;font-size:14px;font-weight:600;color:#1a1a1a;text-decoration:none;"><span><i class="fa-solid fa-newspaper mr-3 text-gray-300"></i> Journal</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-                <a href="/about" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5;font-size:14px;font-weight:600;color:#1a1a1a;text-decoration:none;"><span><i class="fa-solid fa-circle-info mr-3 text-gray-300"></i> About</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-                <a href="/contact" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5;font-size:14px;font-weight:600;color:#1a1a1a;text-decoration:none;"><span><i class="fa-solid fa-envelope mr-3 text-gray-300"></i> Contact</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-                <a href="/wishlist" style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #f5f5f5;font-size:14px;font-weight:600;color:#1a1a1a;text-decoration:none;"><span><i class="fa-regular fa-heart mr-3 text-gray-300"></i> Wishlist</span><i class="fa-solid fa-chevron-right text-xs text-gray-300"></i></a>
-            `;
-            const footer = document.getElementById('mobileMenuFooter');
-            if (userSession) {
-                footer.innerHTML = `<a href="/account" style="display:block;width:100%;padding:14px;border-radius:14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;text-align:center;background:#1a1a1a;color:white;text-decoration:none;margin-bottom:8px;">My Account</a><button onclick="handleLogout();closeMobileMenu()" style="display:block;width:100%;padding:14px;border-radius:14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;text-align:center;background:transparent;color:#ef4444;border:2px solid #ef4444;cursor:pointer;">Sign Out</button>`;
-            } else {
-                footer.innerHTML = `<a href="/login" style="display:block;width:100%;padding:14px;border-radius:14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;text-align:center;background:#1a1a1a;color:white;text-decoration:none;margin-bottom:8px;">Sign In</a><a href="/sign-up" style="display:block;width:100%;padding:14px;border-radius:14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;text-align:center;background:transparent;color:#1a1a1a;border:2px solid #1a1a1a;text-decoration:none;">Create Account</a>`;
-            }
+        
+        function updateURL(path, title = '') {
+            const url = path.startsWith('/') ? path : '/' + path;
+            window.history.pushState({ path: url }, title || 'JAYENWARE', url);
+            document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE Official Store';
         }
-
-        // ==================== CART ====================
-        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('open'); renderCartItems(); }
-        function saveCart() { localStorage.setItem('jayen_cart', JSON.stringify(cart)); updateCounts(); }
-        function updateCounts() { document.getElementById('cart-count').innerText = cart.length; document.getElementById('wish-count').innerText = wishlist.length; }
-        function addToCart(productId) {
-            const product = currentData.products.find(p => p.id === productId);
-            if (!product) return;
-            cart.push({ id: Date.now(), product_id: product.id, title: product.title, price: product.price, img: product.img, quantity: 1 });
-            saveCart();
-            showToast('Added to Bag!');
+        
+        function navigate(pageId, params = null) {
+            const mainContent = document.querySelector('main');
+            mainContent.style.opacity = '0.8';
+            
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.querySelectorAll('.page-section').forEach(s => { s.classList.remove('active-page', 'fade-in'); });
+                
+                const target = document.getElementById(pageId);
+                if (!target) return;
+                
+                target.classList.add('active-page', 'fade-in');
+                let urlPath = URL_MAP[pageId] || '/' + pageId;
+                updateURL(urlPath);
+                
+                // Trigger section renders
+                if (pageId === 'home') renderHomepageSections();
+                if (pageId === 'wishlist') renderWishlist();
+                if (pageId === 'products') renderProducts(getFilteredProducts());
+                if (pageId === 'news') renderNews(currentData.news);
+                
+                setTimeout(() => { mainContent.style.opacity = '1'; }, 100);
+            });
         }
-        function removeFromCart(idx) { cart.splice(idx, 1); saveCart(); renderCartItems(); }
-        function renderCartItems() {
-            const container = document.getElementById('cart-items');
-            const subtotalEl = document.getElementById('cart-subtotal');
-            const totalEl = document.getElementById('cart-total');
-            if (!cart.length) {
-                container.innerHTML = '<p class="text-center text-gray-400 py-10 text-sm">Your bag is empty</p>';
-                subtotalEl.innerText = '৳ 0.00';
-                totalEl.innerText = '৳ 0.00';
-                return;
-            }
-            let sub = 0;
-            container.innerHTML = cart.map((item, idx) => {
-                sub += item.price;
-                return `<div class="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-soft rounded-2xl">
-                    <img src="${item.img}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-xl shrink-0" alt="${item.title}">
-                    <div class="flex-grow min-w-0">
-                        <h4 class="text-xs sm:text-sm font-bold truncate">${item.title}</h4>
-                        <p class="text-xs sm:text-sm font-black">৳${item.price}</p>
-                    </div>
-                    <button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-1.5 shrink-0 bg-transparent border-none cursor-pointer"><i class="fa-solid fa-trash text-xs sm:text-sm"></i></button>
-                </div>`;
-            }).join('');
-            subtotalEl.innerText = `৳${sub.toFixed(2)}`;
-            totalEl.innerText = `৳${sub.toFixed(2)}`;
+        
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu-drawer').classList.toggle('hidden');
+        }
+        
+        function toggleSearchBar() {
+            document.getElementById('search-bar').classList.toggle('hidden');
+        }
+        
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('translate-x-full');
+            renderCartItems();
+        }
+        
+        function toggleMobileFilters() {
+            document.getElementById('mobile-filter-modal').classList.toggle('hidden');
         }
 
-        // ==================== WISHLIST ====================
-        function toggleWishlist(id) {
-            wishlist.includes(id) ? wishlist = wishlist.filter(x => x !== id) : wishlist.push(id);
-            localStorage.setItem('jayen_wish', JSON.stringify(wishlist));
-            updateCounts();
-            showToast('Wishlist Updated', 'info');
-        }
-
-        // ==================== PRODUCT CARD HTML ====================
-        function buildProductCard(p, badgeType = null) {
+        // ==================== PRODUCT CARD COMPONENT ====================
+        function productCard(p) {
             const isOut = p.stock <= 0;
             const wished = wishlist.includes(p.id);
-            let badgeHTML = '';
-            if (badgeType === 'new') badgeHTML = '<span class="new-badge">New</span>';
-            else if (badgeType === 'hot') badgeHTML = '<span class="hot-badge">Hot</span>';
-            else if (badgeType === 'best') badgeHTML = '<span class="best-badge">Best Seller</span>';
-            else if (badgeType === 'sale') badgeHTML = '<span class="sale-badge">Sale</span>';
-            else if (badgeType === 'limited') badgeHTML = '<span class="limited-badge">Limited</span>';
-            else if (badgeType === 'featured') badgeHTML = '<span class="new-badge" style="background:#8b5cf6;">Featured</span>';
-            
             return `
-            <a href="/product/${p.id}" onclick="event.preventDefault();" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block relative">
+            <a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" 
+               class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block">
                 <div class="product-img-container" style="aspect-ratio:3/4;">
                     <img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy">
-                    ${badgeHTML}
-                    <button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished ? 'text-red-500' : 'text-gray-400'} shadow-lg active:scale-95 transition z-10 bg-transparent border-none cursor-pointer">
+                    ${isOut ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-white text-[8px] sm:text-[10px] font-black px-3 py-1 rounded-full uppercase">Sold Out</span></div>' : ''}
+                    ${p.is_hot && !isOut ? '<div class="absolute top-2 left-2 bg-red-500 text-white text-[7px] font-black px-2 py-0.5 rounded-full uppercase">Hot</div>' : ''}
+                    ${p.is_new_arrival && !isOut ? '<div class="absolute top-2 left-2 bg-green-500 text-white text-[7px] font-black px-2 py-0.5 rounded-full uppercase">New</div>' : ''}
+                    <button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" 
+                            class="absolute top-2 right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished ? 'text-red-500' : 'text-gray-400'} shadow-lg active:scale-95 transition">
                         <i class="fa-${wished ? 'solid' : 'regular'} fa-heart text-[10px] sm:text-xs"></i>
                     </button>
-                    ${isOut ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center z-10"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>' : ''}
                 </div>
                 <div class="p-2.5 sm:p-4">
-                    <p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category || ''}</p>
+                    <p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p>
                     <h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3>
                     <div class="flex justify-between items-end">
                         <div>
                             <span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>
                             ${p.old_price ? `<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>` : ''}
                         </div>
-                        <button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut ? 'disabled' : ''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut ? 'bg-gray-100' : 'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90 border-none cursor-pointer">
+                        <button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut ? 'disabled' : ''} 
+                                class="w-7 h-7 sm:w-8 sm:h-8 ${isOut ? 'bg-gray-100' : 'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90">
                             <i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
@@ -935,31 +599,113 @@
             </a>`;
         }
 
-        // ==================== CAROUSEL SCROLL ====================
-        function scrollCarousel(trackId, amount) {
-            const track = document.getElementById(trackId);
+        // ==================== SECTION BUILDERS ====================
+        function buildSectionHTML(title, subtitle, icon, products, linkUrl, sectionClass = '') {
+            if (!products || products.length === 0) return '';
+            return `
+            <section class="py-10 sm:py-14 lg:py-20 ${sectionClass}">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            ${icon ? `<span class="w-8 h-8 sm:w-10 sm:h-10 bg-primary text-white flex items-center justify-center rounded-full text-base sm:text-lg">${icon}</span>` : ''}
+                            <div>
+                                ${subtitle ? `<p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-accent">${subtitle}</p>` : ''}
+                                <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">${title}</h2>
+                            </div>
+                        </div>
+                        <a href="${linkUrl}" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                        ${products.slice(0, 4).map(p => productCard(p)).join('')}
+                    </div>
+                </div>
+            </section>`;
+        }
+        
+        function buildCarouselHTML(title, subtitle, icon, products, linkUrl, sectionClass = '') {
+            if (!products || products.length === 0) return '';
+            const carouselId = 'carousel-' + title.toLowerCase().replace(/\s+/g, '-');
+            return `
+            <section class="py-10 sm:py-14 lg:py-20 ${sectionClass}">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            ${icon ? `<span class="w-8 h-8 sm:w-10 sm:h-10 bg-primary text-white flex items-center justify-center rounded-full text-base sm:text-lg">${icon}</span>` : ''}
+                            <div>
+                                ${subtitle ? `<p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-accent">${subtitle}</p>` : ''}
+                                <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">${title}</h2>
+                            </div>
+                        </div>
+                        <a href="${linkUrl}" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                    </div>
+                    <div class="carousel-container relative">
+                        <div id="${carouselId}" class="carousel-track gap-3 sm:gap-4 lg:gap-6">
+                            ${products.map(p => `<div class="product-card shrink-0" style="width:calc(25% - 1rem);min-width:200px;">${productCard(p)}</div>`).join('')}
+                        </div>
+                        <button onclick="scrollCarousel('${carouselId}', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button onclick="scrollCarousel('${carouselId}', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-white shadow-lg rounded-full flex items-center justify-center"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </section>`;
+        }
+        
+        function scrollCarousel(id, amount) {
+            const track = document.getElementById(id);
             if (track) track.scrollBy({ left: amount, behavior: 'smooth' });
         }
 
-        // ==================== HERO BANNER ====================
+        // ==================== RENDER HOME SECTIONS ====================
+        function renderHomepageSections() {
+            const products = currentData.products;
+            let html = '';
+            
+            // 1. NEW ARRIVALS (Carousel)
+            const newArrivals = products.filter(p => p.is_new_arrival);
+            html += buildCarouselHTML('New Arrivals', 'Fresh Drops', '<i class="fa-solid fa-sparkles"></i>', newArrivals, '/products', 'bg-soft');
+            
+            // 2. HOT PRODUCTS (Grid)
+            const hotProducts = products.filter(p => p.is_hot);
+            html += buildSectionHTML('Trending Now', 'Hot Picks', '<i class="fa-solid fa-fire"></i>', hotProducts, '/products');
+            
+            // 3. FEATURED PRODUCTS (Grid)
+            const featuredProducts = products.filter(p => p.is_featured);
+            html += buildSectionHTML('Featured Collection', 'Editor\'s Choice', '<i class="fa-solid fa-star"></i>', featuredProducts, '/products', 'bg-soft');
+            
+            // 4. BEST SELLERS (Carousel)
+            const bestSellers = products.filter(p => p.is_best);
+            html += buildCarouselHTML('Best Sellers', 'Most Popular', '<i class="fa-solid fa-crown"></i>', bestSellers, '/products');
+            
+            // 5. ON SALE (Grid)
+            const onSale = products.filter(p => p.is_on_sale);
+            html += buildSectionHTML('On Sale', 'Limited Time', '<i class="fa-solid fa-tag"></i>', onSale, '/products', 'bg-soft');
+            
+            // 6. LIMITED EDITION (Carousel)
+            const limitedEdition = products.filter(p => p.is_limited_edition);
+            html += buildCarouselHTML('Limited Edition', 'Exclusive Drops', '<i class="fa-solid fa-gem"></i>', limitedEdition, '/products');
+            
+            document.getElementById('dynamic-home-sections').innerHTML = html;
+        }
+        
         function renderHero() {
             const container = document.getElementById('hero-banner-slides');
             const list = currentData.hero;
-            if (!list.length) {
-                container.innerHTML = '<div class="w-full h-full bg-primary"></div>';
-                document.getElementById('hero-title').innerText = 'JAYENWARE';
-                document.getElementById('hero-subtitle').innerText = 'Premium Lifestyle';
-                return;
-            }
-            container.innerHTML = list.map((h, i) => `<div class="hero-slide absolute inset-0 transition-opacity duration-1000 ${i === 0 ? '' : 'opacity-0'}"><img src="${h.img}" alt="${h.title || 'Banner'}" class="w-full h-full object-cover"></div>`).join('');
+            if (!list.length) { container.innerHTML = '<div class="w-full h-full bg-primary"></div>'; return; }
+            container.innerHTML = list.map((h, i) => `
+                <div class="hero-slide absolute inset-0 transition-opacity duration-1000 ${i === 0 ? '' : 'opacity-0'}">
+                    <img src="${h.img}" alt="${h.title || 'JAYENWARE Hero'}" class="w-full h-full object-cover" loading="${i === 0 ? 'eager' : 'lazy'}">
+                </div>
+            `).join('');
             updateHeroText(0);
-            clearInterval(heroSlideInterval);
-            if (list.length > 1) heroSlideInterval = setInterval(() => { currentHeroSlide = (currentHeroSlide + 1) % list.length; updateHeroSlide(); }, 5000);
+            clearInterval(slideInterval);
+            if (list.length > 1) {
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % list.length;
+                    document.querySelectorAll('.hero-slide').forEach((s, i) => s.classList.toggle('opacity-0', i !== currentSlide));
+                    updateHeroText(currentSlide);
+                }, 5000);
+            }
         }
-        function updateHeroSlide() {
-            document.querySelectorAll('.hero-slide').forEach((s, i) => s.classList.toggle('opacity-0', i !== currentHeroSlide));
-            updateHeroText(currentHeroSlide);
-        }
+        
         function updateHeroText(i) {
             const d = currentData.hero[i];
             if (d) {
@@ -968,146 +714,242 @@
             }
         }
 
-        // ==================== RENDER HOME SECTIONS ====================
-        function renderAllHomeSections() {
-            const products = currentData.products;
-            
-            // 1. NEW ARRIVALS
-            const newArrivals = products.filter(p => p.is_new_arrival);
-            const newSec = document.getElementById('new-arrivals-section');
-            if (newArrivals.length) {
-                newSec.classList.remove('hidden');
-                document.getElementById('new-arrivals-track').innerHTML = newArrivals.map(p => `<div class="carousel-card new-arrival-card">${buildProductCard(p, 'new')}</div>`).join('');
-            } else newSec.classList.add('hidden');
-            
-            // 2. HOT PRODUCTS
-            const hotProducts = products.filter(p => p.is_hot);
-            const hotSec = document.getElementById('hot-products-section');
-            if (hotProducts.length) {
-                hotSec.classList.remove('hidden');
-                // Duplicate for seamless loop
-                const hotHTML = hotProducts.map(p => `<div class="hot-product-card">${buildProductCard(p, 'hot')}</div>`).join('');
-                document.getElementById('hot-products-track').innerHTML = hotHTML + hotHTML;
-            } else hotSec.classList.add('hidden');
-            
-            // 3. FEATURED PRODUCTS
-            const featured = products.filter(p => p.is_featured);
-            const featSec = document.getElementById('featured-products-section');
-            if (featured.length) {
-                featSec.classList.remove('hidden');
-                document.getElementById('featured-products-grid').innerHTML = featured.slice(0, 8).map(p => buildProductCard(p, 'featured')).join('');
-            } else featSec.classList.add('hidden');
-            
-            // 4. BEST SELLERS
-            const best = products.filter(p => p.is_best);
-            const bestSec = document.getElementById('best-sellers-section');
-            if (best.length) {
-                bestSec.classList.remove('hidden');
-                document.getElementById('best-sellers-track').innerHTML = best.map(p => `<div class="carousel-card carousel-product-card">${buildProductCard(p, 'best')}</div>`).join('');
-            } else bestSec.classList.add('hidden');
-            
-            // 5. ON SALE
-            const sale = products.filter(p => p.is_on_sale);
-            const saleSec = document.getElementById('sale-section');
-            if (sale.length) {
-                saleSec.classList.remove('hidden');
-                document.getElementById('sale-products-grid').innerHTML = sale.slice(0, 8).map(p => buildProductCard(p, 'sale')).join('');
-            } else saleSec.classList.add('hidden');
-            
-            // 6. LIMITED EDITION
-            const limited = products.filter(p => p.is_limited_edition);
-            const limSec = document.getElementById('limited-edition-section');
-            if (limited.length) {
-                limSec.classList.remove('hidden');
-                document.getElementById('limited-edition-track').innerHTML = limited.map(p => `<div class="carousel-card carousel-product-card">${buildProductCard(p, 'limited')}</div>`).join('');
-            } else limSec.classList.add('hidden');
-            
-            // 7. SEASONS
-            renderSeasons();
-            
-            // 8. RECENTLY VIEWED
-            renderRecentlyViewed();
+        // ==================== RENDER PRODUCTS ====================
+        function getFilteredProducts() {
+            let list = currentData.products;
+            if (currentFilters.cat !== 'all') list = list.filter(p => p.category === currentFilters.cat);
+            if (currentFilters.minPrice) list = list.filter(p => p.price >= currentFilters.minPrice);
+            if (currentFilters.maxPrice) list = list.filter(p => p.price <= currentFilters.maxPrice);
+            return list;
+        }
+        
+        function renderProducts(list) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = list.length ? list.map(p => productCard(p)).join('') : '<div class="col-span-full text-center py-20"><p class="text-gray-400 text-lg">No products found</p></div>';
+        }
+        
+        function renderCategories() {
+            document.getElementById('sidebar-categories').innerHTML = `
+                <a href="/products" onclick="event.preventDefault();filterByCategory('all')" class="block w-full text-left py-2 px-3 rounded-lg text-[10px] sm:text-xs font-bold hover:bg-gray-100 transition no-underline text-primary ${currentFilters.cat === 'all' ? 'bg-primary text-white' : ''}">All</a>
+                ${currentData.categories.map(c => `
+                <a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();filterByCategory('${c.name}')" class="block w-full text-left py-2 px-3 rounded-lg text-[10px] sm:text-xs font-bold hover:bg-gray-100 transition no-underline text-primary ${currentFilters.cat === c.name ? 'bg-primary text-white' : ''}">${c.name}</a>
+                `).join('')}
+            `;
+        }
+        
+        function filterByCategory(cat) {
+            currentFilters.cat = cat;
+            renderProducts(getFilteredProducts());
+            updateURL('/category/' + getCategorySlug(cat), cat);
+        }
+        
+        function applyPriceFilter() {
+            currentFilters.minPrice = parseFloat(document.getElementById('filter-min-price').value) || null;
+            currentFilters.maxPrice = parseFloat(document.getElementById('filter-max-price').value) || null;
+            renderProducts(getFilteredProducts());
+        }
+        
+        function applyMobileFilters() {
+            currentFilters.minPrice = parseFloat(document.getElementById('m-filter-min-price').value) || null;
+            currentFilters.maxPrice = parseFloat(document.getElementById('m-filter-max-price').value) || null;
+            renderProducts(getFilteredProducts());
+        }
+        
+        function handleSorting(type) {
+            let sorted = [...getFilteredProducts()];
+            if (type === 'price-low') sorted.sort((a, b) => a.price - b.price);
+            else if (type === 'price-high') sorted.sort((a, b) => b.price - a.price);
+            else sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            renderProducts(sorted);
         }
 
-        function renderSeasons() {
-            const wrapper = document.getElementById('home-seasons-wrapper');
-            const seasons = currentData.seasons || [];
-            let html = '';
-            seasons.forEach(season => {
-                const spIds = (currentData.seasonProducts || []).filter(sp => sp.season_id === season.id).map(sp => sp.product_id);
-                const seasonProds = spIds.map(id => currentData.products.find(p => p.id === id)).filter(p => p).slice(0, 4);
-                if (!seasonProds.length) return;
-                html += `
-                <section class="py-10 sm:py-14 lg:py-20">
-                    <div class="max-w-7xl mx-auto px-4">
-                        <div class="text-center mb-6 sm:mb-8">
-                            <span class="section-badge bg-accent/20 text-accent"><i class="fa-solid fa-calendar-star"></i> ${season.subtitle || 'Season'}</span>
-                            <h2 class="section-title">${season.name}</h2>
+        // ==================== CART & WISHLIST ====================
+        function addToCart(productId) {
+            const product = currentData.products.find(p => p.id === productId);
+            if (!product || product.stock <= 0) return showToast('Out of stock', 'error');
+            cart.push({ id: Date.now(), product_id: product.id, title: product.title, price: product.price, img: product.img, quantity: 1 });
+            saveCart();
+            showToast('Added to Bag!');
+        }
+        
+        function saveCart() {
+            localStorage.setItem('jayen_cart', JSON.stringify(cart));
+            updateCounts();
+        }
+        
+        function removeFromCart(idx) {
+            cart.splice(idx, 1);
+            saveCart();
+            renderCartItems();
+        }
+        
+        function renderCartItems() {
+            const container = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            if (!cart.length) {
+                container.innerHTML = '<p class="text-center text-gray-400 py-10 text-sm">Your bag is empty</p>';
+                totalEl.innerText = '৳ 0.00';
+                return;
+            }
+            let total = 0;
+            container.innerHTML = cart.map((item, idx) => {
+                total += item.price;
+                return `
+                <div class="flex gap-3 p-3 bg-soft rounded-2xl">
+                    <img src="${item.img}" class="w-14 h-14 object-cover rounded-xl shrink-0" alt="${item.title}">
+                    <div class="flex-grow min-w-0">
+                        <h4 class="text-xs font-bold truncate">${item.title}</h4>
+                        <p class="text-xs font-black">৳${item.price}</p>
+                    </div>
+                    <button onclick="removeFromCart(${idx})" class="text-red-400 hover:text-red-600 p-1.5 shrink-0"><i class="fa-solid fa-trash text-xs"></i></button>
+                </div>`;
+            }).join('');
+            totalEl.innerText = `৳ ${total.toFixed(2)}`;
+        }
+        
+        function toggleWishlist(id) {
+            if (wishlist.includes(id)) wishlist = wishlist.filter(x => x !== id);
+            else wishlist.push(id);
+            localStorage.setItem('jayen_wish', JSON.stringify(wishlist));
+            updateCounts();
+            showToast('Wishlist Updated', 'info');
+            if (document.getElementById('wishlist').classList.contains('active-page')) renderWishlist();
+        }
+        
+        function renderWishlist() {
+            const list = currentData.products.filter(p => wishlist.includes(p.id));
+            document.getElementById('wishlist-grid').innerHTML = list.length ? list.map(p => productCard(p)).join('') : '';
+            document.getElementById('wishlist-empty').classList.toggle('hidden', list.length > 0);
+        }
+        
+        function updateCounts() {
+            document.getElementById('cart-count').innerText = cart.length;
+            document.getElementById('wish-count').innerText = wishlist.length;
+        }
+
+        // ==================== NEWS ====================
+        function renderNews(list) {
+            document.getElementById('news-grid').innerHTML = list.map(n => `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm group cursor-pointer">
+                    <div style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div>
+                    <div class="p-4 sm:p-6">
+                        <p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-1 sm:mb-2">Style</p>
+                        <h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3>
+                        <p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==================== PRODUCT DETAILS ====================
+        function openProductDetails(productId) {
+            const product = currentData.products.find(p => p.id === productId);
+            if (!product) return;
+            navigate('product-details');
+            document.getElementById('product-detail-content').innerHTML = `
+                <div class="max-w-7xl mx-auto px-3 sm:px-4">
+                    <a href="/products" onclick="event.preventDefault();navigate('products')" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline"><i class="fa-solid fa-arrow-left"></i> Back to Collection</a>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+                        <div class="rounded-3xl overflow-hidden shadow-2xl bg-gray-100" style="aspect-ratio:3/4;">
+                            <img src="${product.img}" alt="${product.title}" class="w-full h-full object-cover">
                         </div>
-                        ${season.banner_img ? `<div class="mb-8"><div class="season-banner rounded-3xl shadow-xl" style="aspect-ratio:21/9;max-height:400px;"><img src="${season.banner_img}" alt="${season.name}" class="w-full h-full object-cover rounded-3xl" loading="lazy"></div></div>` : ''}
-                        <div class="featured-grid">${seasonProds.map(p => buildProductCard(p)).join('')}</div>
-                        <div class="text-center mt-8">
-                            <a href="/products" class="text-[11px] font-bold text-primary hover:text-accent transition no-underline uppercase tracking-wider">View Collection <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-accent">${product.category}</span>
+                            <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black font-serif mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1>
+                            <div class="mb-4 sm:mb-6">
+                                <span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>
+                                ${product.old_price ? `<span class="ml-2 sm:ml-3 text-base sm:text-lg text-gray-400 line-through">৳${product.old_price}</span>` : ''}
+                            </div>
+                            <div class="flex items-center gap-2 mb-4 sm:mb-6">
+                                <span class="w-2 h-2 rounded-full ${product.stock <= 0 ? 'bg-red-500' : 'bg-green-500'}"></span>
+                                <span class="text-[10px] sm:text-xs font-bold ${product.stock <= 0 ? 'text-red-500' : 'text-green-600'}">${product.stock <= 0 ? 'Out of Stock' : `In Stock: ${product.stock}`}</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 sm:gap-3 mb-6 sm:mb-8">
+                                <button onclick="addToCart(${product.id})" ${product.stock <= 0 ? 'disabled' : ''} class="py-3 sm:py-4 ${product.stock <= 0 ? 'bg-gray-200' : 'bg-primary hover:bg-accent'} text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Add to Bag</button>
+                                <button onclick="addToCart(${product.id})" ${product.stock <= 0 ? 'disabled' : ''} class="py-3 sm:py-4 border-2 border-primary hover:bg-primary hover:text-white rounded-2xl font-bold text-[10px] sm:text-xs uppercase tracking-wider transition">Buy Now</button>
+                            </div>
+                            <div class="bg-soft p-4 sm:p-6 rounded-2xl">
+                                <h3 class="font-bold text-[10px] sm:text-xs uppercase mb-2">Description</h3>
+                                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">${product.description}</p>
+                            </div>
                         </div>
                     </div>
-                </section>`;
-            });
-            wrapper.innerHTML = html;
+                </div>
+            `;
         }
 
-        function renderRecentlyViewed() {
-            const ids = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
-            const list = currentData.products.filter(p => ids.includes(p.id.toString()));
-            const sec = document.getElementById('recent-products-section');
-            if (list.length) {
-                sec.classList.remove('hidden');
-                document.getElementById('recent-products-track').innerHTML = list.map(p => `<div class="carousel-card carousel-product-card">${buildProductCard(p)}</div>`).join('');
-            } else sec.classList.add('hidden');
+        // ==================== POLICY MODAL ====================
+        function openPolicy(type) {
+            const policies = {
+                privacy: { t: 'Privacy Policy', c: '<p>Privacy policy content...</p>' },
+                terms: { t: 'Terms & Conditions', c: '<p>Terms content...</p>' },
+                shipping: { t: 'Shipping & Delivery', c: '<p>Shipping content...</p>' },
+                cookies: { t: 'Returns & Exchange', c: '<p>Returns content...</p>' }
+            };
+            const p = policies[type];
+            if (p) {
+                document.getElementById('policy-title').innerText = p.t;
+                document.getElementById('policy-content').innerHTML = p.c;
+                document.getElementById('policy-modal').classList.remove('hidden');
+            }
         }
 
         // ==================== SEARCH ====================
-        function handleMainSearch() {
-            const q = document.getElementById('main-search-input').value.toLowerCase().trim();
-            document.getElementById('search-suggestions').classList.add('hidden');
-            if (!q) return;
-            window.location.href = `/products?search=${encodeURIComponent(q)}`;
-        }
-        document.getElementById('main-search-input').addEventListener('input', function(e) {
+        document.getElementById('global-search-input').addEventListener('input', function(e) {
             const q = e.target.value.toLowerCase().trim();
             const box = document.getElementById('search-suggestions');
             if (q.length < 2) { box.classList.add('hidden'); return; }
             const filtered = currentData.products.filter(p => p.title.toLowerCase().includes(q)).slice(0, 6);
             box.innerHTML = filtered.length ? filtered.map(p => `
-                <a href="/product/${p.id}" class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer no-underline">
+                <a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id});box.classList.add('hidden')" class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer no-underline">
                     <img src="${p.img}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover shrink-0" alt="${p.title}">
-                    <div class="min-w-0"><p class="text-[10px] sm:text-xs font-bold text-primary truncate">${p.title}</p><p class="text-[9px] sm:text-[10px] font-black text-primary">৳${p.price}</p></div>
-                </a>`).join('') : '<p class="p-3 sm:p-4 text-gray-400 text-[10px] sm:text-xs text-center">No results</p>';
+                    <div class="min-w-0">
+                        <p class="text-[10px] sm:text-xs font-bold text-primary truncate">${p.title}</p>
+                        <p class="text-[9px] sm:text-[10px] font-black text-primary">৳${p.price}</p>
+                    </div>
+                </a>
+            `).join('') : '<p class="p-3 sm:p-4 text-gray-400 text-[10px] sm:text-xs text-center">No results</p>';
             box.classList.remove('hidden');
         });
-        document.addEventListener('click', e => { if (!e.target.closest('#main-search-input') && !e.target.closest('#search-suggestions')) document.getElementById('search-suggestions').classList.add('hidden'); });
 
-        // ==================== LOAD DATA ====================
+        // ==================== DATA LOADING ====================
         async function loadData() {
-            const [{ data: hero }, { data: prods }, { data: seasons }, { data: seasonProds }] = await Promise.all([
+            const [
+                { data: hero }, { data: cats }, { data: vars }, { data: prods },
+                { data: newsData }, { data: delivery }, { data: reviews }, 
+                { data: seasons }, { data: seasonProds }, { data: videos }
+            ] = await Promise.all([
                 _supabase.from('hero').select('*').order('created_at', { ascending: true }),
-                _supabase.from('products').select('*').eq('status', 'Active').order('created_at', { ascending: false }),
+                _supabase.from('categories').select('*'),
+                _supabase.from('product_variants').select('*'),
+                _supabase.from('products').select('*').order('created_at', { ascending: false }),
+                _supabase.from('news').select('*').order('created_at', { ascending: false }),
+                _supabase.from('delivery_settings').select('*'),
+                _supabase.from('product_reviews').select('*'),
                 _supabase.from('seasons').select('*').eq('is_active', true).order('created_at', { ascending: false }),
-                _supabase.from('season_products').select('*')
+                _supabase.from('season_products').select('*'),
+                _supabase.from('videos').select('*').eq('is_active', true).order('display_order', { ascending: true })
             ]);
+            
             if (hero) currentData.hero = hero;
+            if (cats) currentData.categories = cats;
+            if (vars) currentData.variants = vars;
             if (prods) currentData.products = prods;
+            if (newsData) currentData.news = newsData;
+            if (delivery) currentData.deliveryCharges = delivery;
+            if (reviews) currentData.reviews = reviews;
             if (seasons) currentData.seasons = seasons;
             if (seasonProds) currentData.seasonProducts = seasonProds;
+            if (videos) currentData.videos = videos;
             
             renderHero();
-            renderAllHomeSections();
+            renderCategories();
+            renderHomepageSections();
+            renderNews(currentData.news);
             updateCounts();
         }
 
-        // ==================== AUTH ====================
-        async function handleLogout() { await _supabase.auth.signOut(); window.location.href = '/'; }
-
-        // ==================== INIT ====================
+        // ==================== INITIALIZATION ====================
         window.onload = async () => {
             const loader = document.getElementById('global-loader');
             document.getElementById('display-year').innerText = new Date().getFullYear();
@@ -1115,17 +957,29 @@
             const { data: { session } } = await _supabase.auth.getSession();
             if (session) {
                 userSession = session.user;
-                document.getElementById('auth-nav-area').innerHTML = `<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>`;
+                document.getElementById('auth-nav-area').innerHTML = '<a href="/account" class="px-4 py-2 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>';
             }
             
             await loadData();
             
             loader.style.opacity = '0';
-            loader.style.transition = 'opacity 0.5s ease';
             setTimeout(() => { loader.style.display = 'none'; }, 600);
         };
 
-        window.addEventListener('scroll', () => { document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10); });
+        window.addEventListener('scroll', () => {
+            document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+        });
+        
+        window.addEventListener('popstate', function(event) {
+            const path = window.location.pathname;
+            if (path === '/' || path === '') navigate('home');
+            else if (path === '/products') navigate('products');
+            else if (path === '/wishlist') navigate('wishlist');
+            else if (path === '/journal') navigate('news');
+            else if (path === '/about') navigate('about');
+            else if (path === '/contact') navigate('contact');
+            else navigate('home');
+        });
     </script>
 </body>
 </html>
