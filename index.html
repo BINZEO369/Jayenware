@@ -135,25 +135,6 @@
 }
 </script>
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.jayenware.shop/" },
-            { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://www.jayenware.shop/products" },
-            { "@type": "ListItem", "position": 3, "name": "Oversized T-Shirt", "item": "https://www.jayenware.shop/category/oversized-t-shirt-for-man" },
-            { "@type": "ListItem", "position": 4, "name": "Half Sleeve T-Shirt", "item": "https://www.jayenware.shop/category/half-sleeve-t-shirt-for-man" },
-            { "@type": "ListItem", "position": 5, "name": "Men's Cap", "item": "https://www.jayenware.shop/category/mens-cap" },
-            { "@type": "ListItem", "position": 6, "name": "Home & Lifestyle", "item": "https://www.jayenware.shop/category/home-lifestyle" },
-            { "@type": "ListItem", "position": 7, "name": "Binzeo", "item": "https://www.jayenware.shop/category/binzeo" },
-            { "@type": "ListItem", "position": 8, "name": "Journal", "item": "https://www.jayenware.shop/journal" },
-            { "@type": "ListItem", "position": 9, "name": "Login", "item": "https://www.jayenware.shop/login" },
-            { "@type": "ListItem", "position": 10, "name": "Signup", "item": "https://www.jayenware.shop/sign-up" }
-        ]
-    }
-    </script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -306,18 +287,6 @@
         @media (min-width: 641px) and (max-width: 1023px) { .product-img-container { aspect-ratio: 3/4; } }
         @media (min-width: 1024px) { .product-img-container { aspect-ratio: 3/4; } }
         
-        .season-banner {
-            position: relative;
-            border-radius: 2rem;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        }
-        .season-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .products-fade-out {
             opacity: 0;
             transform: translateY(10px);
@@ -474,7 +443,7 @@
             color: white;
         }
 
-        /* Mobile Menu - Fullscreen Luxury Drawer */
+        /* Mobile Menu */
         .mobile-menu-overlay {
             position: fixed;
             inset: 0;
@@ -603,19 +572,10 @@
             color: white;
         }
 
-        .mobile-menu-drawer .mobile-footer .auth-btn.primary:hover {
-            background: #c9a96e;
-        }
-
         .mobile-menu-drawer .mobile-footer .auth-btn.outline {
             background: transparent;
             color: #1a1a1a;
             border: 2px solid #1a1a1a;
-        }
-
-        .mobile-menu-drawer .mobile-footer .auth-btn.outline:hover {
-            background: #1a1a1a;
-            color: white;
         }
 
         .mobile-menu-drawer .mobile-footer .auth-btn.danger {
@@ -624,12 +584,6 @@
             border: 2px solid #ef4444;
         }
 
-        .mobile-menu-drawer .mobile-footer .auth-btn.danger:hover {
-            background: #ef4444;
-            color: white;
-        }
-
-        /* Auth Modal Improvements */
         .auth-input-wrapper {
             position: relative;
         }
@@ -676,27 +630,6 @@
             border-color: #c9a96e;
             background: white;
             box-shadow: 0 0 0 3px rgba(201,169,110,0.1);
-        }
-
-        .auth-input-wrapper textarea {
-            padding-top: 13px;
-        }
-
-        @media (max-width: 640px) {
-            .auth-modal-card {
-                margin: 10px;
-                max-height: 90dvh;
-                overflow-y: auto;
-                border-radius: 20px;
-                padding: 20px 16px;
-            }
-            
-            .auth-input-wrapper input,
-            .auth-input-wrapper textarea {
-                font-size: 16px;
-                padding-top: 15px;
-                padding-bottom: 15px;
-            }
         }
 
         .cookie-consent-overlay {
@@ -757,7 +690,7 @@
         }
         
         .cookie-btn.accept { background: #c9a96e; color: white; }
-        .cookie-btn.accept:hover { background: #b8944f; transform: translateY(-1px); box-shadow: 0 5px 20px rgba(201,169,110,0.3); }
+        .cookie-btn.accept:hover { background: #b8944f; }
         .cookie-btn.decline { background: transparent; color: #999; border: 1px solid #555; }
         .cookie-btn.decline:hover { color: white; border-color: #999; }
         
@@ -767,38 +700,57 @@
             .cookie-btn { width: 100%; text-align: center; }
         }
 
-        /* Video Carousel */
-        .video-section { position: relative; width: 100%; height: 100vh; min-height: 650px; overflow: hidden; background: #fff; }
-        .video-carousel { position: relative; width: 100%; height: 100%; }
-        .video-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; }
-        .video-slide.active { opacity: 1; z-index: 5; }
-        .video-slide video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-        .video-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.1) 70%, transparent 100%); z-index: 2; pointer-events: none; }
-        .video-info-liquid { position: absolute; bottom: 8%; left: 5%; max-width: 600px; z-index: 10; }
-        .video-info-liquid .brand-name { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 4px; color: rgba(255,255,255,0.8); margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); animation: floatUp 0.8s ease-out; }
-        .video-info-liquid .video-main-title { font-size: clamp(32px, 5vw, 72px); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 6px; text-shadow: 0 4px 20px rgba(0,0,0,0.6); animation: floatUp 0.8s ease-out 0.1s both; }
-        .video-info-liquid .video-sub-title { font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 400; max-width: 400px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); animation: floatUp 0.8s ease-out 0.2s both; }
-        @keyframes floatUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .sound-toggle, .video-control-btn { position: absolute; top: 16px; z-index: 20; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; color: white; font-size: 14px; }
-        .sound-toggle { right: 16px; }
-        .video-control-btn { right: 58px; }
-        .sound-toggle:hover, .video-control-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
-        .video-progress-container { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.1); z-index: 15; }
-        .video-progress-bar { height: 100%; background: #fff; transition: width 0.1s linear; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        .video-slide-indicators { position: absolute; bottom: 30px; right: 30px; z-index: 15; display: flex; gap: 8px; }
-        .video-slide-indicators .indicator { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.4s ease; }
-        .video-slide-indicators .indicator.active { background: #fff; width: 24px; border-radius: 4px; }
-        @media (max-width: 768px) { .video-section { height: 70vh; min-height: 400px; } .video-info-liquid { bottom: 12%; left: 4%; } .sound-toggle, .video-control-btn { top: 12px; width: 28px; height: 28px; font-size: 12px; } .video-control-btn { right: 48px; } .sound-toggle { right: 12px; } }
+        /* Horizontal Carousel Styles */
+        .carousel-track {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: grab;
+            user-select: none;
+        }
 
-        #home .hero-banner-container .hero-banner-content { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; text-align: center; }
-        #hero-title, #hero-subtitle { text-align: center; }
-        #home .hero-banner-content .hero-buttons { justify-content: center; }
+        .carousel-track:active {
+            cursor: grabbing;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-track .product-card {
+            flex: 0 0 auto;
+            width: 260px;
+        }
+
+        @media (max-width: 640px) {
+            .carousel-track .product-card {
+                width: 220px;
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            .carousel-track .product-card {
+                width: 240px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .carousel-track .product-card {
+                width: 280px;
+            }
+        }
+
+        .carousel-nav-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-nav-btn:active {
+            transform: scale(0.95);
+        }
 
         .payment-method-card { transition: all 0.3s ease; cursor: pointer; }
         .payment-method-card:hover { border-color: #c9a96e; box-shadow: 0 4px 12px rgba(201, 169, 110, 0.15); }
         input[type="radio"] { accent-color: #1a1a1a; }
 
-        /* Spinner Animation */
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -806,6 +758,7 @@
 </head>
 <body class="antialiased">
 
+    <!-- Global Loader -->
     <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
         <div style="text-align:center;">
             <div style="width:40px;height:40px;border:3px solid #e5e5e5;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
@@ -813,11 +766,13 @@
         </div>
     </div>
 
+    <!-- Order Loader -->
     <div id="order-loader-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,0.98);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;">
         <div style="width:44px;height:44px;border:3px solid #e5e5e5;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.6s linear infinite;"></div>
         <p class="mt-4 font-black uppercase tracking-[0.3em] text-xs">Processing Order...</p>
     </div>
 
+    <!-- Toast -->
     <div id="toast" style="position:fixed;top:16px;right:16px;z-index:200;transform:translateX(120%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);max-width:calc(100vw - 32px);">
         <div class="bg-white shadow-2xl rounded-2xl p-3 flex items-center gap-3 min-w-[260px] border border-gray-100">
             <span id="toast-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-sm shrink-0"></span>
@@ -829,7 +784,7 @@
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
 
-    <!-- Luxury Mobile Menu Drawer -->
+    <!-- Mobile Menu Drawer -->
     <div class="mobile-menu-drawer" id="mobileMenuDrawer">
         <div class="mobile-menu-header">
             <a href="/" onclick="event.preventDefault();navigate('home');closeMobileMenu()" class="flex items-center gap-3 no-underline">
@@ -853,9 +808,7 @@
                 <span><i class="fa-solid fa-grid-2 mr-3 text-gray-300"></i> Categories</span>
                 <i class="fa-solid fa-chevron-down text-xs text-gray-300 transition-transform duration-300" id="mobileCatArrow"></i>
             </div>
-            <div id="mobileSubCategories" style="display: none;">
-                <!-- Filled by JS -->
-            </div>
+            <div id="mobileSubCategories" style="display: none;"></div>
             <a href="/journal" onclick="event.preventDefault();navigate('news');closeMobileMenu()" class="mobile-cat-item">
                 <span><i class="fa-solid fa-newspaper mr-3 text-gray-300"></i> Journal</span>
                 <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
@@ -865,29 +818,23 @@
                 <i class="fa-solid fa-chevron-right text-xs text-gray-300"></i>
             </a>
         </div>
-        <div class="mobile-footer" id="mobileMenuFooter">
-            <!-- Filled by JS based on auth state -->
-        </div>
+        <div class="mobile-footer" id="mobileMenuFooter"></div>
     </div>
 
+    <!-- Navigation -->
     <nav class="glass-nav fixed w-full top-0 z-50" id="main-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 lg:h-20 flex justify-between items-center">
-            <!-- Logo -->
             <a href="/" onclick="event.preventDefault();navigate('home')" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline" aria-label="JAYENWARE Home">
                 <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg shadow-sm" alt="JAYENWARE Logo" loading="eager" width="40" height="40">
                 <span class="text-lg sm:text-xl lg:text-2xl font-black tracking-tight font-serif text-primary">JAYENWARE</span>
             </a>
             
-            <!-- Desktop Navigation -->
             <div class="hidden lg:flex items-center gap-0">
                 <a href="/" onclick="event.preventDefault();navigate('home')" class="nav-link px-5" aria-label="Home">Home</a>
-                
-                <!-- Shop Mega Menu Trigger -->
                 <div class="relative mega-menu-trigger">
                     <a href="/products" onclick="event.preventDefault();navigate('products')" class="nav-link px-5 flex items-center gap-1.5" aria-label="Shop Products">
                         Shop <i class="fa-solid fa-chevron-down text-[7px] opacity-50"></i>
                     </a>
-                    
                     <div class="luxury-mega-menu" id="luxury-mega-menu">
                         <div class="flex gap-8">
                             <div class="w-1/4" id="mega-menu-categories"></div>
@@ -905,42 +852,34 @@
                         </div>
                     </div>
                 </div>
-                
                 <a href="/journal" onclick="event.preventDefault();navigate('news')" class="nav-link px-5" aria-label="Journal">Journal</a>
             </div>
 
-            <!-- Right Icons -->
             <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
-                <!-- Desktop Search (hidden on mobile, shown on lg) -->
                 <button onclick="toggleMobileSearch()" class="lg:hidden text-lg p-1.5 text-primary hover:text-accent transition" aria-label="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 
-                <!-- Wishlist -->
                 <a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="relative p-1.5 no-underline text-primary hover:text-accent transition" aria-label="Wishlist">
                     <i class="fa-regular fa-heart text-lg lg:text-xl"></i>
                     <span id="wish-count" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
                 
-                <!-- Cart -->
                 <a href="/cart" onclick="event.preventDefault();toggleCart()" class="relative p-1.5 no-underline text-primary hover:text-accent transition" aria-label="Shopping Cart">
                     <i class="fa-solid fa-bag-shopping text-lg lg:text-xl"></i>
                     <span id="cart-count" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[8px] sm:text-[9px] w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
                 
-                <!-- Desktop Auth / Account Button -->
                 <div id="auth-nav-area" class="hidden lg:block">
                     <a href="/login" class="px-5 py-2.5 bg-primary text-white rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-accent transition-all shadow-sm no-underline inline-block">Sign In</a>
                 </div>
                 
-                <!-- Mobile Menu Toggle -->
                 <button onclick="openMobileMenu()" class="lg:hidden text-xl p-1.5 text-primary hover:text-accent transition" aria-label="Menu">
                     <i class="fa-solid fa-bars"></i>
                 </button>
             </div>
         </div>
         
-        <!-- Mobile Search Bar -->
         <div id="mobile-search-bar" class="hidden lg:hidden px-4 pb-3">
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
@@ -949,18 +888,13 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="pt-14 sm:pt-16 lg:pt-20">
         
+        <!-- Home Page -->
         <section id="home" class="page-section active-page fade-in">
             
-            <section id="video-showcase-section" class="video-section hidden">
-                <div class="video-carousel" id="video-carousel"></div>
-                <button class="video-control-btn" id="video-pause-btn" onclick="toggleVideoPlayPause()" title="Play/Pause" aria-label="Play/Pause Video"><i class="fa-solid fa-pause"></i></button>
-                <button class="sound-toggle" id="sound-toggle" onclick="toggleVideoSound()" title="Toggle Sound" aria-label="Toggle Sound"><i class="fa-solid fa-volume-xmark"></i></button>
-                <div class="video-progress-container"><div class="video-progress-bar" id="video-progress-bar" style="width: 0%;"></div></div>
-                <div class="video-slide-indicators" id="video-slide-indicators"></div>
-            </section>
-
+            <!-- Hero Banner -->
             <div class="relative overflow-hidden hero-img bg-gray-100 hero-banner-container" style="height:50vh;min-height:280px;" id="hero-container">
                 <div id="hero-banner-slides" class="absolute inset-0"></div>
                 <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
@@ -974,6 +908,7 @@
                 </div>
             </div>
 
+            <!-- Search Bar -->
             <div class="max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto px-4 -mt-6 sm:-mt-8 relative z-30">
                 <div class="bg-white shadow-2xl rounded-2xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2">
                     <div class="relative flex-grow">
@@ -985,32 +920,175 @@
                 </div>
             </div>
 
-            <!-- SECTION ORDER: Hot Products -> Video -> First Season -> Best Selling -> Remaining Seasons -> Recently Viewed -->
+            <!-- New Arrivals Carousel -->
+            <section id="new-arrivals-section" class="py-10 sm:py-14 lg:py-20 hidden">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-green-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
+                                <i class="fa-solid fa-sparkles"></i>
+                            </span>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">New Arrivals</h2>
+                        </div>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
+                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    <div class="relative group/carousel">
+                        <button onclick="slideCarousel('new-arrivals-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div id="new-arrivals-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('new-arrivals-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-white z-10 pointer-events-none"></div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- Hot Products Carousel -->
             <section id="hot-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
                 <div class="max-w-7xl mx-auto px-4">
                     <div class="flex items-center justify-between mb-6 sm:mb-8">
                         <div class="flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg"><i class="fa-solid fa-fire"></i></span>
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
+                                <i class="fa-solid fa-fire"></i>
+                            </span>
                             <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Trending Now</h2>
                         </div>
-                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></a>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
+                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
                     </div>
-                    <div id="hot-products-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
+                    <div class="relative group/carousel">
+                        <button onclick="slideCarousel('hot-products-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div id="hot-products-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.5" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('hot-products-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-white z-10 pointer-events-none"></div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Video Section will be injected here via JS (after Hot Products, before dynamic sections) -->
-            <div id="video-section-wrapper"></div>
+            <!-- Featured Products Carousel -->
+            <section id="featured-products-section" class="py-10 sm:py-14 lg:py-20 bg-soft hidden">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Featured Products</h2>
+                        </div>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
+                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    <div class="relative group/carousel">
+                        <button onclick="slideCarousel('featured-products-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div id="featured-products-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.2" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('featured-products-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#f8f6f3] to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#f8f6f3] z-10 pointer-events-none"></div>
+                    </div>
+                </div>
+            </section>
 
-            <!-- First Season will be injected here via JS -->
-            <div id="first-season-wrapper"></div>
+            <!-- Best Sellers Carousel -->
+            <section id="best-selling-section" class="py-10 sm:py-14 lg:py-20 hidden">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-white flex items-center justify-center rounded-full text-base sm:text-lg">
+                                <i class="fa-solid fa-crown"></i>
+                            </span>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Best Sellers</h2>
+                        </div>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
+                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    <div class="relative group/carousel">
+                        <button onclick="slideCarousel('best-selling-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div id="best-selling-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.3" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('best-selling-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-white z-10 pointer-events-none"></div>
+                    </div>
+                </div>
+            </section>
 
-            <!-- Best Selling will be injected here via JS -->
-            <div id="best-selling-wrapper"></div>
+            <!-- On Sale Carousel -->
+            <section id="on-sale-section" class="py-10 sm:py-14 lg:py-20 bg-red-50 hidden">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-orange-500 text-white flex items-center justify-center rounded-full text-base sm:text-lg">
+                                <i class="fa-solid fa-tag"></i>
+                            </span>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">On Sale</h2>
+                        </div>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">
+                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    <div class="relative group/carousel">
+                        <button onclick="slideCarousel('on-sale-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div id="on-sale-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.4" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('on-sale-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right text-primary text-sm sm:text-base"></i>
+                        </button>
+                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-red-50 to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-red-50 z-10 pointer-events-none"></div>
+                    </div>
+                </div>
+            </section>
 
-            <div id="dynamic-home-sections"></div>
+            <!-- Limited Edition Carousel -->
+            <section id="limited-edition-section" class="py-10 sm:py-14 lg:py-20 bg-primary hidden">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-between mb-6 sm:mb-8">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-primary flex items-center justify-center rounded-full text-base sm:text-lg">
+                                <i class="fa-solid fa-gem"></i>
+                            </span>
+                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif text-white">Limited Edition</h2>
+                        </div>
+                        <a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-accent hover:text-white transition no-underline">
+                            View All <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    <div class="relative group/carousel">
+                        <button onclick="slideCarousel('limited-edition-carousel', 'left')" class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center text-white opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white/30 hover:scale-110 -ml-3 sm:-ml-5 carousel-nav-btn" aria-label="Previous">
+                            <i class="fa-solid fa-chevron-left text-sm sm:text-base"></i>
+                        </button>
+                        <div id="limited-edition-carousel" class="carousel-track flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth py-2" data-speed="1.1" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <button onclick="slideCarousel('limited-edition-carousel', 'right')" class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full shadow-xl flex items-center justify-center text-white opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:bg-white/30 hover:scale-110 -mr-3 sm:-mr-5 carousel-nav-btn" aria-label="Next">
+                            <i class="fa-solid fa-chevron-right text-sm sm:text-base"></i>
+                        </button>
+                        <div class="absolute left-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-[#1a1a1a] to-transparent z-10 pointer-events-none"></div>
+                        <div class="absolute right-0 top-0 bottom-0 w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#1a1a1a] z-10 pointer-events-none"></div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- Recently Viewed -->
             <section id="recent-products-section" class="py-10 sm:py-14 lg:py-20 hidden">
                 <div class="max-w-7xl mx-auto px-4">
                     <h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif mb-6 sm:mb-8">Recently Viewed</h2>
@@ -1019,6 +1097,7 @@
             </section>
         </section>
 
+        <!-- Products Page -->
         <section id="products" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -1075,78 +1154,194 @@
             </div>
         </section>
 
-        <section id="product-details" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><a href="/products" onclick="event.preventDefault();navigate('products')" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline"><i class="fa-solid fa-arrow-left"></i> Back to Collection</a><div id="product-detail-content"></div><div id="complete-the-look-section" class="mt-12 sm:mt-16 border-t pt-10 sm:pt-16 hidden"><h3 class="text-xl sm:text-2xl font-black font-serif mb-6 sm:mb-8">Complete the Look</h3><div id="complete-the-look-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div></div></div></section>
-        <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-8 sm:mb-12">My Wishlist</h2><div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div><div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden"><i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i><p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p><a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition no-underline inline-block">Start Shopping</a></div></div></section>
-        <section id="news" class="page-section py-6 sm:py-8 lg:py-12"><div class="max-w-7xl mx-auto px-3 sm:px-4"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-2 sm:mb-4">The Journal</h2><p class="text-center text-gray-500 text-xs sm:text-sm mb-8 sm:mb-12">Style stories, guides & inspiration</p><div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"></div></div></section>
+        <!-- Product Details Page -->
+        <section id="product-details" class="page-section py-6 sm:py-8 lg:py-12">
+            <div class="max-w-7xl mx-auto px-3 sm:px-4">
+                <a href="/products" onclick="event.preventDefault();navigate('products')" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Collection
+                </a>
+                <div id="product-detail-content"></div>
+                <div id="complete-the-look-section" class="mt-12 sm:mt-16 border-t pt-10 sm:pt-16 hidden">
+                    <h3 class="text-xl sm:text-2xl font-black font-serif mb-6 sm:mb-8">Complete the Look</h3>
+                    <div id="complete-the-look-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wishlist Page -->
+        <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12">
+            <div class="max-w-7xl mx-auto px-3 sm:px-4">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-8 sm:mb-12">My Wishlist</h2>
+                <div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
+                <div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden">
+                    <i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i>
+                    <p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p>
+                    <a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition no-underline inline-block">Start Shopping</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- News/Journal Page -->
+        <section id="news" class="page-section py-6 sm:py-8 lg:py-12">
+            <div class="max-w-7xl mx-auto px-3 sm:px-4">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black font-serif text-center mb-2 sm:mb-4">The Journal</h2>
+                <p class="text-center text-gray-500 text-xs sm:text-sm mb-8 sm:mb-12">Style stories, guides & inspiration</p>
+                <div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"></div>
+            </div>
+        </section>
         
     </main>
 
+    <!-- Footer -->
     <footer class="bg-primary text-gray-400 pt-12 sm:pt-16 pb-6 sm:pb-8">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 sm:mb-12">
-            <div class="col-span-2 md:col-span-1">
-                <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3 sm:mb-4">JAYENWARE</h4>
-                <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition">BINZEO</a>.</p>
-                <div class="flex gap-3 text-base sm:text-lg">
-                    <a href="https://www.facebook.com/share/1GAZnrgvH8/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Page" class="hover:text-accent transition"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="https://www.facebook.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Facebook Messenger" class="hover:text-accent transition"><i class="fa-brands fa-facebook-messenger"></i></a>
-                    <a href="https://www.instagram.com/jayenware?igsh=eXQyNzczd2c3bWtm" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-accent transition"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://youtube.com/@jayenware?si=Q3nk8svLdBlk53T9" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-accent transition"><i class="fa-brands fa-youtube"></i></a>
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 sm:mb-12">
+                <div class="col-span-2 md:col-span-1">
+                    <h4 class="text-white font-black font-serif text-base sm:text-lg mb-3 sm:mb-4">JAYENWARE</h4>
+                    <p class="text-[10px] sm:text-xs leading-relaxed mb-4">Premium lifestyle products designed for modern living. A subsidiary of <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition">BINZEO</a>.</p>
+                    <div class="flex gap-3 text-base sm:text-lg">
+                        <a href="https://www.facebook.com/share/1GAZnrgvH8/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Page" class="hover:text-accent transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://www.facebook.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Facebook Messenger" class="hover:text-accent transition"><i class="fa-brands fa-facebook-messenger"></i></a>
+                        <a href="https://www.instagram.com/jayenware" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-accent transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://youtube.com/@jayenware" target="_blank" rel="noopener noreferrer" aria-label="Youtube" class="hover:text-accent transition"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
+                        <li><a href="https://www.jayenware.shop/about" class="hover:text-white transition no-underline">About</a></li>
+                        <li><a href="https://www.jayenware.shop/shipping" class="hover:text-white transition no-underline">Shipping</a></li>
+                        <li><a href="https://www.jayenware.shop/returns" class="hover:text-white transition no-underline">Returns</a></li>
+                        <li><a href="https://www.jayenware.shop/contact" class="hover:text-white transition no-underline">Contact</a></li>
+                        <li><a href="https://www.jayenware.shop/journal" class="hover:text-white transition no-underline">Journal</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Legal</h5>
+                    <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
+                        <li><a href="https://www.jayenware.shop/privacy-policy" class="hover:text-white transition no-underline">Privacy Policy</a></li>
+                        <li><a href="https://www.jayenware.shop/terms-and-conditions" class="hover:text-white transition no-underline">Terms & Conditions</a></li>
+                        <li><a href="https://support.jayenware.shop" target="_blank" rel="noopener noreferrer" class="hover:text-white transition no-underline">Help Center</a></li>
+                        <li><a href="https://verify.jayenware.shop" target="_blank" rel="noopener noreferrer" class="hover:text-white transition no-underline">Verify Product</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">We Accept</h5>
+                    <div class="flex flex-wrap gap-2 mb-6" id="footer-payment-icons">
+                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506245655_download_(2).jpeg" alt="Google Pay" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
+                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506292766_download_(1).png" alt="Visa" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
+                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506270475_download_(1).jpeg" alt="Mastercard" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
+                        <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506143729_download_(2).png" alt="Cash on Delivery" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
+                    </div>
+                    <p class="text-[9px] text-gray-500">Secured by BINZEO</p>
+                    <p class="text-[9px] text-gray-500 mt-1"><i class="fa-regular fa-envelope"></i> binzeo369@outlook.com</p>
                 </div>
             </div>
-            <div>
-                <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Shop</h5>
-                <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                    <li><a href="/products" onclick="event.preventDefault();navigate('products')" class="hover:text-white transition no-underline">All Products</a></li>
-                    <li><a href="/products" onclick="event.preventDefault();navigate('products')" class="hover:text-white transition no-underline">New Arrivals</a></li>
-                    <li><a href="/products" onclick="event.preventDefault();navigate('products')" class="hover:text-white transition no-underline">Best Sellers</a></li>
-                    <li><a href="/wishlist" onclick="event.preventDefault();navigate('wishlist')" class="hover:text-white transition no-underline">Wishlist</a></li>
-                </ul>
-            </div>
-            <div>
-                <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">Support</h5>
-                <ul class="space-y-2 text-[10px] sm:text-xs list-none p-0">
-                    <li><a href="https://support.jayenware.shop" target="_blank" rel="noopener noreferrer" class="hover:text-white transition no-underline">Help Center</a></li>
-                    <li><a href="https://verify.jayenware.shop" target="_blank" rel="noopener noreferrer" class="hover:text-white transition no-underline">Verify Product</a></li>
-                    <li><button onclick="openPolicy('shipping')" class="hover:text-white transition bg-transparent border-none cursor-pointer p-0 text-gray-400">Shipping Info</button></li>
-                    <li><button onclick="openPolicy('cookies')" class="hover:text-white transition bg-transparent border-none cursor-pointer p-0 text-gray-400">Returns & Exchange</button></li>
-                    <li><button onclick="openPolicy('terms')" class="hover:text-white transition bg-transparent border-none cursor-pointer p-0 text-gray-400">Order Policy</button></li>
-                    <li><button onclick="openPolicy('privacy')" class="hover:text-white transition bg-transparent border-none cursor-pointer p-0 text-gray-400">Privacy Policy</button></li>
-                    <li><a href="mailto:binzeo369@gmail.com" class="hover:text-white transition no-underline"><i class="fa-regular fa-envelope mr-1"></i> binzeo369@gmail.com</a></li>
-                </ul>
-            </div>
-            <div>
-                <h5 class="text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider mb-3 sm:mb-4">We Accept</h5>
-                <div class="flex flex-wrap gap-2 mb-6" id="footer-payment-icons">
-                    <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506245655_download_(2).jpeg" alt="Google Pay" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                    <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506292766_download_(1).png" alt="Visa" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                    <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506270475_download_(1).jpeg" alt="Mastercard" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                    <img src="https://vdqbjwzixppbtkbgvhlq.supabase.co/storage/v1/object/public/images/binzeo_1778506143729_download_(2).png" alt="Cash on Delivery" class="h-5 w-auto bg-gray-200 rounded p-0.5" loading="lazy">
-                </div>
-                <p class="text-[9px] text-gray-500">Secured by BINZEO</p>
-                <p class="text-[9px] text-gray-500 mt-1"><i class="fa-regular fa-envelope"></i> binzeo369@outlook.com</p>
+            <div class="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition no-underline">BINZEO</a></p>
+                <p class="text-[8px] sm:text-[9px]">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved. | A Concern of BINZEO</p>
             </div>
         </div>
-        <div class="border-t border-gray-800 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-[9px] sm:text-[10px] uppercase tracking-wider text-gray-500">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" class="text-accent font-bold hover:text-white transition no-underline">BINZEO</a></p>
-            <p class="text-[8px] sm:text-[9px]">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved. | A Concern of BINZEO</p>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col">
+        <div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft">
+            <h2 class="text-base sm:text-lg font-black uppercase tracking-tighter">Shopping Bag</h2>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div>
+        <div class="p-4 sm:p-6 border-t bg-soft">
+            <div class="mb-3 sm:mb-4">
+                <div class="flex gap-1.5 sm:gap-2">
+                    <input type="text" id="promo-input" placeholder="Promo Code" class="flex-grow p-2.5 sm:p-3 rounded-xl border text-xs sm:text-sm outline-none">
+                    <button onclick="applyPromo()" class="px-3 sm:px-4 bg-primary text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase">Apply</button>
+                </div>
+                <p id="promo-msg" class="text-[9px] sm:text-[10px] mt-1 font-bold"></p>
+            </div>
+            <div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs">
+                <div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div>
+                <div id="promo-row" class="hidden flex justify-between text-green-600 font-bold"><span>Discount</span><span id="cart-discount">- ৳ 0.00</span></div>
+                <div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div>
+            </div>
+            <a href="/checkout" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition shadow-lg no-underline text-center block">Checkout</a>
         </div>
     </div>
-</footer>
 
-<div id="cart-drawer" class="fixed top-0 right-0 w-full max-w-sm sm:max-w-md h-full bg-white z-[60] shadow-2xl flex flex-col"><div class="p-4 sm:p-6 border-b flex justify-between items-center bg-soft"><h2 class="text-base sm:text-lg font-black uppercase tracking-tighter">Shopping Bag</h2><button onclick="toggleCart()" class="text-gray-400 hover:text-primary text-lg sm:text-xl transition p-1"><i class="fa-solid fa-xmark"></i></button></div><div id="cart-items" class="flex-grow overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4 custom-scroll"></div><div class="p-4 sm:p-6 border-t bg-soft"><div class="mb-3 sm:mb-4"><div class="flex gap-1.5 sm:gap-2"><input type="text" id="promo-input" placeholder="Promo Code" class="flex-grow p-2.5 sm:p-3 rounded-xl border text-xs sm:text-sm outline-none"><button onclick="applyPromo()" class="px-3 sm:px-4 bg-primary text-white rounded-xl text-[9px] sm:text-[10px] font-bold uppercase">Apply</button></div><p id="promo-msg" class="text-[9px] sm:text-[10px] mt-1 font-bold"></p></div><div class="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6 text-[10px] sm:text-xs"><div class="flex justify-between text-gray-500"><span>Subtotal</span><span id="cart-subtotal">৳ 0.00</span></div><div id="promo-row" class="hidden flex justify-between text-green-600 font-bold"><span>Discount</span><span id="cart-discount">- ৳ 0.00</span></div><div class="flex justify-between border-t pt-2 sm:pt-3"><span class="font-bold uppercase">Total</span><span id="cart-total" class="text-lg sm:text-xl font-black">৳ 0.00</span></div></div><a href="/checkout" class="w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-accent transition shadow-lg no-underline text-center block">Checkout</a>
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto">
+            <button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6">Update Profile</h2>
+            <div class="space-y-3 sm:space-y-4">
+                <div class="auth-input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="edit-name" placeholder="Full Name" autocomplete="name"></div>
+                <div class="auth-input-wrapper"><i class="fa-solid fa-phone input-icon"></i><input type="tel" id="edit-phone" placeholder="Phone Number" autocomplete="tel-national"></div>
+                <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                    <div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div>
+                    <div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div>
+                </div>
+                <div class="auth-input-wrapper"><i class="fa-solid fa-location-dot input-icon" style="top:16px;transform:none;"></i><textarea id="edit-address" placeholder="Full Address" class="h-16 sm:h-20" autocomplete="street-address" style="padding-left:40px;"></textarea></div>
+                <button onclick="handleUpdateProfile()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-accent transition">Save</button>
+            </div>
+        </div>
+    </div>
 
-    <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto"><button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button><h2 class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6">Update Profile</h2><div class="space-y-3 sm:space-y-4"><div class="auth-input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="edit-name" placeholder="Full Name" autocomplete="name"></div><div class="auth-input-wrapper"><i class="fa-solid fa-phone input-icon"></i><input type="tel" id="edit-phone" placeholder="Phone Number" autocomplete="tel-national"></div><div class="grid grid-cols-2 gap-2 sm:gap-3"><div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div><div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div></div><div class="auth-input-wrapper"><i class="fa-solid fa-location-dot input-icon" style="top:16px;transform:none;"></i><textarea id="edit-address" placeholder="Full Address" class="h-16 sm:h-20" autocomplete="street-address" style="padding-left:40px;"></textarea></div><button onclick="handleUpdateProfile()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-accent transition">Save</button></div></div></div>
-    <div id="order-details-modal" class="premium-modal fixed inset-0 z-[150] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-lg rounded-3xl p-6 sm:p-8 relative max-h-[85dvh] overflow-y-auto custom-scroll"><button onclick="closeOrderDetails()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button><h2 id="od-title" class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6 border-b pb-3 sm:pb-4"></h2><div id="order-details-body" class="space-y-4 sm:space-y-6 text-xs sm:text-sm"></div><button onclick="closeOrderDetails()" class="mt-6 sm:mt-8 w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase text-[10px] sm:text-xs tracking-wider">Close</button></div></div>
-    <div id="policy-modal" class="premium-modal fixed inset-0 z-[130] hidden flex items-center justify-center p-4"><div class="bg-white w-full max-w-sm sm:max-w-2xl rounded-3xl p-6 sm:p-10 relative max-h-[80dvh] overflow-y-auto custom-scroll"><button onclick="document.getElementById('policy-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button><h2 id="policy-title" class="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6"></h2><div id="policy-content" class="text-xs sm:text-sm text-gray-600 leading-relaxed space-y-3 sm:space-y-4"></div></div></div>
+    <!-- Order Details Modal -->
+    <div id="order-details-modal" class="premium-modal fixed inset-0 z-[150] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm sm:max-w-lg rounded-3xl p-6 sm:p-8 relative max-h-[85dvh] overflow-y-auto custom-scroll">
+            <button onclick="closeOrderDetails()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="od-title" class="text-lg sm:text-xl font-black uppercase mb-4 sm:mb-6 border-b pb-3 sm:pb-4"></h2>
+            <div id="order-details-body" class="space-y-4 sm:space-y-6 text-xs sm:text-sm"></div>
+            <button onclick="closeOrderDetails()" class="mt-6 sm:mt-8 w-full py-3 sm:py-4 bg-primary text-white rounded-2xl font-bold uppercase text-[10px] sm:text-xs tracking-wider">Close</button>
+        </div>
+    </div>
 
-    <div id="cookieConsent" class="cookie-consent-overlay"><div class="cookie-banner"><div class="cookie-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div><div class="cookie-text"><h4>🍪 We Value Your Privacy</h4><p>We use cookies to enhance your browsing experience and analyze site traffic. By accepting, you allow us to collect location & device data for better service. <a href="#" onclick="event.preventDefault();openPolicy('privacy')">Privacy Policy</a></p></div><div class="cookie-buttons"><button class="cookie-btn decline" onclick="handleCookieDecline()">Decline All</button><button class="cookie-btn accept" onclick="handleCookieAccept()">Accept All Cookies</button></div></div></div>
+    <!-- Policy Modal -->
+    <div id="policy-modal" class="premium-modal fixed inset-0 z-[130] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm sm:max-w-2xl rounded-3xl p-6 sm:p-10 relative max-h-[80dvh] overflow-y-auto custom-scroll">
+            <button onclick="document.getElementById('policy-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="policy-title" class="text-xl sm:text-2xl font-black uppercase mb-4 sm:mb-6"></h2>
+            <div id="policy-content" class="text-xs sm:text-sm text-gray-600 leading-relaxed space-y-3 sm:space-y-4"></div>
+        </div>
+    </div>
 
-    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"><a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-accent transition-all no-underline"><i class="fa-brands fa-facebook-messenger"></i></a><span class="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></span></div>
-    <div class="fixed bottom-20 sm:bottom-24 left-3 sm:left-4 z-40 hidden lg:block"><div class="bg-white shadow-xl rounded-2xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3 trust-pulse"><i class="fa-solid fa-shield-halved text-accent text-lg sm:text-xl"></i><div><p class="text-[9px] sm:text-[10px] font-bold uppercase">100% Authentic</p><p class="text-[8px] sm:text-[9px] text-gray-500">Quality Products</p></div></div></div>
+    <!-- Cookie Consent -->
+    <div id="cookieConsent" class="cookie-consent-overlay">
+        <div class="cookie-banner">
+            <div class="cookie-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            <div class="cookie-text">
+                <h4>We Value Your Privacy</h4>
+                <p>We use cookies to enhance your browsing experience and analyze site traffic. By accepting, you allow us to collect location & device data for better service. <a href="#" onclick="event.preventDefault();openPolicy('privacy')">Privacy Policy</a></p>
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn decline" onclick="handleCookieDecline()">Decline All</button>
+                <button class="cookie-btn accept" onclick="handleCookieAccept()">Accept All Cookies</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Messenger -->
+    <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
+        <a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-accent transition-all no-underline">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </a>
+        <span class="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></span>
+    </div>
+
+    <!-- Trust Badge -->
+    <div class="fixed bottom-20 sm:bottom-24 left-3 sm:left-4 z-40 hidden lg:block">
+        <div class="bg-white shadow-xl rounded-2xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3 trust-pulse">
+            <i class="fa-solid fa-shield-halved text-accent text-lg sm:text-xl"></i>
+            <div>
+                <p class="text-[9px] sm:text-[10px] font-bold uppercase">100% Authentic</p>
+                <p class="text-[8px] sm:text-[9px] text-gray-500">Quality Products</p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let userSession = null;
@@ -1154,17 +1349,14 @@
         let wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
         let productsDisplayLimit = 12;
         let productsLoadMoreIncrement = 12;
-        let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], seasons: [], seasonProducts: [], videos: [], orders: [] };
+        let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], orders: [] };
         let currentSlide = 0, slideInterval, pendingOrderData = null;
         let appliedPromo = null, selectedVariantObj = null;
         let currentFilters = { cat: 'all', minPrice: null, maxPrice: null };
-        let videoData = [];
-        let currentVideoIndex = 0;
-        let videoAutoAdvanceTimer = null;
-        let isVideoSoundOn = false;
-        let isVideoPlaying = true;
         const BASE_URL = 'https://www.jayenware.shop';
         
+        const carouselStates = {};
+
         const VISITOR_CONFIG = {
             cookieName: 'jayenware_consent',
             sessionId: 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
@@ -1347,6 +1539,9 @@
         }
 
         function navigate(pageId, params = null) {
+            if(pageId !== 'home') {
+                cleanupAllCarousels();
+            }
             if(pageId === 'account' && userSession) loadUserOrders();
             const mainContent = document.querySelector('main');
             mainContent.style.transition = 'opacity 0.2s ease';
@@ -1364,7 +1559,6 @@
                 else if(params && params.category) { urlPath = '/category/' + getCategorySlug(params.category); updateURL(urlPath, params.category); }
                 else if(params && params.search) { urlPath = '/search?q=' + encodeURIComponent(params.search); updateURL(urlPath, 'Search: ' + params.search); }
                 else { updateURL(urlPath); }
-                if(pageId !== 'home') { cleanupVideoCarousel(); }
                 if(pageId === 'home') { renderHomepageSections(); renderRecentlyViewed(); }
                 if(pageId === 'wishlist') renderWishlist();
                 if(pageId === 'account' && userSession) loadUserOrders();
@@ -1415,22 +1609,19 @@
         function loadMoreProducts() { productsDisplayLimit += productsLoadMoreIncrement; const currentList = getFilteredProducts(); renderProducts(currentList); setTimeout(() => { const grid = document.getElementById('products-grid'); const lastCard = grid.querySelector('.product-card:last-child'); if(lastCard) lastCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100); showToast('More products loaded!', 'info'); }
 
         async function loadData(){
-            const[{data:hero},{data:cats},{data:vars},{data:prods},{data:newsData},{data:delivery},{data:reviews},{data:seasons},{data:seasonProds},{data:videos}]=await Promise.all([
+            const[{data:hero},{data:cats},{data:vars},{data:prods},{data:newsData},{data:delivery},{data:reviews}]=await Promise.all([
                 _supabase.from('hero').select('*').order('created_at',{ascending:true}),
                 _supabase.from('categories').select('*'),
                 _supabase.from('product_variants').select('*'),
                 _supabase.from('products').select('*').order('created_at',{ascending:false}),
                 _supabase.from('news').select('*').order('created_at',{ascending:false}),
                 _supabase.from('delivery_settings').select('*'),
-                _supabase.from('product_reviews').select('*'),
-                _supabase.from('seasons').select('*').eq('is_active', true).order('created_at',{ascending:false}),
-                _supabase.from('season_products').select('*'),
-                _supabase.from('videos').select('*').eq('is_active', true).order('display_order',{ascending:true})
+                _supabase.from('product_reviews').select('*')
             ]);
             if(hero) currentData.hero=hero; if(cats) currentData.categories=cats; if(vars) currentData.variants=vars;
             if(prods) currentData.products=prods; if(newsData) currentData.news=newsData; if(delivery) currentData.deliveryCharges=delivery;
-            if(reviews) currentData.reviews=reviews; if(seasons) currentData.seasons=seasons; if(seasonProds) currentData.seasonProducts=seasonProds; if(videos) currentData.videos=videos;
-            renderHero(); renderCategories(); renderMegaMenu(); renderProducts(currentData.products); renderHomeFeatured(currentData.products);
+            if(reviews) currentData.reviews=reviews;
+            renderHero(); renderCategories(); renderMegaMenu(); renderProducts(currentData.products);
             renderHomepageSections(); renderRecentlyViewed(); renderNews(currentData.news);
             if(userSession) loadUserOrders(); updateCounts(); updateMobileMenuFooter();
             handleInitialRoute();
@@ -1457,141 +1648,270 @@
             const catContainer = document.getElementById('mega-menu-categories'); const prodContainer = document.getElementById('mega-menu-products');
             if(!catContainer || !prodContainer) return;
             catContainer.innerHTML = `<div class="menu-category-title">Categories</div>` + currentData.categories.map(c => `<a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();navigate('products');filterByCategory('${c.name}')" class="block py-2.5 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition no-underline">${c.name}</a>`).join('');
-            const featuredProducts = currentData.products.filter(p => p.is_hot || p.is_best).slice(0, 6);
-            prodContainer.innerHTML = `<div class="menu-category-title">Featured Products</div><div class="grid grid-cols-2 gap-3">${featuredProducts.map(p => `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="menu-product-item"><img src="${p.img}" class="menu-product-img" alt="${p.title}" loading="lazy"><div class="min-w-0"><p class="text-[11px] font-bold text-primary truncate">${p.title}</p><p class="text-[10px] text-gray-400 uppercase">${p.category}</p><p class="text-[12px] font-black text-primary mt-1">৳${p.price}</p></div></a>`).join('')}</div>`;
+            const featuredProducts = currentData.products.filter(p => p.is_featured).slice(0, 6);
+            prodContainer.innerHTML = `<div class="menu-category-title">Featured Products</div><div class="grid grid-cols-2 gap-3">${featuredProducts.length ? featuredProducts.map(p => `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="menu-product-item"><img src="${p.img}" class="menu-product-img" alt="${p.title}" loading="lazy"><div class="min-w-0"><p class="text-[11px] font-bold text-primary truncate">${p.title}</p><p class="text-[10px] text-gray-400 uppercase">${p.category}</p><p class="text-[12px] font-black text-primary mt-1">৳${p.price}</p></div></a>`).join('') : '<p class="text-gray-400 text-xs p-4">No featured products</p>'}</div>`;
+        }
+
+        // ============================================
+        // HORIZONTAL CAROUSEL SYSTEM
+        // ============================================
+        function initCarousel(carouselId) {
+            if (!carouselStates[carouselId]) {
+                carouselStates[carouselId] = {
+                    isPaused: false,
+                    animationFrame: null,
+                    scrollSpeed: 1,
+                    lastTimestamp: 0,
+                    touchStartX: 0,
+                    touchStartScrollLeft: 0,
+                    isDragging: false
+                };
+            }
+            return carouselStates[carouselId];
+        }
+
+        function autoScrollCarousel(carouselId, timestamp) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const state = initCarousel(carouselId);
+            if (state.isPaused) {
+                state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
+                return;
+            }
+            if (!state.lastTimestamp) state.lastTimestamp = timestamp;
+            const delta = timestamp - state.lastTimestamp;
+            const speed = parseFloat(carousel.dataset.speed) || 1;
+            const scrollAmount = (delta * speed * 0.05);
+            carousel.scrollLeft += scrollAmount;
+            if (carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth)) {
+                carousel.scrollLeft = 0;
+            }
+            state.lastTimestamp = timestamp;
+            state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
+        }
+
+        function startCarouselAutoScroll(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const state = initCarousel(carouselId);
+            state.isPaused = false;
+            state.lastTimestamp = 0;
+            if (state.animationFrame) cancelAnimationFrame(state.animationFrame);
+            state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
+        }
+
+        function stopCarouselAutoScroll(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const state = carouselStates[carouselId];
+            if (state && state.animationFrame) {
+                cancelAnimationFrame(state.animationFrame);
+                state.animationFrame = null;
+            }
+        }
+
+        function pauseCarousel(carousel) {
+            const carouselId = carousel.id;
+            const state = initCarousel(carouselId);
+            state.isPaused = true;
+        }
+
+        function resumeCarousel(carousel) {
+            const carouselId = carousel.id;
+            const state = initCarousel(carouselId);
+            state.isPaused = false;
+            state.lastTimestamp = 0;
+        }
+
+        function slideCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            const state = initCarousel(carouselId);
+            state.isPaused = true;
+            const scrollAmount = carousel.clientWidth * 0.6;
+            const targetScroll = direction === 'left' ? carousel.scrollLeft - scrollAmount : carousel.scrollLeft + scrollAmount;
+            carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
+            clearTimeout(state._resumeTimeout);
+            state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
+        }
+
+        function initCarouselTouchSupport() {
+            document.querySelectorAll('.carousel-track').forEach(carousel => {
+                const carouselId = carousel.id;
+                const state = initCarousel(carouselId);
+                carousel.addEventListener('mousedown', (e) => {
+                    state.isDragging = true; state.isPaused = true;
+                    state.touchStartX = e.pageX - carousel.offsetLeft;
+                    state.touchStartScrollLeft = carousel.scrollLeft;
+                    carousel.style.cursor = 'grabbing';
+                });
+                carousel.addEventListener('mousemove', (e) => {
+                    if (!state.isDragging) return;
+                    e.preventDefault();
+                    const x = e.pageX - carousel.offsetLeft;
+                    const walk = (x - state.touchStartX) * 2;
+                    carousel.scrollLeft = state.touchStartScrollLeft - walk;
+                });
+                carousel.addEventListener('mouseup', () => {
+                    state.isDragging = false; carousel.style.cursor = 'grab';
+                    clearTimeout(state._resumeTimeout);
+                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
+                });
+                carousel.addEventListener('mouseleave', () => {
+                    if (state.isDragging) {
+                        state.isDragging = false; carousel.style.cursor = 'grab';
+                        clearTimeout(state._resumeTimeout);
+                        state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 1500);
+                    }
+                });
+                carousel.addEventListener('touchstart', (e) => {
+                    state.isDragging = true; state.isPaused = true;
+                    state.touchStartX = e.touches[0].pageX - carousel.offsetLeft;
+                    state.touchStartScrollLeft = carousel.scrollLeft;
+                }, { passive: true });
+                carousel.addEventListener('touchmove', (e) => {
+                    if (!state.isDragging) return;
+                    const x = e.touches[0].pageX - carousel.offsetLeft;
+                    const walk = (x - state.touchStartX) * 2;
+                    carousel.scrollLeft = state.touchStartScrollLeft - walk;
+                }, { passive: true });
+                carousel.addEventListener('touchend', () => {
+                    state.isDragging = false;
+                    clearTimeout(state._resumeTimeout);
+                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
+                });
+            });
+        }
+
+        function renderCarouselProducts(carouselId, products) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            if (!products || !products.length) {
+                carousel.innerHTML = '<p class="text-gray-400 text-sm py-8 px-4">No products available</p>';
+                return;
+            }
+            const allProducts = [...products, ...products];
+            carousel.innerHTML = allProducts.map(p => {
+                const isOut = p.stock <= 0;
+                const wished = wishlist.includes(p.id);
+                return `
+                <a href="/product/${getProductSlug(p)}" 
+                   onclick="event.preventDefault();openProductDetails(${p.id})" 
+                   class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block flex-shrink-0"
+                   draggable="false">
+                    <div class="product-img-container" style="aspect-ratio:3/4;">
+                        <img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy" draggable="false">
+                        <button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" 
+                                class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition z-10">
+                            <i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i>
+                        </button>
+                        ${isOut ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center z-10"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>' : ''}
+                        ${p.is_hot && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</span></div>' : ''}
+                        ${p.is_new_arrival && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-green-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">New</span></div>' : ''}
+                        ${p.is_on_sale && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-orange-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Sale</span></div>' : ''}
+                    </div>
+                    <div class="p-2.5 sm:p-4">
+                        <p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p>
+                        <h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3>
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>
+                                ${p.old_price ? `<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>` : ''}
+                            </div>
+                            <button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" 
+                                    ${isOut?'disabled':''} 
+                                    class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </a>`;
+            }).join('');
+            carousel.scrollLeft = 0;
         }
 
         function renderHomepageSections() {
-            const seasons = currentData.seasons || [];
-            
-            // Move video section to after hot products
-            const videoSection = document.getElementById('video-showcase-section');
-            const videoWrapper = document.getElementById('video-section-wrapper');
-            if (videoSection && videoWrapper && currentData.videos && currentData.videos.length) {
-                videoSection.classList.remove('hidden');
-                videoWrapper.appendChild(videoSection);
-                videoData = currentData.videos;
-                initializeFullScreenVideoCarousel();
+            // New Arrivals
+            const newArrivals = currentData.products.filter(p => p.is_new_arrival);
+            const newArrivalsSection = document.getElementById('new-arrivals-section');
+            if (newArrivals.length && newArrivalsSection) {
+                newArrivalsSection.classList.remove('hidden');
+                renderCarouselProducts('new-arrivals-carousel', newArrivals);
+                startCarouselAutoScroll('new-arrivals-carousel');
+            } else if (newArrivalsSection) {
+                newArrivalsSection.classList.add('hidden');
+            }
+
+            // Hot Products
+            const hotProducts = currentData.products.filter(p => p.is_hot);
+            const hotSection = document.getElementById('hot-products-section');
+            if (hotProducts.length && hotSection) {
+                hotSection.classList.remove('hidden');
+                renderCarouselProducts('hot-products-carousel', hotProducts);
+                startCarouselAutoScroll('hot-products-carousel');
+            } else if (hotSection) {
+                hotSection.classList.add('hidden');
+            }
+
+            // Featured Products
+            const featuredProducts = currentData.products.filter(p => p.is_featured);
+            const featuredSection = document.getElementById('featured-products-section');
+            if (featuredProducts.length && featuredSection) {
+                featuredSection.classList.remove('hidden');
+                renderCarouselProducts('featured-products-carousel', featuredProducts);
+                startCarouselAutoScroll('featured-products-carousel');
+            } else if (featuredSection) {
+                featuredSection.classList.add('hidden');
+            }
+
+            // Best Sellers
+            const bestSellers = currentData.products.filter(p => p.is_best);
+            const bestSection = document.getElementById('best-selling-section');
+            if (bestSellers.length && bestSection) {
+                bestSection.classList.remove('hidden');
+                renderCarouselProducts('best-selling-carousel', bestSellers);
+                startCarouselAutoScroll('best-selling-carousel');
+            } else if (bestSection) {
+                bestSection.classList.add('hidden');
+            }
+
+            // On Sale
+            const onSaleProducts = currentData.products.filter(p => p.is_on_sale);
+            const saleSection = document.getElementById('on-sale-section');
+            if (onSaleProducts.length && saleSection) {
+                saleSection.classList.remove('hidden');
+                renderCarouselProducts('on-sale-carousel', onSaleProducts);
+                startCarouselAutoScroll('on-sale-carousel');
+            } else if (saleSection) {
+                saleSection.classList.add('hidden');
+            }
+
+            // Limited Edition
+            const limitedEdition = currentData.products.filter(p => p.is_limited_edition);
+            const limitedSection = document.getElementById('limited-edition-section');
+            if (limitedEdition.length && limitedSection) {
+                limitedSection.classList.remove('hidden');
+                renderCarouselProducts('limited-edition-carousel', limitedEdition);
+                startCarouselAutoScroll('limited-edition-carousel');
+            } else if (limitedSection) {
+                limitedSection.classList.add('hidden');
             }
             
-            // First Season
-            let firstSeasonHTML = '';
-            if(seasons.length > 0) {
-                firstSeasonHTML = buildSeasonHTML(seasons[0]);
-            }
-            const firstSeasonWrapper = document.getElementById('first-season-wrapper');
-            if(firstSeasonWrapper) firstSeasonWrapper.innerHTML = firstSeasonHTML;
-            
-            // Best Selling
-            const bestProducts = currentData.products.filter(p => p.is_best);
-            let bestSellingHTML = '';
-            if(bestProducts.length > 0) {
-                bestSellingHTML = buildBestSellingHTML(bestProducts);
-            }
-            const bestSellingWrapper = document.getElementById('best-selling-wrapper');
-            if(bestSellingWrapper) bestSellingWrapper.innerHTML = bestSellingHTML;
-            
-            // Remaining Seasons
-            let remainingSeasonsHTML = '';
-            for(let i = 1; i < seasons.length; i++) {
-                remainingSeasonsHTML += buildSeasonHTML(seasons[i]);
-            }
-            const dynamicContainer = document.getElementById('dynamic-home-sections');
-            if(dynamicContainer) dynamicContainer.innerHTML = remainingSeasonsHTML;
+            initCarouselTouchSupport();
         }
 
-        function renderVideoSection() {
-            // This is now handled by renderHomepageSections to place it in correct order
-            const section = document.getElementById('video-showcase-section');
-            if (currentData.videos && currentData.videos.length) {
-                videoData = currentData.videos;
-                section.classList.remove('hidden');
-                initializeFullScreenVideoCarousel();
-            } else {
-                section.classList.add('hidden');
-            }
+        function cleanupAllCarousels() {
+            const carouselIds = [
+                'new-arrivals-carousel', 'hot-products-carousel', 
+                'featured-products-carousel', 'best-selling-carousel',
+                'on-sale-carousel', 'limited-edition-carousel'
+            ];
+            carouselIds.forEach(id => stopCarouselAutoScroll(id));
         }
-        
-        function initializeFullScreenVideoCarousel() { 
-            const carousel = document.getElementById('video-carousel'); 
-            const indicators = document.getElementById('video-slide-indicators'); 
-            if (!videoData.length || !carousel) return; 
-            carousel.innerHTML = videoData.map((video, index) => `
-                <div class="video-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
-                    <video id="main-video-${index}" src="${video.video_url}" muted playsinline loop preload="metadata" 
-                        ontimeupdate="updateProgressBar(${index})" 
-                        onended="advanceVideoSlide()" 
-                        onloadedmetadata="if(${index} === 0) playVideoSlide(0)" 
-                        aria-label="${video.title || 'Video ' + (index + 1)}"></video>
-                    <div class="video-overlay"></div>
-                    <div class="video-info-liquid">
-                        ${video.brand_name ? `<div class="brand-name">${video.brand_name}</div>` : ''}
-                        <h2 class="video-main-title">${video.title}</h2>
-                        ${video.subtitle ? `<p class="video-sub-title">${video.subtitle}</p>` : ''}
-                    </div>
-                </div>
-            `).join(''); 
-            indicators.innerHTML = videoData.map((_, index) => `
-                <div class="indicator ${index === 0 ? 'active' : ''}" 
-                    onclick="jumpToVideoSlide(${index})" 
-                    role="button" tabindex="0" 
-                    aria-label="Go to slide ${index + 1}"></div>
-            `).join(''); 
-            setTimeout(() => playVideoSlide(0), 300); 
-        }
-        
-        function playVideoSlide(index) { 
-            if (index >= videoData.length) index = 0; 
-            currentVideoIndex = index; 
-            isVideoPlaying = true; 
-            document.querySelectorAll('.video-slide video').forEach(v => { v.pause(); v.currentTime = 0; }); 
-            document.querySelectorAll('.video-slide').forEach((slide, i) => { slide.classList.toggle('active', i === index); }); 
-            document.querySelectorAll('.indicator').forEach((ind, i) => { ind.classList.toggle('active', i === index); }); 
-            const video = document.getElementById(`main-video-${index}`); 
-            if (video) { 
-                video.currentTime = 0; 
-                video.muted = true; 
-                isVideoSoundOn = false; 
-                const btn = document.getElementById('sound-toggle'); 
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'; 
-                const pauseBtn = document.getElementById('video-pause-btn'); 
-                if (pauseBtn) pauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>'; 
-                const playPromise = video.play(); 
-                if (playPromise !== undefined) { playPromise.catch(err => { console.log('Autoplay blocked:', err); }); } 
-            } 
-            document.getElementById('video-progress-bar').style.width = '0%'; 
-            if (videoAutoAdvanceTimer) clearTimeout(videoAutoAdvanceTimer); 
-            const duration = video?.duration || 10; 
-            videoAutoAdvanceTimer = setTimeout(() => advanceVideoSlide(), (duration * 1000) + 2000); 
-        }
-        
-        function advanceVideoSlide() { const nextIndex = (currentVideoIndex + 1) % videoData.length; playVideoSlide(nextIndex); }
-        function jumpToVideoSlide(index) { if (videoAutoAdvanceTimer) clearTimeout(videoAutoAdvanceTimer); playVideoSlide(index); }
-        function updateProgressBar(index) { if (index !== currentVideoIndex) return; const video = document.getElementById(`main-video-${index}`); if (!video || !video.duration) return; const progress = (video.currentTime / video.duration) * 100; document.getElementById('video-progress-bar').style.width = `${progress}%`; }
-        function toggleVideoSound() { isVideoSoundOn = !isVideoSoundOn; const video = document.getElementById(`main-video-${currentVideoIndex}`); if (video) video.muted = !isVideoSoundOn; const btn = document.getElementById('sound-toggle'); if (btn) btn.innerHTML = isVideoSoundOn ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>'; }
-        function toggleVideoPlayPause() { isVideoPlaying = !isVideoPlaying; const video = document.getElementById(`main-video-${currentVideoIndex}`); const btn = document.getElementById('video-pause-btn'); if (video) { if (isVideoPlaying) { video.play(); if (btn) btn.innerHTML = '<i class="fa-solid fa-pause"></i>'; } else { video.pause(); if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>'; } } }
-        function cleanupVideoCarousel() { if (videoAutoAdvanceTimer) { clearTimeout(videoAutoAdvanceTimer); videoAutoAdvanceTimer = null; } document.querySelectorAll('.video-slide video').forEach(v => { v.pause(); v.currentTime = 0; }); }
 
-        function buildSeasonHTML(season) { 
-            const seasonProductIds = (currentData.seasonProducts || []).filter(sp => sp.season_id === season.id).sort((a,b) => (a.display_order || 0) - (b.display_order || 0)).map(sp => sp.product_id); 
-            const seasonProducts = seasonProductIds.map(id => currentData.products.find(p => p.id === id)).filter(p => p).slice(0, 4); 
-            if(seasonProducts.length === 0) return ''; 
-            const bannerHTML = season.banner_img ? `<div class="mb-8 sm:mb-10"><div class="season-banner rounded-3xl shadow-xl" style="aspect-ratio: 21/9; max-height: 400px;"><img src="${season.banner_img}" alt="${season.name} Collection Banner" class="w-full h-full object-cover rounded-3xl" loading="lazy"></div></div>` : ''; 
-            const productsHTML = seasonProducts.map(p => { 
-                const isOut = p.stock <= 0; 
-                const wished = wishlist.includes(p.id); 
-                return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block relative"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10"><span class="bg-accent text-white text-[7px] sm:text-[8px] font-black px-2 sm:px-3 py-0.5 sm:py-1 rounded-full uppercase shadow-lg flex items-center gap-1"><i class="fa-solid fa-calendar-star"></i> ${season.name}</span></div><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition z-10"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center z-10"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?`<div class="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-10"><span class="bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</span></div>`:''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
-            }).join(''); 
-            return `<div class="max-w-7xl mx-auto px-4 py-12 sm:py-16 lg:py-24"><div class="text-center mb-8 sm:mb-12"><p class="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-accent mb-2 sm:mb-3">${season.subtitle || 'New Season'}</p><h2 class="text-2xl sm:text-3xl lg:text-5xl font-black font-serif">${season.name}</h2></div>${bannerHTML}<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">${productsHTML}</div><div class="text-center mt-8 sm:mt-10"><a href="/products" onclick="event.preventDefault();navigate('products')" class="px-8 sm:px-10 py-3 sm:py-4 border-2 border-primary text-primary rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition-all no-underline inline-block">View All Collection</a></div></div>`; 
-        }
-        
-        function buildBestSellingHTML(bestProducts) { 
-            return `<section class="py-10 sm:py-14 lg:py-20 bg-soft"><div class="max-w-7xl mx-auto px-4"><div class="flex items-center justify-between mb-6 sm:mb-8"><div class="flex items-center gap-2 sm:gap-3"><span class="w-8 h-8 sm:w-10 sm:h-10 bg-accent text-white flex items-center justify-center rounded-full text-base sm:text-lg"><i class="fa-solid fa-crown"></i></span><h2 class="text-xl sm:text-2xl lg:text-3xl font-black font-serif">Best Sellers</h2></div><a href="/products" onclick="event.preventDefault();navigate('products')" class="text-[10px] sm:text-xs font-bold text-primary hover:text-accent transition no-underline">View All <i class="fa-solid fa-arrow-right ml-1"></i></a></div><div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">${bestProducts.slice(0, 4).map(p => productCard(p)).join('')}</div></div></section>`; 
-        }
-        
         function productCard(p){ 
             const isOut=p.stock<=0,wished=wishlist.includes(p.id); 
-            return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
+            return `<a href="/product/${getProductSlug(p)}" onclick="event.preventDefault();openProductDetails(${p.id})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} shadow-lg active:scale-95 transition"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><span class="bg-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_hot&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">Hot</div>':''}${p.is_new_arrival&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-green-500 text-white text-[7px] sm:text-[8px] font-black px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full uppercase">New</div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm lg:text-base text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-gray-400 line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-accent'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; 
         }
         
         function getRandomProducts(currentProductId, category, count = 4) { 
@@ -1634,14 +1954,6 @@
             }, 300); 
         }
         
-        function renderHomeFeatured(list){ 
-            const hot=list.filter(p=>p.is_hot); 
-            if(hot.length){
-                document.getElementById('hot-products-section').classList.remove('hidden');
-                document.getElementById('hot-products-grid').innerHTML=hot.map(p=>productCard(p)).join('');
-            } 
-        }
-        
         function renderRecentlyViewed(){ 
             const ids=JSON.parse(localStorage.getItem('jayen_recent')||'[]'),list=currentData.products.filter(p=>ids.includes(p.id.toString())); 
             const sec=document.getElementById('recent-products-section'); 
@@ -1681,7 +1993,7 @@
             btn.classList.add('selected'); 
             selectedVariantObj={id:vId,name:vName,price:vPrice}; 
         }
-        
+
         function zoomImage(e){ 
             const container=document.getElementById('product-zoom-container'),img=document.getElementById('product-zoom-image'); 
             if(!container||!img)return; 
@@ -1758,12 +2070,6 @@
             renderCartItems(); 
         }
         
-        
-        
-       
-        
-       
-        
         async function loadUserOrders(){ 
             const{data}=await _supabase.from('orders').select('*').eq('member_email',userSession.email).order('created_at',{ascending:false}); 
             const c=document.getElementById('user-order-list'); 
@@ -1790,276 +2096,49 @@
                 privacy: {
                     t: 'Privacy Policy',
                     c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you visit our website or make a purchase.</p>
+                        <p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy and ensuring the security of your personal information.</p>
                         <h4 class="font-bold text-primary mt-4 mb-2">1. Information We Collect</h4>
-                        <p><strong>Personal Information:</strong> When you create an account, place an order, or contact us, we collect: Full name, email address, phone number, shipping/billing address, and district/upazila details.</p>
-                        <p><strong>Automatically Collected Data:</strong> With your explicit consent via our cookie banner, we collect: IP address, browser type, device information (screen resolution, OS, device model), geolocation data (GPS or IP-based approximate location), pages visited, time spent on site, referral URLs, and interaction patterns (clicks, scrolls, hovers).</p>
-                        <p><strong>Payment Information:</strong> We do <strong>NOT</strong> store or process credit/debit card details on our servers. All card payments are processed through encrypted third-party payment gateways (Visa, Mastercard, Google Pay). For Cash on Delivery (COD), we only retain order confirmation details.</p>
-                        <p><strong>Communications:</strong> We retain records of your communications with us, including emails to binzeo369@gmail.com or binzeo369@outlook.com, Messenger chats, and customer support tickets at support.jayenware.shop.</p>
+                        <p><strong>Personal Information:</strong> Full name, email address, phone number, shipping/billing address.</p>
+                        <p><strong>Automatically Collected Data:</strong> IP address, browser type, device information, geolocation data.</p>
+                        <p><strong>Payment Information:</strong> We do NOT store credit/debit card details.</p>
                         <h4 class="font-bold text-primary mt-4 mb-2">2. How We Use Your Data</h4>
                         <ul class="list-disc pl-5 space-y-1">
-                            <li>To process and fulfill your orders, including shipping and delivery coordination.</li>
-                            <li>To communicate order status, delivery updates, and promotional offers (if opted in).</li>
-                            <li>To verify product authenticity via verify.jayenware.shop.</li>
-                            <li>To improve our website functionality, user experience, and product offerings.</li>
-                            <li>To detect and prevent fraudulent transactions, unauthorized access, and abuse.</li>
-                            <li>To comply with legal obligations under Bangladesh's Digital Security Act and applicable e-commerce regulations.</li>
-                            <li>To analyze traffic patterns and customer preferences (with consent) to optimize inventory and marketing.</li>
+                            <li>To process and fulfill your orders</li>
+                            <li>To communicate order status and delivery updates</li>
+                            <li>To improve our website functionality</li>
                         </ul>
-                        <p><strong>We NEVER sell, rent, or trade your personal data to third parties for advertising purposes.</strong></p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Cookies & Tracking Technologies</h4>
-                        <p><strong>Essential Cookies:</strong> Required for site functionality (cart, login session, security). These cannot be disabled.</p>
-                        <p><strong>Analytics & Preference Cookies:</strong> Used only with your consent to remember preferences, analyze traffic via Google Analytics/Facebook Pixel, and deliver relevant content.</p>
-                        <p><strong>Managing Cookies:</strong> You can accept or decline all non-essential cookies via our cookie consent banner. You may also clear cookies from your browser settings at any time. Declining may affect certain site features.</p>
-                        <p><strong>Third-Party Cookies:</strong> Our payment processors (Google Pay, Visa, Mastercard) and social media embeds (Facebook, Instagram, YouTube) may set their own cookies. We recommend reviewing their respective privacy policies.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">4. Data Security</h4>
-                        <p>We implement industry-standard security measures including:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>SSL/TLS encryption for all data transmission.</li>
-                            <li>Encrypted storage via <strong>Supabase</strong> with row-level security policies.</li>
-                            <li>Regular security audits and vulnerability assessments.</li>
-                            <li>Strict access controls — only authorized BINZEO personnel handle customer data.</li>
-                            <li>Masking of sensitive information in internal systems.</li>
-                        </ul>
-                        <p>While we strive to protect your data, no method of electronic storage is 100% secure. We cannot guarantee absolute security but will notify you immediately in the event of a data breach as required by law.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">5. Data Retention</h4>
-                        <p>We retain your personal data only as long as necessary:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Account Data:</strong> Until account deletion request or 3 years of inactivity.</li>
-                            <li><strong>Order Records:</strong> 7 years (for tax and legal compliance).</li>
-                            <li><strong>Visitor Logs (Consented):</strong> 26 months.</li>
-                            <li><strong>Marketing Consent:</strong> Until withdrawn.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">6. Your Rights Under Bangladesh Law</h4>
-                        <p>Under the <strong>Digital Security Act 2018</strong> and <strong>Data Protection Act (Draft)</strong>, you have the right to:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Access:</strong> Request a copy of your personal data stored by us.</li>
-                            <li><strong>Rectification:</strong> Correct any inaccurate or incomplete information.</li>
-                            <li><strong>Erasure:</strong> Request deletion of your data ("Right to be Forgotten"), subject to legal retention requirements.</li>
-                            <li><strong>Restriction:</strong> Limit how we process your data.</li>
-                            <li><strong>Portability:</strong> Receive your data in a structured, machine-readable format.</li>
-                            <li><strong>Objection:</strong> Object to processing for direct marketing or analytics.</li>
-                            <li><strong>Withdraw Consent:</strong> Revoke cookie/geolocation consent at any time.</li>
-                        </ul>
-                        <p>To exercise any of these rights, contact our Data Protection Officer at <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>. We will respond within 30 days.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">7. Third-Party Services</h4>
-                        <p>We share minimal data with trusted partners:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Payment Gateways:</strong> Google Pay, Visa, Mastercard (only transaction amount and order ID).</li>
-                            <li><strong>Delivery Partners:</strong> Name, phone, and address for courier services (e.g., Pathao, Steadfast, RedX).</li>
-                            <li><strong>Analytics:</strong> Google Analytics, Facebook Pixel (anonymized behavioral data, with consent).</li>
-                            <li><strong>Customer Support:</strong> Facebook Messenger, support.jayenware.shop ticketing system.</li>
-                        </ul>
-                        <p>All third parties are bound by confidentiality agreements and are prohibited from using your data for their own purposes.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">8. Children's Privacy</h4>
-                        <p>Our website is not intended for individuals under 18 years of age. We do not knowingly collect data from children. If you believe a child has provided us with personal information, contact us immediately for deletion.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">9. Changes to This Policy</h4>
-                        <p>We may update this policy periodically to reflect changes in our practices or legal obligations. Significant changes will be communicated via email or prominent site notice. Continued use of the site constitutes acceptance of the updated policy.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">10. Contact Information</h4>
-                        <p><strong>Data Controller:</strong> BINZEO (parent company of JAYENWARE)</p>
-                        <p><strong>Data Protection Officer:</strong> binzeo369@gmail.com</p>
-                        <p><strong>Support Emails:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> | <a href="mailto:binzeo369@outlook.com" class="text-accent font-bold">binzeo369@outlook.com</a></p>
-                        <p><strong>Help Center:</strong> <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a></p>
-                        <p><strong>Registered Address:</strong> BINZEO, Dhaka, Bangladesh.</p>
-                        <p class="mt-4 p-3 bg-yellow-50 rounded-xl text-yellow-800 text-xs">For urgent privacy concerns or to report a data breach, please contact us immediately at <strong>binzeo369@gmail.com</strong> or via Messenger at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold underline">m.me/861762253694814</a>.</p>`
+                        <p><strong>We NEVER sell your personal data to third parties.</strong></p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Contact</h4>
+                        <p><strong>Data Protection Officer:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>`
                 },
                 terms: {
                     t: 'Terms of Service',
                     c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p>Welcome to <strong>JAYENWARE</strong>. By accessing or using <a href="https://www.jayenware.shop" class="text-accent font-bold">www.jayenware.shop</a>, you agree to be bound by these Terms of Service. Please read them carefully before making a purchase.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Acceptance of Terms</h4>
-                        <p>By creating an account, placing an order, or browsing this website, you acknowledge that you have read, understood, and agree to these terms. If you do not agree, please refrain from using our services.</p>
-                        <p>We reserve the right to modify these terms at any time. Changes take effect immediately upon posting. Continued use constitutes acceptance of the revised terms.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. Eligibility</h4>
-                        <p>You must be at least <strong>18 years old</strong> or have parental/guardian consent to use this site and make purchases. By placing an order, you represent that you meet this requirement.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Account Registration & Security</h4>
-                        <p>You may browse without an account, but account creation is required for order tracking, wishlist, and faster checkout. You are responsible for:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Providing accurate, complete, and current registration information.</li>
-                            <li>Maintaining the confidentiality of your password and account credentials.</li>
-                            <li>All activities that occur under your account.</li>
-                            <li>Notifying us immediately at <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> of any unauthorized account use.</li>
-                        </ul>
-                        <p>JAYENWARE reserves the right to suspend or terminate accounts that violate these terms or engage in fraudulent activity.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">4. Product Information & Pricing</h4>
-                        <p><strong>Accuracy:</strong> We strive to display product colors, sizes, and descriptions as accurately as possible. However, actual product appearance may vary due to screen calibration, lighting, and manufacturing variations.</p>
-                        <p><strong>Pricing:</strong> All prices are listed in <strong>Bangladeshi Taka (BDT)</strong> and are inclusive of applicable taxes unless stated otherwise. Prices are subject to change without prior notice. Promotional prices are valid only during the specified promotional period.</p>
-                        <p><strong>Errors:</strong> We reserve the right to correct pricing errors, typographical mistakes, or inaccuracies at any time. In the event of a pricing error, we will notify you and offer the option to proceed at the correct price or cancel the order with a full refund.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">5. Order Processing & Confirmation</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Order Placement:</strong> Adding items to the cart does not guarantee availability. An order is considered confirmed only after you receive an <strong>order confirmation call/SMS</strong> from our team.</li>
-                            <li><strong>Verification:</strong> For security, we may request identity verification for large orders or suspicious transactions. Failure to verify may result in order cancellation.</li>
-                            <li><strong>Cancellation Rights:</strong> We reserve the right to cancel or limit quantities for any reason, including stock unavailability, payment verification failure, pricing errors, or suspected fraudulent activity. If cancelled, you will receive a full refund for any amounts paid.</li>
-                            <li><strong>Bulk Orders:</strong> Orders exceeding 10 units of the same product may be considered commercial/bulk and subject to additional verification or cancellation.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">6. Payment Methods</h4>
-                        <p>We accept the following payment methods:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Cash on Delivery (COD)</strong> — Available across Bangladesh. Pay when you receive the product.</li>
-                            <li><strong>Digital Wallets & Cards:</strong> Google Pay, Visa, Mastercard (processed through encrypted gateways).</li>
-                        </ul>
-                        <p>By providing payment information, you represent that you are authorized to use the selected payment method. We are not responsible for delays caused by payment processing issues.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">7. Shipping & Delivery</h4>
-                        <p>Details are outlined in our <a href="#" onclick="event.preventDefault();openPolicy('shipping')" class="text-accent font-bold underline">Shipping & Delivery Policy</a>. Key points:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Shipping charges are calculated based on delivery location (Dhaka Metro: ৳60, Other Areas: ৳120).</li>
-                            <li>Free shipping on orders over ৳2,500.</li>
-                            <li>Estimated delivery times: 1-7 business days depending on location.</li>
-                            <li>Risk of loss transfers to you upon delivery to the shipping address provided.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">8. Returns, Refunds & Exchanges</h4>
-                        <p>Our detailed policy is available in the <a href="#" onclick="event.preventDefault();openPolicy('cookies')" class="text-accent font-bold underline">Return & Refund Policy</a>. Key conditions:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Returns accepted within <strong>3 days</strong> of delivery.</li>
-                            <li>Items must be unused, unwashed, with original tags and packaging.</li>
-                            <li>Non-returnable: Intimate wear, fragrances, clearance/sale items, and personalized/customized products.</li>
-                            <li>Refunds processed within 7-10 business days to the original payment method or as store credit.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">9. Intellectual Property</h4>
-                        <p>All content on this website — including but not limited to the <strong>JAYENWARE</strong> and <strong>BINZEO</strong> logos, product images, designs, text, graphics, videos, blog posts, and code — is the exclusive intellectual property of <strong>BINZEO</strong> and is protected under Bangladesh's Copyright Act 2000 and international copyright treaties.</p>
-                        <p><strong>Prohibited Actions:</strong> Reproduction, redistribution, modification, reverse engineering, or commercial exploitation of any site content without prior written consent from BINZEO is strictly prohibited. Violations may result in legal action.</p>
-                        <p><strong>User-Generated Content:</strong> By submitting reviews, photos, or testimonials, you grant JAYENWARE a non-exclusive, royalty-free, perpetual license to use, display, and modify that content for marketing purposes.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">10. Promotions & Discounts</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Promo Codes:</strong> Must be applied at checkout. Cannot be combined with other offers unless explicitly stated. Expired or invalid codes are void.</li>
-                            <li><strong>Seasonal Sales:</strong> Discounted items during sales events are final sale (non-returnable) unless defective.</li>
-                            <li><strong>Free Shipping:</strong> Applied automatically at checkout for qualifying orders. Does not apply to remote areas (additional surcharge may apply).</li>
-                            <li><strong>Abuse:</strong> We reserve the right to refuse or cancel orders suspected of promo abuse (e.g., multiple accounts, reselling).</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">11. Limitation of Liability</h4>
-                        <p>To the fullest extent permitted by law, <strong>JAYENWARE</strong> and <strong>BINZEO</strong> shall not be liable for:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Indirect, incidental, punitive, or consequential damages arising from the use or inability to use our products or website.</li>
-                            <li>Delays or failures caused by circumstances beyond our reasonable control (force majeure), including but not limited to: natural disasters, pandemics, government restrictions, political unrest, strikes, internet outages, or courier service disruptions.</li>
-                            <li>Any loss or damage resulting from unauthorized access to your account data (provided we have taken reasonable security measures).</li>
-                        </ul>
-                        <p>Our maximum liability for any claim related to a product purchase is limited to the purchase price of that product.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">12. Indemnification</h4>
-                        <p>You agree to indemnify and hold harmless JAYENWARE, BINZEO, and their respective directors, employees, and affiliates from any claims, damages, or expenses (including legal fees) arising from your violation of these Terms, misuse of the website, or infringement of third-party rights.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">13. Third-Party Links</h4>
-                        <p>Our site may contain links to third-party websites (payment gateways, social media, support portals). We are not responsible for the content, policies, or practices of these external sites. Access them at your own risk.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">14. Governing Law & Dispute Resolution</h4>
-                        <p>These Terms are governed by the laws of the <strong>People's Republic of Bangladesh</strong>. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Dhaka, Bangladesh.</p>
-                        <p>We encourage amicable resolution: please contact <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> before initiating formal legal proceedings. We aim to resolve all disputes informally within 30 days.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">15. Termination</h4>
-                        <p>We reserve the right to suspend or terminate your account and access to our services at our sole discretion, without prior notice, for any conduct that we believe violates these Terms or is harmful to our business, other users, or third parties.</p>
-                        <p>Upon termination, your right to use the site ceases immediately. Outstanding payment obligations and disclaimers/limitations of liability survive termination.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">16. Contact Information</h4>
-                        <p><strong>Company:</strong> BINZEO (operating JAYENWARE)</p>
-                        <p><strong>Legal Inquiries:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>
-                        <p><strong>Support:</strong> <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a></p>
-                        <p><strong>Messenger:</strong> <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a></p>
-                        <p class="mt-4 p-3 bg-blue-50 rounded-xl text-blue-800 text-xs"><strong>Note:</strong> These Terms of Service were last updated on ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}. We recommend reviewing them periodically for any changes.</p>`
+                        <p>Welcome to <strong>JAYENWARE</strong>. By using this site, you agree to these terms.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Eligibility</h4>
+                        <p>You must be at least 18 years old to use this site.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. Orders</h4>
+                        <p>All orders are subject to availability and confirmation.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Contact</h4>
+                        <p><strong>Legal Inquiries:</strong> <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a></p>`
                 },
                 cookies: {
                     t: 'Return & Refund Policy',
                     c: `<p class="text-xs text-gray-400 mb-4">Effective Date: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p>At <strong>JAYENWARE</strong>, customer satisfaction is our priority. If you are not fully satisfied with your purchase, we are here to help. Please read our Return & Refund Policy carefully.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Return Eligibility Criteria</h4>
-                        <p>To qualify for a return or refund, the following conditions <strong>must ALL be met</strong>:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Timeframe:</strong> Return request must be initiated within <strong>3 calendar days</strong> from the date of delivery. After 3 days, the item is considered accepted.</li>
-                            <li><strong>Condition:</strong> Items must be <strong>unused, unwashed, unworn,</strong> and in their <strong>original condition</strong> with all original tags, labels, and packaging intact. Items with stains, odors, deodorant marks, makeup, animal hair, or alterations will be rejected.</li>
-                            <li><strong>Proof of Purchase:</strong> A valid order number, receipt, or confirmation SMS/email must be presented.</li>
-                            <li><strong>Packaging:</strong> The item must be returned in its original product packaging (box, polybag, sleeve) with all accessories, manuals, and warranty cards (if applicable).</li>
-                            <li><strong>Footwear:</strong> Shoes must be tried on a clean, carpeted surface only. Soles must show <strong>zero wear marks</strong>. Return the shoe box inside a protective outer box — do not tape directly on the shoe box.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. Non-Returnable / Final Sale Items</h4>
-                        <p>The following categories are <strong>strictly non-returnable and non-refundable</strong> for hygiene and business reasons:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Intimate wear & undergarments</li>
-                            <li>Fragrances, perfumes, and cosmetics (opened or used)</li>
-                            <li>Items marked as "Clearance," "Final Sale," or "Non-Returnable"</li>
-                            <li>Personalized, customized, or made-to-order products</li>
-                            <li>Items damaged due to customer mishandling, misuse, or improper washing/care</li>
-                            <li>Free gifts or promotional items</li>
-                            <li>Digital products or gift cards</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Return Process (Step-by-Step)</h4>
-                        <ol class="list-decimal pl-5 space-y-2">
-                            <li><strong>Initiate Return:</strong> Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a> with your Order ID, reason for return, and clear photos of the item showing its condition. Requests without photos will not be processed.</li>
-                            <li><strong>Approval:</strong> Our team will review your request within <strong>24-48 hours</strong>. You will receive an approval or rejection decision via email/SMS with the reason.</li>
-                            <li><strong>Return Shipping:</strong> If approved, you are responsible for shipping the item back to our designated return address (provided upon approval). We recommend using a traceable courier service. <strong>Return shipping costs are non-refundable</strong> unless the return is due to our error (defective/wrong item).</li>
-                            <li><strong>Inspection:</strong> Once received, the item undergoes a quality inspection (2-3 business days). If it passes inspection, your refund/exchange will be initiated. If rejected, the item will be returned to you at your cost.</li>
-                        </ol>
-                        <h4 class="font-bold text-primary mt-4 mb-2">4. Refund Options</h4>
-                        <p>Once your return is approved and inspected, you may choose one of the following:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Store Credit / Gift Voucher:</strong> Instant credit for future purchases (valid for 6 months). <strong>Bonus:</strong> Receive an additional 10% of the refund amount as loyalty credit.</li>
-                            <li><strong>Original Payment Method:</strong> Refund to the card/wallet used at purchase. Processing time: <strong>7-10 business days</strong> after inspection approval, depending on your bank.</li>
-                            <li><strong>Bank Transfer / Mobile Wallet (bKash/Nagad):</strong> Refund to your provided account. Processing time: <strong>3-5 business days</strong>.</li>
-                        </ul>
-                        <p>COD refunds are processed via bank transfer or mobile wallet only. We do not send cash refunds via courier.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">5. Exchange Policy</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Size/Color Exchange:</strong> Available subject to stock. We will hold the replacement item for up to 48 hours while your return is in transit.</li>
-                            <li><strong>Exchange Shipping:</strong> We provide free delivery for the first exchange. Subsequent exchanges may incur a shipping charge (৳60-৳120 depending on location).</li>
-                            <li><strong>Price Difference:</strong> If the replacement item costs more, you must pay the difference before shipment. If less, the difference will be refunded as store credit.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">6. Defective, Damaged, or Incorrect Items (Our Error)</h4>
-                        <p>If you receive a <strong>defective, damaged, or incorrect item</strong>, we take full responsibility:</p>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Reporting Window:</strong> Must be reported within <strong>24 hours</strong> of delivery with clear unboxing video and photos sent to <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
-                            <li><strong>Resolution Options:</strong>
-                                <ul class="list-circle pl-5">
-                                    <li><strong>Option A – Full Refund:</strong> 100% refund including all shipping charges. We will arrange a free return pickup.</li>
-                                    <li><strong>Option B – Free Replacement:</strong> We will ship a new identical item at our cost. No shipping charges apply.</li>
-                                    <li><strong>Option C – Partial Refund:</strong> Keep the item with a partial refund (amount based on the defect severity, determined by our team).</li>
-                                </ul>
-                            </li>
-                            <li>Claims made after 24 hours or without proper evidence (photos/video) may not be accepted.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">7. Cancellation Policy</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Before Shipment:</strong> Orders can be cancelled within <strong>1 hour</strong> of placement with no penalty. Contact us via Messenger at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a> or call for immediate cancellation.</li>
-                            <li><strong>After Shipment:</strong> If the order has been dispatched, cancellation is not possible. You must follow the standard return process upon delivery.</li>
-                            <li><strong>COD Cancellation:</strong> If a COD order is cancelled or refused at delivery more than <strong>2 times</strong>, your account may be restricted or blocked from future COD orders.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">8. Chargebacks & Disputes</h4>
-                        <p>If you file a chargeback or payment dispute with your bank without first contacting us to resolve the issue, your account will be immediately suspended pending investigation. We encourage direct communication for faster resolution.</p>
-                        <p class="mt-4 p-3 bg-green-50 rounded-xl text-green-800 text-xs"><strong>Need Help?</strong> Our support team is available daily from 9 AM to 9 PM. Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</p>`
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Return Eligibility</h4>
+                        <p>Returns accepted within 3 days of delivery. Items must be unused with original tags.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. Non-Returnable Items</h4>
+                        <p>Intimate wear, fragrances, clearance items.</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">3. Refund Options</h4>
+                        <p>Store credit or original payment method (7-10 business days).</p>`
                 },
                 shipping: {
                     t: 'Shipping & Delivery',
                     c: `<p class="text-xs text-gray-400 mb-4">Last updated: ${new Date().toLocaleDateString('en-BD', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        <p>At <strong>JAYENWARE</strong>, we partner with reliable courier services across Bangladesh to ensure your orders reach you safely and on time. Below is our comprehensive shipping and delivery policy.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">1. Order Processing</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Processing Hours:</strong> Orders are processed <strong>Sunday through Thursday, 9:00 AM – 6:00 PM (BST)</strong>. Orders placed after 6 PM, on Friday, Saturday, or on public holidays will be processed the next working day.</li>
-                            <li><strong>Verification:</strong> All orders undergo a verification process (phone/SMS confirmation). Your order is not considered confirmed until this verification is complete. Failure to respond within <strong>24 hours</strong> may result in automatic cancellation.</li>
-                            <li><strong>Processing Time:</strong> Standard processing takes <strong>24-48 hours</strong> (excluding weekends and holidays). During peak seasons (Eid, Puja, New Year sales), processing may extend to <strong>48-72 hours</strong>.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">2. Delivery Timeframes (Estimated)</h4>
-                        <div class="overflow-x-auto my-3"><table class="w-full text-xs border-collapse"><thead><tr class="bg-gray-100"><th class="border p-2 text-left font-bold">Zone</th><th class="border p-2 text-left font-bold">Coverage</th><th class="border p-2 text-center font-bold">Estimated Time</th></tr></thead><tbody><tr><td class="border p-2"><strong>Dhaka Metro</strong></td><td class="border p-2">Dhaka City Corporation Areas (North & South)</td><td class="border p-2 text-center"><strong>1-2 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Dhaka Suburban</strong></td><td class="border p-2">Savar, Gazipur, Narayanganj, Keraniganj</td><td class="border p-2 text-center"><strong>2-3 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Major Cities</strong></td><td class="border p-2">Chattogram, Sylhet, Rajshahi, Khulna, Barishal, Rangpur, Mymensingh</td><td class="border p-2 text-center"><strong>3-4 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Other Districts</strong></td><td class="border p-2">All other district headquarters and upazilas</td><td class="border p-2 text-center"><strong>4-5 Business Days</strong></td></tr><tr><td class="border p-2"><strong>Remote/Rural Areas</strong></td><td class="border p-2">Union-level & hard-to-reach locations</td><td class="border p-2 text-center"><strong>5-7 Business Days</strong></td></tr></tbody></table></div>
-                        <p class="text-[10px] text-gray-400">*Delivery times are estimates and not guaranteed. Delays may occur due to weather, political unrest, courier backlog, or other force majeure events.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">3. Shipping Charges</h4>
-                        <div class="overflow-x-auto my-3"><table class="w-full text-xs border-collapse"><thead><tr class="bg-gray-100"><th class="border p-2 text-left font-bold">Destination</th><th class="border p-2 text-center font-bold">Charge</th><th class="border p-2 text-center font-bold">Free Shipping</th></tr></thead><tbody><tr><td class="border p-2">Inside Dhaka (Metro & Suburban)</td><td class="border p-2 text-center"><strong>৳ 60</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 2,500</strong></td></tr><tr><td class="border p-2">Outside Dhaka (All Bangladesh)</td><td class="border p-2 text-center"><strong>৳ 120</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 2,500</strong></td></tr><tr><td class="border p-2">Remote/Char/Haor Areas</td><td class="border p-2 text-center"><strong>৳ 150</strong></td><td class="border p-2 text-center">Orders over <strong>৳ 3,500</strong></td></tr></tbody></table></div>
-                        <p><strong>Express Delivery:</strong> Available for Dhaka Metro only at an additional <strong>৳ 100</strong>. Orders placed before 12 PM are delivered the <strong>same day</strong> (by 9 PM). Orders after 12 PM are delivered the <strong>next business day</strong>.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">4. Order Tracking</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Once your order is dispatched, you will receive a <strong>tracking ID</strong> via <strong>SMS and Email</strong>.</li>
-                            <li>Track your order status by visiting <a href="https://verify.jayenware.shop" target="_blank" class="text-accent font-bold">verify.jayenware.shop</a> and entering your Tracking ID.</li>
-                            <li>Live tracking is available for most courier partners (Steadfast, Pathao, RedX, eCourier). Status updates appear within the portal.</li>
-                            <li>If you do not receive a tracking ID within <strong>48 hours</strong> of order confirmation, contact <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">5. Delivery Attempts & Failed Delivery</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Our couriers will attempt delivery <strong>up to 2 times</strong> to your provided address.</li>
-                            <li>If the first attempt fails, you will be contacted via phone to reschedule. Failure to respond within <strong>48 hours</strong> will result in the package being returned to us.</li>
-                            <li><strong>Failed Delivery (2 attempts):</strong> The order will be returned to our warehouse. A re-delivery charge (৳60-৳120) will apply to re-ship. Alternatively, the order will be cancelled with a refund (minus original shipping and return shipping costs).</li>
-                            <li><strong>Incorrect Address:</strong> If the address provided is incorrect/incomplete and delivery fails, you bear the re-shipping costs.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">6. Damaged During Transit</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li><strong>Do NOT accept</strong> a visibly damaged or tampered package. Ask the courier to note the damage and return it.</li>
-                            <li>If you discover damage after opening, document with <strong>clear photos and a video of the unboxing</strong> and report within <strong>24 hours</strong> to <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>.</li>
-                            <li>We will file a claim with the courier and arrange a free replacement or full refund.</li>
-                        </ul>
-                        <h4 class="font-bold text-primary mt-4 mb-2">7. International Shipping</h4>
-                        <p>Currently, we only ship within Bangladesh. International shipping is under development. For inquiries, contact <a href="mailto:binzeo369@outlook.com" class="text-accent font-bold">binzeo369@outlook.com</a>.</p>
-                        <h4 class="font-bold text-primary mt-4 mb-2">8. Delivery Partners</h4>
-                        <p>We use trusted courier services: <strong>Steadfast Courier, Pathao Courier, RedX, eCourier, Sundarban Courier.</strong> The courier is selected based on your location and service availability.</p>
-                        <p class="mt-4 p-3 bg-blue-50 rounded-xl text-blue-800 text-xs"><strong>Need shipping support?</strong> Visit <a href="https://support.jayenware.shop" target="_blank" class="text-accent font-bold">support.jayenware.shop</a> or email <a href="mailto:binzeo369@gmail.com" class="text-accent font-bold">binzeo369@gmail.com</a>. You can also message us at <a href="https://m.me/861762253694814" target="_blank" class="text-accent font-bold">m.me/861762253694814</a>.</p>`
+                        <h4 class="font-bold text-primary mt-4 mb-2">1. Delivery Timeframes</h4>
+                        <p>Dhaka Metro: 1-2 days | Other Areas: 3-7 days</p>
+                        <h4 class="font-bold text-primary mt-4 mb-2">2. Shipping Charges</h4>
+                        <p>Inside Dhaka: ৳60 | Outside Dhaka: ৳120 | Free shipping over ৳2,500</p>`
                 }
             };
             const p = policies[type];
