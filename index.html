@@ -409,229 +409,13 @@
     -webkit-backdrop-filter: blur(30px);
     border-radius: 28px;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.03),
-        0 8px 24px rgba(0, 0, 0, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.carousel-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 28px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.4) 0%,
-        rgba(255, 255, 255, 0.1) 30%,
-        rgba(255, 255, 255, 0) 50%,
-        rgba(255, 255, 255, 0.05) 70%,
-        rgba(255, 255, 255, 0.2) 100%
-    );
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0.5;
-    transition: opacity 0.5s ease;
-}
-
-.carousel-card:hover {
-    transform: translateY(-6px);
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.04),
-        0 16px 40px rgba(0, 0, 0, 0.06),
-        0 0 0 1px rgba(0, 0, 0, 0.02),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.carousel-card:hover::before {
-    opacity: 0.8;
-}
-
-.carousel-card:active {
-    transform: scale(0.96);
-    transition: transform 0.2s ease;
-}
-
-/* Card Image Container - Liquid */
-.carousel-card .card-img {
-    position: relative;
-    aspect-ratio: 3/4;
-    background: linear-gradient(135deg, #f0f0f3 0%, #e8e8ed 50%, #f5f5f7 100%);
-    overflow: hidden;
-    z-index: 0;
-}
-
-.carousel-card .card-img::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.15) 0%,
-        rgba(0, 0, 0, 0.03) 30%,
-        transparent 60%
-    );
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.carousel-card:hover .card-img::after {
-    opacity: 1;
-}
-
-.carousel-card .card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), filter 0.5s ease;
-    filter: brightness(0.95) saturate(0.95);
-}
-
-.carousel-card:hover .card-img img {
-    transform: scale(1.08);
-    filter: brightness(1.05) saturate(1.1);
-}
-
-/* ============================================
-   LIQUID BLUR CONTENT AREA
-   ============================================ */
-.carousel-card .card-body {
-    position: relative;
-    z-index: 2;
-    padding: 20px 22px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.6);
-    transition: all 0.4s ease;
-}
-
-.carousel-card:hover .card-body {
-    background: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-}
-
-/* Category Label - Glass Pill */
-.carousel-card .card-category {
-    display: inline-block;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(0, 0, 0, 0.5);
-    background: rgba(0, 0, 0, 0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 4px 10px;
-    border-radius: 100px;
-    margin-bottom: 8px;
-    width: fit-content;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.carousel-card:hover .card-category {
-    background: rgba(0, 0, 0, 0.06);
-    color: rgba(0, 0, 0, 0.65);
-}
-
-/* Product Title - Liquid Text */
-.carousel-card .card-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1d1d1f;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 6px;
-    letter-spacing: -0.02em;
-    transition: color 0.3s ease;
-}
-
-.carousel-card:hover .card-title {
-    color: #000000;
-}
-
-/* Price Row */
-.carousel-card .card-price-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 8px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-/* Price - Bold & Clean */
-.carousel-card .card-price {
-    font-size: 18px;
-    font-weight: 700;
     color: #1d1d1f;
     letter-spacing: -0.03em;
     transition: all 0.3s ease;
 }
 
 .carousel-card:hover .card-price {
-    color: #000000;
-}
-
-.carousel-card .card-old-price {
-    font-size: 11px;
-    color: rgba(0, 0, 0, 0.35);
-    text-decoration: line-through;
-    margin-left: 6px;
-    font-weight: 500;
-}
-
-/* ============================================
-   LIQUID ADD TO CART BUTTON
-   ============================================ */
-.carousel-card .card-add-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 14px;
-    background: rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
-    color: #1d1d1f;
-    font-size: 14px;
-    flex-shrink: 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.carousel-card .card-add-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(0,0,0,0.8) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.35s ease;
+ ease;
     z-index: 0;
 }
 
@@ -695,56 +479,7 @@
 
 .badge-new {
     background: rgba(52, 199, 89, 0.15);
-    color: #1b7a2d;
-    border-color: rgba(52, 199, 89, 0.25);
-}
-
-.badge-hot {
-    background: rgba(255, 59, 48, 0.15);
-    color: #c4202a;
-    border-color: rgba(255, 59, 48, 0.25);
-}
-
-.badge-sale {
-    background: rgba(255, 149, 0, 0.15);
-    color: #b85a00;
-    border-color: rgba(255, 149, 0, 0.25);
-}
-
-.badge-limited {
-    background: rgba(175, 82, 222, 0.15);
-    color: #7a3ba8;
-    border-color: rgba(175, 82, 222, 0.25);
-}
-
-.badge-featured {
-    background: rgba(0, 122, 255, 0.15);
-    color: #0059c4;
-    border-color: rgba(0, 122, 255, 0.25);
-}
-
-/* ============================================
-   GLASS WISHLIST BUTTON
-   ============================================ */
-.carousel-card .card-wishlist-btn {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 5;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    color: rgba(0, 0, 0, 0.4);
-    font-size: 13px;
+গ
     opacity: 0;
     transform: translateY(-6px) scale(0.9);
 }
@@ -781,157 +516,275 @@
 /* ============================================
    GLASS SOLD OUT OVERLAY
    ============================================ */
-.carousel-card .card-soldout-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+/* ============================================
+   APPLE LIQUID RETINA - ULTRA OPTIMIZED
+   ============================================ */
+
+.carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    cursor: grab;
+    user-select: none;
+    padding: 8px 4px;
+    scroll-snap-type: x mandatory;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track:active { cursor: grabbing; }
+
+/* ========== CARD ========== */
+.carousel-card {
+    flex: 0 0 auto;
+    width: 270px;
+    scroll-snap-align: start;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+}
+.carousel-card:hover { transform: translateY(-2px); }
+.carousel-card:active { transform: scale(0.97); }
+
+/* ========== IMAGE ========== */
+.carousel-card .card-img {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: #f5f5f7;
+    overflow: hidden;
+}
+.carousel-card .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    will-change: transform;
+}
+.carousel-card:hover .card-img img { transform: scale(1.03); }
+
+/* ========== BODY ========== */
+.carousel-card .card-body {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Category */
+.carousel-card .card-category {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #8e8e93;
+}
+
+/* Title */
+.carousel-card .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d1d1f;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    letter-spacing: -0.01em;
+}
+
+/* Price Row */
+.carousel-card .card-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+.carousel-card .card-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1d1d1f;
+    letter-spacing: -0.02em;
+}
+.carousel-card .card-old-price {
+    font-size: 12px;
+    color: #b0b0b5;
+    text-decoration: line-through;
+    margin-left: 6px;
+}
+
+/* Add Button */
+.carousel-card .card-add-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f5f5f7;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #1d1d1f;
+    font-size: 13px;
+    flex-shrink: 0;
 }
+.carousel-card .card-add-btn:hover { background: #1d1d1f; color: #fff; }
+.carousel-card .card-add-btn:active { transform: scale(0.9); }
+.carousel-card .card-add-btn.disabled { opacity: 0.4; pointer-events: none; }
 
-.carousel-card .card-soldout-overlay span {
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #ffffff;
-    font-size: 10px;
+/* ========== BADGES ========== */
+.carousel-card .card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding: 10px 22px;
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.badge-new { background: rgba(52,199,89,0.15); color: #248a3d; }
+.badge-hot { background: rgba(255,59,48,0.15); color: #d70015; }
+.badge-sale { background: rgba(255,149,0,0.15); color: #c93400; }
+.badge-limited { background: rgba(175,82,222,0.15); color: #8944ab; }
+.badge-featured { background: rgba(0,122,255,0.15); color: #0066d6; }
+
+/* ========== WISHLIST ========== */
+.carousel-card .card-wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #8e8e93;
+    font-size: 11px;
+    opacity: 0;
+}
+.carousel-card:hover .card-wishlist-btn { opacity: 1; }
+.carousel-card .card-wishlist-btn:hover { color: #ff3b30; background: #fff; }
+.carousel-card .card-wishlist-btn.wished { opacity: 1; color: #ff3b30; }
+
+/* ========== SOLD OUT ========== */
+.carousel-card .card-soldout-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.carousel-card .card-soldout-overlay span {
+    background: #1d1d1f;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 16px;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* ============================================
-   GLASS NAVIGATION ARROWS
-   ============================================ */
+/* ========== NAV ARROWS ========== */
 .carousel-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 20;
-    width: 44px;
-    height: 44px;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0,0,0,0.06);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transition: opacity 0.2s ease, transform 0.2s ease;
     color: #1d1d1f;
-    font-size: 14px;
-    box-shadow: 
-        0 4px 16px rgba(0, 0, 0, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    font-size: 13px;
 }
-
-.carousel-nav:hover {
-    background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 
-        0 8px 28px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.carousel-nav:active {
-    transform: translateY(-50%) scale(0.92);
-    transition: transform 0.15s ease;
-}
-
-.carousel-nav.prev { left: 16px; }
-.carousel-nav.next { right: 16px; }
+.carousel-nav:hover { transform: translateY(-50%) scale(1.05); }
+.carousel-nav:active { transform: translateY(-50%) scale(0.95); }
+.carousel-nav.prev { left: 8px; }
+.carousel-nav.next { right: 8px; }
 .carousel-wrapper:hover .carousel-nav { opacity: 1; }
 
-/* ============================================
-   LIQUID SCROLL INDICATOR
-   ============================================ */
+/* ========== SCROLL DOTS ========== */
 .carousel-scrollbar {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
-    padding: 0 16px;
+    gap: 6px;
+    margin-top: 12px;
 }
-
 .carousel-scrollbar .scroll-dot {
     width: 6px;
     height: 6px;
     border-radius: 3px;
-    background: rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    background: #d2d2d7;
+    transition: all 0.3s ease;
     cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.04);
 }
-
 .carousel-scrollbar .scroll-dot.active {
-    width: 32px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 3px;
-    border-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 24px;
+    background: #1d1d1f;
 }
 
-/* ============================================
-   SECTION ANIMATION
-   ============================================ */
+/* ========== SECTION IN ========== */
 .carousel-section {
     opacity: 0;
-    transform: translateY(40px);
-    filter: blur(4px);
-    transition: opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), 
-                transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1),
-                filter 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
+.carousel-section.visible { opacity: 1; transform: translateY(0); }
 
-.carousel-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+/* ========== RESPONSIVE ========== */
 @media (max-width: 640px) {
-    .carousel-card { width: 210px; border-radius: 22px; }
-    .carousel-card::before { border-radius: 22px; }
-    .carousel-track { gap: 14px; padding: 8px 2px 16px; }
-    .carousel-card .card-body { padding: 14px 16px 16px; }
-    .carousel-card .card-title { font-size: 13px; }
-    .carousel-card .card-price { font-size: 16px; }
-    .carousel-card .card-add-btn { width: 36px; height: 36px; border-radius: 12px; }
-    .carousel-card .card-add-btn:hover { border-radius: 14px; }
-    .carousel-nav { width: 38px; height: 38px; }
+    .carousel-card { width: 200px; }
+    .carousel-track { gap: 12px; }
+    .carousel-card .card-body { padding: 10px 12px 12px; }
 }
-
 @media (min-width: 641px) and (max-width: 1023px) {
-    .carousel-card { width: 250px; }
+    .carousel-card { width: 240px; }
     .carousel-track { gap: 16px; }
 }
-
 @media (min-width: 1024px) {
-    .carousel-card { width: 300px; }
-    .carousel-track { gap: 24px; }
-    .carousel-card .card-body { padding: 22px 24px 24px; }
-    .carousel-card .card-title { font-size: 16px; }
-    .carousel-card .card-price { font-size: 20px; }
+    .carousel-card { width: 280px; }
+    .carousel-track { gap: 22px; }
 }
-
-
-        
         
         
         .auth-input-wrapper { position: relative; }
