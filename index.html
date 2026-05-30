@@ -942,7 +942,7 @@
         const productsLoadMoreIncrement = 12;
         const BASE_URL = 'https://www.jayenware.shop';
         const carouselStates = {};
-        let footerRendered = false; // PREVENT DUPLICATE FOOTER
+        let footerRendered = false;
 
         function getCategorySlug(c) { if(!c) return ''; return c.toLowerCase().replace(/[^\w\s-]/g,'').replace(/[\s_]+/g,'-').replace(/^-+|-+$/g,''); }
         function updateURL(path, title = '') { const url = BASE_URL + path; window.history.pushState({ path }, title || 'JAYENWARE', path); document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE'; const canonical = document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href = url; }
@@ -1016,7 +1016,6 @@
             const carousel=document.getElementById(carouselId); if(!carousel) return;
             const state=initCarousel(carouselId); const {width,gap}=getCardDimensions(carousel);
             const cardTotal = width + gap;
-            // First card starts at padding-left (50% - cardWidth/2), so first card center = 0 offset
             const scrollTarget = targetIndex * cardTotal;
             state._isAnimating = true;
             carousel.classList.add('smooth-scroll');
@@ -1090,18 +1089,13 @@
             const carousel = document.getElementById(carouselId); if(!carousel) return;
             if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
             const state = initCarousel(carouselId); state.totalCards = products.length;
-            // 🔁 NEW LOGIC: প্রথমবার ওয়েবসাইট ওপেন হলে তৃতীয় প্রোডাক্ট (index 2) প্রথমে দেখানোর জন্য অ্যারে রিঅর্ডার
+            
+            // LOGIC: তৃতীয় প্রোডাক্টটি প্রথমে (মাঝখানে) দেখানোর জন্য অ্যারে রিঅর্ডার
             let displayProducts = [...products];
             if (displayProducts.length >= 3) {
-                // শেষ ২টি প্রোডাক্ট বামে সরানো (আগের ফিচার)
-                const lastTwo = displayProducts.splice(displayProducts.length - 2, 2);
-                displayProducts = [...lastTwo, ...displayProducts];
-                // তারপর তৃতীয় প্রোডাক্ট (index 2) কে সবার আগে নিয়ে আসা
-                const thirdItem = displayProducts.splice(2, 1)[0];
-                displayProducts = [thirdItem, ...displayProducts];
-            } else if (displayProducts.length === 2) {
-                // যদি মাত্র ২টি প্রোডাক্ট থাকে, দ্বিতীয়টি আগে দেখান
-                displayProducts = [displayProducts[1], displayProducts[0]];
+                // তৃতীয় উপাদান (index 2) কে প্রথমে নিয়ে আসা, বাকিগুলো পরপর
+                const third = displayProducts.splice(2, 1)[0];
+                displayProducts = [third, ...displayProducts];
             }
             
             carousel.innerHTML = displayProducts.map(p => {
