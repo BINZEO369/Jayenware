@@ -311,7 +311,7 @@
       color: #1d1d1f;
     }
     
-    /* New thumbnail grid styles */
+    /* Thumbnail grid styles - Updated */
     .thumbnail-grid {
       display: flex;
       flex-wrap: wrap;
@@ -327,6 +327,7 @@
       border: 2px solid transparent;
       flex-shrink: 0;
       transition: border-color 0.2s ease;
+      position: relative;
     }
     .thumbnail-item:hover {
       border-color: #86868b;
@@ -336,6 +337,21 @@
     }
     .thumbnail-item.hidden-thumb {
       display: none;
+    }
+    /* Color indicator on thumbnail */
+    .thumbnail-item.color-variant {
+      border-style: solid;
+    }
+    .thumbnail-item.color-variant::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     .show-more-thumbnails {
       width: 56px;
@@ -630,25 +646,62 @@
         if (showMoreBtn) showMoreBtn.style.display = 'none';
       };
       
-      function renderThumbnails(images) {
-        if (images.length <= 1) return '';
+      // Updated function to combine product images and color variant images
+      function renderThumbnails(productImages, colorImages) {
+        // Combine all images: product images first, then color variant images
+        const combinedImages = [];
+        
+        // Add product images
+        if (productImages && productImages.length > 0) {
+          productImages.forEach(img => {
+            if (img && !combinedImages.includes(img)) {
+              combinedImages.push({
+                src: img,
+                type: 'product',
+                colorCode: null
+              });
+            }
+          });
+        }
+        
+        // Add color variant images (avoiding duplicates)
+        if (colorImages && colorImages.length > 0) {
+          colorImages.forEach(colorImg => {
+            if (colorImg.src && !combinedImages.find(item => item.src === colorImg.src)) {
+              combinedImages.push({
+                src: colorImg.src,
+                type: 'color',
+                colorCode: colorImg.colorCode,
+                colorName: colorImg.colorName
+              });
+            }
+          });
+        }
+        
+        if (combinedImages.length <= 1) return '';
         
         let thumbnailsHTML = '<div class="thumbnail-grid">';
         
-        images.forEach((img, index) => {
+        combinedImages.forEach((imgData, index) => {
           const hiddenClass = (index >= visibleThumbnails && !showingAllThumbnails) ? ' hidden-thumb' : '';
+          const colorVariantClass = imgData.type === 'color' ? ' color-variant' : '';
+          const colorIndicatorStyle = imgData.type === 'color' && imgData.colorCode ? 
+            `style="--color-indicator: ${imgData.colorCode};"` : '';
+          
           thumbnailsHTML += `
-            <img src="${img}" 
-                 onclick="selectThumbnail('${img}', ${index})" 
-                 class="thumbnail-item${hiddenClass}${index === 0 ? ' active' : ''}" 
-                 alt="Thumbnail ${index + 1}" 
+            <img src="${imgData.src}" 
+                 onclick="selectThumbnail('${imgData.src}', ${index})" 
+                 class="thumbnail-item${hiddenClass}${colorVariantClass}${index === 0 ? ' active' : ''}" 
+                 alt="${imgData.type === 'color' ? imgData.colorName || 'Color variant' : 'Product image'} ${index + 1}" 
+                 title="${imgData.type === 'color' ? imgData.colorName || 'Color variant' : 'Product image'}"
                  loading="lazy"
-                 onerror="this.style.display='none'">
+                 onerror="this.style.display='none'"
+                 ${colorIndicatorStyle}>
           `;
         });
         
-        if (images.length > visibleThumbnails && !showingAllThumbnails) {
-          const remainingCount = images.length - visibleThumbnails;
+        if (combinedImages.length > visibleThumbnails && !showingAllThumbnails) {
+          const remainingCount = combinedImages.length - visibleThumbnails;
           thumbnailsHTML += `
             <div id="show-more-btn" class="show-more-thumbnails" onclick="showAllThumbnails()" title="Show ${remainingCount} more images">
               +${remainingCount}
@@ -754,11 +807,19 @@
         } else {
           infoEl.style.display = 'none';
           if (stockEl) {
-            const isOut = currentProduct?.stock <= 0 && productVariants.length === 0;
-            stockEl.innerHTML = `
-              <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
-              <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock: ${currentProduct?.stock || 0}`}</span>
-            `;
+            // If product has variants, show a message instead of main product stock
+            if (productVariants.length > 0) {
+              stockEl.innerHTML = `
+                <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
+                <span style="font-size:12px;font-weight:700;color:#d97706;">Select variant for stock info</span>
+              `;
+            } else {
+              const isOut = currentProduct?.stock <= 0;
+              stockEl.innerHTML = `
+                <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
+                <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock: ${currentProduct?.stock || 0}`}</span>
+              `;
+            }
           }
         }
       }
@@ -958,10 +1019,29 @@
         if (metaDesc) metaDesc.content = (product.description || product.title || '').substring(0, 155) + '...';
         if (canonicalLink) canonicalLink.href = `https://jayenwaretest369.vercel.app/product/${product.slug || generateSlug(product.title)}`;
         
+        // Get all product images from the images field
         allImages = product.images ? product.images.split(',').filter(Boolean) : [];
         if (allImages.length === 0 && product.img) allImages.push(product.img);
+        
+        // Get color variant images
+        const colorImagesData = productColors.map(color => ({
+          src: color.color_image,
+          colorCode: color.color_code,
+          colorName: color.color_name
+        })).filter(item => item.src); // Only include colors with images
+        
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
-        const isOut = product.stock <= 0 && productVariants.length === 0;
+        
+        // If product has variants, show different stock message
+        let isOut;
+        if (productVariants.length > 0) {
+          // Has variants - check if any variant has stock
+          const hasAnyStock = productVariants.some(v => v.is_active && v.stock > 0);
+          isOut = !hasAnyStock;
+        } else {
+          // No variants - use main product stock
+          isOut = product.stock <= 0;
+        }
         
         const avgRating = prodReviews.length ? (prodReviews.reduce((s,r)=>s+r.rating,0)/prodReviews.length).toFixed(1) : null;
         
@@ -1012,8 +1092,20 @@
         
         const safeBarcode = product.barcode ? product.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
         
-        // Generate thumbnails HTML using the new grid system
-        const thumbnailsHTML = renderThumbnails(allImages);
+        // Generate thumbnails HTML with both product images and color variant images
+        const thumbnailsHTML = renderThumbnails(allImages, colorImagesData);
+        
+        // Stock display logic
+        let stockDisplayHTML;
+        if (productVariants.length > 0) {
+          stockDisplayHTML = `
+            <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
+            <span style="font-size:12px;font-weight:700;color:#d97706;">Select variant for stock info</span>`;
+        } else {
+          stockDisplayHTML = `
+            <span style="width:8px;height:8px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};display:inline-block;"></span>
+            <span style="font-size:12px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':`In Stock: ${product.stock||0}`}</span>`;
+        }
         
         contentDiv.innerHTML = `
         <div style="display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;">
@@ -1038,8 +1130,7 @@
             </div>
             
             <div id="stock-status" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};display:inline-block;"></span>
-              <span style="font-size:12px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':`In Stock: ${product.stock||0}`}</span>
+              ${stockDisplayHTML}
               ${avgRating?`<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
             </div>
             
