@@ -1087,25 +1087,29 @@
         }
 
         function renderCarouselProducts(carouselId, products) {
-            const carousel = document.getElementById(carouselId); if(!carousel) return;
-            if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
-            const state = initCarousel(carouselId); state.totalCards = products.length;
-            // LOGIC FIX: শেষ ২টি প্রোডাক্ট বামে দেখানোর জন্য অ্যারে রিঅর্ডার করা
-            let displayProducts = [...products];
-            if (displayProducts.length > 2) {
-                const lastTwo = displayProducts.splice(displayProducts.length - 2, 2);
-                displayProducts = [...lastTwo, ...displayProducts];
-            }
-            
+    const carousel = document.getElementById(carouselId); if(!carousel) return;
+    if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
+    const state = initCarousel(carouselId); state.totalCards = products.length;
+    // LOGIC FIX: শেষ ২টি বামে, ৩য় প্রোডাক্ট মাঝে, বাকি ডানে
+    let displayProducts = [...products];
+    if (displayProducts.length >= 3) {
+        const lastTwo = displayProducts.splice(displayProducts.length - 2, 2);
+        const middleProduct = displayProducts.splice(2, 1)[0];
+        const firstTwo = displayProducts.splice(0, 2);
+        const remaining = displayProducts;
+        displayProducts = [...lastTwo, middleProduct, ...firstTwo, ...remaining];
+    } else if (displayProducts.length === 2) {
+        const lastOne = displayProducts.pop();
+        displayProducts = [lastOne, ...displayProducts];
+    }
             carousel.innerHTML = displayProducts.map(p => {
                 const isOut=p.stock<=0, wished=wishlist.includes(p.id); let badge='';
                 if(!isOut){if(p.is_new_arrival)badge='<span class="card-badge badge-new">New</span>';else if(p.is_hot)badge='<span class="card-badge badge-hot">Hot</span>';else if(p.is_on_sale)badge='<span class="card-badge badge-sale">Sale</span>';else if(p.is_limited_edition)badge='<span class="card-badge badge-limited">Limited</span>';else if(p.is_featured)badge='<span class="card-badge badge-featured">Featured</span>';}
                 return `<a href="/product/${getProductSlug(p)}" class="carousel-card" draggable="false"><div class="card-img"><img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">${badge}<button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished?'wished':''}"><i class="fa-${wished?'solid':'regular'} fa-heart"></i></button>${isOut?'<div class="card-soldout-overlay"><span>Sold Out</span></div>':''}</div><div class="card-body"><span class="card-category">${p.category}</span><h3 class="card-title">${p.title}</h3><div class="card-price-row"><div><span class="card-price">৳${p.price}</span>${p.old_price?`<span class="card-old-price">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut?'disabled':''}" ${isOut?'disabled':''}><i class="fa-solid fa-plus"></i></button></div></div></a>`;
             }).join('');
             const dotsContainer = document.getElementById(carouselId.replace('carousel','dots'));
-            if(dotsContainer) dotsContainer.innerHTML = displayProducts.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goToCarouselDot('${carouselId}',${i})" title="Product ${i+1}"></div>`).join('');
-            carousel.scrollLeft = 0; state.currentIndex = 0;
-        }
+if(dotsContainer) dotsContainer.innerHTML = displayProducts.map((p, i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goToCarouselDot('${carouselId}',${i})" title="${p.title || 'Product ' + (i+1)}"></div>`).join('');
+carousel.scrollLeft = 0; state.currentIndex = 0;
 
         function renderHomepageSections() {
             const sections = [
