@@ -1015,7 +1015,6 @@
                 touchStartScrollLeft:0, hasMoved:false, swipeDirection:null, 
                 baseSpeed:parseFloat(document.getElementById(carouselId)?.dataset.speed)||0.5, 
                 currentIndex:0, totalCards:0, _resumeTimeout:null, _isAnimating:false,
-                // BI-DIRECTIONAL: Default center index
                 centerIndex:0
             }; 
             return carouselStates[carouselId]; 
@@ -1051,7 +1050,7 @@
             if(!state.lastTimestamp) state.lastTimestamp=timestamp;
             const delta=Math.min(timestamp-state.lastTimestamp,32);
             
-            // BI-DIRECTIONAL: Auto-scroll left to right slowly
+            // Auto-scroll slowly to the right
             carousel.scrollLeft += delta * state.baseSpeed * 0.03;
             
             const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap;
@@ -1063,7 +1062,7 @@
                 updateDots(carouselId);
             }
             
-            // BI-DIRECTIONAL: Loop back to beginning after reaching end
+            // Loop back to beginning when reaching end
             const maxScroll = (state.totalCards - 1) * cardTotal + 10;
             if(carousel.scrollLeft >= maxScroll) { 
                 carousel.scrollLeft = 0; 
@@ -1175,63 +1174,58 @@
             });
         }
 
-        // ==================== BI-DIRECTIONAL PRODUCT DISTRIBUTION ====================
+        // ==================== FIXED: BI-DIRECTIONAL PRODUCT DISTRIBUTION ====================
+        /**
+         * Distributes products for bi-directional carousel display.
+         * The original first product becomes the center, with products 
+         * distributed to both left and right sides.
+         * 
+         * Example for 7 products [P1,P2,P3,P4,P5,P6,P7]:
+         * Result: [P5, P6, P7, P1, P2, P3, P4]
+         * So user sees P1 centered, P7,P6,P5 on left, P2,P3,P4 on right
+         */
         function distributeProductsBiDirectional(products) {
-            if (!products || products.length === 0) return products;
+            if (!products || products.length <= 2) return products;
             
             const n = products.length;
+            let leftCount, rightCount;
             
-            // For 1-2 products, just show them as-is (centered by CSS)
-            if (n <= 2) return products;
-            
-            // Calculate how to split for bi-directional display
-            // We want: left side | center (default view) | right side
-            
-            let leftCount, centerCount, rightCount;
-            
+            // Calculate how many products go to left and right of center
             if (n === 3) {
-                // 3 products: 1 left, 1 center, 1 right
+                // [P3, P1, P2] - P1 center, P3 left, P2 right
                 leftCount = 1;
-                centerCount = 1;
                 rightCount = 1;
             } else if (n === 4) {
-                // 4 products: 1 left, 1 center, 2 right
+                // [P4, P1, P2, P3] - P1 center, P4 left, P2,P3 right
                 leftCount = 1;
-                centerCount = 1;
                 rightCount = 2;
             } else if (n === 5) {
-                // 5 products: 2 left, 1 center, 2 right
+                // [P4,P5, P1, P2,P3] - P1 center
                 leftCount = 2;
-                centerCount = 1;
                 rightCount = 2;
             } else if (n === 6) {
-                // 6 products: 2 left, 1 center, 3 right
-                leftCount = 2;
-                centerCount = 1;
-                rightCount = 3;
-            } else if (n === 7) {
-                // 7 products: 3 left, 1 center, 3 right
+                // [P4,P5,P6, P1, P2,P3] - P1 center
                 leftCount = 3;
-                centerCount = 1;
+                rightCount = 2;
+            } else if (n === 7) {
+                // [P5,P6,P7, P1, P2,P3,P4] - P1 center
+                leftCount = 3;
                 rightCount = 3;
             } else {
-                // For 8+ products: split roughly evenly
-                // Center gets 1, rest split between left and right
-                centerCount = 1;
-                const remaining = n - 1;
-                leftCount = Math.floor(remaining / 2);
-                rightCount = remaining - leftCount;
+                // For 8+ products: split evenly
+                rightCount = Math.floor((n - 1) / 2);
+                leftCount = n - 1 - rightCount;
             }
             
-            // Build the new array: [...leftProducts, ...centerProducts, ...rightProducts]
-            const leftProducts = products.slice(0, leftCount);
-            const centerProducts = products.slice(leftCount, leftCount + centerCount);
-            const rightProducts = products.slice(leftCount + centerCount, leftCount + centerCount + rightCount);
+            // Build the reordered array:
+            // [...products from end going left, P1, ...products after P1 going right]
+            const center = products[0]; // First product is center
+            const afterCenter = products.slice(1, 1 + rightCount); // Products after center (go right)
+            const beforeCenter = products.slice(n - leftCount); // Products before center (go left)
+            const remaining = products.slice(1 + rightCount, n - leftCount); // Any remaining products
             
-            // If there are more products than left+center+right, add remaining to right
-            const remainingProducts = products.slice(leftCount + centerCount + rightCount);
-            
-            return [...leftProducts, ...centerProducts, ...rightProducts, ...remainingProducts];
+            // Final order: [left products..., center, right products..., remaining...]
+            return [...beforeCenter, center, ...afterCenter, ...remaining];
         }
 
         function renderCarouselProducts(carouselId, products) {
@@ -1241,22 +1235,32 @@
                 return; 
             }
             
-            // BI-DIRECTIONAL: Distribute products for left-center-right layout
+            // Distribute products for bi-directional display
             const displayProducts = distributeProductsBiDirectional([...products]);
             
             const state = initCarousel(carouselId); 
             state.totalCards = displayProducts.length;
             
-            // Calculate center index (where the first product from original array appears)
+            // Calculate center index - where the original first product (P1) is now
             const n = products.length;
             let centerIndex;
-            if (n <= 2) centerIndex = 0;
-            else if (n === 3) centerIndex = 1;
-            else if (n === 4) centerIndex = 1;
-            else if (n === 5) centerIndex = 2;
-            else if (n === 6) centerIndex = 2;
-            else if (n === 7) centerIndex = 3;
-            else centerIndex = Math.floor(n / 2);
+            if (n <= 2) {
+                centerIndex = 0;
+            } else if (n === 3) {
+                centerIndex = 1; // [P3, P1, P2] -> P1 at index 1
+            } else if (n === 4) {
+                centerIndex = 1; // [P4, P1, P2, P3] -> P1 at index 1
+            } else if (n === 5) {
+                centerIndex = 2; // [P4,P5, P1, P2,P3] -> P1 at index 2
+            } else if (n === 6) {
+                centerIndex = 3; // [P4,P5,P6, P1, P2,P3] -> P1 at index 3
+            } else if (n === 7) {
+                centerIndex = 3; // [P5,P6,P7, P1, P2,P3,P4] -> P1 at index 3
+            } else {
+                const rightCount = Math.floor((n - 1) / 2);
+                const leftCount = n - 1 - rightCount;
+                centerIndex = leftCount; // P1 is after all left products
+            }
             
             state.centerIndex = centerIndex;
             state.currentIndex = centerIndex;
@@ -1304,13 +1308,15 @@
                 ).join('');
             }
             
-            // BI-DIRECTIONAL: Set initial scroll position to center
+            // Set initial scroll position to center the first product
             const {width, gap} = getCardDimensions(carousel);
             const cardTotal = width + gap;
-            carousel.scrollLeft = centerIndex * cardTotal;
             
-            // Update active card
-            updateActiveCard(carouselId);
+            // Use requestAnimationFrame to ensure DOM is ready
+            requestAnimationFrame(() => {
+                carousel.scrollLeft = centerIndex * cardTotal;
+                updateActiveCard(carouselId);
+            });
         }
 
         function renderHomepageSections() {
