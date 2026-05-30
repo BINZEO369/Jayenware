@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
   <script src="/api-config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -139,7 +140,6 @@
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
     }
-    /* Updated detail badge style */
     .detail-badge {
       background: #f5f5f7;
       border-radius: 16px;
@@ -155,7 +155,6 @@
       width: 24px;
       text-align: center;
     }
-    /* Toggle button for specs */
     .specs-toggle-btn {
       background: white;
       border: 1px solid #e5e5e5;
@@ -183,41 +182,21 @@
       margin-top: 12px;
       margin-bottom: 20px;
     }
-    /* Barcode styling */
-    .barcode-visual {
+    .barcode-container {
       background: white;
-      padding: 16px;
-      border-radius: 16px;
+      padding: 20px;
+      border-radius: 20px;
       border: 1px solid #f0f0f0;
-      margin-top: 16px;
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-    }
-    .barcode-lines {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 60px;
-      width: 100%;
       justify-content: center;
+      min-height: 140px;
     }
-    .barcode-line {
-      background: #1d1d1f;
-      width: 2px;
-      height: 100%;
-    }
-    .barcode-line.thin { width: 1px; height: 85%; }
-    .barcode-line.medium { width: 2px; height: 100%; }
-    .barcode-line.thick { width: 4px; height: 100%; }
-    .barcode-line.space { background: transparent; width: 2px; }
-    .barcode-text {
-      font-family: monospace;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: #1d1d1f;
+    .barcode-container svg {
+      max-width: 100%;
+      height: auto;
     }
     .specs-collapse {
       max-height: 0;
@@ -473,21 +452,25 @@
         }
       };
       
-      function generateBarcodeHTML(barcodeText) {
+      function generateBarcode(barcodeText) {
         if (!barcodeText) return '';
-        const lines = [];
-        for (let i = 0; i < barcodeText.length * 2 + 20; i++) {
-          const rand = Math.random();
-          if (rand < 0.35) lines.push('<span class="barcode-line thin"></span>');
-          else if (rand < 0.7) lines.push('<span class="barcode-line medium"></span>');
-          else if (rand < 0.85) lines.push('<span class="barcode-line thick"></span>');
-          else lines.push('<span class="barcode-line space"></span>');
+        const container = document.getElementById('barcode-container');
+        if (container) {
+          try {
+            JsBarcode("#barcode-svg", barcodeText, {
+              format: "CODE128",
+              width: 2,
+              height: 80,
+              displayValue: true,
+              fontSize: 14,
+              margin: 10,
+              background: "#ffffff",
+              lineColor: "#1d1d1f"
+            });
+          } catch(e) {
+            console.error("Barcode generation failed:", e);
+          }
         }
-        return `
-        <div class="barcode-visual">
-          <div class="barcode-lines">${lines.join('')}</div>
-          <span class="barcode-text">${barcodeText}</span>
-        </div>`;
       }
       
       function productCardHTML(product) {
@@ -580,7 +563,6 @@
               <button onclick="addToCart(${product.id},true)" ${isOut?'disabled':''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
             </div>
             
-            <!-- SPECIFICATIONS TOGGLE BUTTON -->
             <button class="specs-toggle-btn" onclick="toggleSpecs()">
               <span><i class="fa-solid fa-sliders" style="margin-right:8px;"></i>Specifications</span>
               <i id="specs-toggle-icon" class="fa-solid fa-chevron-down"></i>
@@ -598,7 +580,10 @@
             
             ${product.description ? `<div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:16px;"><h3 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:8px;">Description</h3><p style="font-size:12px;color:#4b5563;line-height:1.6;">${product.description}</p></div>` : ''}
             
-            ${product.barcode ? generateBarcodeHTML(product.barcode) : ''}
+            ${product.barcode ? `
+            <div class="barcode-container" id="barcode-container">
+              <svg id="barcode-svg"></svg>
+            </div>` : ''}
             
           </div>
         </div>
@@ -618,6 +603,10 @@
             <button onclick="submitReview(${product.id})" style="padding:10px 24px;background:#1d1d1f;color:white;border:none;border-radius:9999px;font-weight:700;text-transform:uppercase;font-size:10px;cursor:pointer;">Submit</button>
           </div>
         </div>`;
+        
+        if (product.barcode) {
+          setTimeout(() => generateBarcode(product.barcode), 100);
+        }
         
         const related = getRandomProducts(product.id, 4);
         if (related.length) {
