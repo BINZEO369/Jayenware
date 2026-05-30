@@ -8,9 +8,9 @@
     <meta name="description" content="Shop premium lifestyle products at JAYENWARE. Discover quality apparel, accessories and more.">
     <meta name="theme-color" content="#1d1d1f">
     
-    <link rel="icon" type="image/png" sizes="32x32" href="https://www.jayenware.shop/logo.png">
-    <link rel="apple-touch-icon" href="https://www.jayenware.shop/logo.png">
-    <link rel="canonical" href="https://www.jayenware.shop/product/">
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+    <link rel="apple-touch-icon" href="/logo.png">
+    <link rel="canonical" id="canonical-url" href="https://jayenwaretest369.vercel.app/product/">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -151,12 +151,24 @@
         @media (min-width: 641px) {
             .product-img-container { aspect-ratio: 3/4; }
         }
+        
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Loader -->
-    <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
+    <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;">
         <div style="text-align:center;">
             <div style="width:36px;height:36px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
             <p class="text-[11px] font-bold uppercase tracking-[0.25em] text-primary/60">JAYENWARE</p>
@@ -175,13 +187,14 @@
     <!-- Navigation -->
     <nav class="glass-nav fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 lg:h-20 flex justify-between items-center">
-            <a href="https://www.jayenware.shop" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline" aria-label="JAYENWARE Home">
-                <img src="https://www.jayenware.shop/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg" alt="JAYENWARE Logo" width="40" height="40">
+            <a href="/" class="flex items-center gap-2 sm:gap-3 shrink-0 no-underline" aria-label="JAYENWARE Home">
+                <img src="/logo.png" class="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg" alt="JAYENWARE Logo" width="40" height="40">
                 <span class="text-lg sm:text-xl lg:text-2xl font-black tracking-tight font-serif text-primary">JAYENWARE</span>
             </a>
             <div class="flex items-center gap-3 sm:gap-4">
-                <a href="https://www.jayenware.shop/products" class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider text-primary hover:text-blue transition no-underline">Shop</a>
-                <a href="https://www.jayenware.shop/cart" class="relative p-1.5 no-underline text-primary hover:text-blue transition" aria-label="Cart">
+                <a href="/" class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider text-primary hover:text-blue transition no-underline">Home</a>
+                <a href="/products" class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider text-primary hover:text-blue transition no-underline">Shop</a>
+                <a href="/cart" class="relative p-1.5 no-underline text-primary hover:text-blue transition" aria-label="Cart">
                     <i class="fa-solid fa-bag-shopping text-lg lg:text-xl"></i>
                     <span id="cart-count" class="absolute -top-0.5 -right-0.5 bg-primary text-white text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">0</span>
                 </a>
@@ -194,7 +207,7 @@
         <div class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 lg:py-12">
             
             <!-- Back Button -->
-            <a href="https://www.jayenware.shop/products" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline">
+            <a href="/products" class="mb-4 sm:mb-6 text-[10px] sm:text-xs font-bold text-gray-400 hover:text-primary transition flex items-center gap-2 no-underline inline-block">
                 <i class="fa-solid fa-arrow-left"></i> Back to Collection
             </a>
             
@@ -203,9 +216,36 @@
                 <i class="fa-solid fa-box-open text-6xl text-gray-200 mb-4"></i>
                 <h2 class="text-2xl font-bold text-primary mb-2">Product Not Found</h2>
                 <p class="text-gray-500 mb-6">The product you're looking for doesn't exist or has been removed.</p>
-                <a href="https://www.jayenware.shop/products" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-xs hover:bg-blue transition no-underline inline-block">
+                <a href="/products" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-xs hover:bg-blue transition no-underline inline-block">
                     Browse Products
                 </a>
+            </div>
+            
+            <!-- Loading State -->
+            <div id="product-loading" class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16">
+                <div>
+                    <div class="skeleton rounded-3xl" style="aspect-ratio:3/4;"></div>
+                    <div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4">
+                        <div class="skeleton w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl"></div>
+                        <div class="skeleton w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl"></div>
+                        <div class="skeleton w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="skeleton h-4 w-20 mb-2"></div>
+                    <div class="skeleton h-8 w-full mb-4"></div>
+                    <div class="skeleton h-10 w-32 mb-4"></div>
+                    <div class="skeleton h-4 w-48 mb-4"></div>
+                    <div class="flex gap-2 mb-6">
+                        <div class="skeleton h-10 w-24 rounded-2xl"></div>
+                        <div class="skeleton h-10 w-24 rounded-2xl"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="skeleton h-12 rounded-2xl"></div>
+                        <div class="skeleton h-12 rounded-2xl"></div>
+                    </div>
+                    <div class="skeleton h-32 rounded-2xl"></div>
+                </div>
             </div>
             
             <!-- Product Detail Content -->
@@ -227,26 +267,48 @@
         </div>
     </footer>
 
+    <!-- Supabase + API Config -->
+    <script src="/api-config.js"></script>
+    
     <script>
-        // Supabase Configuration - Replace with your actual values
-        const SUPABASE_URL = 'https://ozuwazkqyrxiwwfjceth.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im96dXdhemtxeXJ4aXd3ZmpjZXRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY4MDY0MDAsImV4cCI6MjAzMjM4MjQwMH0.placeholder-key';
-        
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Supabase Client Initialize
+        const _supabase = (() => {
+            try {
+                return supabase.createClient(
+                    window.SUPABASE_URL || 'https://ozuwazkqyrxiwwfjceth.supabase.co',
+                    window.SUPABASE_KEY || ''
+                );
+            } catch(e) {
+                console.error('Supabase initialization failed:', e);
+                return null;
+            }
+        })();
         
         let currentProduct = null;
         let allProducts = [];
         let allVariants = [];
         let allReviews = [];
         let selectedVariantObj = null;
-        let cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
-        let wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
+        let cart = [];
+        let wishlist = [];
+        
+        // DOM Elements
+        const loader = document.getElementById('global-loader');
+        const notFoundDiv = document.getElementById('product-not-found');
+        const loadingDiv = document.getElementById('product-loading');
+        const contentDiv = document.getElementById('product-detail-content');
+        const ctlSection = document.getElementById('complete-the-look-section');
+        const ctlGrid = document.getElementById('complete-the-look-grid');
+        const canonicalLink = document.getElementById('canonical-url');
         
         // Get slug from URL path
         function getSlugFromURL() {
             const path = window.location.pathname;
-            // Remove /product/ from the beginning
-            const slug = path.replace(/^\/product\//, '').replace(/\/$/, '');
+            let slug = path.replace(/^\/product\//, '').replace(/\/$/, '');
+            // Remove any query parameters
+            slug = slug.split('?')[0];
+            // Remove any hash
+            slug = slug.split('#')[0];
             return slug || null;
         }
         
@@ -254,15 +316,28 @@
         function generateSlug(title) {
             if (!title) return '';
             return title.toLowerCase()
-                .replace(/[^\w\s-]/g, '')
+                .replace(/[^\w\s\u0980-\u09FF-]/g, '') // Allow Bengali characters
                 .replace(/[\s_]+/g, '-')
                 .replace(/^-+|-+$/g, '')
                 .substring(0, 80);
         }
         
+        // Initialize from localStorage
+        function initLocalStorage() {
+            try {
+                cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
+                wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
+            } catch(e) {
+                cart = [];
+                wishlist = [];
+            }
+        }
+        
         // Toast notification
         function showToast(text, type = 'success') {
             const toast = document.getElementById('toast');
+            if (!toast) return;
+            
             document.getElementById('toast-text').innerText = text;
             const icon = document.getElementById('toast-icon');
             
@@ -285,12 +360,14 @@
         }
         
         function hideToast() {
-            document.getElementById('toast').style.transform = 'translateX(120%)';
+            const toast = document.getElementById('toast');
+            if (toast) toast.style.transform = 'translateX(120%)';
         }
         
         // Update cart count
         function updateCartCount() {
-            document.getElementById('cart-count').innerText = cart.length;
+            const countEl = document.getElementById('cart-count');
+            if (countEl) countEl.innerText = cart.length;
         }
         
         // Save cart to localStorage
@@ -337,7 +414,7 @@
             showToast('Added to Bag!');
             
             if (buyNow) {
-                window.location.href = 'https://www.jayenware.shop/checkout';
+                window.location.href = '/checkout';
             }
         }
         
@@ -391,7 +468,9 @@
         
         // Submit review
         async function submitReview(productId) {
-            const text = document.getElementById('review-text').value.trim();
+            if (!_supabase) return showToast('Service unavailable', 'error');
+            
+            const text = document.getElementById('review-text')?.value?.trim();
             const starsInput = document.querySelector('input[name="product-rating"]:checked');
             
             if (!text || !starsInput) {
@@ -400,31 +479,34 @@
             
             const rating = parseInt(starsInput.value);
             
-            const { error } = await _supabase.from('product_reviews').insert([{
-                product_id: productId,
-                user_name: 'Guest User',
-                rating: rating,
-                review_text: text
-            }]);
-            
-            if (error) {
-                showToast(error.message, 'error');
-            } else {
+            try {
+                const { error } = await _supabase.from('product_reviews').insert([{
+                    product_id: productId,
+                    user_name: 'Guest User',
+                    rating: rating,
+                    review_text: text
+                }]);
+                
+                if (error) throw error;
+                
                 showToast('Review submitted! Thank you.', 'success');
                 setTimeout(() => location.reload(), 1500);
+            } catch(e) {
+                showToast(e.message || 'Failed to submit review', 'error');
             }
         }
         
         // Product card HTML
         function productCardHTML(product) {
+            if (!product) return '';
             const isOut = product.stock <= 0;
-            const wished = wishlist.includes(product.id);
+            const slug = product.slug || generateSlug(product.title);
             
             return `
-            <a href="/product/${product.slug || generateSlug(product.title)}" 
+            <a href="/product/${slug}" 
                class="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 cursor-pointer group no-underline block">
                 <div class="product-img-container" style="aspect-ratio:3/4; overflow:hidden; position:relative;">
-                    <img src="${product.img}" alt="${product.title}" class="product-image w-full h-full object-cover" loading="lazy">
+                    <img src="${product.img || ''}" alt="${product.title || 'Product'}" class="product-image w-full h-full object-cover" loading="lazy" onerror="this.src='/logo.png'">
                     ${isOut ? `
                     <div class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center">
                         <span class="bg-primary text-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span>
@@ -432,10 +514,8 @@
                 </div>
                 <div class="p-2.5 sm:p-4">
                     <p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-0.5 sm:mb-1">${product.category || ''}</p>
-                    <h3 class="font-bold text-xs sm:text-sm text-primary truncate mb-1.5 sm:mb-2">${product.title}</h3>
-                    <div class="flex justify-between items-end">
-                        <span class="font-black text-xs sm:text-sm text-primary">৳ ${product.price}</span>
-                    </div>
+                    <h3 class="font-bold text-xs sm:text-sm text-primary truncate mb-1.5 sm:mb-2">${product.title || ''}</h3>
+                    <span class="font-black text-xs sm:text-sm text-primary">৳ ${product.price || 0}</span>
                 </div>
             </a>`;
         }
@@ -443,38 +523,49 @@
         // Get random related products
         function getRandomProducts(currentProductId, count = 4) {
             const available = allProducts.filter(p => p.id !== currentProductId);
-            const shuffled = available.sort(() => 0.5 - Math.random());
+            const shuffled = [...available].sort(() => 0.5 - Math.random());
             return shuffled.slice(0, count);
         }
         
         // Render product details
         function renderProductDetails(product) {
             currentProduct = product;
+            const productSlug = product.slug || generateSlug(product.title);
+            
+            // Hide loading, show content
+            if (loadingDiv) loadingDiv.classList.add('hidden');
+            if (notFoundDiv) notFoundDiv.classList.add('hidden');
+            if (contentDiv) contentDiv.classList.remove('hidden');
             
             // Update page title and meta
-            document.title = `${product.title} | Buy Online at JAYENWARE`;
+            document.title = `${product.title || 'Product'} | Buy Online at JAYENWARE`;
             
             const metaDesc = document.querySelector('meta[name="description"]');
             if (metaDesc) {
-                metaDesc.content = (product.description || product.title).substring(0, 155) + '...';
+                metaDesc.content = (product.description || product.title || 'Premium product').substring(0, 155) + '...';
             }
             
-            const canonical = document.querySelector('link[rel="canonical"]');
-            if (canonical) {
-                canonical.href = `https://www.jayenware.shop/product/${product.slug || generateSlug(product.title)}`;
+            // Update canonical URL
+            if (canonicalLink) {
+                canonicalLink.href = `https://jayenwaretest369.vercel.app/product/${productSlug}`;
             }
             
             const variants = allVariants.filter(v => v.product_id === product.id);
-            const allImages = product.images ? product.images.split(',') : [product.img];
+            const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
+            if (allImages.length === 0 && product.img) allImages.push(product.img);
             const prodReviews = allReviews.filter(r => r.product_id === product.id);
             const isOut = product.stock <= 0;
             
             // Set first variant as selected
-            selectedVariantObj = variants.length > 0 ? {
-                id: variants[0].id,
-                name: variants[0].name,
-                price: variants[0].price
-            } : null;
+            if (variants.length > 0) {
+                selectedVariantObj = {
+                    id: variants[0].id,
+                    name: variants[0].name,
+                    price: variants[0].price
+                };
+            } else {
+                selectedVariantObj = null;
+            }
             
             const avgRating = prodReviews.length > 0 
                 ? (prodReviews.reduce((sum, r) => sum + r.rating, 0) / prodReviews.length).toFixed(1) 
@@ -483,15 +574,15 @@
             const reviewsHTML = prodReviews.length ? prodReviews.map(r => `
                 <div class="bg-white p-3 sm:p-4 rounded-xl border border-gray-100">
                     <div class="flex items-center gap-2 mb-1">
-                        <span class="text-[#ff9500] text-sm">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+                        <span class="text-[#ff9500] text-sm">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</span>
                         <span class="text-[10px] sm:text-xs font-bold">${r.user_name || 'Anonymous'}</span>
-                        <span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${new Date(r.created_at).toLocaleDateString()}</span>
+                        <span class="text-[8px] sm:text-[9px] text-gray-400 ml-auto">${r.created_at ? new Date(r.created_at).toLocaleDateString() : ''}</span>
                     </div>
-                    <p class="text-[10px] sm:text-xs text-gray-600">${r.review_text}</p>
+                    <p class="text-[10px] sm:text-xs text-gray-600">${r.review_text || ''}</p>
                 </div>
             `).join('') : '<p class="text-gray-400 text-xs sm:text-sm italic">No reviews yet. Be the first to review!</p>';
             
-            const contentHTML = `
+            contentDiv.innerHTML = `
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 mb-8 sm:mb-10">
                 <!-- Product Images -->
                 <div>
@@ -501,16 +592,17 @@
                          onmouseleave="resetZoom()" 
                          ontouchmove="zoomImage(event)" 
                          ontouchend="resetZoom()">
-                        <img id="product-zoom-image" src="${allImages[0]}" alt="${product.title}">
+                        <img id="product-zoom-image" src="${allImages[0] || '/logo.png'}" alt="${product.title || 'Product'}" onerror="this.src='/logo.png'">
                     </div>
                     ${allImages.length > 1 ? `
                     <div class="flex gap-1.5 sm:gap-2 mt-3 sm:mt-4 overflow-x-auto no-scrollbar pb-1">
-                        ${allImages.map(img => `
+                        ${allImages.map((img, i) => `
                         <img src="${img}" 
                              onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" 
-                             class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-primary transition shrink-0" 
+                             class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 object-cover rounded-xl cursor-pointer border-2 ${i === 0 ? 'border-primary' : 'border-transparent'} hover:border-primary transition shrink-0" 
                              loading="lazy" 
-                             alt="${product.title}">
+                             alt="${product.title || 'Product'} - Image ${i + 1}"
+                             onerror="this.style.display='none'">
                         `).join('')}
                     </div>` : ''}
                 </div>
@@ -518,17 +610,17 @@
                 <!-- Product Info -->
                 <div class="flex flex-col">
                     <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-blue">${product.category || ''}</span>
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-primary mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title}</h1>
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-primary mt-1 sm:mt-2 mb-4 sm:mb-6">${product.title || 'Product'}</h1>
                     
                     <div class="mb-4 sm:mb-6">
-                        <span class="text-2xl sm:text-3xl font-black">৳ ${product.price}</span>
+                        <span class="text-2xl sm:text-3xl font-black">৳ ${product.price || 0}</span>
                         ${product.old_price ? `<span class="ml-2 sm:ml-3 text-base sm:text-lg text-accent line-through">৳ ${product.old_price}</span>` : ''}
                     </div>
                     
                     <div class="flex items-center gap-2 mb-4 sm:mb-6">
                         <span class="w-2 h-2 rounded-full ${isOut ? 'bg-red-500' : 'bg-green-500'}"></span>
                         <span class="text-[10px] sm:text-xs font-bold ${isOut ? 'text-red-500' : 'text-green-600'}">
-                            ${isOut ? 'Out of Stock' : `In Stock: ${product.stock}`}
+                            ${isOut ? 'Out of Stock' : `In Stock: ${product.stock || 0}`}
                         </span>
                         ${avgRating ? `<span class="text-[10px] sm:text-xs text-gray-400 ml-2"><i class="fa-solid fa-star text-[#ff9500] text-[9px]"></i> ${avgRating} (${prodReviews.length} reviews)</span>` : ''}
                     </div>
@@ -539,10 +631,10 @@
                         <p class="text-[9px] sm:text-[10px] font-black uppercase text-accent mb-2 sm:mb-3">Select Variant</p>
                         <div class="flex flex-wrap gap-1.5 sm:gap-2" id="detail-variant-container">
                             ${variants.map((v, i) => `
-                            <button onclick="selectVariant(this, '${v.id}', '${v.name.replace(/'/g, "\\'")}', ${v.price})" 
+                            <button onclick="selectVariant(this, '${v.id}', '${(v.name || '').replace(/'/g, "\\'")}', ${v.price || 0})" 
                                     class="variant-btn px-4 sm:px-5 py-2.5 sm:py-3 border-2 border-gray-200 rounded-2xl text-[10px] sm:text-xs font-bold transition hover:border-primary ${i === 0 ? 'selected' : ''}" 
                                     data-vid="${v.id}">
-                                ${v.name} - ৳${v.price}
+                                ${v.name || ''} - ৳${v.price || 0}
                             </button>`).join('')}
                         </div>
                     </div>` : ''}
@@ -582,7 +674,7 @@
                             ${product.fit_type ? `<div><span class="text-gray-400">Fit:</span> <span class="font-bold">${product.fit_type}</span></div>` : ''}
                             ${product.gender ? `<div><span class="text-gray-400">Gender:</span> <span class="font-bold">${product.gender}</span></div>` : ''}
                             ${product.print_type ? `<div><span class="text-gray-400">Print:</span> <span class="font-bold">${product.print_type}</span></div>` : ''}
-                            ${product.sku ? `<div><span class="text-gray-400">SKU:</span> <span class="font-bold text-[9px]">${product.sku}</span></div>` : ''}
+                            ${product.sku ? `<div class="col-span-2"><span class="text-gray-400">SKU:</span> <span class="font-bold text-[9px]">${product.sku}</span></div>` : ''}
                         </div>
                     </div>
                     
@@ -635,14 +727,11 @@
                 </div>
             </div>`;
             
-            document.getElementById('product-detail-content').innerHTML = contentHTML;
-            
             // Render related products
             const related = getRandomProducts(product.id, 4);
-            const ctlSection = document.getElementById('complete-the-look-section');
             if (related.length > 0) {
                 ctlSection.classList.remove('hidden');
-                document.getElementById('complete-the-look-grid').innerHTML = related.map(p => productCardHTML(p)).join('');
+                ctlGrid.innerHTML = related.map(p => productCardHTML(p)).join('');
             } else {
                 ctlSection.classList.add('hidden');
             }
@@ -650,6 +739,11 @@
         
         // Load product by slug from Supabase
         async function loadProductBySlug(slug) {
+            if (!_supabase) {
+                console.error('Supabase client not initialized');
+                return false;
+            }
+            
             try {
                 // Fetch all active products
                 const { data: products, error: productsError } = await _supabase
@@ -657,36 +751,55 @@
                     .select('*')
                     .eq('status', 'Active');
                 
-                if (productsError) throw productsError;
+                if (productsError) {
+                    console.error('Products fetch error:', productsError);
+                    throw productsError;
+                }
+                
                 allProducts = products || [];
+                console.log(`Loaded ${allProducts.length} products, looking for slug: "${slug}"`);
                 
                 // Find product by slug or generate slug from title for matching
                 const product = allProducts.find(p => {
                     const productSlug = p.slug || generateSlug(p.title);
+                    console.log(`  Checking: "${productSlug}" === "${slug}"`);
                     return productSlug === slug;
                 });
                 
-                if (!product) return false;
+                if (!product) {
+                    console.warn(`No product found for slug: "${slug}"`);
+                    // Debug: show all available slugs
+                    console.log('Available slugs:', allProducts.map(p => p.slug || generateSlug(p.title)));
+                    return false;
+                }
+                
+                console.log('Found product:', product.title);
                 
                 // Fetch variants for this product
-                const { data: variants } = await _supabase
+                const { data: variants, error: variantsError } = await _supabase
                     .from('product_variants')
                     .select('*')
                     .eq('product_id', product.id);
+                
+                if (variantsError) console.warn('Variants fetch error:', variantsError);
                 allVariants = variants || [];
                 
                 // Fetch reviews for this product
-                const { data: reviews } = await _supabase
+                const { data: reviews, error: reviewsError } = await _supabase
                     .from('product_reviews')
                     .select('*')
                     .eq('product_id', product.id)
                     .order('created_at', { ascending: false });
+                
+                if (reviewsError) console.warn('Reviews fetch error:', reviewsError);
                 allReviews = reviews || [];
                 
                 // Add to recently viewed
-                let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
-                recent = [product.id.toString(), ...recent.filter(id => id !== product.id.toString())].slice(0, 8);
-                localStorage.setItem('jayen_recent', JSON.stringify(recent));
+                try {
+                    let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
+                    recent = [product.id.toString(), ...recent.filter(id => id !== product.id.toString())].slice(0, 8);
+                    localStorage.setItem('jayen_recent', JSON.stringify(recent));
+                } catch(e) {}
                 
                 renderProductDetails(product);
                 return true;
@@ -697,47 +810,72 @@
             }
         }
         
+        // Hide loader
+        function hideLoader() {
+            if (loader) {
+                loader.style.opacity = '0';
+                loader.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 600);
+            }
+        }
+        
+        // Show not found
+        function showNotFound() {
+            hideLoader();
+            if (loadingDiv) loadingDiv.classList.add('hidden');
+            if (contentDiv) contentDiv.innerHTML = '';
+            if (ctlSection) ctlSection.classList.add('hidden');
+            if (notFoundDiv) notFoundDiv.classList.remove('hidden');
+        }
+        
         // Initialize page
         async function initProductPage() {
+            initLocalStorage();
+            updateCartCount();
+            
             const slug = getSlugFromURL();
+            console.log('Product page initialized. Slug from URL:', slug);
             
             if (!slug) {
+                console.warn('No slug found in URL');
                 showNotFound();
                 return;
             }
+            
+            // Show loading state
+            if (loadingDiv) loadingDiv.classList.remove('hidden');
+            if (notFoundDiv) notFoundDiv.classList.add('hidden');
+            if (contentDiv) contentDiv.innerHTML = '';
             
             const found = await loadProductBySlug(slug);
             
             if (!found) {
                 showNotFound();
+            } else {
+                hideLoader();
             }
-            
-            // Hide loader
-            const loader = document.getElementById('global-loader');
-            loader.style.opacity = '0';
-            loader.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 600);
-        }
-        
-        function showNotFound() {
-            document.getElementById('product-not-found').classList.remove('hidden');
-            document.getElementById('product-detail-content').innerHTML = '';
-            
-            // Hide loader
-            const loader = document.getElementById('global-loader');
-            loader.style.opacity = '0';
-            loader.style.transition = 'opacity 0.5s ease';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 600);
         }
         
         // Start the page
         document.getElementById('display-year').innerText = new Date().getFullYear();
-        updateCartCount();
-        initProductPage();
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initProductPage);
+        } else {
+            initProductPage();
+        }
+        
+        // Export for global access
+        window.addToCart = addToCart;
+        window.toggleWishlist = toggleWishlist;
+        window.selectVariant = selectVariant;
+        window.zoomImage = zoomImage;
+        window.resetZoom = resetZoom;
+        window.submitReview = submitReview;
+        window.hideToast = hideToast;
     </script>
 </body>
 </html>
