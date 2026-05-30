@@ -1,8 +1,27 @@
 {
   "rewrites": [
     {
+      "source": "/product/:slug",
+      "destination": "/product/index.html"
+    },
+    {
+      "source": "/product/:slug/:path*",
+      "destination": "/product/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/product/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ]
 }
