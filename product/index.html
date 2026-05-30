@@ -71,7 +71,7 @@
       z-index: 50;
     }
     
-    /* Color Swatch Button - Small Circle Only */
+    /* Color Swatch Button */
     .color-swatch-btn {
       width: 36px;
       height: 36px;
@@ -310,8 +310,14 @@
     .selected-info strong {
       color: #1d1d1f;
     }
-    /* Thumbnail scroll buttons */
-    .thumb-scroll-btn {
+    /* Scrollable container for thumbnails and colors */
+    .scroll-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+    .scroll-arrow {
       background: white;
       border: 1px solid #e5e5e5;
       border-radius: 50%;
@@ -321,47 +327,25 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.2s;
       color: #1d1d1f;
       font-size: 14px;
+      z-index: 5;
     }
-    .thumb-scroll-btn:hover {
-      background: #f5f5f7;
-      border-color: #d1d1d1;
+    .scroll-arrow:hover {
+      background: #f9f9f9;
+      border-color: #ccc;
     }
-    .thumb-scroll-btn:disabled {
-      opacity: 0.4;
-      cursor: default;
-      pointer-events: none;
+    .scroll-arrow:active {
+      background: #f0f0f0;
     }
-    .thumb-strip-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .thumb-strip {
-      display: flex;
-      gap: 8px;
+    .scroll-viewport {
       overflow-x: auto;
       scroll-behavior: smooth;
+      white-space: nowrap;
       flex-grow: 1;
-      padding: 2px 0;
-    }
-    .thumb-strip img {
-      width: 56px;
-      height: 56px;
-      object-fit: cover;
-      border-radius: 12px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      flex-shrink: 0;
-      transition: border 0.2s;
-    }
-    .thumb-strip img.active-thumb {
-      border-color: #1d1d1f;
     }
   </style>
 </head>
@@ -534,17 +518,6 @@
         return productVariants.find(v => v.color_id == colorId && v.size_id == sizeId) || null;
       }
       
-      // Scroll thumbnail strip
-      window.scrollThumbnails = function(direction) {
-        const strip = document.getElementById('thumb-strip');
-        if (!strip) return;
-        const scrollAmount = 150;
-        strip.scrollBy({
-          left: direction === 'left' ? -scrollAmount : scrollAmount,
-          behavior: 'smooth'
-        });
-      };
-      
       window.selectColor = function(colorId) {
         selectedColorId = colorId;
         selectedSizeId = null;
@@ -571,19 +544,9 @@
           selectedColorNameEl.textContent = color.color_name;
         }
         
-        // Update main image to the color's image
         if (color && color.color_image) {
           const mainImg = document.getElementById('product-zoom-image');
           if (mainImg) mainImg.src = color.color_image;
-          
-          // Also update active thumbnail in the strip
-          document.querySelectorAll('#thumb-strip img').forEach(thumb => {
-            if (thumb.src === color.color_image || thumb.getAttribute('data-color-id') == colorId) {
-              thumb.classList.add('active-thumb');
-            } else {
-              thumb.classList.remove('active-thumb');
-            }
-          });
         }
         
         updateSizeButtons();
@@ -808,55 +771,6 @@
         if (img) img.style.transform = 'scale(1)';
       };
       
-      // Set main image from thumbnail click
-      window.setMainImage = function(imgSrc, colorId = null) {
-        const mainImg = document.getElementById('product-zoom-image');
-        if (mainImg) mainImg.src = imgSrc;
-        resetZoom();
-        
-        // Update active thumbnail class
-        document.querySelectorAll('#thumb-strip img').forEach(thumb => {
-          if (thumb.src === imgSrc) {
-            thumb.classList.add('active-thumb');
-          } else {
-            thumb.classList.remove('active-thumb');
-          }
-        });
-        
-        // If a colorId is provided and it differs from current selection, update color selection
-        if (colorId && selectedColorId != colorId) {
-          // Don't trigger full selectColor to avoid recursion, just update UI
-          selectedColorId = colorId;
-          selectedSizeId = null;
-          selectedVariant = null;
-          
-          document.querySelectorAll('.color-swatch-btn').forEach(btn => {
-            btn.classList.remove('selected');
-            btn.style.borderColor = '#e5e5e5';
-            btn.style.boxShadow = 'none';
-            btn.style.transform = 'scale(1)';
-          });
-          
-          const selectedBtn = document.querySelector(`.color-swatch-btn[data-color-id="${colorId}"]`);
-          if (selectedBtn) {
-            selectedBtn.classList.add('selected');
-            selectedBtn.style.borderColor = '#1d1d1f';
-            selectedBtn.style.boxShadow = '0 0 0 2px #ffffff, 0 0 0 4px #1d1d1f';
-            selectedBtn.style.transform = 'scale(1.1)';
-          }
-          
-          const color = productColors.find(c => c.id == colorId);
-          const selectedColorNameEl = document.getElementById('selected-color-name');
-          if (selectedColorNameEl && color) {
-            selectedColorNameEl.textContent = color.color_name;
-          }
-          
-          updateSizeButtons();
-          updatePriceDisplay();
-          updateVariantInfo();
-        }
-      };
-      
       window.submitReview = async function(productId) {
         const text = document.getElementById('review-text')?.value?.trim();
         const starsInput = document.querySelector('input[name="product-rating"]:checked');
@@ -953,6 +867,17 @@
         return [...allProducts.filter(p => p.id != currentId)].sort(() => 0.5 - Math.random()).slice(0, count);
       }
       
+      // Smooth scroll function for thumbnail/color strips
+      window.scrollContainer = function(viewportId, direction) {
+        const viewport = document.getElementById(viewportId);
+        if (!viewport) return;
+        const scrollAmount = 150;
+        viewport.scrollBy({
+          left: direction === 'left' ? -scrollAmount : scrollAmount,
+          behavior: 'smooth'
+        });
+      };
+      
       function renderProductDetails(product) {
         currentProduct = product;
         barcodeGenerated = false;
@@ -969,13 +894,8 @@
         if (metaDesc) metaDesc.content = (product.description || product.title || '').substring(0, 155) + '...';
         if (canonicalLink) canonicalLink.href = `https://jayenwaretest369.vercel.app/product/${product.slug || generateSlug(product.title)}`;
         
-        // Build image array from product images (comma separated) and color images
-        const productImages = product.images ? product.images.split(',').filter(Boolean) : [];
-        const colorImages = productColors.map(c => c.color_image).filter(Boolean);
-        // Combine and deduplicate
-        let allImages = [...new Set([...productImages, ...colorImages])];
+        const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
         if (allImages.length === 0 && product.img) allImages.push(product.img);
-        
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
         const isOut = product.stock <= 0 && productVariants.length === 0;
         
@@ -996,21 +916,25 @@
           colorsHTML = `
             <div style="margin-bottom:20px;">
               <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
-              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-                ${productColors.map(color => {
-                  const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
-                  return `
-                    <button 
-                      class="color-swatch-btn ${!hasStock ? 'disabled' : ''}"
-                      data-color-id="${color.id}"
-                      onclick="selectColor(${color.id})"
-                      title="${color.color_name}${!hasStock ? ' (Out of Stock)' : ''}"
-                      ${!hasStock ? 'disabled' : ''}
-                    >
-                      <span class="swatch-color" style="background:${color.color_code || '#ccc'};"></span>
-                    </button>
-                  `;
-                }).join('')}
+              <div class="scroll-container">
+                <button class="scroll-arrow" onclick="scrollContainer('colors-scroll', 'left')" aria-label="Scroll colors left"><i class="fa-solid fa-chevron-left"></i></button>
+                <div id="colors-scroll" class="scroll-viewport no-scrollbar" style="display:flex; gap:10px; align-items:center; padding: 4px 0;">
+                  ${productColors.map(color => {
+                    const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
+                    return `
+                      <button 
+                        class="color-swatch-btn ${!hasStock ? 'disabled' : ''}"
+                        data-color-id="${color.id}"
+                        onclick="selectColor(${color.id})"
+                        title="${color.color_name}${!hasStock ? ' (Out of Stock)' : ''}"
+                        ${!hasStock ? 'disabled' : ''}
+                      >
+                        <span class="swatch-color" style="background:${color.color_code || '#ccc'};"></span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+                <button class="scroll-arrow" onclick="scrollContainer('colors-scroll', 'right')" aria-label="Scroll colors right"><i class="fa-solid fa-chevron-right"></i></button>
               </div>
             </div>`;
         }
@@ -1026,16 +950,6 @@
             </div>`;
         }
         
-        // Build thumbnail strip HTML with scroll buttons if more than 4 images
-        const thumbnailsHTML = allImages.map((img, i) => {
-          // Determine if this image belongs to a specific color
-          const associatedColor = productColors.find(c => c.color_image === img);
-          const colorIdAttr = associatedColor ? `data-color-id="${associatedColor.id}"` : '';
-          return `<img src="${img}" onclick="setMainImage('${img.replace(/'/g, "\\'")}', ${associatedColor ? associatedColor.id : 'null'})" ${colorIdAttr} class="${i===0 ? 'active-thumb' : ''}" alt="Product view ${i+1}" onerror="this.style.display='none'">`;
-        }).join('');
-        
-        const showScrollButtons = allImages.length > 4;
-        
         const safeBarcode = product.barcode ? product.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
         
         contentDiv.innerHTML = `
@@ -1044,13 +958,15 @@
             <div id="product-zoom-container" style="border-radius:24px;aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
               <img id="product-zoom-image" src="${allImages[0] || '/logo.png'}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
             </div>
-            ${allImages.length > 1 ? `
-            <div class="thumb-strip-wrapper">
-              ${showScrollButtons ? `<button class="thumb-scroll-btn" onclick="scrollThumbnails('left')" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>` : ''}
-              <div id="thumb-strip" class="thumb-strip no-scrollbar">
-                ${thumbnailsHTML}
+            ${allImages.length>1 ? `
+            <div class="scroll-container" style="margin-top:12px;">
+              <button class="scroll-arrow" onclick="scrollContainer('thumbnails-scroll', 'left')" aria-label="Scroll thumbnails left"><i class="fa-solid fa-chevron-left"></i></button>
+              <div id="thumbnails-scroll" class="scroll-viewport no-scrollbar" style="display:flex; gap:8px;">
+                ${allImages.map((img,i)=>`
+                  <img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid ${i===0?'#1d1d1f':'transparent'};flex-shrink:0;" alt="Product image ${i+1}" onerror="this.style.display='none'">
+                `).join('')}
               </div>
-              ${showScrollButtons ? `<button class="thumb-scroll-btn" onclick="scrollThumbnails('right')" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>` : ''}
+              <button class="scroll-arrow" onclick="scrollContainer('thumbnails-scroll', 'right')" aria-label="Scroll thumbnails right"><i class="fa-solid fa-chevron-right"></i></button>
             </div>` : ''}
           </div>
           <div>
