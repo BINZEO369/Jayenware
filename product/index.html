@@ -337,12 +337,13 @@
         }
         localStorage.setItem('jayen_wish', JSON.stringify(wishlist));
         showToast('Wishlist Updated', 'info');
-        const heartBtn = document.querySelector('[data-wishlist-btn]');
-        if (heartBtn) {
+        // Update all wishlist buttons for this product
+        document.querySelectorAll('[data-wishlist-btn]').forEach(btn => {
           const isWished = wishlist.includes(productId);
-          heartBtn.querySelector('i').className = `fa-${isWished ? 'solid' : 'regular'} fa-heart`;
-          heartBtn.style.color = isWished ? '#ef4444' : '#9ca3af';
-        }
+          btn.querySelector('i').className = `fa-${isWished ? 'solid' : 'regular'} fa-heart`;
+          btn.querySelector('i').style.color = isWished ? '#ef4444' : '#9ca3af';
+          btn.innerHTML = `<i class="fa-${isWished ? 'solid' : 'regular'} fa-heart" style="color:${isWished ? '#ef4444' : '#9ca3af'};"></i> ${isWished ? 'Wishlisted' : 'Wishlist'}`;
+        });
       };
       
       window.selectVariant = function(btn, variantId, variantName, variantPrice) {
@@ -386,6 +387,20 @@
           showToast('Review submitted!', 'success');
           setTimeout(() => location.reload(), 1500);
         } catch(e) { showToast(e.message || 'Failed', 'error'); }
+      };
+      
+      window.toggleSpecifications = function() {
+        const panel = document.getElementById('specifications-panel');
+        const chevron = document.getElementById('spec-chevron');
+        if (panel && chevron) {
+          if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+            chevron.style.transform = 'rotate(180deg)';
+          } else {
+            panel.style.display = 'none';
+            chevron.style.transform = 'rotate(0deg)';
+          }
+        }
       };
       
       function productCardHTML(product) {
@@ -452,8 +467,17 @@
           </div>
           <div>
             <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#007aff;">${product.category || ''}</span>
-            <h1 style="font-size:28px;font-weight:700;margin:4px 0 16px;line-height:1.2;">${product.title || ''}</h1>
-            <div style="margin-bottom:16px;"><span style="font-size:28px;font-weight:900;">৳ ${product.price||0}</span>${product.old_price?`<span style="margin-left:12px;font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>`:''}</div>
+            <h1 style="font-size:28px;font-weight:700;margin:4px 0 8px;line-height:1.2;">${product.title || ''}</h1>
+            ${product.short_description ? `<p style="font-size:12px;color:#6b7280;margin-bottom:16px;line-height:1.5;">${product.short_description}</p>` : ''}
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <div>
+                <span style="font-size:28px;font-weight:900;">৳ ${product.price||0}</span>
+                ${product.old_price?`<span style="margin-left:12px;font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>`:''}
+              </div>
+              <button onclick="toggleWishlist(${product.id})" data-wishlist-btn style="display:flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid #e5e5e5;border-radius:9999px;font-size:10px;font-weight:700;background:transparent;cursor:pointer;white-space:nowrap;">
+                <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};"></i> ${wishlist.includes(product.id)?'Wishlisted':'Wishlist'}
+              </button>
+            </div>
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
               <span style="width:8px;height:8px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};"></span>
               <span style="font-size:12px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':`In Stock: ${product.stock||0}`}</span>
@@ -464,29 +488,27 @@
               <button onclick="addToCart(${product.id})" ${isOut?'disabled':''} style="padding:14px;${isOut?'background:#e5e5e5;cursor:not-allowed;':'background:#1d1d1f;'}color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Add to Bag</button>
               <button onclick="addToCart(${product.id},true)" ${isOut?'disabled':''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
             </div>
-            <button onclick="toggleWishlist(${product.id})" data-wishlist-btn style="display:flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid #e5e5e5;border-radius:9999px;font-size:10px;font-weight:700;background:transparent;cursor:pointer;margin-bottom:24px;">
-              <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};"></i> ${wishlist.includes(product.id)?'Remove from Wishlist':'Add to Wishlist'}
-            </button>
             
-            <!-- DETAILED SPECIFICATION CARDS (ALL FIELDS FROM DB) -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-              ${product.fabric_type ? `<div class="detail-badge"><i class="fa-solid fa-shirt"></i><div><span style="color:#9ca3af;font-size:9px;">Fabric</span><br><span style="font-weight:700;">${product.fabric_type}</span></div></div>` : ''}
-              ${product.gsm_type ? `<div class="detail-badge"><i class="fa-solid fa-weight-scale"></i><div><span style="color:#9ca3af;font-size:9px;">GSM</span><br><span style="font-weight:700;">${product.gsm_type}</span></div></div>` : ''}
-              ${product.fit_type ? `<div class="detail-badge"><i class="fa-solid fa-ruler"></i><div><span style="color:#9ca3af;font-size:9px;">Fit</span><br><span style="font-weight:700;">${product.fit_type}</span></div></div>` : ''}
-              ${product.gender ? `<div class="detail-badge"><i class="fa-solid fa-venus-mars"></i><div><span style="color:#9ca3af;font-size:9px;">Gender</span><br><span style="font-weight:700;">${product.gender}</span></div></div>` : ''}
-              ${product.print_type ? `<div class="detail-badge"><i class="fa-solid fa-palette"></i><div><span style="color:#9ca3af;font-size:9px;">Print</span><br><span style="font-weight:700;">${product.print_type}</span></div></div>` : ''}
-              ${product.sku ? `<div class="detail-badge"><i class="fa-solid fa-barcode"></i><div><span style="color:#9ca3af;font-size:9px;">SKU</span><br><span style="font-weight:700;font-size:10px;">${product.sku}</span></div></div>` : ''}
-              ${product.barcode ? `<div class="detail-badge" style="grid-column:span 2;"><i class="fa-solid fa-upc"></i><div><span style="color:#9ca3af;font-size:9px;">Barcode</span><br><span style="font-weight:700;">${product.barcode}</span></div></div>` : ''}
+            <!-- Specifications Collapsible Button -->
+            <div style="margin-bottom:24px;">
+              <button onclick="toggleSpecifications()" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 16px;background:#f5f5f7;border:none;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;color:#1d1d1f;">
+                <span><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Specifications</span>
+                <i id="spec-chevron" class="fa-solid fa-chevron-down" style="transition:transform 0.3s;"></i>
+              </button>
+              <div id="specifications-panel" style="display:none;background:white;border:1px solid #f3f4f6;border-radius:12px;padding:16px;margin-top:8px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                  ${product.fabric_type ? `<div class="detail-badge"><i class="fa-solid fa-shirt"></i><div><span style="color:#9ca3af;font-size:9px;">Fabric</span><br><span style="font-weight:700;">${product.fabric_type}</span></div></div>` : ''}
+                  ${product.gsm_type ? `<div class="detail-badge"><i class="fa-solid fa-weight-scale"></i><div><span style="color:#9ca3af;font-size:9px;">GSM</span><br><span style="font-weight:700;">${product.gsm_type}</span></div></div>` : ''}
+                  ${product.fit_type ? `<div class="detail-badge"><i class="fa-solid fa-ruler"></i><div><span style="color:#9ca3af;font-size:9px;">Fit</span><br><span style="font-weight:700;">${product.fit_type}</span></div></div>` : ''}
+                  ${product.gender ? `<div class="detail-badge"><i class="fa-solid fa-venus-mars"></i><div><span style="color:#9ca3af;font-size:9px;">Gender</span><br><span style="font-weight:700;">${product.gender}</span></div></div>` : ''}
+                  ${product.print_type ? `<div class="detail-badge"><i class="fa-solid fa-palette"></i><div><span style="color:#9ca3af;font-size:9px;">Print</span><br><span style="font-weight:700;">${product.print_type}</span></div></div>` : ''}
+                  ${product.sku ? `<div class="detail-badge"><i class="fa-solid fa-barcode"></i><div><span style="color:#9ca3af;font-size:9px;">SKU</span><br><span style="font-weight:700;font-size:10px;">${product.sku}</span></div></div>` : ''}
+                </div>
+                ${product.barcode ? `<div style="margin-top:16px;text-align:center;padding:12px;background:#fafafa;border-radius:8px;"><img src="https://barcodeapi.org/api/auto/${product.barcode}" alt="Barcode" style="max-width:200px;margin:0 auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';"><span style="display:none;font-size:10px;color:#9ca3af;">${product.barcode}</span></div>` : ''}
+              </div>
             </div>
             
             ${product.description ? `<div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:16px;"><h3 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:8px;">Description</h3><p style="font-size:12px;color:#4b5563;line-height:1.6;">${product.description}</p></div>` : ''}
-            ${product.short_description ? `<p style="font-size:12px;color:#6b7280;margin-bottom:16px;">${product.short_description}</p>` : ''}
-            
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
-              <div style="display:flex;align-items:center;gap:4px;background:#f0fdf4;padding:4px 12px;border-radius:9999px;font-size:10px;"><i class="fa-solid fa-shield-halved" style="color:#16a34a;"></i> Authentic</div>
-              <div style="display:flex;align-items:center;gap:4px;background:#eff6ff;padding:4px 12px;border-radius:9999px;font-size:10px;"><i class="fa-solid fa-truck-fast" style="color:#2563eb;"></i> Fast Delivery</div>
-              <div style="display:flex;align-items:center;gap:4px;background:#fefce8;padding:4px 12px;border-radius:9999px;font-size:10px;"><i class="fa-solid fa-rotate-left" style="color:#ca8a04;"></i> Easy Returns</div>
-            </div>
           </div>
         </div>
         <div style="border-top:1px solid #e5e5e5;padding-top:32px;">
