@@ -119,28 +119,10 @@
       transform: rotate(-45deg);
     }
     
-    /* Thumbnail Scroll Container */
-    .thumbnails-scroll-container {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding-bottom: 4px;
-    }
-    .thumbnails-scroll-container::-webkit-scrollbar {
-      display: none;
-    }
-    
     /* Thumbnail Styles */
     .thumb-btn {
       width: 56px;
       height: 56px;
-      min-width: 56px;
       object-fit: cover;
       border-radius: 12px;
       cursor: pointer;
@@ -227,6 +209,8 @@
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       max-width: calc(100vw - 32px);
     }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .product-card {
       transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -338,12 +322,6 @@
       font-size: 12px;
       color: #0369a1;
     }
-
-    /* Fix for mobile - prevent body scroll when swiping thumbnails */
-    .thumbnails-scroll-container {
-      touch-action: pan-x;
-      overscroll-behavior-x: contain;
-    }
   </style>
 </head>
 <body class="antialiased">
@@ -393,10 +371,10 @@
       <div id="product-loading" style="display:grid;grid-template-columns:1fr;gap:32px;">
         <div>
           <div class="skeleton" style="border-radius:24px;aspect-ratio:3/4;"></div>
-          <div style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">
-            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;min-width:56px;"></div>
-            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;min-width:56px;"></div>
-            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;min-width:56px;"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
+            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
+            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
           </div>
         </div>
         <div>
@@ -532,6 +510,50 @@
           }
         });
       };
+      
+      // Update all thumbnails (product images + color images)
+      function updateThumbnails() {
+        const thumbContainer = document.getElementById('thumbnails-container');
+        if (!thumbContainer) return;
+        
+        let allThumbnails = [];
+        
+        // Add product images
+        if (currentProduct) {
+          const productImages = currentProduct.images ? currentProduct.images.split(',').filter(Boolean) : [];
+          if (productImages.length === 0 && currentProduct.img) {
+            productImages.push(currentProduct.img);
+          }
+          productImages.forEach(img => {
+            allThumbnails.push({ url: img, type: 'product' });
+          });
+        }
+        
+        // Add color images (except if already in product images)
+        productColors.forEach(color => {
+          if (color.color_image && !allThumbnails.find(t => t.url === color.color_image)) {
+            allThumbnails.push({ url: color.color_image, type: 'color', colorId: color.id, colorName: color.color_name });
+          }
+        });
+        
+        if (allThumbnails.length <= 1) {
+          thumbContainer.innerHTML = '';
+          return;
+        }
+        
+        thumbContainer.innerHTML = allThumbnails.map(thumb => `
+          <img 
+            src="${thumb.url}" 
+            class="thumb-btn ${thumb.url === currentMainImage ? 'active' : ''}"
+            data-image="${thumb.url}"
+            onclick="switchMainImage('${thumb.url.replace(/'/g, "\\'")}')"
+            onerror="this.style.display='none'"
+            alt="${thumb.type === 'color' ? thumb.colorName + ' color' : 'Product image'}"
+            title="${thumb.type === 'color' ? thumb.colorName + ' color' : 'Product image'}"
+            loading="lazy"
+          >
+        `).join('');
+      }
       
       window.selectColor = function(colorId) {
         selectedColorId = colorId;
@@ -901,6 +923,7 @@
         const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
         if (allImages.length === 0 && product.img) allImages.push(product.img);
         
+        // Set initial main image
         currentMainImage = allImages[0] || '/logo.png';
         
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
@@ -918,12 +941,15 @@
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
         
+        // Build thumbnails (product images + color images)
         let allThumbnails = [];
         
+        // Add product images first
         allImages.forEach(img => {
           allThumbnails.push(img);
         });
         
+        // Add color images
         productColors.forEach(color => {
           if (color.color_image && !allThumbnails.includes(color.color_image)) {
             allThumbnails.push(color.color_image);
@@ -935,7 +961,7 @@
           colorsHTML = `
             <div style="margin-bottom:20px;">
               <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
-              <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
                 ${productColors.map(color => {
                   const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
                   return `
@@ -959,7 +985,7 @@
           sizesHTML = `
             <div style="margin-bottom:20px;">
               <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Size: <span id="selected-size-name" style="color:#1d1d1f;">Select a size</span></p>
-              <div id="size-buttons-container" style="display:flex;flex-wrap:wrap;gap:8px;">
+              <div id="size-buttons-container" class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
                 <p style="font-size:12px;color:#9ca3af;padding:8px 0;">Please select a color first</p>
               </div>
             </div>`;
@@ -973,7 +999,7 @@
             <div id="product-zoom-container" style="border-radius:24px;aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
               <img id="product-zoom-image" src="${currentMainImage}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
             </div>
-            <div id="thumbnails-container" class="thumbnails-scroll-container">
+            <div id="thumbnails-container" class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">
               ${allThumbnails.map(img => `
                 <img 
                   src="${img}" 
@@ -1166,3 +1192,4 @@
   </script>
 </body>
 </html>
+
