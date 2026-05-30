@@ -187,7 +187,8 @@
       padding: 20px;
       border-radius: 20px;
       border: 1px solid #f0f0f0;
-      margin-top: 20px;
+      margin-top: 8px;
+      margin-bottom: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -205,6 +206,16 @@
     }
     .collapse-section.open {
       max-height: 800px;
+    }
+    .description-content {
+      background: #f5f5f7;
+      padding: 20px;
+      border-radius: 16px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #4b5563;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -440,22 +451,22 @@
         } catch(e) { showToast(e.message || 'Failed', 'error'); }
       };
       
-      window.toggleCollapse = function(sectionId) {
-        const collapse = document.getElementById(sectionId);
-        const icon = document.getElementById(sectionId + '-icon');
-        if (collapse.classList.contains('open')) {
-          collapse.classList.remove('open');
+      window.toggleSection = function(sectionId, iconId) {
+        const section = document.getElementById(sectionId);
+        const icon = document.getElementById(iconId);
+        if (section.classList.contains('open')) {
+          section.classList.remove('open');
           if (icon) icon.className = 'fa-solid fa-chevron-down';
         } else {
-          collapse.classList.add('open');
+          section.classList.add('open');
           if (icon) icon.className = 'fa-solid fa-chevron-up';
         }
       };
       
       function generateBarcode(barcodeText) {
         if (!barcodeText) return;
-        const container = document.getElementById('barcode-container');
-        if (container) {
+        const svgEl = document.getElementById('barcode-svg');
+        if (svgEl) {
           try {
             JsBarcode("#barcode-svg", barcodeText, {
               format: "CODE128",
@@ -563,13 +574,10 @@
               <button onclick="addToCart(${product.id},true)" ${isOut?'disabled':''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
             </div>
             
-            <!-- SHORT DESCRIPTION (visible always) -->
-            ${product.short_description ? `<div style="background:#f9fafb;padding:16px;border-radius:12px;margin-bottom:16px;border:1px solid #f3f4f6;"><p style="font-size:12px;color:#4b5563;line-height:1.6;">${product.short_description}</p></div>` : ''}
-            
             <!-- SPECIFICATIONS TOGGLE -->
-            <button class="toggle-btn" onclick="toggleCollapse('specs-collapse')">
+            <button class="toggle-btn" onclick="toggleSection('specs-collapse', 'specs-icon')">
               <span><i class="fa-solid fa-sliders" style="margin-right:8px;"></i>Specifications</span>
-              <i id="specs-collapse-icon" class="fa-solid fa-chevron-down"></i>
+              <i id="specs-icon" class="fa-solid fa-chevron-down"></i>
             </button>
             <div id="specs-collapse" class="collapse-section">
               <div class="specs-grid">
@@ -584,22 +592,22 @@
             
             <!-- DESCRIPTION TOGGLE -->
             ${product.description ? `
-            <button class="toggle-btn" onclick="toggleCollapse('desc-collapse')">
+            <button class="toggle-btn" onclick="toggleSection('desc-collapse', 'desc-icon')">
               <span><i class="fa-solid fa-align-left" style="margin-right:8px;"></i>Description</span>
-              <i id="desc-collapse-icon" class="fa-solid fa-chevron-down"></i>
+              <i id="desc-icon" class="fa-solid fa-chevron-down"></i>
             </button>
             <div id="desc-collapse" class="collapse-section">
-              <div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:16px;"><p style="font-size:12px;color:#4b5563;line-height:1.6;">${product.description}</p></div>
+              <div class="description-content">${product.description}</div>
             </div>` : ''}
             
             <!-- BARCODE TOGGLE -->
             ${product.barcode ? `
-            <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse'); generateBarcode('${product.barcode.replace(/'/g, "\\'")}')">
-              <span><i class="fa-solid fa-barcode" style="margin-right:8px;"></i>Barcode</span>
-              <i id="barcode-collapse-icon" class="fa-solid fa-chevron-down"></i>
+            <button class="toggle-btn" onclick="toggleSection('barcode-collapse', 'barcode-icon'); setTimeout(() => generateBarcode('${product.barcode.replace(/'/g, "\\'")}'), 150);">
+              <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
+              <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
             </button>
             <div id="barcode-collapse" class="collapse-section">
-              <div class="barcode-container" id="barcode-container">
+              <div class="barcode-container">
                 <svg id="barcode-svg"></svg>
               </div>
             </div>` : ''}
