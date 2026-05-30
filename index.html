@@ -942,10 +942,10 @@
         const productsLoadMoreIncrement = 12;
         const BASE_URL = 'https://www.jayenware.shop';
         const carouselStates = {};
-        let footerRendered = false;
+        let footerRendered = false; // PREVENT DUPLICATE FOOTER
 
         function getCategorySlug(c) { if(!c) return ''; return c.toLowerCase().replace(/[^\w\s-]/g,'').replace(/[\s_]+/g,'-').replace(/^-+|-+$/g,''); }
-        function updateURL(path, title = '') { const url = BASE_URL + path; window.history.pushState({ path }, title || 'JAYENWARE', path); document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE'; const canonical = document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href = url; }
+        function updateURL(path, title = '') { const url = BASE_URL + path; window.history.pushState({ path }, title || 'JAYENWARE', url); document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE'; const canonical = document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href = url; }
 
         function navigate(pageId, params = null) {
             if(pageId !== 'home') cleanupAllCarousels();
@@ -1016,6 +1016,7 @@
             const carousel=document.getElementById(carouselId); if(!carousel) return;
             const state=initCarousel(carouselId); const {width,gap}=getCardDimensions(carousel);
             const cardTotal = width + gap;
+            // First card starts at padding-left (50% - cardWidth/2), so first card center = 0 offset
             const scrollTarget = targetIndex * cardTotal;
             state._isAnimating = true;
             carousel.classList.add('smooth-scroll');
@@ -1085,17 +1086,23 @@
             });
         }
 
+        // 🔥 MODIFIED FUNCTION - Updated display order logic as requested
         function renderCarouselProducts(carouselId, products) {
-            const carousel = document.getElementById(carouselId); if(!carousel) return;
-            if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
-            const state = initCarousel(carouselId); state.totalCards = products.length;
+            const carousel = document.getElementById(carouselId); 
+            if(!carousel) return;
+            if(!products||!products.length) { 
+                carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; 
+                return; 
+            }
+            const state = initCarousel(carouselId); 
+            state.totalCards = products.length;
             
-            // LOGIC: তৃতীয় প্রোডাক্টটি প্রথমে (মাঝখানে) দেখানোর জন্য অ্যারে রিঅর্ডার
+            // 🔥 NEW DISPLAY ORDER LOGIC - [Last 2, First 1, Remaining in order]
             let displayProducts = [...products];
-            if (displayProducts.length >= 3) {
-                // তৃতীয় উপাদান (index 2) কে প্রথমে নিয়ে আসা, বাকিগুলো পরপর
-                const third = displayProducts.splice(2, 1)[0];
-                displayProducts = [third, ...displayProducts];
+            if (displayProducts.length > 3) {
+                const lastTwo = displayProducts.splice(displayProducts.length - 2, 2);  // Last 2 items
+                const firstProduct = displayProducts.splice(0, 1)[0];                 // First product (P1)
+                displayProducts = [...lastTwo, firstProduct, ...displayProducts];     // [P6,P7, P1, P2,P3,P4,P5]
             }
             
             carousel.innerHTML = displayProducts.map(p => {
