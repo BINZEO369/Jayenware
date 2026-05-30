@@ -15,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- JsBarcode CDN - Fixed version -->
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
   <script src="/api-config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -168,8 +169,9 @@
       font-size: 12px;
       text-transform: uppercase;
       cursor: pointer;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       transition: all 0.2s;
+      text-align: left;
     }
     .toggle-btn:hover {
       background: #f9f9f9;
@@ -179,24 +181,27 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 12px;
-      margin-bottom: 20px;
+      margin-top: 4px;
+      margin-bottom: 16px;
     }
-    .barcode-container {
+    .barcode-wrapper {
       background: white;
-      padding: 24px;
+      padding: 24px 16px 16px;
       border-radius: 20px;
       border: 1px solid #f0f0f0;
-      margin-top: 16px;
+      margin-top: 4px;
+      margin-bottom: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 120px;
+      overflow: hidden;
     }
-    .barcode-container svg {
+    .barcode-wrapper svg {
       max-width: 100%;
       height: auto;
+      display: block;
     }
     .collapse-section {
       max-height: 0;
@@ -210,10 +215,20 @@
       background: #f5f5f7;
       padding: 20px;
       border-radius: 16px;
-      margin-top: 12px;
+      margin-top: 4px;
+      margin-bottom: 16px;
       font-size: 13px;
       color: #4b5563;
       line-height: 1.7;
+    }
+    .barcode-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #9ca3af;
+      font-size: 12px;
+      padding: 20px;
     }
   </style>
 </head>
@@ -224,6 +239,7 @@
       <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.25em;color:rgba(29,29,31,0.6);">JAYENWARE</p>
     </div>
   </div>
+  
   <div id="toast">
     <div style="background:white;box-shadow:0 20px 60px rgba(0,0,0,0.15);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px;min-width:280px;border:1px solid #f0f0f0;">
       <span id="toast-icon" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;"></span>
@@ -231,6 +247,7 @@
       <button onclick="hideToast()" style="color:#ccc;background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
     </div>
   </div>
+
   <nav class="glass-nav">
     <div style="max-width:1280px;margin:0 auto;padding:0 16px;height:56px;display:flex;justify-content:space-between;align-items:center;">
       <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1d1d1f;" aria-label="JAYENWARE Home">
@@ -247,6 +264,7 @@
       </div>
     </div>
   </nav>
+
   <main style="padding-top:72px;flex-grow:1;">
     <div style="max-width:1280px;margin:0 auto;padding:24px 16px;">
       <a href="/products" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;font-size:10px;font-weight:700;color:#9ca3af;text-decoration:none;">
@@ -286,14 +304,21 @@
       </div>
     </div>
   </main>
+
   <footer style="background:#1d1d1f;color:#9ca3af;padding:32px 0 16px;margin-top:auto;">
     <div style="max-width:1280px;margin:0 auto;padding:0 16px;text-align:center;">
       <p style="font-size:10px;">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" style="color:#007aff;font-weight:700;text-decoration:none;">BINZEO</a></p>
       <p style="font-size:8px;margin-top:8px;">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved.</p>
     </div>
   </footer>
+
   <script>
     (function() {
+      // Check if JsBarcode is loaded
+      if (typeof JsBarcode === 'undefined') {
+        console.error('JsBarcode library failed to load. Barcode generation will not work.');
+      }
+      
       const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       let currentProduct = null;
       let allProducts = [];
@@ -302,6 +327,8 @@
       let selectedVariantObj = null;
       let cart = [];
       let wishlist = [];
+      let barcodeGenerated = false;
+      
       const loader = document.getElementById('global-loader');
       const notFoundDiv = document.getElementById('product-not-found');
       const loadingDiv = document.getElementById('product-loading');
@@ -449,20 +476,45 @@
         } catch(e) { showToast(e.message || 'Failed', 'error'); }
       };
       
-      window.toggleCollapse = function(sectionId, iconId) {
+      // Fixed toggle function with barcode generation support
+      window.toggleCollapse = function(sectionId, iconId, barcodeText) {
         const collapse = document.getElementById(sectionId);
         const icon = document.getElementById(iconId);
+        
+        if (!collapse) return;
+        
         if (collapse.classList.contains('open')) {
           collapse.classList.remove('open');
           if (icon) icon.className = 'fa-solid fa-chevron-down';
         } else {
           collapse.classList.add('open');
           if (icon) icon.className = 'fa-solid fa-chevron-up';
+          
+          // If this is the barcode section, generate the barcode
+          if (sectionId === 'barcode-collapse' && barcodeText && !barcodeGenerated) {
+            setTimeout(() => {
+              generateBarcode(barcodeText);
+            }, 200);
+          }
         }
       };
       
+      // Fixed barcode generation function
       function generateBarcode(barcodeText) {
-        if (!barcodeText) return;
+        if (!barcodeText || typeof JsBarcode === 'undefined') {
+          const container = document.getElementById('barcode-svg-container');
+          if (container) {
+            container.innerHTML = '<p style="color:#9ca3af;font-size:12px;text-align:center;padding:20px;">Barcode library not loaded. Please refresh the page.</p>';
+          }
+          return;
+        }
+        
+        const svgElement = document.getElementById('barcode-svg');
+        if (!svgElement) {
+          console.error('Barcode SVG element not found');
+          return;
+        }
+        
         try {
           JsBarcode("#barcode-svg", barcodeText, {
             format: "CODE128",
@@ -474,9 +526,14 @@
             background: "#ffffff",
             lineColor: "#1d1d1f"
           });
+          barcodeGenerated = true;
+          console.log('Barcode generated successfully:', barcodeText);
         } catch(e) {
-          console.error("Barcode generation failed:", e);
-          document.getElementById('barcode-container').innerHTML = '<p style="color:#9ca3af;font-size:12px;">Barcode unavailable</p>';
+          console.error("Barcode generation error:", e);
+          const container = document.getElementById('barcode-svg-container');
+          if (container) {
+            container.innerHTML = '<p style="color:#ef4444;font-size:12px;text-align:center;padding:20px;">Failed to generate barcode</p>';
+          }
         }
       }
       
@@ -506,9 +563,12 @@
       
       function renderProductDetails(product) {
         currentProduct = product;
+        barcodeGenerated = false;
+        
         if (loadingDiv) loadingDiv.style.display = 'none';
         if (notFoundDiv) notFoundDiv.style.display = 'none';
         if (contentDiv) contentDiv.style.display = 'block';
+        
         document.title = `${product.title || 'Product'} | JAYENWARE`;
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.content = (product.description || product.title || '').substring(0, 155) + '...';
@@ -519,9 +579,13 @@
         if (allImages.length === 0 && product.img) allImages.push(product.img);
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
         const isOut = product.stock <= 0;
+        
         if (variants.length > 0) {
           selectedVariantObj = { id: variants[0].id, name: variants[0].name, price: variants[0].price };
-        } else { selectedVariantObj = null; }
+        } else { 
+          selectedVariantObj = null; 
+        }
+        
         const avgRating = prodReviews.length ? (prodReviews.reduce((s,r)=>s+r.rating,0)/prodReviews.length).toFixed(1) : null;
         
         const reviewsHTML = prodReviews.length ? prodReviews.map(r=>`
@@ -533,6 +597,9 @@
             </div>
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
+        
+        // Escape barcode for safe use in onclick attribute
+        const safeBarcode = product.barcode ? product.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
         
         contentDiv.innerHTML = `
         <div style="display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;">
@@ -599,12 +666,12 @@
             
             <!-- BARCODE TOGGLE -->
             ${product.barcode ? `
-            <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon'); setTimeout(() => generateBarcode('${product.barcode.replace(/'/g, "\\'")}'), 150);">
+            <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${safeBarcode}')">
               <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
               <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
             </button>
             <div id="barcode-collapse" class="collapse-section">
-              <div class="barcode-container" id="barcode-container">
+              <div class="barcode-wrapper" id="barcode-svg-container">
                 <svg id="barcode-svg"></svg>
               </div>
             </div>` : ''}
@@ -632,7 +699,9 @@
         if (related.length) {
           ctlSection.style.display = 'block';
           ctlGrid.innerHTML = related.map(p => productCardHTML(p)).join('');
-        } else { ctlSection.style.display = 'none'; }
+        } else { 
+          ctlSection.style.display = 'none'; 
+        }
       }
       
       async function loadProductBySlug(slug) {
@@ -642,24 +711,35 @@
           allProducts = products || [];
           const product = allProducts.find(p => (p.slug || generateSlug(p.title)) === slug);
           if (!product) return false;
+          
           const [varRes, revRes] = await Promise.all([
             _supabase.from('product_variants').select('*').eq('product_id', product.id),
             _supabase.from('product_reviews').select('*').eq('product_id', product.id).order('created_at', { ascending: false })
           ]);
+          
           allVariants = varRes.data || [];
           allReviews = revRes.data || [];
+          
           try {
             let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
             recent = [product.id.toString(), ...recent.filter(id => id != product.id)].slice(0,8);
             localStorage.setItem('jayen_recent', JSON.stringify(recent));
-          } catch(e){}
+          } catch(e) {}
+          
           renderProductDetails(product);
           return true;
-        } catch(e) { console.error(e); return false; }
+        } catch(e) { 
+          console.error(e); 
+          return false; 
+        }
       }
       
       function hideLoader() {
-        if (loader) { loader.style.opacity = '0'; loader.style.transition = 'opacity 0.5s'; setTimeout(()=>{ loader.style.display = 'none'; }, 600); }
+        if (loader) { 
+          loader.style.opacity = '0'; 
+          loader.style.transition = 'opacity 0.5s'; 
+          setTimeout(() => { loader.style.display = 'none'; }, 600); 
+        }
       }
       
       function showNotFound() {
@@ -679,7 +759,8 @@
         if (loadingDiv) loadingDiv.style.display = 'grid';
         if (notFoundDiv) notFoundDiv.style.display = 'none';
         const found = await loadProductBySlug(slug);
-        if (!found) showNotFound(); else hideLoader();
+        if (!found) showNotFound(); 
+        else hideLoader();
       }
       
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
