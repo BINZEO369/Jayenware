@@ -768,7 +768,7 @@
     <script>
         // ⚡ Supabase Client (use the one from api-config.js)
         const _supabaseLocal = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        let userSession = null;
+        
         let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], orders: [] };
         let currentSlide = 0, slideInterval;
         let appliedPromo = null;
