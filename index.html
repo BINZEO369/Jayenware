@@ -119,6 +119,8 @@
             --glass-border: rgba(0, 0, 0, 0.06);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             --glass-blur: blur(20px);
+            --card-width: 280px;
+            --card-gap: 16px;
         }
         
         * {
@@ -167,7 +169,7 @@
         .page-section.active-page { display: block; }
         .page-section.fade-in { opacity: 1; transform: translateY(0); }
         
-        /* Mega Menu - Homepage specific */
+        /* Mega Menu */
         .luxury-mega-menu {
             opacity: 0; visibility: hidden;
             transform: translateY(15px);
@@ -206,19 +208,8 @@
             width: 50px; height: 65px;
             object-fit: cover; border-radius: 6px; flex-shrink: 0;
         }
-        .luxury-mega-menu .menu-featured-section {
-            position: relative; border-radius: 16px;
-            overflow: hidden; height: 100%; min-height: 300px;
-        }
-        .luxury-mega-menu .menu-featured-section img { width: 100%; height: 100%; object-fit: cover; }
-        .luxury-mega-menu .menu-featured-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 30px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            color: white;
-        }
         
-        /* Enhanced Liquid Glass Product Card */
+        /* Product Card Grid */
         .product-card {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; flex-direction: column; height: 100%;
@@ -271,7 +262,7 @@
         #products-grid { transition: opacity 0.3s ease; min-height: 400px; }
 
         /* ============================================
-           ENHANCED LIQUID GLASS CAROUSEL DESIGN
+           PRECISE SNAP CAROUSEL DESIGN
            ============================================ */
         .carousel-section {
             padding: 60px 0;
@@ -321,6 +312,7 @@
             gap: 10px;
         }
         
+        /* Carousel with precise snap */
         .carousel-wrapper {
             position: relative;
             overflow: hidden;
@@ -329,7 +321,7 @@
         
         .carousel-track {
             display: flex;
-            gap: 16px;
+            gap: var(--card-gap);
             overflow-x: auto;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
@@ -338,17 +330,19 @@
             user-select: none;
             padding: 20px 10px;
             scroll-snap-type: x mandatory;
+            scroll-padding: 10px;
         }
         
         .carousel-track::-webkit-scrollbar { display: none; }
         .carousel-track:active { cursor: grabbing; }
-        .carousel-track.dragging { scroll-behavior: auto; }
+        .carousel-track.smooth-scroll { scroll-behavior: smooth; }
 
-        /* Liquid Glass Carousel Card */
+        /* Liquid Glass Carousel Card with Snap */
         .carousel-card {
             flex: 0 0 auto;
-            width: 280px;
+            width: var(--card-width);
             scroll-snap-align: start;
+            scroll-snap-stop: always;
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
@@ -637,29 +631,40 @@
             opacity: 1;
         }
 
-        /* Liquid Glass Scrollbar */
-        .carousel-scrollbar {
+        /* PRECISE DOT INDICATORS */
+        .carousel-dots-container {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
+            align-items: center;
+            gap: 10px;
+            margin-top: 28px;
+            padding: 4px 0;
         }
         
-        .carousel-scrollbar .scroll-dot {
+        .carousel-dots-container .carousel-dot {
             width: 8px;
             height: 8px;
-            border-radius: 4px;
-            background: rgba(0,0,0,0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            background: rgba(0,0,0,0.15);
+            border: none;
             cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0;
+            outline: none;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
         
-        .carousel-scrollbar .scroll-dot.active {
-            width: 32px;
+        .carousel-dots-container .carousel-dot:hover {
+            background: rgba(0,0,0,0.3);
+            transform: scale(1.2);
+        }
+        
+        .carousel-dots-container .carousel-dot.active {
+            width: 28px;
+            border-radius: 4px;
             background: var(--primary);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
         }
 
         .carousel-section {
@@ -674,21 +679,31 @@
         }
 
         @media (max-width: 640px) {
-            .carousel-card { width: 220px; }
-            .carousel-track { gap: 12px; padding: 16px 8px; }
+            :root {
+                --card-width: 220px;
+                --card-gap: 12px;
+            }
+            .carousel-track { padding: 16px 8px; scroll-padding: 8px; }
             .carousel-card .card-body { padding: 12px 14px 14px; }
             .carousel-header .section-title { font-size: 24px; }
             .carousel-nav { width: 36px; height: 36px; font-size: 14px; }
+            .carousel-dots-container { gap: 8px; margin-top: 20px; }
+            .carousel-dots-container .carousel-dot { width: 6px; height: 6px; }
+            .carousel-dots-container .carousel-dot.active { width: 22px; }
         }
         
         @media (min-width: 641px) and (max-width: 1023px) {
-            .carousel-card { width: 250px; }
-            .carousel-track { gap: 16px; }
+            :root {
+                --card-width: 250px;
+                --card-gap: 16px;
+            }
         }
         
         @media (min-width: 1024px) {
-            .carousel-card { width: 300px; }
-            .carousel-track { gap: 20px; }
+            :root {
+                --card-width: 300px;
+                --card-gap: 20px;
+            }
         }
 
         .auth-input-wrapper { position: relative; }
@@ -763,17 +778,6 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Hero Glass Effect */
-        .hero-banner-container {
-            position: relative;
-        }
-        .hero-overlay {
-            background: linear-gradient(to bottom, 
-                rgba(0,0,0,0.1) 0%, 
-                rgba(0,0,0,0.3) 50%, 
-                rgba(0,0,0,0.7) 100%);
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -794,7 +798,7 @@
             <!-- Hero Banner -->
             <div class="relative overflow-hidden hero-img bg-gray-100 hero-banner-container" style="height:50vh;min-height:280px;" id="hero-container">
                 <div id="hero-banner-slides" class="absolute inset-0"></div>
-                <div class="absolute inset-0 hero-overlay z-10"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10"></div>
                 <div class="relative z-20 h-full flex flex-col justify-end pb-8 sm:pb-12 lg:pb-20 px-4 sm:px-6 lg:px-16 max-w-7xl mx-auto w-full hero-banner-content">
                     <p id="hero-subtitle" class="text-white/80 text-[10px] sm:text-xs lg:text-sm font-medium uppercase tracking-[0.2em] mb-2 sm:mb-3"></p>
                     <h1 id="hero-title" class="text-white text-2xl sm:text-4xl lg:text-6xl xl:text-7xl font-black font-serif mb-4 sm:mb-6 leading-tight"></h1>
@@ -830,7 +834,7 @@
                         <div id="new-arrivals-carousel" class="carousel-track" data-speed="0.6" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
                         <button onclick="slideCarousel('new-arrivals-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
-                    <div class="carousel-scrollbar" id="new-arrivals-scrollbar"></div>
+                    <div class="carousel-dots-container" id="new-arrivals-dots"></div>
                 </div>
             </section>
 
@@ -847,7 +851,7 @@
                         <div id="hot-products-carousel" class="carousel-track" data-speed="0.9" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
                         <button onclick="slideCarousel('hot-products-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
-                    <div class="carousel-scrollbar" id="hot-products-scrollbar"></div>
+                    <div class="carousel-dots-container" id="hot-products-dots"></div>
                 </div>
             </section>
 
@@ -864,7 +868,7 @@
                         <div id="featured-products-carousel" class="carousel-track" data-speed="0.7" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
                         <button onclick="slideCarousel('featured-products-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
-                    <div class="carousel-scrollbar" id="featured-products-scrollbar"></div>
+                    <div class="carousel-dots-container" id="featured-products-dots"></div>
                 </div>
             </section>
 
@@ -881,7 +885,7 @@
                         <div id="best-selling-carousel" class="carousel-track" data-speed="0.8" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
                         <button onclick="slideCarousel('best-selling-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
-                    <div class="carousel-scrollbar" id="best-selling-scrollbar"></div>
+                    <div class="carousel-dots-container" id="best-selling-dots"></div>
                 </div>
             </section>
 
@@ -898,7 +902,7 @@
                         <div id="on-sale-carousel" class="carousel-track" data-speed="1" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
                         <button onclick="slideCarousel('on-sale-carousel', 'right')" class="carousel-nav next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
-                    <div class="carousel-scrollbar" id="on-sale-scrollbar"></div>
+                    <div class="carousel-dots-container" id="on-sale-dots"></div>
                 </div>
             </section>
 
@@ -915,8 +919,8 @@
                         <div id="limited-edition-carousel" class="carousel-track" data-speed="0.7" data-autoplay="true" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
                         <button onclick="slideCarousel('limited-edition-carousel', 'right')" class="carousel-nav next" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); color: #fff;" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
-                    <div class="carousel-scrollbar" id="limited-edition-scrollbar">
-                        <style>#limited-edition-scrollbar .scroll-dot{background:rgba(255,255,255,0.2)}#limited-edition-scrollbar .scroll-dot.active{background:#fff}</style>
+                    <div class="carousel-dots-container" id="limited-edition-dots">
+                        <style>#limited-edition-dots .carousel-dot{background:rgba(255,255,255,0.2)}#limited-edition-dots .carousel-dot.active{background:#fff}</style>
                     </div>
                 </div>
             </section>
@@ -1071,7 +1075,7 @@
 
     <!-- ==================== SCRIPTS ==================== -->
     <script>
-        // ⚡ Supabase Client (use the one from api-config.js)
+        // ⚡ Supabase Client
         const _supabaseLocal = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], orders: [] };
@@ -1082,6 +1086,7 @@
         const productsLoadMoreIncrement = 12;
         const BASE_URL = 'https://www.jayenware.shop';
         const carouselStates = {};
+        const carouselObservers = {};
 
         // ==================== UTILITIES ====================
         function getCategorySlug(category) { 
@@ -1244,7 +1249,6 @@
             showToast('More products loaded!', 'info'); 
         }
 
-        // Mobile Filters
         function toggleMobileFilters() {
             const modal = document.getElementById('mobile-filter-modal');
             if (modal.classList.contains('hidden')) {
@@ -1269,7 +1273,6 @@
             renderProducts(getFilteredProducts()); 
         }
 
-        // Sorting
         function toggleSortMenu() { document.getElementById('sort-dropdown').classList.toggle('hidden'); }
 
         function handleSorting(type, label) { 
@@ -1362,7 +1365,7 @@
             document.getElementById('wishlist-empty').classList.toggle('hidden', list.length > 0); 
         }
 
-        // ==================== ENHANCED CAROUSEL FUNCTIONS ====================
+        // ==================== PRECISE SNAP CAROUSEL ====================
         function initCarousel(carouselId) {
             if (!carouselStates[carouselId]) {
                 carouselStates[carouselId] = { 
@@ -1372,11 +1375,124 @@
                     touchStartX: 0, 
                     touchStartScrollLeft: 0, 
                     isDragging: false,
-                    scrollDirection: 1,
+                    currentIndex: 0,
+                    totalCards: 0,
                     baseSpeed: parseFloat(document.getElementById(carouselId)?.dataset.speed) || 1
                 };
             }
             return carouselStates[carouselId];
+        }
+
+        function getCardWidth(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return 300;
+            const card = carousel.querySelector('.carousel-card');
+            if (!card) return 300;
+            const cardStyle = window.getComputedStyle(card);
+            const cardWidth = card.offsetWidth;
+            const gap = parseInt(cardStyle.marginRight || 0) + parseInt(cardStyle.marginLeft || 0) + 16;
+            return cardWidth + gap;
+        }
+
+        function scrollToCard(carouselId, index) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            
+            const state = initCarousel(carouselId);
+            const cardWidth = getCardWidth(carouselId);
+            const targetScroll = index * cardWidth;
+            
+            carousel.classList.add('smooth-scroll');
+            carousel.scrollTo({
+                left: targetScroll,
+                behavior: 'smooth'
+            });
+            
+            state.currentIndex = index;
+            updateDots(carouselId, index);
+            
+            // Pause auto-scroll temporarily
+            state.isPaused = true;
+            clearTimeout(state._resumeTimeout);
+            state._resumeTimeout = setTimeout(() => {
+                state.isPaused = false;
+                state.lastTimestamp = 0;
+                carousel.classList.remove('smooth-scroll');
+            }, 3000);
+        }
+
+        function slideCarousel(carouselId, direction) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            
+            const state = initCarousel(carouselId);
+            const cardWidth = getCardWidth(carouselId);
+            const currentScroll = carousel.scrollLeft;
+            const currentIndex = Math.round(currentScroll / cardWidth);
+            
+            let newIndex;
+            if (direction === 'left') {
+                newIndex = Math.max(0, currentIndex - 1);
+            } else {
+                newIndex = currentIndex + 1;
+            }
+            
+            scrollToCard(carouselId, newIndex);
+        }
+
+        function updateDots(carouselId, activeIndex) {
+            const dotsContainer = document.getElementById(carouselId.replace('carousel', 'dots'));
+            if (!dotsContainer) return;
+            
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === activeIndex);
+            });
+        }
+
+        function createDots(carouselId, totalCards) {
+            const dotsContainer = document.getElementById(carouselId.replace('carousel', 'dots'));
+            if (!dotsContainer) return;
+            
+            dotsContainer.innerHTML = Array.from({ length: totalCards }, (_, i) => 
+                `<button class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="scrollToCard('${carouselId}', ${i})" aria-label="Go to slide ${i + 1}"></button>`
+            ).join('');
+            
+            carouselStates[carouselId].totalCards = totalCards;
+        }
+
+        // Intersection Observer for precise dot tracking
+        function setupCarouselObserver(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (!carousel) return;
+            
+            if (carouselObservers[carouselId]) {
+                carouselObservers[carouselId].disconnect();
+            }
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+                        const cardIndex = Array.from(carousel.children).indexOf(entry.target);
+                        if (cardIndex >= 0) {
+                            const state = initCarousel(carouselId);
+                            const totalCards = state.totalCards;
+                            const actualIndex = cardIndex % totalCards;
+                            state.currentIndex = actualIndex;
+                            updateDots(carouselId, actualIndex);
+                        }
+                    }
+                });
+            }, {
+                root: carousel,
+                threshold: 0.6
+            });
+            
+            carousel.querySelectorAll('.carousel-card').forEach(card => {
+                observer.observe(card);
+            });
+            
+            carouselObservers[carouselId] = observer;
         }
 
         function autoScrollCarousel(carouselId, timestamp) {
@@ -1393,20 +1509,23 @@
             if (!state.lastTimestamp) state.lastTimestamp = timestamp;
             
             const delta = Math.min(timestamp - state.lastTimestamp, 32);
-            const speed = state.baseSpeed * 0.05;
+            const speed = state.baseSpeed * 0.03;
             
             carousel.scrollLeft += delta * speed;
             
-            // Smooth infinite loop
-            if (carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth)) {
+            // Update current index based on scroll position
+            const cardWidth = getCardWidth(carouselId);
+            const currentIndex = Math.round(carousel.scrollLeft / cardWidth) % state.totalCards;
+            state.currentIndex = currentIndex;
+            updateDots(carouselId, currentIndex);
+            
+            // Loop back to start
+            if (carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth - 10)) {
                 carousel.scrollLeft = 0;
             }
             
             state.lastTimestamp = timestamp;
             state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
-            
-            // Update scrollbar
-            updateCarouselScrollbar(carouselId);
         }
 
         function startCarouselAutoScroll(carouselId) {
@@ -1439,44 +1558,6 @@
             state.lastTimestamp = 0;
         }
 
-        function slideCarousel(carouselId, direction) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const state = initCarousel(carouselId);
-            state.isPaused = true;
-            
-            const scrollAmount = carousel.clientWidth * 0.8;
-            const targetScroll = direction === 'left' 
-                ? carousel.scrollLeft - scrollAmount 
-                : carousel.scrollLeft + scrollAmount;
-            
-            carousel.scrollTo({
-                left: targetScroll,
-                behavior: 'smooth'
-            });
-            
-            clearTimeout(state._resumeTimeout);
-            state._resumeTimeout = setTimeout(() => {
-                state.isPaused = false;
-                state.lastTimestamp = 0;
-            }, 3000);
-        }
-
-        function updateCarouselScrollbar(carouselId) {
-            const carousel = document.getElementById(carouselId);
-            const scrollbar = document.getElementById(carouselId.replace('carousel', 'scrollbar'));
-            if (!carousel || !scrollbar) return;
-            
-            const scrollPercentage = carousel.scrollLeft / (carousel.scrollWidth - carousel.clientWidth);
-            const dots = scrollbar.querySelectorAll('.scroll-dot');
-            const activeIndex = Math.round(scrollPercentage * (dots.length - 1));
-            
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === activeIndex);
-            });
-        }
-
         function initCarouselTouchSupport() {
             document.querySelectorAll('.carousel-track').forEach(carousel => {
                 const state = initCarousel(carousel.id);
@@ -1487,7 +1568,7 @@
                     state.touchStartX = e.pageX - carousel.offsetLeft;
                     state.touchStartScrollLeft = carousel.scrollLeft;
                     carousel.style.cursor = 'grabbing';
-                    carousel.classList.add('dragging');
+                    carousel.classList.remove('smooth-scroll');
                 });
                 
                 carousel.addEventListener('mousemove', (e) => {
@@ -1499,26 +1580,23 @@
                 });
                 
                 carousel.addEventListener('mouseup', () => {
+                    if (!state.isDragging) return;
                     state.isDragging = false;
                     carousel.style.cursor = 'grab';
-                    carousel.classList.remove('dragging');
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => {
-                        state.isPaused = false;
-                        state.lastTimestamp = 0;
-                    }, 3000);
+                    
+                    // Snap to nearest card
+                    const cardWidth = getCardWidth(carousel.id);
+                    const nearestIndex = Math.round(carousel.scrollLeft / cardWidth);
+                    scrollToCard(carousel.id, nearestIndex);
                 });
                 
                 carousel.addEventListener('mouseleave', () => {
                     if (state.isDragging) {
                         state.isDragging = false;
                         carousel.style.cursor = 'grab';
-                        carousel.classList.remove('dragging');
-                        clearTimeout(state._resumeTimeout);
-                        state._resumeTimeout = setTimeout(() => {
-                            state.isPaused = false;
-                            state.lastTimestamp = 0;
-                        }, 2000);
+                        const cardWidth = getCardWidth(carousel.id);
+                        const nearestIndex = Math.round(carousel.scrollLeft / cardWidth);
+                        scrollToCard(carousel.id, nearestIndex);
                     }
                 });
                 
@@ -1528,6 +1606,7 @@
                     state.isPaused = true;
                     state.touchStartX = e.touches[0].pageX - carousel.offsetLeft;
                     state.touchStartScrollLeft = carousel.scrollLeft;
+                    carousel.classList.remove('smooth-scroll');
                 }, { passive: true });
                 
                 carousel.addEventListener('touchmove', (e) => {
@@ -1538,12 +1617,13 @@
                 }, { passive: true });
                 
                 carousel.addEventListener('touchend', () => {
+                    if (!state.isDragging) return;
                     state.isDragging = false;
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => {
-                        state.isPaused = false;
-                        state.lastTimestamp = 0;
-                    }, 3000);
+                    
+                    // Snap to nearest card
+                    const cardWidth = getCardWidth(carousel.id);
+                    const nearestIndex = Math.round(carousel.scrollLeft / cardWidth);
+                    scrollToCard(carousel.id, nearestIndex);
                 });
             });
         }
@@ -1557,7 +1637,7 @@
                 return;
             }
             
-            // Duplicate products for infinite scroll effect
+            // Create duplicated products for smooth infinite scroll
             const duplicatedProducts = [...products, ...products, ...products];
             
             carousel.innerHTML = duplicatedProducts.map(p => {
@@ -1598,40 +1678,14 @@
                 </a>`;
             }).join('');
             
-            // Initialize scroll position to middle set
-            carousel.scrollLeft = products.length * (carousel.querySelector('.carousel-card')?.offsetWidth + 20) || 0;
+            // Create dot indicators
+            createDots(carouselId, products.length);
             
-            // Create scrollbar dots
-            const scrollbarId = carouselId.replace('carousel', 'scrollbar');
-            const scrollbar = document.getElementById(scrollbarId);
-            if (scrollbar && products.length > 3) {
-                const dotCount = Math.min(products.length, 8);
-                scrollbar.innerHTML = Array.from({length: dotCount}, (_, i) => 
-                    `<div class="scroll-dot ${i === 0 ? 'active' : ''}" onclick="scrollToCarouselDot('${carouselId}', ${i}, ${dotCount})"></div>`
-                ).join('');
-            }
-        }
-
-        function scrollToCarouselDot(carouselId, index, totalDots) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
+            // Set initial scroll position
+            carousel.scrollLeft = 0;
             
-            const state = initCarousel(carouselId);
-            state.isPaused = true;
-            
-            const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
-            const targetScroll = (scrollWidth / (totalDots - 1)) * index;
-            
-            carousel.scrollTo({
-                left: targetScroll,
-                behavior: 'smooth'
-            });
-            
-            clearTimeout(state._resumeTimeout);
-            state._resumeTimeout = setTimeout(() => {
-                state.isPaused = false;
-                state.lastTimestamp = 0;
-            }, 3000);
+            // Setup intersection observer for precise tracking
+            setTimeout(() => setupCarouselObserver(carouselId), 500);
         }
 
         function renderHomepageSections() {
@@ -1653,7 +1707,6 @@
                     renderCarouselProducts(section.carousel, section.products);
                     startCarouselAutoScroll(section.carousel);
                     
-                    // Staggered entrance animation
                     setTimeout(() => {
                         sectionEl.classList.add('visible');
                     }, index * 150);
@@ -1668,6 +1721,10 @@
         function cleanupAllCarousels() {
             ['new-arrivals-carousel','hot-products-carousel','featured-products-carousel','best-selling-carousel','on-sale-carousel','limited-edition-carousel'].forEach(id => {
                 stopCarouselAutoScroll(id);
+                if (carouselObservers[id]) {
+                    carouselObservers[id].disconnect();
+                    delete carouselObservers[id];
+                }
             });
         }
 
@@ -1789,10 +1846,8 @@
 
         // ==================== INITIALIZATION ====================
         window.onload = async () => {
-            // ⚡ Initialize shared components FIRST
             await initSharedComponents();
             
-            // Load user session
             const { data: { session } } = await _supabaseLocal.auth.getSession();
             if (session) {
                 userSession = session.user;
@@ -1802,7 +1857,6 @@
                 }
             }
             
-            // Show cookie consent if needed
             const consent = localStorage.getItem('jayenware_consent');
             if (!consent) {
                 setTimeout(() => {
@@ -1810,10 +1864,8 @@
                 }, 2000);
             }
             
-            // Load data
             await loadData();
             
-            // Update mobile menu
             if (typeof updateMobileMenuFooter === 'function') updateMobileMenuFooter();
         };
     </script>
