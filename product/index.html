@@ -119,27 +119,6 @@
       transform: rotate(-45deg);
     }
     
-    /* Thumbnail Styles */
-    .thumb-btn {
-      width: 56px;
-      height: 56px;
-      object-fit: cover;
-      border-radius: 12px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      flex-shrink: 0;
-      transition: all 0.2s ease;
-      background: #f5f5f7;
-    }
-    .thumb-btn:hover {
-      border-color: #86868b;
-      opacity: 0.9;
-    }
-    .thumb-btn.active {
-      border-color: #1d1d1f !important;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
     /* Size Button Styles */
     .size-btn {
       transition: all 0.2s ease;
@@ -322,6 +301,15 @@
       font-size: 12px;
       color: #0369a1;
     }
+    .selected-info {
+      font-size: 11px;
+      color: #86868b;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .selected-info strong {
+      color: #1d1d1f;
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -420,7 +408,6 @@
       let selectedColorId = null;
       let selectedSizeId = null;
       let selectedVariant = null;
-      let currentMainImage = '';
       let cart = [];
       let wishlist = [];
       let barcodeGenerated = false;
@@ -494,67 +481,6 @@
         return productVariants.find(v => v.color_id == colorId && v.size_id == sizeId) || null;
       }
       
-      // Switch main image
-      window.switchMainImage = function(imageUrl) {
-        currentMainImage = imageUrl;
-        const mainImg = document.getElementById('product-zoom-image');
-        if (mainImg) {
-          mainImg.src = imageUrl;
-          window.resetZoom();
-        }
-        // Update thumbnail active state
-        document.querySelectorAll('.thumb-btn').forEach(thumb => {
-          thumb.classList.remove('active');
-          if (thumb.getAttribute('data-image') === imageUrl) {
-            thumb.classList.add('active');
-          }
-        });
-      };
-      
-      // Update all thumbnails (product images + color images)
-      function updateThumbnails() {
-        const thumbContainer = document.getElementById('thumbnails-container');
-        if (!thumbContainer) return;
-        
-        let allThumbnails = [];
-        
-        // Add product images
-        if (currentProduct) {
-          const productImages = currentProduct.images ? currentProduct.images.split(',').filter(Boolean) : [];
-          if (productImages.length === 0 && currentProduct.img) {
-            productImages.push(currentProduct.img);
-          }
-          productImages.forEach(img => {
-            allThumbnails.push({ url: img, type: 'product' });
-          });
-        }
-        
-        // Add color images (except if already in product images)
-        productColors.forEach(color => {
-          if (color.color_image && !allThumbnails.find(t => t.url === color.color_image)) {
-            allThumbnails.push({ url: color.color_image, type: 'color', colorId: color.id, colorName: color.color_name });
-          }
-        });
-        
-        if (allThumbnails.length <= 1) {
-          thumbContainer.innerHTML = '';
-          return;
-        }
-        
-        thumbContainer.innerHTML = allThumbnails.map(thumb => `
-          <img 
-            src="${thumb.url}" 
-            class="thumb-btn ${thumb.url === currentMainImage ? 'active' : ''}"
-            data-image="${thumb.url}"
-            onclick="switchMainImage('${thumb.url.replace(/'/g, "\\'")}')"
-            onerror="this.style.display='none'"
-            alt="${thumb.type === 'color' ? thumb.colorName + ' color' : 'Product image'}"
-            title="${thumb.type === 'color' ? thumb.colorName + ' color' : 'Product image'}"
-            loading="lazy"
-          >
-        `).join('');
-      }
-      
       window.selectColor = function(colorId) {
         selectedColorId = colorId;
         selectedSizeId = null;
@@ -581,9 +507,9 @@
           selectedColorNameEl.textContent = color.color_name;
         }
         
-        // Switch main image to color image if available
         if (color && color.color_image) {
-          switchMainImage(color.color_image);
+          const mainImg = document.getElementById('product-zoom-image');
+          if (mainImg) mainImg.src = color.color_image;
         }
         
         updateSizeButtons();
@@ -763,7 +689,7 @@
           variant_id: variantId,
           title: product.title,
           price: finalPrice,
-          img: currentMainImage || product.img,
+          img: product.img,
           variant: variantName,
           sku: variantSku,
           quantity: 1
@@ -922,10 +848,6 @@
         
         const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
         if (allImages.length === 0 && product.img) allImages.push(product.img);
-        
-        // Set initial main image
-        currentMainImage = allImages[0] || '/logo.png';
-        
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
         const isOut = product.stock <= 0 && productVariants.length === 0;
         
@@ -940,21 +862,6 @@
             </div>
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
-        
-        // Build thumbnails (product images + color images)
-        let allThumbnails = [];
-        
-        // Add product images first
-        allImages.forEach(img => {
-          allThumbnails.push(img);
-        });
-        
-        // Add color images
-        productColors.forEach(color => {
-          if (color.color_image && !allThumbnails.includes(color.color_image)) {
-            allThumbnails.push(color.color_image);
-          }
-        });
         
         let colorsHTML = '';
         if (productColors.length > 0) {
@@ -997,21 +904,9 @@
         <div style="display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;">
           <div>
             <div id="product-zoom-container" style="border-radius:24px;aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
-              <img id="product-zoom-image" src="${currentMainImage}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
+              <img id="product-zoom-image" src="${allImages[0] || '/logo.png'}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
             </div>
-            <div id="thumbnails-container" class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">
-              ${allThumbnails.map(img => `
-                <img 
-                  src="${img}" 
-                  class="thumb-btn ${img === currentMainImage ? 'active' : ''}" 
-                  data-image="${img}"
-                  onclick="switchMainImage('${img.replace(/'/g, "\\'")}')"
-                  onerror="this.style.display='none'"
-                  alt="Product thumbnail"
-                  loading="lazy"
-                >
-              `).join('')}
-            </div>
+            ${allImages.length>1?`<div class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">${allImages.map((img,i)=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid ${i===0?'#1d1d1f':'transparent'};flex-shrink:0;" alt="thumb" onerror="this.style.display='none'">`).join('')}</div>`:''}
           </div>
           <div>
             <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#007aff;">${product.category || ''}</span>
