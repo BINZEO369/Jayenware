@@ -76,10 +76,10 @@
       z-index: 50;
     }
     
-    /* Color Swatch Button */
+    /* Color Swatch Button - Smaller Size */
     .color-swatch-btn {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: 2px solid #e5e5e5;
       cursor: pointer;
@@ -126,13 +126,13 @@
       transition: all 0.2s ease;
       cursor: pointer;
       border: 1.5px solid #d1d5db;
-      border-radius: 12px;
-      padding: 10px 16px;
+      border-radius: 10px;
+      padding: 8px 14px;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       background: white;
       color: #1d1d1f;
-      min-width: 48px;
+      min-width: 44px;
       text-align: center;
       flex-shrink: 0;
     }
@@ -743,20 +743,20 @@
         
         if (selectedVariant) {
           priceEl.innerHTML = `
-            <span style="font-size:32px;font-weight:900;">৳ ${selectedVariant.price}</span>
-            ${selectedVariant.old_price ? `<span style="font-size:16px;color:#86868b;text-decoration:line-through;margin-left:8px;">৳ ${selectedVariant.old_price}</span>` : ''}
+            <span style="font-size:28px;font-weight:900;letter-spacing:-0.5px;">৳ ${selectedVariant.price}</span>
+            ${selectedVariant.old_price ? `<span style="font-size:15px;color:#86868b;text-decoration:line-through;margin-left:8px;">৳ ${selectedVariant.old_price}</span>` : ''}
           `;
         } else if (selectedColorId) {
           const variantsForColor = productVariants.filter(v => v.color_id == selectedColorId && v.is_active);
           if (variantsForColor.length > 0) {
             const minPrice = Math.min(...variantsForColor.map(v => v.price));
             const maxPrice = Math.max(...variantsForColor.map(v => v.price));
-            priceEl.innerHTML = `<span style="font-size:32px;font-weight:900;">৳ ${minPrice === maxPrice ? minPrice : `${minPrice} - ${maxPrice}`}</span>`;
+            priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;letter-spacing:-0.5px;">৳ ${minPrice === maxPrice ? minPrice : `${minPrice} - ${maxPrice}`}</span>`;
           } else {
-            priceEl.innerHTML = `<span style="font-size:32px;font-weight:900;">৳ ${currentProduct?.price || 0}</span>`;
+            priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;letter-spacing:-0.5px;">৳ ${currentProduct?.price || 0}</span>`;
           }
         } else {
-          priceEl.innerHTML = `<span style="font-size:32px;font-weight:900;">৳ ${currentProduct?.price || 0}</span>`;
+          priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;letter-spacing:-0.5px;">৳ ${currentProduct?.price || 0}</span>`;
         }
       }
       
@@ -783,8 +783,8 @@
           if (stockEl) {
             const isOut = selectedVariant.stock <= 0;
             stockEl.innerHTML = `
-              <span style="width:9px;height:9px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
-              <span style="font-size:13px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock`}</span>
+              <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;flex-shrink:0;"></span>
+              <span style="font-size:11px;font-weight:600;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock`}</span>
             `;
           }
           
@@ -795,14 +795,14 @@
           if (stockEl) {
             if (productVariants.length > 0) {
               stockEl.innerHTML = `
-                <span style="width:9px;height:9px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-                <span style="font-size:13px;font-weight:700;color:#d97706;">Select variant for availability</span>
+                <span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;flex-shrink:0;"></span>
+                <span style="font-size:11px;font-weight:600;color:#d97706;">Select variant for availability</span>
               `;
             } else {
               const isOut = currentProduct?.stock <= 0;
               stockEl.innerHTML = `
-                <span style="width:9px;height:9px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
-                <span style="font-size:13px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : 'In Stock'}</span>
+                <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;flex-shrink:0;"></span>
+                <span style="font-size:11px;font-weight:600;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : 'In Stock'}</span>
               `;
             }
           }
@@ -1104,13 +1104,13 @@
             <p style="font-size:13px;color:#4b5563;line-height:1.6;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:13px;font-style:italic;text-align:center;padding:20px;">No reviews yet. Be the first to review!</p>';
         
-        // Colors HTML
+        // Colors HTML - with smaller refined labels
         let colorsHTML = '';
         if (productColors.length > 0) {
           colorsHTML = `
-            <div style="margin-bottom:20px;">
-              <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:10px;letter-spacing:1px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
-              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:10px;">
+            <div style="margin-bottom:18px;">
+              <p style="font-size:9px;font-weight:700;text-transform:uppercase;color:#86868b;margin-bottom:8px;letter-spacing:1.5px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
+              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
                 ${productColors.map(color => {
                   const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
                   return `
@@ -1127,14 +1127,14 @@
             </div>`;
         }
         
-        // Sizes HTML
+        // Sizes HTML - with smaller refined labels
         let sizesHTML = '';
         if (productColors.length > 0) {
           sizesHTML = `
-            <div style="margin-bottom:20px;">
-              <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:10px;letter-spacing:1px;">Size: <span id="selected-size-name" style="color:#1d1d1f;">Select a size</span></p>
-              <div id="size-buttons-container" class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
-                <p style="font-size:12px;color:#9ca3af;padding:8px 0;">Please select a color first</p>
+            <div style="margin-bottom:18px;">
+              <p style="font-size:9px;font-weight:700;text-transform:uppercase;color:#86868b;margin-bottom:8px;letter-spacing:1.5px;">Size: <span id="selected-size-name" style="color:#1d1d1f;">Select a size</span></p>
+              <div id="size-buttons-container" class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:6px;">
+                <p style="font-size:11px;color:#9ca3af;padding:6px 0;">Please select a color first</p>
               </div>
             </div>`;
         }
@@ -1144,17 +1144,17 @@
         
         const safeBarcode = product.barcode ? product.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
         
-        // Stock display
+        // Stock display - refined smaller
         let stockDisplayHTML;
         if (productVariants.length > 0) {
           stockDisplayHTML = `
-            <span style="width:9px;height:9px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>
-            <span style="font-size:13px;font-weight:700;color:#d97706;">Select variant for availability</span>`;
+            <span style="width:7px;height:7px;border-radius:50%;background:#f59e0b;display:inline-block;flex-shrink:0;"></span>
+            <span style="font-size:11px;font-weight:600;color:#d97706;">Select variant for availability</span>`;
         } else {
           const isOut = product.stock <= 0;
           stockDisplayHTML = `
-            <span style="width:9px;height:9px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};display:inline-block;"></span>
-            <span style="font-size:13px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':'In Stock'}</span>`;
+            <span style="width:7px;height:7px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};display:inline-block;flex-shrink:0;"></span>
+            <span style="font-size:11px;font-weight:600;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':'In Stock'}</span>`;
         }
         
         // Build the complete HTML
@@ -1172,31 +1172,31 @@
           <!-- Thumbnails -->
           ${thumbnailsHTML}
           
-          <!-- Category & Title -->
-          <div style="margin-top:20px;">
-            <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#007aff;">${product.category || ''}</span>
-            <h1 style="font-size:26px;font-weight:700;margin:6px 0 16px;line-height:1.3;letter-spacing:-0.3px;">${product.title || ''}</h1>
+          <!-- Category & Title - refined smaller -->
+          <div style="margin-top:16px;">
+            <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#007aff;">${product.category || ''}</span>
+            <h1 style="font-size:22px;font-weight:700;margin:4px 0 12px;line-height:1.3;letter-spacing:-0.3px;">${product.title || ''}</h1>
           </div>
           
-          <!-- Price & Wishlist -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-            <div id="variant-price-display" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
-              <span style="font-size:32px;font-weight:900;">৳ ${product.price||0}</span>
-              ${product.old_price?`<span style="font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>`:''}
+          <!-- Price & Wishlist - refined smaller -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:10px;">
+            <div id="variant-price-display" style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">
+              <span style="font-size:28px;font-weight:900;letter-spacing:-0.5px;">৳ ${product.price||0}</span>
+              ${product.old_price?`<span style="font-size:14px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>`:''}
             </div>
-            <button onclick="toggleWishlist(${product.id})" data-wishlist-btn style="display:flex;align-items:center;gap:6px;padding:10px 18px;border:1.5px solid #e5e5e5;border-radius:9999px;font-size:10px;font-weight:700;background:white;cursor:pointer;white-space:nowrap;transition:all 0.2s;">
-              <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};"></i> ${wishlist.includes(product.id)?'Wishlisted':'Wishlist'}
+            <button onclick="toggleWishlist(${product.id})" data-wishlist-btn style="display:flex;align-items:center;gap:5px;padding:8px 14px;border:1.5px solid #e5e5e5;border-radius:9999px;font-size:9px;font-weight:700;background:white;cursor:pointer;white-space:nowrap;transition:all 0.2s;letter-spacing:0.5px;text-transform:uppercase;">
+              <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};font-size:12px;"></i> ${wishlist.includes(product.id)?'Wishlisted':'Wishlist'}
             </button>
           </div>
           
-          <!-- Stock Status & Rating -->
-          <div id="stock-status" style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+          <!-- Stock Status & Rating - refined smaller -->
+          <div id="stock-status" style="display:flex;align-items:center;gap:6px;margin-bottom:16px;">
             ${stockDisplayHTML}
-            ${avgRating?`<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
+            ${avgRating?`<span style="font-size:10px;color:#9ca3af;margin-left:6px;"><i class="fa-solid fa-star" style="color:#ff9500;font-size:10px;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
           </div>
           
-          <!-- Short Description -->
-          ${product.short_description ? `<p style="font-size:14px;color:#6b7280;margin-bottom:20px;line-height:1.7;">${product.short_description}</p>` : ''}
+          <!-- Short Description - refined smaller -->
+          ${product.short_description ? `<p style="font-size:12px;color:#6b7280;margin-bottom:16px;line-height:1.6;">${product.short_description}</p>` : ''}
           
           <!-- Color Selection -->
           ${colorsHTML}
@@ -1208,9 +1208,9 @@
           <div id="variant-info" class="variant-info-badge" style="display:none;"></div>
           
           <!-- Buy Buttons -->
-          <div id="buy-section" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0;">
-            <button id="add-to-bag-btn" onclick="addToCart(${product.id})" style="padding:16px;background:#1d1d1f;color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:13px;cursor:pointer;letter-spacing:0.5px;">Add to Bag</button>
-            <button id="buy-now-btn" onclick="addToCart(${product.id},true)" style="padding:16px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:13px;cursor:pointer;letter-spacing:0.5px;">Buy Now</button>
+          <div id="buy-section" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;">
+            <button id="add-to-bag-btn" onclick="addToCart(${product.id})" style="padding:14px;background:#1d1d1f;color:white;border:none;border-radius:14px;font-weight:700;text-transform:uppercase;font-size:11px;cursor:pointer;letter-spacing:1px;">Add to Bag</button>
+            <button id="buy-now-btn" onclick="addToCart(${product.id},true)" style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:14px;font-weight:700;text-transform:uppercase;font-size:11px;cursor:pointer;letter-spacing:1px;">Buy Now</button>
           </div>
           
           <!-- Specifications -->
