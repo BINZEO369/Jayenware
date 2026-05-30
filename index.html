@@ -1008,7 +1008,42 @@
         function renderNews(list) { document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-100 group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-blue uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); }
         function renderWishlist() { const list=currentData.products.filter(p=>wishlist.includes(p.id)); document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); }
 
-        // ==================== CAROUSEL ====================
+        // ==================== CAROUSEL - NEW LOGIC ====================
+        // Function to reorder products according to your desired pattern:
+        // [last two items, third item (P1), then remaining items]
+        // Example: [P1,P2,P3,P4,P5,P6,P7] -> [P6, P7, P1, P2, P3, P4, P5]
+        function reorderProductsForCarousel(products) {
+            if(!products || products.length === 0) return [];
+            if(products.length <= 2) return [...products]; // Just return as is
+            
+            const lastTwo = products.slice(-2);           // Last 2 items (e.g., P6, P7)
+            const thirdProduct = products[2];              // Third item (index 2 = P1)
+            const remaining = products.slice(3);           // Items after third (P2, P3, P4, P5)
+            
+            // Combine: [last two, third product, remaining]
+            return [...lastTwo, thirdProduct, ...remaining];
+        }
+        
+        function renderCarouselProducts(carouselId, products) {
+            const carousel = document.getElementById(carouselId); if(!carousel) return;
+            if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
+            
+            const state = initCarousel(carouselId);
+            // Reorder products as per your requirement
+            const reorderedProducts = reorderProductsForCarousel(products);
+            state.totalCards = reorderedProducts.length;
+            
+            carousel.innerHTML = reorderedProducts.map(p => {
+                const isOut=p.stock<=0, wished=wishlist.includes(p.id); let badge='';
+                if(!isOut){if(p.is_new_arrival)badge='<span class="card-badge badge-new">New</span>';else if(p.is_hot)badge='<span class="card-badge badge-hot">Hot</span>';else if(p.is_on_sale)badge='<span class="card-badge badge-sale">Sale</span>';else if(p.is_limited_edition)badge='<span class="card-badge badge-limited">Limited</span>';else if(p.is_featured)badge='<span class="card-badge badge-featured">Featured</span>';}
+                return `<a href="/product/${getProductSlug(p)}" class="carousel-card" draggable="false"><div class="card-img"><img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">${badge}<button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished?'wished':''}"><i class="fa-${wished?'solid':'regular'} fa-heart"></i></button>${isOut?'<div class="card-soldout-overlay"><span>Sold Out</span></div>':''}</div><div class="card-body"><span class="card-category">${p.category}</span><h3 class="card-title">${p.title}</h3><div class="card-price-row"><div><span class="card-price">৳${p.price}</span>${p.old_price?`<span class="card-old-price">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut?'disabled':''}" ${isOut?'disabled':''}><i class="fa-solid fa-plus"></i></button></div></div></a>`;
+            }).join('');
+            
+            const dotsContainer = document.getElementById(carouselId.replace('carousel','dots'));
+            if(dotsContainer) dotsContainer.innerHTML = reorderedProducts.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goToCarouselDot('${carouselId}',${i})" title="Product ${i+1}"></div>`).join('');
+            carousel.scrollLeft = 0; state.currentIndex = 0;
+        }
+
         function initCarousel(carouselId) { if(!carouselStates[carouselId]) carouselStates[carouselId] = { isPaused:false, animationFrame:null, lastTimestamp:0, isDragging:false, touchStartX:0, touchStartY:0, touchStartScrollLeft:0, hasMoved:false, swipeDirection:null, baseSpeed:parseFloat(document.getElementById(carouselId)?.dataset.speed)||0.5, currentIndex:0, totalCards:0, _resumeTimeout:null, _isAnimating:false }; return carouselStates[carouselId]; }
         function getCardDimensions(carousel) { const card=carousel.querySelector('.carousel-card'); if(!card) return {width:280,gap:20}; const gap=parseInt(getComputedStyle(carousel).gap)||20; return {width:card.offsetWidth,gap:gap}; }
 
@@ -1016,7 +1051,6 @@
             const carousel=document.getElementById(carouselId); if(!carousel) return;
             const state=initCarousel(carouselId); const {width,gap}=getCardDimensions(carousel);
             const cardTotal = width + gap;
-            // First card starts at padding-left (50% - cardWidth/2), so first card center = 0 offset
             const scrollTarget = targetIndex * cardTotal;
             state._isAnimating = true;
             carousel.classList.add('smooth-scroll');
@@ -1084,35 +1118,6 @@
                 carousel.addEventListener('touchmove', (e) => { if(state.swipeDirection === 'vertical') return; const deltaX = e.touches[0].pageX - state.touchStartX; const deltaY = e.touches[0].pageY - state.touchStartY; const absX = Math.abs(deltaX); const absY = Math.abs(deltaY); if(!state.swipeDirection && (absX > THRESHOLD || absY > THRESHOLD)) state.swipeDirection = absX > absY ? 'horizontal' : 'vertical'; if(state.swipeDirection === 'horizontal' && absX > THRESHOLD) { if(!state.hasMoved) state.hasMoved = true; state.isDragging = true; carousel.scrollLeft = state.touchStartScrollLeft - deltaX; updateActiveCard(carousel.id); updateDots(carousel.id); } }, { passive: true });
                 carousel.addEventListener('touchend', () => { carousel.classList.add('smooth-scroll'); if(state.hasMoved) { const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap; const nearestIndex = Math.round(carousel.scrollLeft / cardTotal); snapToCard(carousel.id, Math.max(0, Math.min(nearestIndex, state.totalCards - 1))); } state.isDragging = false; state.swipeDirection = null; clearTimeout(state._resumeTimeout); state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2500); });
             });
-        }
-
-        // 🔥 MODIFIED FUNCTION - Updated display order logic as requested
-        function renderCarouselProducts(carouselId, products) {
-            const carousel = document.getElementById(carouselId); 
-            if(!carousel) return;
-            if(!products||!products.length) { 
-                carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; 
-                return; 
-            }
-            const state = initCarousel(carouselId); 
-            state.totalCards = products.length;
-            
-            // 🔥 NEW DISPLAY ORDER LOGIC - [Last 2, First 1, Remaining in order]
-            let displayProducts = [...products];
-            if (displayProducts.length > 3) {
-                const lastTwo = displayProducts.splice(displayProducts.length - 2, 2);  // Last 2 items
-                const firstProduct = displayProducts.splice(0, 1)[0];                 // First product (P1)
-                displayProducts = [...lastTwo, firstProduct, ...displayProducts];     // [P6,P7, P1, P2,P3,P4,P5]
-            }
-            
-            carousel.innerHTML = displayProducts.map(p => {
-                const isOut=p.stock<=0, wished=wishlist.includes(p.id); let badge='';
-                if(!isOut){if(p.is_new_arrival)badge='<span class="card-badge badge-new">New</span>';else if(p.is_hot)badge='<span class="card-badge badge-hot">Hot</span>';else if(p.is_on_sale)badge='<span class="card-badge badge-sale">Sale</span>';else if(p.is_limited_edition)badge='<span class="card-badge badge-limited">Limited</span>';else if(p.is_featured)badge='<span class="card-badge badge-featured">Featured</span>';}
-                return `<a href="/product/${getProductSlug(p)}" class="carousel-card" draggable="false"><div class="card-img"><img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">${badge}<button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished?'wished':''}"><i class="fa-${wished?'solid':'regular'} fa-heart"></i></button>${isOut?'<div class="card-soldout-overlay"><span>Sold Out</span></div>':''}</div><div class="card-body"><span class="card-category">${p.category}</span><h3 class="card-title">${p.title}</h3><div class="card-price-row"><div><span class="card-price">৳${p.price}</span>${p.old_price?`<span class="card-old-price">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut?'disabled':''}" ${isOut?'disabled':''}><i class="fa-solid fa-plus"></i></button></div></div></a>`;
-            }).join('');
-            const dotsContainer = document.getElementById(carouselId.replace('carousel','dots'));
-            if(dotsContainer) dotsContainer.innerHTML = displayProducts.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goToCarouselDot('${carouselId}',${i})" title="Product ${i+1}"></div>`).join('');
-            carousel.scrollLeft = 0; state.currentIndex = 0;
         }
 
         function renderHomepageSections() {
