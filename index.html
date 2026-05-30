@@ -1090,11 +1090,18 @@
             const carousel = document.getElementById(carouselId); if(!carousel) return;
             if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
             const state = initCarousel(carouselId); state.totalCards = products.length;
-            // LOGIC FIX: শেষ ২টি প্রোডাক্ট বামে দেখানোর জন্য অ্যারে রিঅর্ডার করা
+            // 🔁 NEW LOGIC: প্রথমবার ওয়েবসাইট ওপেন হলে তৃতীয় প্রোডাক্ট (index 2) প্রথমে দেখানোর জন্য অ্যারে রিঅর্ডার
             let displayProducts = [...products];
-            if (displayProducts.length > 2) {
+            if (displayProducts.length >= 3) {
+                // শেষ ২টি প্রোডাক্ট বামে সরানো (আগের ফিচার)
                 const lastTwo = displayProducts.splice(displayProducts.length - 2, 2);
                 displayProducts = [...lastTwo, ...displayProducts];
+                // তারপর তৃতীয় প্রোডাক্ট (index 2) কে সবার আগে নিয়ে আসা
+                const thirdItem = displayProducts.splice(2, 1)[0];
+                displayProducts = [thirdItem, ...displayProducts];
+            } else if (displayProducts.length === 2) {
+                // যদি মাত্র ২টি প্রোডাক্ট থাকে, দ্বিতীয়টি আগে দেখান
+                displayProducts = [displayProducts[1], displayProducts[0]];
             }
             
             carousel.innerHTML = displayProducts.map(p => {
