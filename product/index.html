@@ -1,921 +1,568 @@
 <!DOCTYPE html>
 <html lang="en-BD" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Product Details | JAYENWARE</title>
-    
-    <meta name="description" content="Shop premium lifestyle products at JAYENWARE. Discover quality apparel, accessories and more.">
-    <meta name="theme-color" content="#1d1d1f">
-    
-    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
-    <link rel="apple-touch-icon" href="/logo.png">
-    <link rel="canonical" id="canonical-url" href="https://jayenwaretest369.vercel.app/product/">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/api-config.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif']
-                    },
-                    colors: {
-                        primary: '#1d1d1f',
-                        accent: '#86868b',
-                        soft: '#f5f5f7',
-                        blue: '#007aff'
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Product Details | JAYENWARE</title>
+  <meta name="description" content="Discover detailed product specifications, fabric, fit, and more at JAYENWARE.">
+  <meta name="theme-color" content="#1d1d1f">
+  <link rel="icon" type="image/png" sizes="32x32" href="/logo.png">
+  <link rel="apple-touch-icon" href="/logo.png">
+  <link rel="canonical" id="canonical-url" href="https://jayenwaretest369.vercel.app/product/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/api-config.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          },
+          colors: {
+            primary: '#1d1d1f',
+            accent: '#86868b',
+            soft: '#f5f5f7',
+            blue: '#007aff'
+          }
         }
-    </script>
-    
-    <style>
-        :root {
-            --primary: #1d1d1f;
-            --accent: #86868b;
-            --soft: #f5f5f7;
-            --blue: #007aff;
-        }
-        
-        * {
-            -webkit-tap-highlight-color: transparent;
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            background-color: #ffffff;
-            color: #1d1d1f;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        img { max-width: 100%; height: auto; }
-        
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(50px) saturate(180%);
-            -webkit-backdrop-filter: blur(50px) saturate(180%);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-        }
-        
-        .variant-btn {
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .variant-btn.selected {
-            border-color: #1d1d1f !important;
-            background: #1d1d1f !important;
-            color: white !important;
-        }
-        
-        #product-zoom-container {
-            cursor: crosshair;
-            overflow: hidden;
-            position: relative;
-        }
-        #product-zoom-image {
-            transition: transform 0.1s ease-out;
-            will-change: transform;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .star-rating {
-            direction: rtl;
-            display: inline-flex;
-        }
-        .star-rating input[type="radio"] {
-            display: none;
-        }
-        .star-rating label {
-            color: #d2d2d7;
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .star-rating input[type="radio"]:checked ~ label,
-        .star-rating label:hover,
-        .star-rating label:hover ~ label {
-            color: #ff9500;
-        }
-        
-        #toast {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 200;
-            transform: translateX(120%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: calc(100vw - 32px);
-        }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .product-card {
-            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-            text-decoration: none;
-            color: inherit;
-        }
-        .product-card:hover {
-            transform: translateY(-2px);
-        }
-        .product-card .product-image {
-            transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
-        }
-        .product-card:hover .product-image {
-            transform: scale(1.03);
-        }
-        
-        @media (max-width: 640px) {
-            .product-img-container { aspect-ratio: 3/4; }
-        }
-        @media (min-width: 641px) {
-            .product-img-container { aspect-ratio: 3/4; }
-        }
-        
-        /* Loading skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 8px;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --primary: #1d1d1f;
+      --accent: #86868b;
+      --soft: #f5f5f7;
+      --blue: #007aff;
+    }
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #ffffff;
+      color: #1d1d1f;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(48px) saturate(180%);
+      -webkit-backdrop-filter: blur(48px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+    }
+    .variant-btn {
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .variant-btn.selected {
+      border-color: #1d1d1f !important;
+      background: #1d1d1f !important;
+      color: white !important;
+    }
+    #product-zoom-container {
+      cursor: crosshair;
+      overflow: hidden;
+      position: relative;
+      background: #f5f5f7;
+    }
+    #product-zoom-image {
+      transition: transform 0.1s ease-out;
+      will-change: transform;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .star-rating {
+      direction: rtl;
+      display: inline-flex;
+    }
+    .star-rating input[type="radio"] { display: none; }
+    .star-rating label {
+      color: #d2d2d7;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .star-rating input[type="radio"]:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label { color: #ff9500; }
+    #toast {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 200;
+      transform: translateX(120%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: calc(100vw - 32px);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .product-card {
+      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .product-card:hover { transform: translateY(-3px); }
+    .product-card .product-image {
+      transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .product-card:hover .product-image { transform: scale(1.03); }
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 12px;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .detail-badge {
+      background: #f5f5f7;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .detail-badge i {
+      font-size: 18px;
+      color: #1d1d1f;
+      width: 24px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body class="antialiased">
-
-    <!-- Loader -->
-    <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;">
-        <div style="text-align:center;">
-            <div style="width:36px;height:36px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.25em;color:rgba(29,29,31,0.6);">JAYENWARE</p>
-        </div>
+  <div id="global-loader" style="position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;">
+    <div style="text-align:center;">
+      <div style="width:36px;height:36px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
+      <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.25em;color:rgba(29,29,31,0.6);">JAYENWARE</p>
     </div>
-
-    <!-- Toast Notification -->
-    <div id="toast">
-        <div style="background:white;box-shadow:0 20px 60px rgba(0,0,0,0.15);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px;min-width:280px;border:1px solid #f0f0f0;">
-            <span id="toast-icon" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;"></span>
-            <p id="toast-text" style="font-size:12px;font-weight:700;flex-grow:1;"></p>
-            <button onclick="hideToast()" style="color:#ccc;background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
+  </div>
+  <div id="toast">
+    <div style="background:white;box-shadow:0 20px 60px rgba(0,0,0,0.15);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px;min-width:280px;border:1px solid #f0f0f0;">
+      <span id="toast-icon" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;"></span>
+      <p id="toast-text" style="font-size:12px;font-weight:700;flex-grow:1;"></p>
+      <button onclick="hideToast()" style="color:#ccc;background:none;border:none;cursor:pointer;font-size:14px;flex-shrink:0;padding:4px;"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <!-- Navigation -->
-    <nav class="glass-nav">
-        <div style="max-width:1280px;margin:0 auto;padding:0 16px;height:56px;display:flex;justify-content:space-between;align-items:center;">
-            <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1d1d1f;" aria-label="JAYENWARE Home">
-                <img src="/logo.png" style="width:32px;height:32px;border-radius:8px;" alt="JAYENWARE Logo" width="40" height="40">
-                <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:18px;letter-spacing:-0.5px;">JAYENWARE</span>
-            </a>
-            <div style="display:flex;align-items:center;gap:12px;">
-                <a href="/" style="text-decoration:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1d1d1f;">Home</a>
-                <a href="/products" style="text-decoration:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1d1d1f;">Shop</a>
-                <a href="/cart" style="position:relative;padding:6px;text-decoration:none;color:#1d1d1f;" aria-label="Cart">
-                    <i class="fa-solid fa-bag-shopping" style="font-size:18px;"></i>
-                    <span id="cart-count" style="position:absolute;top:-2px;right:-2px;background:#1d1d1f;color:white;font-size:8px;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">0</span>
-                </a>
-            </div>
+  </div>
+  <nav class="glass-nav">
+    <div style="max-width:1280px;margin:0 auto;padding:0 16px;height:56px;display:flex;justify-content:space-between;align-items:center;">
+      <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1d1d1f;" aria-label="JAYENWARE Home">
+        <img src="/logo.png" style="width:32px;height:32px;border-radius:8px;" alt="JAYENWARE Logo" width="40" height="40">
+        <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:18px;letter-spacing:-0.5px;">JAYENWARE</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="/" style="text-decoration:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1d1d1f;">Home</a>
+        <a href="/products" style="text-decoration:none;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#1d1d1f;">Shop</a>
+        <a href="/cart" style="position:relative;padding:6px;text-decoration:none;color:#1d1d1f;" aria-label="Cart">
+          <i class="fa-solid fa-bag-shopping" style="font-size:18px;"></i>
+          <span id="cart-count" style="position:absolute;top:-2px;right:-2px;background:#1d1d1f;color:white;font-size:8px;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <main style="padding-top:72px;flex-grow:1;">
+    <div style="max-width:1280px;margin:0 auto;padding:24px 16px;">
+      <a href="/products" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;font-size:10px;font-weight:700;color:#9ca3af;text-decoration:none;">
+        <i class="fa-solid fa-arrow-left"></i> Back to Collection
+      </a>
+      <div id="product-not-found" style="display:none;text-align:center;padding:80px 0;">
+        <i class="fa-solid fa-box-open" style="font-size:60px;color:#e5e5e5;margin-bottom:16px;"></i>
+        <h2 style="font-size:24px;font-weight:700;color:#1d1d1f;margin-bottom:8px;">Product Not Found</h2>
+        <p style="color:#6b7280;margin-bottom:24px;">The product you're looking for doesn't exist or has been removed.</p>
+        <a href="/products" style="display:inline-block;padding:12px 32px;background:#1d1d1f;color:white;border-radius:9999px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:12px;text-decoration:none;">Browse Products</a>
+      </div>
+      <div id="product-loading" style="display:grid;grid-template-columns:1fr;gap:32px;">
+        <div>
+          <div class="skeleton" style="border-radius:24px;aspect-ratio:3/4;"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;">
+            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
+            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
+            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
+          </div>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main style="padding-top:72px;flex-grow:1;">
-        <div style="max-width:1280px;margin:0 auto;padding:24px 12px;">
-            
-            <!-- Back Button -->
-            <a href="/products" style="display:inline-block;margin-bottom:24px;font-size:10px;font-weight:700;color:#9ca3af;text-decoration:none;display:flex;align-items:center;gap:8px;">
-                <i class="fa-solid fa-arrow-left"></i> Back to Collection
-            </a>
-            
-            <!-- Product Not Found State -->
-            <div id="product-not-found" style="display:none;text-align:center;padding:80px 0;">
-                <i class="fa-solid fa-box-open" style="font-size:60px;color:#e5e5e5;margin-bottom:16px;"></i>
-                <h2 style="font-size:24px;font-weight:700;color:#1d1d1f;margin-bottom:8px;">Product Not Found</h2>
-                <p style="color:#6b7280;margin-bottom:24px;">The product you're looking for doesn't exist or has been removed.</p>
-                <a href="/products" style="display:inline-block;padding:12px 32px;background:#1d1d1f;color:white;border-radius:9999px;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:12px;text-decoration:none;">
-                    Browse Products
-                </a>
-            </div>
-            
-            <!-- Loading State -->
-            <div id="product-loading" style="display:grid;grid-template-columns:1fr;gap:32px;">
-                <div>
-                    <div class="skeleton" style="border-radius:24px;aspect-ratio:3/4;"></div>
-                    <div style="display:flex;gap:8px;margin-top:12px;">
-                        <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
-                        <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
-                        <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="skeleton" style="height:16px;width:80px;margin-bottom:8px;"></div>
-                    <div class="skeleton" style="height:32px;width:100%;margin-bottom:16px;"></div>
-                    <div class="skeleton" style="height:40px;width:128px;margin-bottom:16px;"></div>
-                    <div class="skeleton" style="height:16px;width:192px;margin-bottom:16px;"></div>
-                    <div style="display:flex;gap:8px;margin-bottom:24px;">
-                        <div class="skeleton" style="height:40px;width:96px;border-radius:16px;"></div>
-                        <div class="skeleton" style="height:40px;width:96px;border-radius:16px;"></div>
-                    </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-                        <div class="skeleton" style="height:48px;border-radius:16px;"></div>
-                        <div class="skeleton" style="height:48px;border-radius:16px;"></div>
-                    </div>
-                    <div class="skeleton" style="height:128px;border-radius:16px;"></div>
-                </div>
-            </div>
-            
-            <!-- Product Detail Content -->
-            <div id="product-detail-content"></div>
-            
-            <!-- Complete the Look Section -->
-            <div id="complete-the-look-section" style="display:none;margin-top:48px;border-top:1px solid #e5e5e5;padding-top:40px;">
-                <h3 style="font-size:24px;font-weight:700;color:#1d1d1f;margin-bottom:32px;">Complete the Look</h3>
-                <div id="complete-the-look-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"></div>
-            </div>
+        <div>
+          <div class="skeleton" style="height:16px;width:80px;margin-bottom:8px;"></div>
+          <div class="skeleton" style="height:32px;width:100%;margin-bottom:16px;"></div>
+          <div class="skeleton" style="height:40px;width:128px;margin-bottom:16px;"></div>
+          <div class="skeleton" style="height:16px;width:192px;margin-bottom:16px;"></div>
+          <div style="display:flex;gap:8px;margin-bottom:24px;">
+            <div class="skeleton" style="height:40px;width:96px;border-radius:16px;"></div>
+            <div class="skeleton" style="height:40px;width:96px;border-radius:16px;"></div>
+          </div>
+          <div class="skeleton" style="height:128px;border-radius:16px;"></div>
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer style="background:#1d1d1f;color:#9ca3af;padding:32px 0 16px;margin-top:auto;">
-        <div style="max-width:1280px;margin:0 auto;padding:0 16px;text-align:center;">
-            <p style="font-size:10px;">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" style="color:#007aff;font-weight:700;text-decoration:none;">BINZEO</a></p>
-            <p style="font-size:8px;margin-top:8px;">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // ============================================
-        // SUPABASE CONFIGURATION (Login page style)
-        // ============================================
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // ============================================
-        // GLOBAL STATE
-        // ============================================
-        let currentProduct = null;
-        let allProducts = [];
-        let allVariants = [];
-        let allReviews = [];
-        let selectedVariantObj = null;
-        let cart = [];
-        let wishlist = [];
-        
-        // ============================================
-        // DOM ELEMENTS
-        // ============================================
-        const loader = document.getElementById('global-loader');
-        const notFoundDiv = document.getElementById('product-not-found');
-        const loadingDiv = document.getElementById('product-loading');
-        const contentDiv = document.getElementById('product-detail-content');
-        const ctlSection = document.getElementById('complete-the-look-section');
-        const ctlGrid = document.getElementById('complete-the-look-grid');
-        const canonicalLink = document.getElementById('canonical-url');
-        
-        // ============================================
-        // GET SLUG FROM URL
-        // ============================================
-        function getSlugFromURL() {
-            const path = window.location.pathname;
-            let slug = path.replace(/^\/product\//, '').replace(/\/$/, '');
-            slug = slug.split('?')[0];
-            slug = slug.split('#')[0];
-            return slug || null;
-        }
-        
-        // ============================================
-        // GENERATE SLUG FROM TITLE
-        // ============================================
-        function generateSlug(title) {
-            if (!title) return '';
-            return title.toLowerCase()
-                .replace(/[^\w\s\u0980-\u09FF-]/g, '')
-                .replace(/[\s_]+/g, '-')
-                .replace(/^-+|-+$/g, '')
-                .substring(0, 80);
-        }
-        
-        // ============================================
-        // INITIALIZE LOCAL STORAGE
-        // ============================================
-        function initLocalStorage() {
-            try {
-                cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
-                wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
-            } catch(e) {
-                cart = [];
-                wishlist = [];
-            }
-        }
-        
-        // ============================================
-        // TOAST NOTIFICATION
-        // ============================================
-        function showToast(text, type = 'success') {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            
-            document.getElementById('toast-text').innerText = text;
-            const icon = document.getElementById('toast-icon');
-            
-            if (type === 'success') {
-                icon.style.background = '#ecfdf5';
-                icon.style.color = '#059669';
-                icon.innerHTML = '<i class="fa-solid fa-check"></i>';
-            } else if (type === 'error') {
-                icon.style.background = '#fef2f2';
-                icon.style.color = '#dc2626';
-                icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
-            } else {
-                icon.style.background = '#eff6ff';
-                icon.style.color = '#2563eb';
-                icon.innerHTML = '<i class="fa-solid fa-info"></i>';
-            }
-            
-            toast.style.transform = 'translateX(0)';
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => {
-                toast.style.transform = 'translateX(120%)';
-            }, 3000);
-        }
-        
-        function hideToast() {
-            const toast = document.getElementById('toast');
-            if (toast) toast.style.transform = 'translateX(120%)';
-        }
-        
-        // ============================================
-        // CART FUNCTIONS
-        // ============================================
-        function updateCartCount() {
-            const countEl = document.getElementById('cart-count');
-            if (countEl) countEl.innerText = cart.length;
-        }
-        
-        function saveCart() {
-            localStorage.setItem('jayen_cart', JSON.stringify(cart));
-            updateCartCount();
-        }
-        
-        function addToCart(productId, buyNow = false) {
-            const product = allProducts.find(p => p.id === productId);
-            if (!product) return showToast('Product not found', 'error');
-            
-            const cartItemCount = cart.filter(i => i.product_id === productId).length;
-            if (cartItemCount >= product.stock) return showToast('Stock limit reached', 'error');
-            
-            let finalPrice = product.price;
-            let variantId = null;
-            let variantName = null;
-            
-            const hasVariants = allVariants.some(v => v.product_id === productId);
-            
-            if (hasVariants) {
-                if (!selectedVariantObj) return showToast('Please select a variant', 'error');
-                variantId = selectedVariantObj.id;
-                variantName = selectedVariantObj.name;
-                finalPrice = selectedVariantObj.price;
-            }
-            
-            cart.push({
-                id: Date.now(),
-                product_id: product.id,
-                variant_id: variantId,
-                title: product.title,
-                price: finalPrice,
-                img: product.img,
-                variant: variantName,
-                quantity: 1
-            });
-            
-            saveCart();
-            showToast('Added to Bag!');
-            
-            if (buyNow) {
-                window.location.href = '/checkout';
-            }
-        }
-        
-        // ============================================
-        // WISHLIST FUNCTIONS
-        // ============================================
-        function toggleWishlist(productId) {
-            if (wishlist.includes(productId)) {
-                wishlist = wishlist.filter(x => x !== productId);
-            } else {
-                wishlist.push(productId);
-            }
-            localStorage.setItem('jayen_wish', JSON.stringify(wishlist));
-            showToast('Wishlist Updated', 'info');
-            
-            const heartBtn = document.querySelector('[data-wishlist-btn]');
-            if (heartBtn) {
-                const isWished = wishlist.includes(productId);
-                heartBtn.querySelector('i').className = `fa-${isWished ? 'solid' : 'regular'} fa-heart`;
-                heartBtn.style.color = isWished ? '#ef4444' : '#9ca3af';
-            }
-        }
-        
-        // ============================================
-        // VARIANT SELECTION
-        // ============================================
-        function selectVariant(btn, variantId, variantName, variantPrice) {
-            document.querySelectorAll('.variant-btn').forEach(b => {
-                b.classList.remove('selected');
-                b.style.borderColor = '#e5e5e5';
-                b.style.background = 'transparent';
-                b.style.color = '#1d1d1f';
-            });
-            btn.classList.add('selected');
-            btn.style.borderColor = '#1d1d1f';
-            btn.style.background = '#1d1d1f';
-            btn.style.color = 'white';
-            selectedVariantObj = { id: variantId, name: variantName, price: variantPrice };
-        }
-        
-        // ============================================
-        // IMAGE ZOOM
-        // ============================================
-        function zoomImage(e) {
-            const container = document.getElementById('product-zoom-container');
-            const img = document.getElementById('product-zoom-image');
-            if (!container || !img) return;
-            
-            const rect = container.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            const x = (clientX - rect.left) / rect.width;
-            const y = (clientY - rect.top) / rect.height;
-            
-            img.style.transformOrigin = `${x * 100}% ${y * 100}%`;
-            img.style.transform = 'scale(2)';
-        }
-        
-        function resetZoom() {
-            const img = document.getElementById('product-zoom-image');
-            if (img) img.style.transform = 'scale(1)';
-        }
-        
-        // ============================================
-        // SUBMIT REVIEW
-        // ============================================
-        async function submitReview(productId) {
-            const text = document.getElementById('review-text')?.value?.trim();
-            const starsInput = document.querySelector('input[name="product-rating"]:checked');
-            
-            if (!text || !starsInput) {
-                return showToast('Please complete all fields', 'error');
-            }
-            
-            const rating = parseInt(starsInput.value);
-            
-            try {
-                const { error } = await _supabase.from('product_reviews').insert([{
-                    product_id: productId,
-                    user_name: 'Guest User',
-                    rating: rating,
-                    review_text: text
-                }]);
-                
-                if (error) throw error;
-                
-                showToast('Review submitted! Thank you.', 'success');
-                setTimeout(() => location.reload(), 1500);
-            } catch(e) {
-                showToast(e.message || 'Failed to submit review', 'error');
-            }
-        }
-        
-        // ============================================
-        // PRODUCT CARD HTML
-        // ============================================
-        function productCardHTML(product) {
-            if (!product) return '';
-            const isOut = product.stock <= 0;
-            const slug = product.slug || generateSlug(product.title);
-            
-            return `
-            <a href="/product/${slug}" style="display:block;text-decoration:none;color:inherit;">
-                <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid #f3f4f6;transition:transform 0.3s;" class="product-card">
-                    <div style="aspect-ratio:3/4;overflow:hidden;position:relative;">
-                        <img src="${product.img || '/logo.png'}" alt="${product.title || 'Product'}" class="product-image" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src='/logo.png'">
-                        ${isOut ? `
-                        <div style="position:absolute;inset:0;background:rgba(255,255,255,0.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;">
-                            <span style="background:#1d1d1f;color:white;font-size:10px;font-weight:900;padding:4px 12px;border-radius:9999px;text-transform:uppercase;">Sold Out</span>
-                        </div>` : ''}
-                    </div>
-                    <div style="padding:12px 16px;">
-                        <p style="font-size:10px;font-weight:700;color:#86868b;text-transform:uppercase;margin-bottom:4px;">${product.category || ''}</p>
-                        <h3 style="font-size:14px;font-weight:700;color:#1d1d1f;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${product.title || ''}</h3>
-                        <span style="font-size:14px;font-weight:900;color:#1d1d1f;">৳ ${product.price || 0}</span>
-                    </div>
-                </div>
-            </a>`;
-        }
-        
-        // ============================================
-        // GET RANDOM RELATED PRODUCTS
-        // ============================================
-        function getRandomProducts(currentProductId, count = 4) {
-            const available = allProducts.filter(p => p.id !== currentProductId);
-            const shuffled = [...available].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
-        }
-        
-        // ============================================
-        // RENDER PRODUCT DETAILS
-        // ============================================
-        function renderProductDetails(product) {
-            currentProduct = product;
-            const productSlug = product.slug || generateSlug(product.title);
-            
-            // Hide loading, show content
-            if (loadingDiv) loadingDiv.style.display = 'none';
-            if (notFoundDiv) notFoundDiv.style.display = 'none';
-            if (contentDiv) contentDiv.style.display = 'block';
-            
-            // Update page title and meta
-            document.title = `${product.title || 'Product'} | Buy Online at JAYENWARE`;
-            
-            const metaDesc = document.querySelector('meta[name="description"]');
-            if (metaDesc) {
-                metaDesc.content = (product.description || product.title || 'Premium product').substring(0, 155) + '...';
-            }
-            
-            // Update canonical URL
-            if (canonicalLink) {
-                canonicalLink.href = `https://jayenwaretest369.vercel.app/product/${productSlug}`;
-            }
-            
-            const variants = allVariants.filter(v => v.product_id === product.id);
-            const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
-            if (allImages.length === 0 && product.img) allImages.push(product.img);
-            const prodReviews = allReviews.filter(r => r.product_id === product.id);
-            const isOut = product.stock <= 0;
-            
-            // Set first variant as selected
-            if (variants.length > 0) {
-                selectedVariantObj = {
-                    id: variants[0].id,
-                    name: variants[0].name,
-                    price: variants[0].price
-                };
-            } else {
-                selectedVariantObj = null;
-            }
-            
-            const avgRating = prodReviews.length > 0 
-                ? (prodReviews.reduce((sum, r) => sum + r.rating, 0) / prodReviews.length).toFixed(1) 
-                : null;
-            
-            const reviewsHTML = prodReviews.length ? prodReviews.map(r => `
-                <div style="background:white;padding:16px;border-radius:12px;border:1px solid #f3f4f6;margin-bottom:12px;">
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                        <span style="color:#ff9500;font-size:14px;">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</span>
-                        <span style="font-size:12px;font-weight:700;">${r.user_name || 'Anonymous'}</span>
-                        <span style="font-size:9px;color:#9ca3af;margin-left:auto;">${r.created_at ? new Date(r.created_at).toLocaleDateString() : ''}</span>
-                    </div>
-                    <p style="font-size:12px;color:#4b5563;">${r.review_text || ''}</p>
-                </div>
-            `).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
-            
-            contentDiv.innerHTML = `
-            <div style="display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;">
-                <!-- Product Images -->
-                <div>
-                    <div id="product-zoom-container" style="border-radius:24px;overflow:hidden;background:#f5f5f7;aspect-ratio:3/4;max-height:70vh;" 
-                         onmousemove="zoomImage(event)" 
-                         onmouseleave="resetZoom()" 
-                         ontouchmove="zoomImage(event)" 
-                         ontouchend="resetZoom()">
-                        <img id="product-zoom-image" src="${allImages[0] || '/logo.png'}" alt="${product.title || 'Product'}" onerror="this.src='/logo.png'">
-                    </div>
-                    ${allImages.length > 1 ? `
-                    <div style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;padding-bottom:4px;" class="no-scrollbar">
-                        ${allImages.map((img, i) => `
-                        <img src="${img}" 
-                             onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" 
-                             style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid ${i === 0 ? '#1d1d1f' : 'transparent'};flex-shrink:0;" 
-                             loading="lazy" 
-                             alt="${product.title || 'Product'} - Image ${i + 1}"
-                             onerror="this.style.display='none'">
-                        `).join('')}
-                    </div>` : ''}
-                </div>
-                
-                <!-- Product Info -->
-                <div style="display:flex;flex-direction:column;">
-                    <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#007aff;">${product.category || ''}</span>
-                    <h1 style="font-size:28px;font-weight:700;color:#1d1d1f;margin-top:4px;margin-bottom:16px;line-height:1.2;">${product.title || 'Product'}</h1>
-                    
-                    <div style="margin-bottom:16px;">
-                        <span style="font-size:28px;font-weight:900;">৳ ${product.price || 0}</span>
-                        ${product.old_price ? `<span style="margin-left:12px;font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>` : ''}
-                    </div>
-                    
-                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-                        <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};"></span>
-                        <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">
-                            ${isOut ? 'Out of Stock' : `In Stock: ${product.stock || 0}`}
-                        </span>
-                        ${avgRating ? `<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;font-size:9px;"></i> ${avgRating} (${prodReviews.length} reviews)</span>` : ''}
-                    </div>
-                    
-                    <!-- Variants -->
-                    ${variants.length ? `
-                    <div style="margin-bottom:24px;">
-                        <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Select Variant</p>
-                        <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                            ${variants.map((v, i) => `
-                            <button onclick="selectVariant(this, '${v.id}', '${(v.name || '').replace(/'/g, "\\'")}', ${v.price || 0})" 
-                                    class="variant-btn"
-                                    style="padding:10px 20px;border:2px solid ${i === 0 ? '#1d1d1f' : '#e5e5e5'};border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;background:${i === 0 ? '#1d1d1f' : 'transparent'};color:${i === 0 ? 'white' : '#1d1d1f'};">
-                                ${v.name || ''} - ৳${v.price || 0}
-                            </button>`).join('')}
-                        </div>
-                    </div>` : ''}
-                    
-                    <!-- Buttons -->
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-                        <button onclick="addToCart(${product.id})" ${isOut ? 'disabled' : ''} 
-                                style="padding:14px;${isOut ? 'background:#e5e5e5;cursor:not-allowed;' : 'background:#1d1d1f;'}color:white;border:none;border-radius:16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">
-                            Add to Bag
-                        </button>
-                        <button onclick="addToCart(${product.id}, true)" ${isOut ? 'disabled' : ''} 
-                                style="padding:14px;${isOut ? 'background:#f3f4f6;cursor:not-allowed;' : 'background:white;border:2px solid #1d1d1f;'}color:#1d1d1f;border-radius:16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">
-                            Buy Now
-                        </button>
-                    </div>
-                    
-                    <!-- Wishlist Button -->
-                    <button onclick="toggleWishlist(${product.id})" data-wishlist-btn
-                            style="display:flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid #e5e5e5;border-radius:9999px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;background:transparent;cursor:pointer;margin-bottom:16px;width:fit-content;">
-                        <i class="fa-${wishlist.includes(product.id) ? 'solid' : 'regular'} fa-heart" style="color:${wishlist.includes(product.id) ? '#ef4444' : '#9ca3af'};"></i>
-                        ${wishlist.includes(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                    </button>
-                    
-                    <!-- Description -->
-                    ${product.description ? `
-                    <div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:24px;">
-                        <h3 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:8px;">Description</h3>
-                        <p style="font-size:12px;color:#4b5563;line-height:1.6;">${product.description}</p>
-                    </div>` : ''}
-                    
-                    <!-- Additional Info -->
-                    <div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:24px;">
-                        <h3 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:12px;">Product Details</h3>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;">
-                            ${product.fabric_type ? `<div><span style="color:#9ca3af;">Fabric:</span> <span style="font-weight:700;">${product.fabric_type}</span></div>` : ''}
-                            ${product.gsm_type ? `<div><span style="color:#9ca3af;">GSM:</span> <span style="font-weight:700;">${product.gsm_type}</span></div>` : ''}
-                            ${product.fit_type ? `<div><span style="color:#9ca3af;">Fit:</span> <span style="font-weight:700;">${product.fit_type}</span></div>` : ''}
-                            ${product.gender ? `<div><span style="color:#9ca3af;">Gender:</span> <span style="font-weight:700;">${product.gender}</span></div>` : ''}
-                            ${product.print_type ? `<div><span style="color:#9ca3af;">Print:</span> <span style="font-weight:700;">${product.print_type}</span></div>` : ''}
-                            ${product.sku ? `<div style="grid-column:span 2;"><span style="color:#9ca3af;">SKU:</span> <span style="font-weight:700;font-size:9px;">${product.sku}</span></div>` : ''}
-                        </div>
-                    </div>
-                    
-                    <!-- Trust Badges -->
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;">
-                        <div style="display:flex;align-items:center;gap:4px;background:#f0fdf4;padding:4px 12px;border-radius:9999px;font-size:10px;">
-                            <i class="fa-solid fa-shield-halved" style="color:#16a34a;"></i> 100% Authentic
-                        </div>
-                        <div style="display:flex;align-items:center;gap:4px;background:#eff6ff;padding:4px 12px;border-radius:9999px;font-size:10px;">
-                            <i class="fa-solid fa-truck-fast" style="color:#2563eb;"></i> Fast Delivery
-                        </div>
-                        <div style="display:flex;align-items:center;gap:4px;background:#fefce8;padding:4px 12px;border-radius:9999px;font-size:10px;">
-                            <i class="fa-solid fa-rotate-left" style="color:#ca8a04;"></i> Easy Returns
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Reviews Section -->
-            <div style="border-top:1px solid #e5e5e5;padding-top:32px;">
-                <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-                    <h3 style="font-size:24px;font-weight:700;color:#1d1d1f;">Customer Reviews</h3>
-                    <span style="font-size:14px;color:#9ca3af;font-weight:700;">(${prodReviews.length})</span>
-                </div>
-                <div style="margin-bottom:24px;">
-                    ${reviewsHTML}
-                </div>
-                
-                <!-- Review Form -->
-                <div style="background:#f5f5f7;padding:20px;border-radius:16px;">
-                    <h4 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:12px;">Write a Review</h4>
-                    <div class="star-rating" style="margin-bottom:12px;">
-                        <input type="radio" id="star5" name="product-rating" value="5">
-                        <label for="star5"><i class="fa-solid fa-star"></i></label>
-                        <input type="radio" id="star4" name="product-rating" value="4">
-                        <label for="star4"><i class="fa-solid fa-star"></i></label>
-                        <input type="radio" id="star3" name="product-rating" value="3">
-                        <label for="star3"><i class="fa-solid fa-star"></i></label>
-                        <input type="radio" id="star2" name="product-rating" value="2">
-                        <label for="star2"><i class="fa-solid fa-star"></i></label>
-                        <input type="radio" id="star1" name="product-rating" value="1">
-                        <label for="star1"><i class="fa-solid fa-star"></i></label>
-                    </div>
-                    <textarea id="review-text" placeholder="Share your experience..." 
-                              style="width:100%;padding:12px;border:1px solid #e5e5e5;border-radius:12px;font-size:12px;height:80px;margin-bottom:12px;outline:none;font-family:Inter,sans-serif;"></textarea>
-                    <button onclick="submitReview(${product.id})" 
-                            style="padding:10px 24px;background:#1d1d1f;color:white;border:none;border-radius:9999px;font-size:10px;font-weight:700;text-transform:uppercase;cursor:pointer;">
-                        Submit Review
-                    </button>
-                </div>
-            </div>`;
-            
-            // Render related products
-            const related = getRandomProducts(product.id, 4);
-            if (related.length > 0) {
-                ctlSection.style.display = 'block';
-                ctlGrid.innerHTML = related.map(p => productCardHTML(p)).join('');
-            } else {
-                ctlSection.style.display = 'none';
-            }
-        }
-        
-        // ============================================
-        // LOAD PRODUCT BY SLUG FROM SUPABASE
-        // ============================================
-        async function loadProductBySlug(slug) {
-            try {
-                console.log('🔍 Loading product with slug:', slug);
-                
-                // Fetch all active products
-                const { data: products, error: productsError } = await _supabase
-                    .from('products')
-                    .select('*')
-                    .eq('status', 'Active');
-                
-                if (productsError) {
-                    console.error('❌ Products fetch error:', productsError);
-                    throw productsError;
-                }
-                
-                allProducts = products || [];
-                console.log(`✅ Loaded ${allProducts.length} active products`);
-                
-                // Find product by slug
-                const product = allProducts.find(p => {
-                    const productSlug = p.slug || generateSlug(p.title);
-                    return productSlug === slug;
-                });
-                
-                if (!product) {
-                    console.warn(`❌ No product found for slug: "${slug}"`);
-                    console.log('Available slugs:', allProducts.map(p => ({
-                        title: p.title,
-                        slug: p.slug || generateSlug(p.title)
-                    })));
-                    return false;
-                }
-                
-                console.log('✅ Found product:', product.title);
-                
-                // Fetch variants for this product
-                const { data: variants, error: variantsError } = await _supabase
-                    .from('product_variants')
-                    .select('*')
-                    .eq('product_id', product.id);
-                
-                if (variantsError) console.warn('⚠️ Variants fetch error:', variantsError);
-                allVariants = variants || [];
-                console.log(`✅ Loaded ${allVariants.length} variants`);
-                
-                // Fetch reviews for this product
-                const { data: reviews, error: reviewsError } = await _supabase
-                    .from('product_reviews')
-                    .select('*')
-                    .eq('product_id', product.id)
-                    .order('created_at', { ascending: false });
-                
-                if (reviewsError) console.warn('⚠️ Reviews fetch error:', reviewsError);
-                allReviews = reviews || [];
-                console.log(`✅ Loaded ${allReviews.length} reviews`);
-                
-                // Add to recently viewed
-                try {
-                    let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
-                    recent = [product.id.toString(), ...recent.filter(id => id !== product.id.toString())].slice(0, 8);
-                    localStorage.setItem('jayen_recent', JSON.stringify(recent));
-                } catch(e) {}
-                
-                renderProductDetails(product);
-                return true;
-                
-            } catch (error) {
-                console.error('❌ Error loading product:', error);
-                return false;
-            }
-        }
-        
-        // ============================================
-        // HIDE LOADER
-        // ============================================
-        function hideLoader() {
-            if (loader) {
-                loader.style.opacity = '0';
-                loader.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 600);
-            }
-        }
-        
-        // ============================================
-        // SHOW NOT FOUND
-        // ============================================
-        function showNotFound() {
-            hideLoader();
-            if (loadingDiv) loadingDiv.style.display = 'none';
-            if (contentDiv) contentDiv.innerHTML = '';
-            if (ctlSection) ctlSection.style.display = 'none';
-            if (notFoundDiv) notFoundDiv.style.display = 'block';
-        }
-        
-        // ============================================
-        // INITIALIZE PAGE
-        // ============================================
-        async function initProductPage() {
-            initLocalStorage();
-            updateCartCount();
-            
-            const slug = getSlugFromURL();
-            console.log('🚀 Product page initialized. Slug from URL:', slug);
-            
-            if (!slug) {
-                console.warn('⚠️ No slug found in URL');
-                showNotFound();
-                return;
-            }
-            
-            // Show loading state
-            if (loadingDiv) loadingDiv.style.display = 'grid';
-            if (notFoundDiv) notFoundDiv.style.display = 'none';
-            if (contentDiv) contentDiv.innerHTML = '';
-            
-            const found = await loadProductBySlug(slug);
-            
-            if (!found) {
-                showNotFound();
-            } else {
-                hideLoader();
-            }
-        }
-        
-        // ============================================
-        // START THE PAGE
-        // ============================================
-        document.getElementById('display-year').innerText = new Date().getFullYear();
-        
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initProductPage);
+      </div>
+      <div id="product-detail-content"></div>
+      <div id="complete-the-look-section" style="display:none;margin-top:48px;border-top:1px solid #e5e5e5;padding-top:40px;">
+        <h3 style="font-size:24px;font-weight:700;color:#1d1d1f;margin-bottom:32px;">Complete the Look</h3>
+        <div id="complete-the-look-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"></div>
+      </div>
+    </div>
+  </main>
+  <footer style="background:#1d1d1f;color:#9ca3af;padding:32px 0 16px;margin-top:auto;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 16px;text-align:center;">
+      <p style="font-size:10px;">Powered by <a href="https://binzeo.vercel.app" target="_blank" rel="noopener noreferrer" style="color:#007aff;font-weight:700;text-decoration:none;">BINZEO</a></p>
+      <p style="font-size:8px;margin-top:8px;">&copy; <span id="display-year"></span> JAYENWARE. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    (function() {
+      const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      let currentProduct = null;
+      let allProducts = [];
+      let allVariants = [];
+      let allReviews = [];
+      let selectedVariantObj = null;
+      let cart = [];
+      let wishlist = [];
+      const loader = document.getElementById('global-loader');
+      const notFoundDiv = document.getElementById('product-not-found');
+      const loadingDiv = document.getElementById('product-loading');
+      const contentDiv = document.getElementById('product-detail-content');
+      const ctlSection = document.getElementById('complete-the-look-section');
+      const ctlGrid = document.getElementById('complete-the-look-grid');
+      const canonicalLink = document.getElementById('canonical-url');
+      
+      function getSlugFromURL() {
+        const path = window.location.pathname;
+        let slug = path.replace(/^\/product\//, '').replace(/\/$/, '');
+        slug = slug.split('?')[0].split('#')[0];
+        return slug || null;
+      }
+      
+      function generateSlug(title) {
+        if (!title) return '';
+        return title.toLowerCase().replace(/[^\w\s\u0980-\u09FF-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 80);
+      }
+      
+      function initLocalStorage() {
+        try {
+          cart = JSON.parse(localStorage.getItem('jayen_cart') || '[]');
+          wishlist = JSON.parse(localStorage.getItem('jayen_wish') || '[]');
+        } catch(e) { cart = []; wishlist = []; }
+      }
+      
+      function showToast(text, type = 'success') {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        document.getElementById('toast-text').innerText = text;
+        const icon = document.getElementById('toast-icon');
+        if (type === 'success') {
+          icon.style.background = '#ecfdf5'; icon.style.color = '#059669';
+          icon.innerHTML = '<i class="fa-solid fa-check"></i>';
+        } else if (type === 'error') {
+          icon.style.background = '#fef2f2'; icon.style.color = '#dc2626';
+          icon.innerHTML = '<i class="fa-solid fa-exclamation"></i>';
         } else {
-            initProductPage();
+          icon.style.background = '#eff6ff'; icon.style.color = '#2563eb';
+          icon.innerHTML = '<i class="fa-solid fa-info"></i>';
         }
+        toast.style.transform = 'translateX(0)';
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => { toast.style.transform = 'translateX(120%)'; }, 3000);
+      }
+      
+      window.hideToast = function() {
+        const toast = document.getElementById('toast');
+        if (toast) toast.style.transform = 'translateX(120%)';
+      };
+      
+      function updateCartCount() {
+        const countEl = document.getElementById('cart-count');
+        if (countEl) countEl.innerText = cart.length;
+      }
+      
+      function saveCart() { localStorage.setItem('jayen_cart', JSON.stringify(cart)); updateCartCount(); }
+      
+      window.addToCart = function(productId, buyNow = false) {
+        const product = allProducts.find(p => p.id == productId);
+        if (!product) return showToast('Product not found', 'error');
+        if (cart.filter(i => i.product_id == productId).length >= product.stock) return showToast('Stock limit reached', 'error');
+        let finalPrice = product.price;
+        let variantId = null;
+        let variantName = null;
+        const hasVariants = allVariants.some(v => v.product_id == productId);
+        if (hasVariants) {
+          if (!selectedVariantObj) return showToast('Please select a variant', 'error');
+          variantId = selectedVariantObj.id;
+          variantName = selectedVariantObj.name;
+          finalPrice = selectedVariantObj.price;
+        }
+        cart.push({
+          id: Date.now(),
+          product_id: product.id,
+          variant_id: variantId,
+          title: product.title,
+          price: finalPrice,
+          img: product.img,
+          variant: variantName,
+          quantity: 1
+        });
+        saveCart();
+        showToast('Added to Bag!');
+        if (buyNow) window.location.href = '/checkout';
+      };
+      
+      window.toggleWishlist = function(productId) {
+        if (wishlist.includes(productId)) {
+          wishlist = wishlist.filter(x => x !== productId);
+        } else {
+          wishlist.push(productId);
+        }
+        localStorage.setItem('jayen_wish', JSON.stringify(wishlist));
+        showToast('Wishlist Updated', 'info');
+        const heartBtn = document.querySelector('[data-wishlist-btn]');
+        if (heartBtn) {
+          const isWished = wishlist.includes(productId);
+          heartBtn.querySelector('i').className = `fa-${isWished ? 'solid' : 'regular'} fa-heart`;
+          heartBtn.style.color = isWished ? '#ef4444' : '#9ca3af';
+        }
+      };
+      
+      window.selectVariant = function(btn, variantId, variantName, variantPrice) {
+        document.querySelectorAll('.variant-btn').forEach(b => {
+          b.classList.remove('selected');
+          b.style.borderColor = '#e5e5e5'; b.style.background = 'transparent'; b.style.color = '#1d1d1f';
+        });
+        btn.classList.add('selected');
+        btn.style.borderColor = '#1d1d1f'; btn.style.background = '#1d1d1f'; btn.style.color = 'white';
+        selectedVariantObj = { id: variantId, name: variantName, price: variantPrice };
+      };
+      
+      window.zoomImage = function(e) {
+        const container = document.getElementById('product-zoom-container');
+        const img = document.getElementById('product-zoom-image');
+        if (!container || !img) return;
+        const rect = container.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const x = (clientX - rect.left) / rect.width;
+        const y = (clientY - rect.top) / rect.height;
+        img.style.transformOrigin = `${x * 100}% ${y * 100}%`;
+        img.style.transform = 'scale(2)';
+      };
+      
+      window.resetZoom = function() {
+        const img = document.getElementById('product-zoom-image');
+        if (img) img.style.transform = 'scale(1)';
+      };
+      
+      window.submitReview = async function(productId) {
+        const text = document.getElementById('review-text')?.value?.trim();
+        const starsInput = document.querySelector('input[name="product-rating"]:checked');
+        if (!text || !starsInput) return showToast('Please complete all fields', 'error');
+        const rating = parseInt(starsInput.value);
+        try {
+          const { error } = await _supabase.from('product_reviews').insert([{
+            product_id: productId, user_name: 'Guest User', rating: rating, review_text: text
+          }]);
+          if (error) throw error;
+          showToast('Review submitted!', 'success');
+          setTimeout(() => location.reload(), 1500);
+        } catch(e) { showToast(e.message || 'Failed', 'error'); }
+      };
+      
+      function productCardHTML(product) {
+        if (!product) return '';
+        const isOut = product.stock <= 0;
+        const slug = product.slug || generateSlug(product.title);
+        return `
+        <a href="/product/${slug}" class="product-card" style="display:block;">
+          <div style="background:white;border-radius:16px;overflow:hidden;border:1px solid #f3f4f6;">
+            <div style="aspect-ratio:3/4;overflow:hidden;position:relative;">
+              <img src="${product.img || '/logo.png'}" alt="${product.title || ''}" class="product-image" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src='/logo.png'">
+              ${isOut ? `<div style="position:absolute;inset:0;background:rgba(255,255,255,0.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;"><span style="background:#1d1d1f;color:white;font-size:10px;font-weight:900;padding:4px 12px;border-radius:9999px;">Sold Out</span></div>` : ''}
+            </div>
+            <div style="padding:12px 16px;">
+              <p style="font-size:10px;font-weight:700;color:#86868b;text-transform:uppercase;margin-bottom:4px;">${product.category || ''}</p>
+              <h3 style="font-size:14px;font-weight:700;color:#1d1d1f;margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.title || ''}</h3>
+              <span style="font-size:14px;font-weight:900;">৳ ${product.price || 0}</span>
+            </div>
+          </div>
+        </a>`;
+      }
+      
+      function getRandomProducts(currentId, count = 4) {
+        return [...allProducts.filter(p => p.id != currentId)].sort(() => 0.5 - Math.random()).slice(0, count);
+      }
+      
+      function renderProductDetails(product) {
+        currentProduct = product;
+        if (loadingDiv) loadingDiv.style.display = 'none';
+        if (notFoundDiv) notFoundDiv.style.display = 'none';
+        if (contentDiv) contentDiv.style.display = 'block';
+        document.title = `${product.title || 'Product'} | JAYENWARE`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.content = (product.description || product.title || '').substring(0, 155) + '...';
+        if (canonicalLink) canonicalLink.href = `https://jayenwaretest369.vercel.app/product/${product.slug || generateSlug(product.title)}`;
         
-        // Export for global access
-        window.addToCart = addToCart;
-        window.toggleWishlist = toggleWishlist;
-        window.selectVariant = selectVariant;
-        window.zoomImage = zoomImage;
-        window.resetZoom = resetZoom;
-        window.submitReview = submitReview;
-        window.hideToast = hideToast;
-    </script>
+        const variants = allVariants.filter(v => v.product_id == product.id);
+        const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
+        if (allImages.length === 0 && product.img) allImages.push(product.img);
+        const prodReviews = allReviews.filter(r => r.product_id == product.id);
+        const isOut = product.stock <= 0;
+        if (variants.length > 0) {
+          selectedVariantObj = { id: variants[0].id, name: variants[0].name, price: variants[0].price };
+        } else { selectedVariantObj = null; }
+        const avgRating = prodReviews.length ? (prodReviews.reduce((s,r)=>s+r.rating,0)/prodReviews.length).toFixed(1) : null;
+        
+        const reviewsHTML = prodReviews.length ? prodReviews.map(r=>`
+          <div style="background:white;padding:16px;border-radius:12px;border:1px solid #f3f4f6;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <span style="color:#ff9500;">${'★'.repeat(r.rating||0)}${'☆'.repeat(5-(r.rating||0))}</span>
+              <span style="font-weight:700;font-size:12px;">${r.user_name||'Anonymous'}</span>
+              <span style="margin-left:auto;font-size:9px;color:#9ca3af;">${r.created_at?new Date(r.created_at).toLocaleDateString():''}</span>
+            </div>
+            <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
+          </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
+        
+        contentDiv.innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;">
+          <div>
+            <div id="product-zoom-container" style="border-radius:24px;aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
+              <img id="product-zoom-image" src="${allImages[0] || '/logo.png'}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
+            </div>
+            ${allImages.length>1?`<div class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">${allImages.map((img,i)=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid ${i===0?'#1d1d1f':'transparent'};flex-shrink:0;" alt="thumb" onerror="this.style.display='none'">`).join('')}</div>`:''}
+          </div>
+          <div>
+            <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#007aff;">${product.category || ''}</span>
+            <h1 style="font-size:28px;font-weight:700;margin:4px 0 16px;line-height:1.2;">${product.title || ''}</h1>
+            <div style="margin-bottom:16px;"><span style="font-size:28px;font-weight:900;">৳ ${product.price||0}</span>${product.old_price?`<span style="margin-left:12px;font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>`:''}</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};"></span>
+              <span style="font-size:12px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':`In Stock: ${product.stock||0}`}</span>
+              ${avgRating?`<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
+            </div>
+            ${variants.length?`<div style="margin-bottom:24px;"><p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Variant</p><div style="display:flex;flex-wrap:wrap;gap:8px;">${variants.map((v,i)=>`<button onclick="selectVariant(this,'${v.id}','${(v.name||'').replace(/'/g,"\\'")}',${v.price||0})" class="variant-btn" style="padding:10px 20px;border:2px solid ${i===0?'#1d1d1f':'#e5e5e5'};border-radius:16px;font-size:12px;font-weight:700;cursor:pointer;background:${i===0?'#1d1d1f':'transparent'};color:${i===0?'white':'#1d1d1f}'};">${v.name||''} - ৳${v.price||0}</button>`).join('')}</div></div>`:''}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+              <button onclick="addToCart(${product.id})" ${isOut?'disabled':''} style="padding:14px;${isOut?'background:#e5e5e5;cursor:not-allowed;':'background:#1d1d1f;'}color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Add to Bag</button>
+              <button onclick="addToCart(${product.id},true)" ${isOut?'disabled':''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
+            </div>
+            <button onclick="toggleWishlist(${product.id})" data-wishlist-btn style="display:flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid #e5e5e5;border-radius:9999px;font-size:10px;font-weight:700;background:transparent;cursor:pointer;margin-bottom:24px;">
+              <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};"></i> ${wishlist.includes(product.id)?'Remove from Wishlist':'Add to Wishlist'}
+            </button>
+            
+            <!-- DETAILED SPECIFICATION CARDS (ALL FIELDS FROM DB) -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+              ${product.fabric_type ? `<div class="detail-badge"><i class="fa-solid fa-shirt"></i><div><span style="color:#9ca3af;font-size:9px;">Fabric</span><br><span style="font-weight:700;">${product.fabric_type}</span></div></div>` : ''}
+              ${product.gsm_type ? `<div class="detail-badge"><i class="fa-solid fa-weight-scale"></i><div><span style="color:#9ca3af;font-size:9px;">GSM</span><br><span style="font-weight:700;">${product.gsm_type}</span></div></div>` : ''}
+              ${product.fit_type ? `<div class="detail-badge"><i class="fa-solid fa-ruler"></i><div><span style="color:#9ca3af;font-size:9px;">Fit</span><br><span style="font-weight:700;">${product.fit_type}</span></div></div>` : ''}
+              ${product.gender ? `<div class="detail-badge"><i class="fa-solid fa-venus-mars"></i><div><span style="color:#9ca3af;font-size:9px;">Gender</span><br><span style="font-weight:700;">${product.gender}</span></div></div>` : ''}
+              ${product.print_type ? `<div class="detail-badge"><i class="fa-solid fa-palette"></i><div><span style="color:#9ca3af;font-size:9px;">Print</span><br><span style="font-weight:700;">${product.print_type}</span></div></div>` : ''}
+              ${product.sku ? `<div class="detail-badge"><i class="fa-solid fa-barcode"></i><div><span style="color:#9ca3af;font-size:9px;">SKU</span><br><span style="font-weight:700;font-size:10px;">${product.sku}</span></div></div>` : ''}
+              ${product.barcode ? `<div class="detail-badge" style="grid-column:span 2;"><i class="fa-solid fa-upc"></i><div><span style="color:#9ca3af;font-size:9px;">Barcode</span><br><span style="font-weight:700;">${product.barcode}</span></div></div>` : ''}
+            </div>
+            
+            ${product.description ? `<div style="background:#f5f5f7;padding:20px;border-radius:16px;margin-bottom:16px;"><h3 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:8px;">Description</h3><p style="font-size:12px;color:#4b5563;line-height:1.6;">${product.description}</p></div>` : ''}
+            ${product.short_description ? `<p style="font-size:12px;color:#6b7280;margin-bottom:16px;">${product.short_description}</p>` : ''}
+            
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
+              <div style="display:flex;align-items:center;gap:4px;background:#f0fdf4;padding:4px 12px;border-radius:9999px;font-size:10px;"><i class="fa-solid fa-shield-halved" style="color:#16a34a;"></i> Authentic</div>
+              <div style="display:flex;align-items:center;gap:4px;background:#eff6ff;padding:4px 12px;border-radius:9999px;font-size:10px;"><i class="fa-solid fa-truck-fast" style="color:#2563eb;"></i> Fast Delivery</div>
+              <div style="display:flex;align-items:center;gap:4px;background:#fefce8;padding:4px 12px;border-radius:9999px;font-size:10px;"><i class="fa-solid fa-rotate-left" style="color:#ca8a04;"></i> Easy Returns</div>
+            </div>
+          </div>
+        </div>
+        <div style="border-top:1px solid #e5e5e5;padding-top:32px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;"><h3 style="font-size:24px;font-weight:700;">Reviews</h3><span style="color:#9ca3af;">(${prodReviews.length})</span></div>
+          <div style="margin-bottom:24px;">${reviewsHTML}</div>
+          <div style="background:#f5f5f7;padding:20px;border-radius:16px;">
+            <h4 style="font-size:10px;font-weight:700;text-transform:uppercase;margin-bottom:12px;">Write a Review</h4>
+            <div class="star-rating" style="margin-bottom:12px;">
+              <input type="radio" id="star5" name="product-rating" value="5"><label for="star5"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="star4" name="product-rating" value="4"><label for="star4"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="star3" name="product-rating" value="3"><label for="star3"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="star2" name="product-rating" value="2"><label for="star2"><i class="fa-solid fa-star"></i></label>
+              <input type="radio" id="star1" name="product-rating" value="1"><label for="star1"><i class="fa-solid fa-star"></i></label>
+            </div>
+            <textarea id="review-text" placeholder="Share your experience..." style="width:100%;padding:12px;border:1px solid #e5e5e5;border-radius:12px;font-size:12px;height:80px;margin-bottom:12px;font-family:Inter,sans-serif;"></textarea>
+            <button onclick="submitReview(${product.id})" style="padding:10px 24px;background:#1d1d1f;color:white;border:none;border-radius:9999px;font-weight:700;text-transform:uppercase;font-size:10px;cursor:pointer;">Submit</button>
+          </div>
+        </div>`;
+        
+        const related = getRandomProducts(product.id, 4);
+        if (related.length) {
+          ctlSection.style.display = 'block';
+          ctlGrid.innerHTML = related.map(p => productCardHTML(p)).join('');
+        } else { ctlSection.style.display = 'none'; }
+      }
+      
+      async function loadProductBySlug(slug) {
+        try {
+          const { data: products, error: prodErr } = await _supabase.from('products').select('*').eq('status', 'Active');
+          if (prodErr) throw prodErr;
+          allProducts = products || [];
+          const product = allProducts.find(p => (p.slug || generateSlug(p.title)) === slug);
+          if (!product) return false;
+          const [varRes, revRes] = await Promise.all([
+            _supabase.from('product_variants').select('*').eq('product_id', product.id),
+            _supabase.from('product_reviews').select('*').eq('product_id', product.id).order('created_at', { ascending: false })
+          ]);
+          allVariants = varRes.data || [];
+          allReviews = revRes.data || [];
+          try {
+            let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
+            recent = [product.id.toString(), ...recent.filter(id => id != product.id)].slice(0,8);
+            localStorage.setItem('jayen_recent', JSON.stringify(recent));
+          } catch(e){}
+          renderProductDetails(product);
+          return true;
+        } catch(e) { console.error(e); return false; }
+      }
+      
+      function hideLoader() {
+        if (loader) { loader.style.opacity = '0'; loader.style.transition = 'opacity 0.5s'; setTimeout(()=>{ loader.style.display = 'none'; }, 600); }
+      }
+      
+      function showNotFound() {
+        hideLoader();
+        if (loadingDiv) loadingDiv.style.display = 'none';
+        if (contentDiv) contentDiv.innerHTML = '';
+        if (ctlSection) ctlSection.style.display = 'none';
+        if (notFoundDiv) notFoundDiv.style.display = 'block';
+      }
+      
+      async function init() {
+        initLocalStorage();
+        updateCartCount();
+        document.getElementById('display-year').innerText = new Date().getFullYear();
+        const slug = getSlugFromURL();
+        if (!slug) { showNotFound(); return; }
+        if (loadingDiv) loadingDiv.style.display = 'grid';
+        if (notFoundDiv) notFoundDiv.style.display = 'none';
+        const found = await loadProductBySlug(slug);
+        if (!found) showNotFound(); else hideLoader();
+      }
+      
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+      else init();
+    })();
+  </script>
 </body>
 </html>
