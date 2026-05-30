@@ -71,7 +71,7 @@
       z-index: 50;
     }
     
-    /* Color Swatch Button */
+    /* Color Swatch Button - Small Circle Only */
     .color-swatch-btn {
       width: 36px;
       height: 36px;
@@ -116,46 +116,81 @@
       transform: rotate(-45deg);
     }
     
-    /* Thumbnail Scroll Container */
-    .thumb-scroll-container {
+    /* Horizontal Scroll Thumbnail Container */
+    .thumbnail-scroll-container {
       display: flex;
       gap: 8px;
-      margin-top: 12px;
       overflow-x: auto;
       overflow-y: hidden;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding-bottom: 4px;
-      white-space: nowrap;
+      padding: 4px 0;
+      margin-top: 12px;
     }
-    .thumb-scroll-container::-webkit-scrollbar {
-      display: none;
+    .thumbnail-scroll-container::-webkit-scrollbar {
+      height: 4px;
+    }
+    .thumbnail-scroll-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .thumbnail-scroll-container::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
     }
     
     /* Thumbnail Styles */
     .thumb-btn {
-      width: 56px;
-      height: 56px;
-      min-width: 56px;
+      width: 64px;
+      height: 64px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
       cursor: pointer;
       border: 2px solid transparent;
       flex-shrink: 0;
       transition: all 0.2s ease;
       background: #f5f5f7;
-      display: inline-block;
     }
     .thumb-btn:hover {
       border-color: #86868b;
       opacity: 0.9;
+      transform: scale(1.05);
     }
     .thumb-btn.active {
       border-color: #1d1d1f !important;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
+    
+    /* Scroll Buttons */
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid #e5e5e5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.2s;
+      font-size: 12px;
+      color: #1d1d1f;
+    }
+    .scroll-btn:hover {
+      background: #1d1d1f;
+      color: white;
+      border-color: #1d1d1f;
+    }
+    .scroll-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .scroll-left { left: -12px; }
+    .scroll-right { right: -12px; }
     
     /* Size Button Styles */
     .size-btn {
@@ -226,6 +261,8 @@
       transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       max-width: calc(100vw - 32px);
     }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .product-card {
       transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -337,6 +374,9 @@
       font-size: 12px;
       color: #0369a1;
     }
+    .thumbnail-wrapper {
+      position: relative;
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -387,9 +427,9 @@
         <div>
           <div class="skeleton" style="border-radius:24px;aspect-ratio:3/4;"></div>
           <div style="display:flex;gap:8px;margin-top:12px;">
-            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
-            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
-            <div class="skeleton" style="width:56px;height:56px;border-radius:12px;"></div>
+            <div class="skeleton" style="width:64px;height:64px;border-radius:14px;"></div>
+            <div class="skeleton" style="width:64px;height:64px;border-radius:14px;"></div>
+            <div class="skeleton" style="width:64px;height:64px;border-radius:14px;"></div>
           </div>
         </div>
         <div>
@@ -509,6 +549,18 @@
         return productVariants.find(v => v.color_id == colorId && v.size_id == sizeId) || null;
       }
       
+      // Scroll thumbnails left/right
+      window.scrollThumbnails = function(direction) {
+        const container = document.getElementById('thumbnails-scroll');
+        if (!container) return;
+        const scrollAmount = 200;
+        if (direction === 'left') {
+          container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      };
+      
       // Switch main image
       window.switchMainImage = function(imageUrl) {
         currentMainImage = imageUrl;
@@ -522,6 +574,8 @@
           thumb.classList.remove('active');
           if (thumb.getAttribute('data-image') === imageUrl) {
             thumb.classList.add('active');
+            // Auto-scroll to active thumbnail
+            thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
           }
         });
       };
@@ -714,10 +768,8 @@
         
         if (selectedVariant) {
           if (selectedVariant.stock <= 0) return showToast('Out of stock', 'error');
-          
           const cartCount = cart.filter(i => i.variant_id == selectedVariant.id).length;
           if (cartCount >= selectedVariant.stock) return showToast('Stock limit reached', 'error');
-          
           variantId = selectedVariant.id;
           variantName = selectedVariant.name;
           variantSku = selectedVariant.sku;
@@ -797,20 +849,15 @@
       window.toggleCollapse = function(sectionId, iconId, barcodeText) {
         const collapse = document.getElementById(sectionId);
         const icon = document.getElementById(iconId);
-        
         if (!collapse) return;
-        
         if (collapse.classList.contains('open')) {
           collapse.classList.remove('open');
           if (icon) icon.className = 'fa-solid fa-chevron-down';
         } else {
           collapse.classList.add('open');
           if (icon) icon.className = 'fa-solid fa-chevron-up';
-          
           if (sectionId === 'barcode-collapse' && barcodeText && !barcodeGenerated) {
-            setTimeout(() => {
-              generateBarcode(barcodeText);
-            }, 200);
+            setTimeout(() => { generateBarcode(barcodeText); }, 200);
           }
         }
       };
@@ -823,23 +870,12 @@
           }
           return;
         }
-        
         const svgElement = document.getElementById('barcode-svg');
-        if (!svgElement) {
-          console.error('Barcode SVG element not found');
-          return;
-        }
-        
+        if (!svgElement) { console.error('Barcode SVG element not found'); return; }
         try {
           JsBarcode("#barcode-svg", barcodeText, {
-            format: "CODE128",
-            width: 2,
-            height: 80,
-            displayValue: true,
-            fontSize: 14,
-            margin: 10,
-            background: "#ffffff",
-            lineColor: "#1d1d1f"
+            format: "CODE128", width: 2, height: 80, displayValue: true,
+            fontSize: 14, margin: 10, background: "#ffffff", lineColor: "#1d1d1f"
           });
           barcodeGenerated = true;
         } catch(e) {
@@ -893,12 +929,10 @@
         
         const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
         if (allImages.length === 0 && product.img) allImages.push(product.img);
-        
         currentMainImage = allImages[0] || '/logo.png';
         
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
         const isOut = product.stock <= 0 && productVariants.length === 0;
-        
         const avgRating = prodReviews.length ? (prodReviews.reduce((s,r)=>s+r.rating,0)/prodReviews.length).toFixed(1) : null;
         
         const reviewsHTML = prodReviews.length ? prodReviews.map(r=>`
@@ -911,14 +945,12 @@
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
         
-        // Build thumbnails list
+        // Build all thumbnails (product images + color images)
         let allThumbnails = [];
-        allImages.forEach(img => {
-          allThumbnails.push(img);
-        });
+        allImages.forEach(img => { allThumbnails.push({ url: img, label: 'Product Image' }); });
         productColors.forEach(color => {
-          if (color.color_image && !allThumbnails.includes(color.color_image)) {
-            allThumbnails.push(color.color_image);
+          if (color.color_image && !allThumbnails.find(t => t.url === color.color_image)) {
+            allThumbnails.push({ url: color.color_image, label: color.color_name + ' Color' });
           }
         });
         
@@ -931,13 +963,7 @@
                 ${productColors.map(color => {
                   const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
                   return `
-                    <button 
-                      class="color-swatch-btn ${!hasStock ? 'disabled' : ''}"
-                      data-color-id="${color.id}"
-                      onclick="selectColor(${color.id})"
-                      title="${color.color_name}${!hasStock ? ' (Out of Stock)' : ''}"
-                      ${!hasStock ? 'disabled' : ''}
-                    >
+                    <button class="color-swatch-btn ${!hasStock ? 'disabled' : ''}" data-color-id="${color.id}" onclick="selectColor(${color.id})" title="${color.color_name}${!hasStock ? ' (Out of Stock)' : ''}" ${!hasStock ? 'disabled' : ''}>
                       <span class="swatch-color" style="background:${color.color_code || '#ccc'};"></span>
                     </button>
                   `;
@@ -965,24 +991,27 @@
             <div id="product-zoom-container" style="border-radius:24px;aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
               <img id="product-zoom-image" src="${currentMainImage}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
             </div>
-            <div id="thumbnails-container" class="thumb-scroll-container">
-              ${allThumbnails.map(img => `
-                <img 
-                  src="${img}" 
-                  class="thumb-btn ${img === currentMainImage ? 'active' : ''}" 
-                  data-image="${img}"
-                  onclick="switchMainImage('${img.replace(/'/g, "\\'")}')"
-                  onerror="this.style.display='none'"
-                  alt="Product thumbnail"
-                  loading="lazy"
-                >
-              `).join('')}
+            ${allThumbnails.length > 1 ? `
+            <div class="thumbnail-wrapper" style="position:relative;margin-top:12px;">
+              ${allThumbnails.length > 4 ? `
+              <button class="scroll-btn scroll-left" onclick="scrollThumbnails('left')" aria-label="Scroll left">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button class="scroll-btn scroll-right" onclick="scrollThumbnails('right')" aria-label="Scroll right">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+              ` : ''}
+              <div id="thumbnails-scroll" class="thumbnail-scroll-container no-scrollbar" style="padding:0 8px;">
+                ${allThumbnails.map(thumb => `
+                  <img src="${thumb.url}" class="thumb-btn ${thumb.url === currentMainImage ? 'active' : ''}" data-image="${thumb.url}" onclick="switchMainImage('${thumb.url.replace(/'/g, "\\'")}')" onerror="this.style.display='none'" alt="${thumb.label}" title="${thumb.label}" loading="lazy">
+                `).join('')}
+              </div>
             </div>
+            ` : ''}
           </div>
           <div>
             <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#007aff;">${product.category || ''}</span>
             <h1 style="font-size:28px;font-weight:700;margin:4px 0 16px;line-height:1.2;">${product.title || ''}</h1>
-            
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
               <div id="variant-price-display" style="display:flex;align-items:baseline;gap:8px;">
                 <span style="font-size:28px;font-weight:900;">৳ ${product.price||0}</span>
@@ -992,25 +1021,19 @@
                 <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};"></i> ${wishlist.includes(product.id)?'Wishlisted':'Wishlist'}
               </button>
             </div>
-            
             <div id="stock-status" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
               <span style="width:8px;height:8px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};display:inline-block;"></span>
               <span style="font-size:12px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':`In Stock: ${product.stock||0}`}</span>
               ${avgRating?`<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
             </div>
-            
             ${colorsHTML}
             ${sizesHTML}
-            
             <div id="variant-info" class="variant-info-badge" style="display:none;"></div>
-            
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;margin-top:20px;">
               <button id="add-to-bag-btn" onclick="addToCart(${product.id})" ${isOut?'disabled':''} style="padding:14px;${isOut?'background:#e5e5e5;cursor:not-allowed;':'background:#1d1d1f;'}color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Add to Bag</button>
               <button id="buy-now-btn" onclick="addToCart(${product.id},true)" ${isOut?'disabled':''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
             </div>
-            
             ${product.short_description ? `<p style="font-size:13px;color:#6b7280;margin-bottom:20px;line-height:1.6;font-style:italic;">${product.short_description}</p>` : ''}
-            
             <button class="toggle-btn" onclick="toggleCollapse('specs-collapse','specs-icon')">
               <span><i class="fa-solid fa-sliders" style="margin-right:8px;"></i>Specifications</span>
               <i id="specs-icon" class="fa-solid fa-chevron-down"></i>
@@ -1025,7 +1048,6 @@
                 ${product.sku ? `<div class="detail-badge"><i class="fa-solid fa-barcode"></i><div><span style="color:#9ca3af;font-size:9px;">SKU</span><br><span style="font-weight:700;font-size:10px;">${product.sku}</span></div></div>` : ''}
               </div>
             </div>
-            
             ${product.description ? `
             <button class="toggle-btn" onclick="toggleCollapse('desc-collapse','desc-icon')">
               <span><i class="fa-solid fa-align-left" style="margin-right:8px;"></i>Description</span>
@@ -1034,27 +1056,21 @@
             <div id="desc-collapse" class="collapse-section">
               <div class="description-content">${product.description}</div>
             </div>` : ''}
-            
             ${selectedVariant && selectedVariant.barcode ? `
             <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${selectedVariant.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">
               <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
               <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
             </button>
             <div id="barcode-collapse" class="collapse-section">
-              <div class="barcode-wrapper" id="barcode-svg-container">
-                <svg id="barcode-svg"></svg>
-              </div>
+              <div class="barcode-wrapper" id="barcode-svg-container"><svg id="barcode-svg"></svg></div>
             </div>` : (product.barcode ? `
             <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${safeBarcode}')">
               <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
               <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
             </button>
             <div id="barcode-collapse" class="collapse-section">
-              <div class="barcode-wrapper" id="barcode-svg-container">
-                <svg id="barcode-svg"></svg>
-              </div>
+              <div class="barcode-wrapper" id="barcode-svg-container"><svg id="barcode-svg"></svg></div>
             </div>` : '')}
-            
           </div>
         </div>
         <div style="border-top:1px solid #e5e5e5;padding-top:32px;">
@@ -1078,9 +1094,7 @@
         if (related.length) {
           ctlSection.style.display = 'block';
           ctlGrid.innerHTML = related.map(p => productCardHTML(p)).join('');
-        } else { 
-          ctlSection.style.display = 'none'; 
-        }
+        } else { ctlSection.style.display = 'none'; }
       }
       
       async function loadProductBySlug(slug) {
@@ -1105,9 +1119,7 @@
             const colorIds = productColors.map(c => c.id);
             const { data: sizesData } = await _supabase.from('color_sizes').select('*').in('color_id', colorIds).order('sort_order', { ascending: true });
             colorSizes = sizesData || [];
-          } else {
-            colorSizes = [];
-          }
+          } else { colorSizes = []; }
           
           try {
             let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
@@ -1117,18 +1129,11 @@
           
           renderProductDetails(product);
           return true;
-        } catch(e) { 
-          console.error(e); 
-          return false; 
-        }
+        } catch(e) { console.error(e); return false; }
       }
       
       function hideLoader() {
-        if (loader) { 
-          loader.style.opacity = '0'; 
-          loader.style.transition = 'opacity 0.5s'; 
-          setTimeout(() => { loader.style.display = 'none'; }, 600); 
-        }
+        if (loader) { loader.style.opacity = '0'; loader.style.transition = 'opacity 0.5s'; setTimeout(() => { loader.style.display = 'none'; }, 600); }
       }
       
       function showNotFound() {
