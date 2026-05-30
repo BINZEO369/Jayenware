@@ -71,58 +71,64 @@
       z-index: 50;
     }
     
-    /* Color Selection Styles */
+    /* Color Button Styles */
     .color-btn {
       transition: all 0.2s ease;
       position: relative;
-      border: 2px solid transparent;
+      cursor: pointer;
+      border: 2px solid #e5e5e5;
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 80px;
+      background: white;
+      flex-shrink: 0;
     }
     .color-btn:hover {
-      transform: scale(1.05);
+      border-color: #86868b;
+      transform: translateY(-1px);
     }
     .color-btn.selected {
       border-color: #1d1d1f !important;
-      box-shadow: 0 0 0 2px white, 0 0 0 4px #1d1d1f;
+      background: #1d1d1f !important;
+      color: white !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-    .color-btn .color-swatch {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      transition: transform 0.2s ease;
+    .color-btn.selected .color-name {
+      color: white !important;
     }
-    .color-btn.out-of-stock {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .color-btn.out-of-stock::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: #ef4444;
-      transform: rotate(-45deg);
+    .color-btn.selected .color-stock {
+      color: rgba(255,255,255,0.7) !important;
     }
     
-    /* Size Selection Styles */
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    /* Size Button Styles */
     .size-btn {
       transition: all 0.2s ease;
-      min-width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #e5e5e5;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 14px;
       cursor: pointer;
+      border: 2px solid #e5e5e5;
+      border-radius: 16px;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 13px;
       background: white;
       color: #1d1d1f;
+      min-width: 56px;
+      text-align: center;
+      flex-shrink: 0;
     }
     .size-btn:hover {
-      border-color: #1d1d1f;
+      border-color: #86868b;
       background: #f9f9f9;
     }
     .size-btn.selected {
@@ -130,23 +136,15 @@
       background: #1d1d1f !important;
       color: white !important;
     }
-    .size-btn.out-of-stock {
+    .size-btn.disabled {
       opacity: 0.4;
       cursor: not-allowed;
+      background: #f5f5f7;
+      border-color: #e5e5e5;
       text-decoration: line-through;
-      color: #9ca3af;
+      pointer-events: none;
     }
     
-    .variant-btn {
-      transition: all 0.2s ease;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .variant-btn.selected {
-      border-color: #1d1d1f !important;
-      background: #1d1d1f !important;
-      color: white !important;
-    }
     #product-zoom-container {
       cursor: crosshair;
       overflow: hidden;
@@ -275,7 +273,7 @@
       transition: max-height 0.4s ease-in-out;
     }
     .collapse-section.open {
-      max-height: 2000px;
+      max-height: 800px;
     }
     .description-content {
       background: #f5f5f7;
@@ -287,29 +285,14 @@
       color: #4b5563;
       line-height: 1.7;
     }
-    
-    /* Color Image Carousel */
-    .color-image-item {
-      flex-shrink: 0;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .variant-info-badge {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
       border-radius: 12px;
-      overflow: hidden;
-      border: 2px solid transparent;
-    }
-    .color-image-item.active {
-      border-color: #007aff;
-      box-shadow: 0 0 0 2px rgba(0,122,255,0.2);
-    }
-    
-    .selected-color-info {
-      background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ed 100%);
-      border-radius: 16px;
-      padding: 16px;
-      margin: 16px 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      padding: 12px 16px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #0369a1;
     }
   </style>
 </head>
@@ -402,12 +385,13 @@
       const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       let currentProduct = null;
       let allProducts = [];
-      let allVariants = [];
-      let allColors = [];
-      let allSizes = [];
+      let productColors = [];
+      let colorSizes = [];
+      let productVariants = [];
       let allReviews = [];
-      let selectedVariantObj = null;
       let selectedColorId = null;
+      let selectedSizeId = null;
+      let selectedVariant = null;
       let cart = [];
       let wishlist = [];
       let barcodeGenerated = false;
@@ -472,202 +456,181 @@
       function saveCart() { localStorage.setItem('jayen_cart', JSON.stringify(cart)); updateCartCount(); }
       
       // Get available sizes for selected color
-      function getSizesForColor(colorId) {
-        if (!colorId) return [];
-        const variantSizes = allVariants
-          .filter(v => v.color_id == colorId && v.is_active && v.stock > 0)
-          .map(v => v.size_id);
-        return allSizes.filter(s => variantSizes.includes(s.id));
+      function getAvailableSizesForColor(colorId) {
+        const variants = productVariants.filter(v => v.color_id == colorId && v.is_active && v.stock > 0);
+        const sizeIds = variants.map(v => v.size_id);
+        return colorSizes.filter(s => sizeIds.includes(s.id) && s.color_id == colorId);
       }
       
-      // Get available colors with stock info
-      function getColorsWithStock() {
-        return allColors.map(color => {
-          const colorVariants = allVariants.filter(v => v.color_id == color.id && v.is_active);
-          const totalStock = colorVariants.reduce((sum, v) => sum + (v.stock || 0), 0);
-          return { ...color, totalStock };
-        });
+      // Get variant by color and size
+      function getVariant(colorId, sizeId) {
+        return productVariants.find(v => v.color_id == colorId && v.size_id == sizeId) || null;
       }
       
-      // Get variant for specific color and size combination
-      function getVariantForColorSize(colorId, sizeId) {
-        return allVariants.find(v => v.color_id == colorId && v.size_id == sizeId && v.is_active);
-      }
-      
-      // Select color and update UI
-      window.selectColor = function(colorId, colorName, colorCode, colorImage) {
+      // Select color
+      window.selectColor = function(colorId) {
         selectedColorId = colorId;
+        selectedSizeId = null;
+        selectedVariant = null;
         
-        // Update color buttons
+        // Update color buttons UI
         document.querySelectorAll('.color-btn').forEach(btn => {
           btn.classList.remove('selected');
           btn.style.borderColor = '#e5e5e5';
+          btn.style.background = 'white';
+          const nameEl = btn.querySelector('.color-name');
+          if (nameEl) nameEl.style.color = '#1d1d1f';
+          const stockEl = btn.querySelector('.color-stock');
+          if (stockEl) stockEl.style.color = '#9ca3af';
         });
+        
         const selectedBtn = document.querySelector(`.color-btn[data-color-id="${colorId}"]`);
         if (selectedBtn) {
           selectedBtn.classList.add('selected');
+          selectedBtn.style.borderColor = '#1d1d1f';
+          selectedBtn.style.background = '#1d1d1f';
+          const nameEl = selectedBtn.querySelector('.color-name');
+          if (nameEl) nameEl.style.color = 'white';
+          const stockEl = selectedBtn.querySelector('.color-stock');
+          if (stockEl) stockEl.style.color = 'rgba(255,255,255,0.7)';
         }
         
-        // Update selected color info display
-        const colorInfoDiv = document.getElementById('selected-color-info');
-        if (colorInfoDiv) {
-          colorInfoDiv.innerHTML = `
-            <div style="width:40px;height:40px;border-radius:50%;background:${colorCode || '#ccc'};flex-shrink:0;border:2px solid #e5e5e5;overflow:hidden;">
-              ${colorImage ? `<img src="${colorImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">` : ''}
-            </div>
-            <div>
-              <p style="font-size:10px;color:#86868b;text-transform:uppercase;font-weight:700;">Selected Color</p>
-              <p style="font-size:14px;font-weight:700;color:#1d1d1f;">${colorName}</p>
-            </div>
-          `;
-        }
-        
-        // Update color images
-        if (colorImage) {
+        // Update color image if available
+        const color = productColors.find(c => c.id == colorId);
+        if (color && color.color_image) {
           const mainImg = document.getElementById('product-zoom-image');
-          if (mainImg) {
-            mainImg.src = colorImage;
-            resetZoom();
-          }
-          
-          // Update thumbnail active state
-          document.querySelectorAll('.color-image-item').forEach(item => {
-            item.classList.remove('active');
-            if (item.dataset.colorId == colorId) {
-              item.classList.add('active');
-            }
-          });
+          if (mainImg) mainImg.src = color.color_image;
         }
         
-        // Update size buttons availability
-        updateSizeButtons(colorId);
-        
-        // Reset size selection
-        selectedVariantObj = null;
-        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-        
-        // Update price display
-        updatePriceForColor(colorId);
-        
-        // Update variant details section
-        updateVariantDetails(colorId);
+        // Update sizes
+        updateSizeButtons();
+        updatePriceDisplay();
+        updateVariantInfo();
       };
       
-      // Select size and update variant
-      window.selectSize = function(sizeId, sizeName) {
-        if (!selectedColorId) {
-          showToast('Please select a color first', 'error');
-          return;
-        }
+      // Select size
+      window.selectSize = function(sizeId) {
+        selectedSizeId = sizeId;
         
-        const variant = getVariantForColorSize(selectedColorId, sizeId);
-        if (!variant || variant.stock <= 0) {
-          showToast('This combination is out of stock', 'error');
-          return;
-        }
-        
-        // Update size buttons
+        // Update size buttons UI
         document.querySelectorAll('.size-btn').forEach(btn => {
           btn.classList.remove('selected');
+          btn.style.borderColor = '#e5e5e5';
+          btn.style.background = 'white';
+          btn.style.color = '#1d1d1f';
         });
+        
         const selectedBtn = document.querySelector(`.size-btn[data-size-id="${sizeId}"]`);
         if (selectedBtn) {
           selectedBtn.classList.add('selected');
+          selectedBtn.style.borderColor = '#1d1d1f';
+          selectedBtn.style.background = '#1d1d1f';
+          selectedBtn.style.color = 'white';
         }
         
-        selectedVariantObj = {
-          id: variant.id,
-          name: variant.name,
-          price: variant.price,
-          old_price: variant.old_price,
-          stock: variant.stock,
-          sku: variant.sku,
-          barcode: variant.barcode,
-          color_id: variant.color_id,
-          size_id: variant.size_id
-        };
-        
-        // Update price display
-        updatePriceDisplay(variant);
-        
-        // Update stock status
-        updateStockStatus(variant);
-        
-        // Update barcode if section is open
-        if (variant.barcode && document.getElementById('barcode-collapse')?.classList.contains('open')) {
-          barcodeGenerated = false;
-          generateBarcode(variant.barcode);
+        // Find matching variant
+        if (selectedColorId && selectedSizeId) {
+          selectedVariant = getVariant(selectedColorId, selectedSizeId);
         }
+        
+        updatePriceDisplay();
+        updateVariantInfo();
       };
       
-      function updateSizeButtons(colorId) {
-        const availableSizes = getSizesForColor(colorId);
-        const availableSizeIds = availableSizes.map(s => s.id);
+      function updateSizeButtons() {
+        const sizeContainer = document.getElementById('size-buttons-container');
+        if (!sizeContainer || !selectedColorId) return;
         
-        document.querySelectorAll('.size-btn').forEach(btn => {
-          const sizeId = parseInt(btn.dataset.sizeId);
-          if (availableSizeIds.includes(sizeId)) {
-            btn.classList.remove('out-of-stock');
-            btn.style.cursor = 'pointer';
-            btn.style.pointerEvents = 'auto';
+        const availableSizes = getAvailableSizesForColor(selectedColorId);
+        const allSizesForColor = colorSizes.filter(s => s.color_id == selectedColorId);
+        
+        sizeContainer.innerHTML = allSizesForColor.map(size => {
+          const variant = getVariant(selectedColorId, size.id);
+          const isAvailable = variant && variant.stock > 0 && variant.is_active;
+          const isSelected = selectedSizeId === size.id;
+          
+          return `
+            <button 
+              data-size-id="${size.id}"
+              class="size-btn ${isSelected ? 'selected' : ''} ${!isAvailable ? 'disabled' : ''}"
+              style="${isSelected ? 'border-color:#1d1d1f;background:#1d1d1f;color:white;' : ''}"
+              onclick="${isAvailable ? `selectSize(${size.id})` : ''}"
+              ${!isAvailable ? 'disabled' : ''}
+              title="${isAvailable ? (variant ? `Stock: ${variant.stock}` : '') : 'Out of stock'}"
+            >
+              ${size.size_name}
+            </button>
+          `;
+        }).join('');
+        
+        // Reset size selection
+        selectedSizeId = null;
+        selectedVariant = null;
+      }
+      
+      function updatePriceDisplay() {
+        const priceEl = document.getElementById('variant-price-display');
+        if (!priceEl) return;
+        
+        if (selectedVariant) {
+          priceEl.innerHTML = `
+            <span style="font-size:28px;font-weight:900;">৳ ${selectedVariant.price}</span>
+            ${selectedVariant.old_price ? `<span style="font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${selectedVariant.old_price}</span>` : ''}
+          `;
+        } else if (selectedColorId) {
+          // Show color's base price or product price
+          const variantsForColor = productVariants.filter(v => v.color_id == selectedColorId);
+          if (variantsForColor.length > 0) {
+            const minPrice = Math.min(...variantsForColor.map(v => v.price));
+            priceEl.innerHTML = `<span style="font-size:20px;font-weight:700;color:#86868b;">From ৳ ${minPrice}</span>`;
           } else {
-            btn.classList.add('out-of-stock');
-            btn.style.cursor = 'not-allowed';
-            btn.style.pointerEvents = 'none';
+            priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;">৳ ${currentProduct?.price || 0}</span>`;
           }
-        });
-      }
-      
-      function updatePriceForColor(colorId) {
-        // Find the cheapest active variant for this color
-        const colorVariants = allVariants.filter(v => v.color_id == colorId && v.is_active && v.stock > 0);
-        if (colorVariants.length > 0) {
-          const cheapest = colorVariants.reduce((min, v) => v.price < min.price ? v : min, colorVariants[0]);
-          updatePriceDisplay(cheapest);
+        } else {
+          priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;">৳ ${currentProduct?.price || 0}</span>`;
         }
       }
       
-      function updatePriceDisplay(variant) {
-        const priceContainer = document.getElementById('price-display');
-        if (priceContainer && variant) {
-          priceContainer.innerHTML = `
-            <span style="font-size:28px;font-weight:900;">৳ ${variant.price || 0}</span>
-            ${variant.old_price ? `<span style="font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${variant.old_price}</span>` : ''}
-          `;
-        }
-      }
-      
-      function updateStockStatus(variant) {
-        const stockContainer = document.getElementById('stock-status');
-        if (stockContainer && variant) {
-          const isOut = !variant.stock || variant.stock <= 0;
-          stockContainer.innerHTML = `
-            <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};"></span>
-            <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock: ${variant.stock || 0}`}</span>
-          `;
-        }
-      }
-      
-      function updateVariantDetails(colorId) {
-        const detailsContainer = document.getElementById('variant-details');
-        if (!detailsContainer) return;
+      function updateVariantInfo() {
+        const infoEl = document.getElementById('variant-info');
+        const stockEl = document.getElementById('stock-status');
+        const buyBtn = document.getElementById('buy-now-btn');
+        const addBtn = document.getElementById('add-to-bag-btn');
         
-        const color = allColors.find(c => c.id == colorId);
-        const colorVariants = allVariants.filter(v => v.color_id == colorId && v.is_active && v.stock > 0);
+        if (!infoEl) return;
         
-        if (colorVariants.length > 0 && color) {
-          const variant = colorVariants[0];
-          detailsContainer.innerHTML = `
-            <div style="background:#f9fafb;border-radius:12px;padding:16px;margin-top:16px;">
-              <p style="font-size:10px;color:#86868b;text-transform:uppercase;font-weight:700;margin-bottom:8px;">Variant Details</p>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;">
-                ${variant.sku ? `<div><span style="color:#9ca3af;">SKU:</span> <span style="font-weight:700;">${variant.sku}</span></div>` : ''}
-                ${variant.barcode ? `<div><span style="color:#9ca3af;">Barcode:</span> <span style="font-weight:700;">${variant.barcode}</span></div>` : ''}
-                ${variant.material ? `<div><span style="color:#9ca3af;">Material:</span> <span style="font-weight:700;">${variant.material}</span></div>` : ''}
-                ${variant.weight ? `<div><span style="color:#9ca3af;">Weight:</span> <span style="font-weight:700;">${variant.weight}g</span></div>` : ''}
-              </div>
+        if (selectedVariant) {
+          infoEl.style.display = 'block';
+          infoEl.innerHTML = `
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-weight:700;">SKU:</span> <span style="font-family:monospace;">${selectedVariant.sku || 'N/A'}</span>
+              ${selectedVariant.barcode ? `<span style="color:#9ca3af;">|</span> <span style="font-weight:700;">Barcode:</span> <span style="font-family:monospace;">${selectedVariant.barcode}</span>` : ''}
+              ${selectedVariant.weight ? `<span style="color:#9ca3af;">|</span> <span style="font-weight:700;">Weight:</span> ${selectedVariant.weight}g` : ''}
+              ${selectedVariant.material ? `<span style="color:#9ca3af;">|</span> <span style="font-weight:700;">Material:</span> ${selectedVariant.material}` : ''}
             </div>
           `;
+          
+          // Update stock status
+          if (stockEl) {
+            const isOut = selectedVariant.stock <= 0;
+            stockEl.innerHTML = `
+              <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
+              <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock: ${selectedVariant.stock}`}</span>
+            `;
+          }
+          
+          // Update buttons
+          if (buyBtn) buyBtn.disabled = selectedVariant.stock <= 0;
+          if (addBtn) addBtn.disabled = selectedVariant.stock <= 0;
+        } else {
+          infoEl.style.display = 'none';
+          if (stockEl) {
+            const isOut = currentProduct?.stock <= 0;
+            stockEl.innerHTML = `
+              <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
+              <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock: ${currentProduct?.stock || 0}`}</span>
+            `;
+          }
         }
       }
       
@@ -675,37 +638,42 @@
         const product = allProducts.find(p => p.id == productId);
         if (!product) return showToast('Product not found', 'error');
         
-        if (allColors.length > 0 && allSizes.length > 0) {
-          if (!selectedVariantObj) return showToast('Please select color and size', 'error');
-          if (selectedVariantObj.stock <= 0) return showToast('Out of stock', 'error');
-          
-          const existingCount = cart.filter(i => i.variant_id == selectedVariantObj.id).length;
-          if (existingCount >= selectedVariantObj.stock) return showToast('Stock limit reached', 'error');
-          
-          cart.push({
-            id: Date.now(),
-            product_id: product.id,
-            variant_id: selectedVariantObj.id,
-            title: product.title,
-            price: selectedVariantObj.price,
-            img: allColors.find(c => c.id == selectedVariantObj.color_id)?.color_image || product.img,
-            variant: selectedVariantObj.name,
-            quantity: 1
-          });
-        } else {
-          // Fallback for products without color/size system
-          if (cart.filter(i => i.product_id == productId).length >= product.stock) return showToast('Stock limit reached', 'error');
-          cart.push({
-            id: Date.now(),
-            product_id: product.id,
-            variant_id: null,
-            title: product.title,
-            price: product.price,
-            img: product.img,
-            variant: null,
-            quantity: 1
-          });
+        let finalPrice = product.price;
+        let variantId = null;
+        let variantName = null;
+        let variantSku = null;
+        
+        if (productColors.length > 0 && !selectedVariant) {
+          return showToast('Please select a color and size', 'error');
         }
+        
+        if (selectedVariant) {
+          if (selectedVariant.stock <= 0) return showToast('Out of stock', 'error');
+          
+          const cartCount = cart.filter(i => i.variant_id == selectedVariant.id).length;
+          if (cartCount >= selectedVariant.stock) return showToast('Stock limit reached', 'error');
+          
+          variantId = selectedVariant.id;
+          variantName = selectedVariant.name;
+          variantSku = selectedVariant.sku;
+          finalPrice = selectedVariant.price;
+        } else {
+          if (cart.filter(i => i.product_id == productId && !i.variant_id).length >= product.stock) {
+            return showToast('Stock limit reached', 'error');
+          }
+        }
+        
+        cart.push({
+          id: Date.now(),
+          product_id: product.id,
+          variant_id: variantId,
+          title: product.title,
+          price: finalPrice,
+          img: product.img,
+          variant: variantName,
+          sku: variantSku,
+          quantity: 1
+        });
         
         saveCart();
         showToast('Added to Bag!');
@@ -809,6 +777,7 @@
             lineColor: "#1d1d1f"
           });
           barcodeGenerated = true;
+          console.log('Barcode generated successfully:', barcodeText);
         } catch(e) {
           console.error("Barcode generation error:", e);
           const container = document.getElementById('barcode-svg-container');
@@ -842,102 +811,12 @@
         return [...allProducts.filter(p => p.id != currentId)].sort(() => 0.5 - Math.random()).slice(0, count);
       }
       
-      // Build color images carousel HTML
-      function buildColorImagesHTML(product, colors) {
-        const defaultImg = product.img || '/logo.png';
-        const colorImages = colors.filter(c => c.color_image).map(c => ({
-          colorId: c.id,
-          colorName: c.color_name,
-          image: c.color_image
-        }));
-        
-        if (colorImages.length === 0) {
-          // If no color images, use product main image
-          return {
-            mainImage: defaultImg,
-            thumbnails: `<img src="${defaultImg}" style="width:56px;height:56px;object-fit:cover;border-radius:12px;border:2px solid #1d1d1f;flex-shrink:0;" alt="product image">`
-          };
-        }
-        
-        const mainImage = colorImages[0].image;
-        const thumbnails = colorImages.map((ci, i) => `
-          <div class="color-image-item ${i === 0 ? 'active' : ''}" data-color-id="${ci.colorId}" 
-               onclick="document.getElementById('product-zoom-image').src='${ci.image}';resetZoom();document.querySelectorAll('.color-image-item').forEach(el=>el.classList.remove('active'));this.classList.add('active');"
-               style="width:56px;height:56px;flex-shrink:0;cursor:pointer;">
-            <img src="${ci.image}" alt="${ci.colorName}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" 
-                 onerror="this.parentElement.style.display='none'" title="${ci.colorName}">
-          </div>
-        `).join('');
-        
-        return { mainImage, thumbnails };
-      }
-      
-      // Build color selection buttons HTML
-      function buildColorButtonsHTML(colors, productId) {
-        if (colors.length === 0) return '';
-        
-        const colorsWithStock = colors.map(color => {
-          const colorVariants = allVariants.filter(v => v.color_id == color.id && v.is_active);
-          const totalStock = colorVariants.reduce((sum, v) => sum + (v.stock || 0), 0);
-          return { ...color, totalStock };
-        });
-        
-        return `
-        <div style="margin-bottom:24px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;">Color</p>
-            <span id="selected-color-name" style="font-size:12px;font-weight:700;color:#1d1d1f;">${colorsWithStock[0]?.color_name || ''}</span>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;">
-            ${colorsWithStock.map((color, i) => `
-              <button onclick="selectColor(${color.id}, '${color.color_name.replace(/'/g, "\\'")}', '${color.color_code || '#ccc'}', '${color.color_image || ''}'); document.getElementById('selected-color-name').innerText='${color.color_name.replace(/'/g, "\\'")}';"
-                      class="color-btn ${i === 0 ? 'selected' : ''} ${color.totalStock <= 0 ? 'out-of-stock' : ''}"
-                      data-color-id="${color.id}"
-                      data-color-name="${color.color_name}"
-                      style="width:44px;height:44px;border-radius:50%;padding:2px;background:white;cursor:${color.totalStock <= 0 ? 'not-allowed' : 'pointer'};position:relative;"
-                      ${color.totalStock <= 0 ? 'disabled' : ''}
-                      title="${color.color_name}${color.totalStock <= 0 ? ' (Out of Stock)' : ''}">
-                <div class="color-swatch" style="background:${color.color_code || '#ccc'};border-radius:50%;overflow:hidden;">
-                  ${color.color_image ? `<img src="${color.color_image}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'" alt="${color.color_name}">` : ''}
-                </div>
-                ${i === 0 ? '<span style="position:absolute;bottom:-4px;right:-4px;width:16px;height:16px;background:#1d1d1f;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-check" style="color:white;font-size:8px;"></i></span>' : ''}
-              </button>
-            `).join('')}
-          </div>
-        </div>`;
-      }
-      
-      // Build size selection buttons HTML
-      function buildSizeButtonsHTML(sizes, colors) {
-        if (sizes.length === 0) return '';
-        
-        // Sort sizes by sort_order
-        const sortedSizes = [...sizes].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-        
-        return `
-        <div style="margin-bottom:24px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;">Size</p>
-            <a href="#" onclick="event.preventDefault();" style="font-size:10px;color:#007aff;text-decoration:none;font-weight:700;">Size Guide</a>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;">
-            ${sortedSizes.map(size => `
-              <button onclick="selectSize(${size.id}, '${size.size_name.replace(/'/g, "\\'")}')"
-                      class="size-btn"
-                      data-size-id="${size.id}"
-                      data-size-name="${size.size_name}">
-                ${size.size_name}
-              </button>
-            `).join('')}
-          </div>
-        </div>`;
-      }
-      
       function renderProductDetails(product) {
         currentProduct = product;
         barcodeGenerated = false;
         selectedColorId = null;
-        selectedVariantObj = null;
+        selectedSizeId = null;
+        selectedVariant = null;
         
         if (loadingDiv) loadingDiv.style.display = 'none';
         if (notFoundDiv) notFoundDiv.style.display = 'none';
@@ -948,42 +827,10 @@
         if (metaDesc) metaDesc.content = (product.description || product.title || '').substring(0, 155) + '...';
         if (canonicalLink) canonicalLink.href = `https://jayenwaretest369.vercel.app/product/${product.slug || generateSlug(product.title)}`;
         
-        // Get colors and sizes for this product
-        const productColors = allColors.filter(c => c.product_id == product.id);
-        const productSizes = allSizes;
-        
-        // Get variants for this product
-        const productVariants = allVariants.filter(v => v.product_id == product.id);
-        
-        // Get all images
         const allImages = product.images ? product.images.split(',').filter(Boolean) : [];
         if (allImages.length === 0 && product.img) allImages.push(product.img);
-        
         const prodReviews = allReviews.filter(r => r.product_id == product.id);
         const isOut = product.stock <= 0 && productVariants.length === 0;
-        
-        // Build color images carousel
-        const { mainImage, thumbnails } = buildColorImagesHTML(product, productColors);
-        
-        // Set initial selected color if colors exist
-        if (productColors.length > 0) {
-          selectedColorId = productColors[0].id;
-          // Auto-select first available variant
-          const firstVariant = productVariants.find(v => v.color_id == selectedColorId && v.is_active && v.stock > 0);
-          if (firstVariant) {
-            selectedVariantObj = {
-              id: firstVariant.id,
-              name: firstVariant.name,
-              price: firstVariant.price,
-              old_price: firstVariant.old_price,
-              stock: firstVariant.stock,
-              sku: firstVariant.sku,
-              barcode: firstVariant.barcode,
-              color_id: firstVariant.color_id,
-              size_id: firstVariant.size_id
-            };
-          }
-        }
         
         const avgRating = prodReviews.length ? (prodReviews.reduce((s,r)=>s+r.rating,0)/prodReviews.length).toFixed(1) : null;
         
@@ -997,56 +844,64 @@
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
         
-        // Get current barcode for display
-        const currentBarcode = selectedVariantObj?.barcode || product.barcode || '';
-        const safeBarcode = currentBarcode ? currentBarcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
+        // Build colors section
+        let colorsHTML = '';
+        if (productColors.length > 0) {
+          colorsHTML = `
+            <div style="margin-bottom:20px;">
+              <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
+              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
+                ${productColors.map(color => {
+                  const colorStock = productVariants.filter(v => v.color_id == color.id && v.is_active).reduce((sum, v) => sum + (v.stock || 0), 0);
+                  return `
+                    <button 
+                      class="color-btn"
+                      data-color-id="${color.id}"
+                      onclick="selectColor(${color.id}); document.getElementById('selected-color-name').textContent='${color.color_name.replace(/'/g, "\\'")}';"
+                      style="min-width:90px;"
+                    >
+                      <span class="color-swatch" style="background:${color.color_code || '#ccc'};"></span>
+                      <div>
+                        <span class="color-name" style="font-size:12px;font-weight:700;display:block;">${color.color_name}</span>
+                        <span class="color-stock" style="font-size:9px;color:#9ca3af;">${colorStock} in stock</span>
+                      </div>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>`;
+        }
         
-        // Build color and size sections
-        const colorButtonsHTML = buildColorButtonsHTML(productColors, product.id);
-        const sizeButtonsHTML = buildSizeButtonsHTML(productSizes, productColors);
+        // Build sizes section
+        let sizesHTML = '';
+        if (productColors.length > 0) {
+          sizesHTML = `
+            <div style="margin-bottom:20px;">
+              <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Size: <span id="selected-size-name" style="color:#1d1d1f;">Select a size</span></p>
+              <div id="size-buttons-container" class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
+                <p style="font-size:12px;color:#9ca3af;padding:12px 0;">Please select a color first</p>
+              </div>
+            </div>`;
+        }
         
-        // Determine display price
-        const displayPrice = selectedVariantObj?.price || product.price || 0;
-        const displayOldPrice = selectedVariantObj?.old_price || product.old_price || null;
-        
-        // Determine stock status
-        const hasVariants = productColors.length > 0 && productSizes.length > 0;
-        const displayStock = hasVariants ? (selectedVariantObj?.stock || 0) : (product.stock || 0);
-        const isCurrentlyOut = displayStock <= 0;
-        
-        // Build variant details section
-        const variantDetailsHTML = selectedVariantObj ? `
-          <div id="variant-details" style="background:#f9fafb;border-radius:12px;padding:16px;margin-top:16px;">
-            <p style="font-size:10px;color:#86868b;text-transform:uppercase;font-weight:700;margin-bottom:8px;">Variant Details</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;">
-              ${selectedVariantObj.sku ? `<div><span style="color:#9ca3af;">SKU:</span> <span style="font-weight:700;">${selectedVariantObj.sku}</span></div>` : ''}
-              ${selectedVariantObj.barcode ? `<div><span style="color:#9ca3af;">Barcode:</span> <span style="font-weight:700;">${selectedVariantObj.barcode}</span></div>` : ''}
-            </div>
-          </div>
-        ` : '';
+        const safeBarcode = product.barcode ? product.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
         
         contentDiv.innerHTML = `
         <div style="display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:40px;">
           <div>
             <div id="product-zoom-container" style="border-radius:24px;aspect-ratio:3/4;max-height:70vh;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
-              <img id="product-zoom-image" src="${mainImage}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
+              <img id="product-zoom-image" src="${allImages[0] || '/logo.png'}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
             </div>
-            ${productColors.length > 0 ? `
-            <div class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">
-              ${thumbnails}
-            </div>` : (allImages.length > 1 ? `
-            <div class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">
-              ${allImages.map((img,i)=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid ${i===0?'#1d1d1f':'transparent'};flex-shrink:0;" alt="thumb" onerror="this.style.display='none'">`).join('')}
-            </div>` : '')}
+            ${allImages.length>1?`<div class="no-scrollbar" style="display:flex;gap:8px;margin-top:12px;overflow-x:auto;">${allImages.map((img,i)=>`<img src="${img}" onclick="document.getElementById('product-zoom-image').src='${img}';resetZoom()" style="width:56px;height:56px;object-fit:cover;border-radius:12px;cursor:pointer;border:2px solid ${i===0?'#1d1d1f':'transparent'};flex-shrink:0;" alt="thumb" onerror="this.style.display='none'">`).join('')}</div>`:''}
           </div>
           <div>
             <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#007aff;">${product.category || ''}</span>
             <h1 style="font-size:28px;font-weight:700;margin:4px 0 16px;line-height:1.2;">${product.title || ''}</h1>
             
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-              <div id="price-display" style="display:flex;align-items:baseline;gap:8px;">
-                <span style="font-size:28px;font-weight:900;">৳ ${displayPrice}</span>
-                ${displayOldPrice ? `<span style="font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${displayOldPrice}</span>` : ''}
+              <div id="variant-price-display" style="display:flex;align-items:baseline;gap:8px;">
+                <span style="font-size:28px;font-weight:900;">৳ ${product.price||0}</span>
+                ${product.old_price?`<span style="font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${product.old_price}</span>`:''}
               </div>
               <button onclick="toggleWishlist(${product.id})" data-wishlist-btn style="display:flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid #e5e5e5;border-radius:9999px;font-size:10px;font-weight:700;background:transparent;cursor:pointer;white-space:nowrap;">
                 <i class="fa-${wishlist.includes(product.id)?'solid':'regular'} fa-heart" style="color:${wishlist.includes(product.id)?'#ef4444':'#9ca3af'};"></i> ${wishlist.includes(product.id)?'Wishlisted':'Wishlist'}
@@ -1054,31 +909,19 @@
             </div>
             
             <div id="stock-status" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
-              <span style="width:8px;height:8px;border-radius:50%;background:${isCurrentlyOut ? '#ef4444' : '#22c55e'};"></span>
-              <span style="font-size:12px;font-weight:700;color:${isCurrentlyOut ? '#ef4444' : '#16a34a'};">${isCurrentlyOut ? 'Out of Stock' : `In Stock: ${displayStock}`}</span>
-              ${avgRating ? `<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>` : ''}
+              <span style="width:8px;height:8px;border-radius:50%;background:${isOut?'#ef4444':'#22c55e'};display:inline-block;"></span>
+              <span style="font-size:12px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':`In Stock: ${product.stock||0}`}</span>
+              ${avgRating?`<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
             </div>
             
-            ${productColors.length > 0 ? `
-            <!-- Selected Color Info -->
-            <div id="selected-color-info" class="selected-color-info">
-              <div style="width:40px;height:40px;border-radius:50%;background:${productColors[0]?.color_code || '#ccc'};flex-shrink:0;border:2px solid #e5e5e5;overflow:hidden;">
-                ${productColors[0]?.color_image ? `<img src="${productColors[0].color_image}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none'">` : ''}
-              </div>
-              <div>
-                <p style="font-size:10px;color:#86868b;text-transform:uppercase;font-weight:700;">Selected Color</p>
-                <p style="font-size:14px;font-weight:700;color:#1d1d1f;">${productColors[0]?.color_name || ''}</p>
-              </div>
-            </div>
-            ` : ''}
+            ${colorsHTML}
+            ${sizesHTML}
             
-            ${colorButtonsHTML}
-            ${sizeButtonsHTML}
-            ${variantDetailsHTML}
+            <div id="variant-info" class="variant-info-badge" style="display:none;"></div>
             
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-              <button onclick="addToCart(${product.id})" ${isCurrentlyOut && hasVariants ? 'disabled' : ''} style="padding:14px;${isCurrentlyOut && hasVariants ? 'background:#e5e5e5;cursor:not-allowed;' : 'background:#1d1d1f;'}color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Add to Bag</button>
-              <button onclick="addToCart(${product.id},true)" ${isCurrentlyOut && hasVariants ? 'disabled' : ''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;margin-top:20px;">
+              <button id="add-to-bag-btn" onclick="addToCart(${product.id})" ${isOut?'disabled':''} style="padding:14px;${isOut?'background:#e5e5e5;cursor:not-allowed;':'background:#1d1d1f;'}color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Add to Bag</button>
+              <button id="buy-now-btn" onclick="addToCart(${product.id},true)" ${isOut?'disabled':''} style="padding:14px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:12px;">Buy Now</button>
             </div>
             
             ${product.short_description ? `<p style="font-size:13px;color:#6b7280;margin-bottom:20px;line-height:1.6;font-style:italic;">${product.short_description}</p>` : ''}
@@ -1110,7 +953,16 @@
             </div>` : ''}
             
             <!-- BARCODE TOGGLE -->
-            ${currentBarcode ? `
+            ${selectedVariant && selectedVariant.barcode ? `
+            <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${selectedVariant.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">
+              <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
+              <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div id="barcode-collapse" class="collapse-section">
+              <div class="barcode-wrapper" id="barcode-svg-container">
+                <svg id="barcode-svg"></svg>
+              </div>
+            </div>` : (product.barcode ? `
             <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${safeBarcode}')">
               <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
               <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
@@ -1119,7 +971,7 @@
               <div class="barcode-wrapper" id="barcode-svg-container">
                 <svg id="barcode-svg"></svg>
               </div>
-            </div>` : ''}
+            </div>` : '')}
             
           </div>
         </div>
@@ -1140,22 +992,6 @@
           </div>
         </div>`;
         
-        // Initialize size buttons for first color
-        if (productColors.length > 0 && productSizes.length > 0) {
-          setTimeout(() => {
-            updateSizeButtons(productColors[0].id);
-            
-            // Auto-select first available size
-            const availableSizes = getSizesForColor(productColors[0].id);
-            if (availableSizes.length > 0) {
-              const firstSizeBtn = document.querySelector(`.size-btn[data-size-id="${availableSizes[0].id}"]`);
-              if (firstSizeBtn) {
-                firstSizeBtn.click();
-              }
-            }
-          }, 100);
-        }
-        
         const related = getRandomProducts(product.id, 4);
         if (related.length) {
           ctlSection.style.display = 'block';
@@ -1174,17 +1010,24 @@
           if (!product) return false;
           
           // Load colors, sizes, and variants
-          const [colorRes, sizeRes, varRes, revRes] = await Promise.all([
+          const [colorsRes, variantsRes, revRes] = await Promise.all([
             _supabase.from('product_colors').select('*').eq('product_id', product.id).order('sort_order', { ascending: true }),
-            _supabase.from('color_sizes').select('*').order('sort_order', { ascending: true }),
-            _supabase.from('product_variants').select('*').eq('product_id', product.id).eq('is_active', true),
+            _supabase.from('product_variants').select('*').eq('product_id', product.id).order('sort_order', { ascending: true }),
             _supabase.from('product_reviews').select('*').eq('product_id', product.id).order('created_at', { ascending: false })
           ]);
           
-          allColors = colorRes.data || [];
-          allSizes = sizeRes.data || [];
-          allVariants = varRes.data || [];
+          productColors = colorsRes.data || [];
+          productVariants = variantsRes.data || [];
           allReviews = revRes.data || [];
+          
+          // Load all sizes for the product's colors
+          if (productColors.length > 0) {
+            const colorIds = productColors.map(c => c.id);
+            const { data: sizesData } = await _supabase.from('color_sizes').select('*').in('color_id', colorIds).order('sort_order', { ascending: true });
+            colorSizes = sizesData || [];
+          } else {
+            colorSizes = [];
+          }
           
           try {
             let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
