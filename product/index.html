@@ -71,12 +71,12 @@
       z-index: 50;
     }
     
-    /* Color Swatch Button - Circle Only */
+    /* Color Swatch Button - Small Circle Only */
     .color-swatch-btn {
-      width: 48px;
-      height: 48px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      border: 3px solid #e5e5e5;
+      border: 2px solid #e5e5e5;
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
@@ -86,13 +86,13 @@
       outline: none;
     }
     .color-swatch-btn:hover {
-      transform: scale(1.08);
+      transform: scale(1.1);
       border-color: #86868b;
     }
     .color-swatch-btn.selected {
       border-color: #1d1d1f !important;
-      box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px #1d1d1f;
-      transform: scale(1.08);
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #1d1d1f;
+      transform: scale(1.1);
     }
     .color-swatch-btn .swatch-color {
       width: 100%;
@@ -471,25 +471,21 @@
       
       function saveCart() { localStorage.setItem('jayen_cart', JSON.stringify(cart)); updateCartCount(); }
       
-      // Get available sizes for selected color
       function getAvailableSizesForColor(colorId) {
         const variants = productVariants.filter(v => v.color_id == colorId && v.is_active && v.stock > 0);
         const sizeIds = variants.map(v => v.size_id);
         return colorSizes.filter(s => sizeIds.includes(s.id) && s.color_id == colorId);
       }
       
-      // Get variant by color and size
       function getVariant(colorId, sizeId) {
         return productVariants.find(v => v.color_id == colorId && v.size_id == sizeId) || null;
       }
       
-      // Select color
       window.selectColor = function(colorId) {
         selectedColorId = colorId;
         selectedSizeId = null;
         selectedVariant = null;
         
-        // Update color swatch buttons UI
         document.querySelectorAll('.color-swatch-btn').forEach(btn => {
           btn.classList.remove('selected');
           btn.style.borderColor = '#e5e5e5';
@@ -501,34 +497,29 @@
         if (selectedBtn) {
           selectedBtn.classList.add('selected');
           selectedBtn.style.borderColor = '#1d1d1f';
-          selectedBtn.style.boxShadow = '0 0 0 2px #ffffff, 0 0 0 5px #1d1d1f';
-          selectedBtn.style.transform = 'scale(1.08)';
+          selectedBtn.style.boxShadow = '0 0 0 2px #ffffff, 0 0 0 4px #1d1d1f';
+          selectedBtn.style.transform = 'scale(1.1)';
         }
         
-        // Update selected color name display
         const color = productColors.find(c => c.id == colorId);
         const selectedColorNameEl = document.getElementById('selected-color-name');
         if (selectedColorNameEl && color) {
           selectedColorNameEl.textContent = color.color_name;
         }
         
-        // Update color image if available
         if (color && color.color_image) {
           const mainImg = document.getElementById('product-zoom-image');
           if (mainImg) mainImg.src = color.color_image;
         }
         
-        // Update sizes
         updateSizeButtons();
         updatePriceDisplay();
         updateVariantInfo();
       };
       
-      // Select size
       window.selectSize = function(sizeId) {
         selectedSizeId = sizeId;
         
-        // Update size buttons UI
         document.querySelectorAll('.size-btn').forEach(btn => {
           btn.classList.remove('selected');
           btn.style.borderColor = '#e5e5e5';
@@ -544,14 +535,12 @@
           selectedBtn.style.color = 'white';
         }
         
-        // Update selected size name display
         const size = colorSizes.find(s => s.id == sizeId);
         const selectedSizeNameEl = document.getElementById('selected-size-name');
         if (selectedSizeNameEl && size) {
           selectedSizeNameEl.textContent = size.size_name;
         }
         
-        // Find matching variant
         if (selectedColorId && selectedSizeId) {
           selectedVariant = getVariant(selectedColorId, selectedSizeId);
         }
@@ -589,7 +578,6 @@
           `;
         }).join('');
         
-        // Reset size selection
         selectedSizeId = null;
         selectedVariant = null;
         const selectedSizeNameEl = document.getElementById('selected-size-name');
@@ -875,13 +863,12 @@
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
         
-        // Build color swatches (circles only)
         let colorsHTML = '';
         if (productColors.length > 0) {
           colorsHTML = `
             <div style="margin-bottom:20px;">
               <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
-              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
                 ${productColors.map(color => {
                   const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
                   return `
@@ -897,11 +884,9 @@
                   `;
                 }).join('')}
               </div>
-              <p id="selected-color-info" class="selected-info" style="display:none;"></p>
             </div>`;
         }
         
-        // Build sizes section
         let sizesHTML = '';
         if (productColors.length > 0) {
           sizesHTML = `
@@ -955,7 +940,6 @@
             
             ${product.short_description ? `<p style="font-size:13px;color:#6b7280;margin-bottom:20px;line-height:1.6;font-style:italic;">${product.short_description}</p>` : ''}
             
-            <!-- SPECIFICATIONS TOGGLE -->
             <button class="toggle-btn" onclick="toggleCollapse('specs-collapse','specs-icon')">
               <span><i class="fa-solid fa-sliders" style="margin-right:8px;"></i>Specifications</span>
               <i id="specs-icon" class="fa-solid fa-chevron-down"></i>
@@ -971,7 +955,6 @@
               </div>
             </div>
             
-            <!-- DESCRIPTION TOGGLE -->
             ${product.description ? `
             <button class="toggle-btn" onclick="toggleCollapse('desc-collapse','desc-icon')">
               <span><i class="fa-solid fa-align-left" style="margin-right:8px;"></i>Description</span>
@@ -981,7 +964,6 @@
               <div class="description-content">${product.description}</div>
             </div>` : ''}
             
-            <!-- BARCODE TOGGLE -->
             ${selectedVariant && selectedVariant.barcode ? `
             <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${selectedVariant.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">
               <span><i class="fa-solid fa-upc" style="margin-right:8px;"></i>Barcode</span>
