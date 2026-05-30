@@ -151,12 +151,15 @@
       pointer-events: none;
     }
     
-    /* Product Zoom */
+    /* Product Zoom Container */
     #product-zoom-container {
       cursor: crosshair;
       overflow: hidden;
       position: relative;
       background: #f5f5f7;
+      width: 100%;
+      aspect-ratio: 4/5;
+      max-height: 85vh;
     }
     #product-zoom-image {
       transition: transform 0.15s ease-out;
@@ -164,6 +167,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
     
     /* Star Rating */
@@ -311,7 +315,7 @@
     }
     .barcode-wrapper svg { max-width: 100%; height: auto; display: block; }
     
-    /* Thumbnail Grid - Full Width */
+    /* Thumbnail Grid */
     .thumbnail-grid {
       display: flex;
       flex-wrap: nowrap;
@@ -343,7 +347,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
     
-    /* Main Image Container - Full Width Edge to Edge */
+    /* Main Image Wrapper - Full Width on Mobile */
     .main-image-wrapper {
       width: 100vw;
       margin-left: calc(-50vw + 50%);
@@ -359,7 +363,7 @@
       }
     }
     
-    /* Sticky Add to Cart Bar for Mobile */
+    /* Sticky Add to Cart Bar */
     .sticky-add-bar {
       position: fixed;
       bottom: 0;
@@ -377,7 +381,6 @@
     }
     .sticky-add-bar.active { display: flex; }
     
-    /* Animations */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -608,6 +611,7 @@
           if (mainImg) {
             mainImg.src = color.color_image;
             updateThumbnailSelection(color.color_image);
+            resetZoom();
           }
         }
         
@@ -651,7 +655,7 @@
         updateStickyBar();
       };
       
-      // ==================== THUMBNAIL SELECTION ====================
+      // ==================== THUMBNAIL & ZOOM ====================
       window.selectThumbnail = function(imageSrc, index) {
         const mainImg = document.getElementById('product-zoom-image');
         if (mainImg) {
@@ -672,6 +676,24 @@
           }
         });
       }
+      
+      window.zoomImage = function(e) {
+        const container = document.getElementById('product-zoom-container');
+        const img = document.getElementById('product-zoom-image');
+        if (!container || !img) return;
+        const rect = container.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const x = (clientX - rect.left) / rect.width;
+        const y = (clientY - rect.top) / rect.height;
+        img.style.transformOrigin = `${x * 100}% ${y * 100}%`;
+        img.style.transform = 'scale(2.5)';
+      };
+      
+      window.resetZoom = function() {
+        const img = document.getElementById('product-zoom-image');
+        if (img) img.style.transform = 'scale(1)';
+      };
       
       // ==================== SIZE BUTTONS UPDATE ====================
       function updateSizeButtons() {
@@ -801,7 +823,6 @@
         stickyBtn.style.opacity = isDisabled ? '0.5' : '1';
       }
       
-      // Handle scroll for sticky bar
       let scrollHandler;
       function initStickyBar() {
         if (scrollHandler) window.removeEventListener('scroll', scrollHandler);
@@ -881,25 +902,6 @@
           heartBtn.querySelector('i').className = `fa-${isWished ? 'solid' : 'regular'} fa-heart`;
           heartBtn.style.color = isWished ? '#ef4444' : '#9ca3af';
         }
-      };
-      
-      // ==================== IMAGE ZOOM ====================
-      window.zoomImage = function(e) {
-        const container = document.getElementById('product-zoom-container');
-        const img = document.getElementById('product-zoom-image');
-        if (!container || !img) return;
-        const rect = container.getBoundingClientRect();
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        const x = (clientX - rect.left) / rect.width;
-        const y = (clientY - rect.top) / rect.height;
-        img.style.transformOrigin = `${x * 100}% ${y * 100}%`;
-        img.style.transform = 'scale(2.5)';
-      };
-      
-      window.resetZoom = function() {
-        const img = document.getElementById('product-zoom-image');
-        if (img) img.style.transform = 'scale(1)';
       };
       
       // ==================== COLLAPSE SECTIONS ====================
@@ -1050,7 +1052,6 @@
         
         const mainImage = allImages[0] || '/logo.png';
         
-        // Reviews HTML
         const reviewsHTML = prodReviews.length ? prodReviews.map(r=>`
           <div style="background:white;padding:18px;border-radius:14px;border:1px solid #f3f4f6;margin-bottom:10px;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
@@ -1061,7 +1062,6 @@
             <p style="font-size:13px;color:#4b5563;line-height:1.6;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:13px;font-style:italic;text-align:center;padding:20px;">No reviews yet. Be the first to review!</p>';
         
-        // Colors HTML
         let colorsHTML = '';
         if (productColors.length > 0) {
           colorsHTML = `
@@ -1084,7 +1084,6 @@
             </div>`;
         }
         
-        // Sizes HTML
         let sizesHTML = '';
         if (productColors.length > 0) {
           sizesHTML = `
@@ -1096,12 +1095,8 @@
             </div>`;
         }
         
-        // Thumbnails
         const thumbnailsHTML = renderThumbnails(allImages, colorImagesData);
         
-        const safeBarcode = product.barcode ? product.barcode.replace(/'/g, "\\'").replace(/"/g, '&quot;') : '';
-        
-        // Stock display
         let stockDisplayHTML;
         if (productVariants.length > 0) {
           stockDisplayHTML = `
@@ -1114,28 +1109,21 @@
             <span style="font-size:13px;font-weight:700;color:${isOut?'#ef4444':'#16a34a'};">${isOut?'Out of Stock':'In Stock'}</span>`;
         }
         
-        // Build the complete HTML
         contentDiv.innerHTML = `
-        <!-- Full Width Image Section -->
         <div class="main-image-wrapper" style="margin-bottom:0;">
-          <div id="product-zoom-container" style="width:100%;aspect-ratio:4/5;max-height:85vh;background:#f5f5f7;cursor:crosshair;" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
-            <img id="product-zoom-image" src="${mainImage}" alt="${product.title || ''}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='/logo.png'">
+          <div id="product-zoom-container" onmousemove="zoomImage(event)" onmouseleave="resetZoom()" ontouchmove="zoomImage(event)" ontouchend="resetZoom()">
+            <img id="product-zoom-image" src="${mainImage}" alt="${product.title || ''}" onerror="this.src='/logo.png'">
           </div>
         </div>
         
-        <!-- Product Info Section -->
         <div style="padding:0 20px;max-width:720px;margin:0 auto;">
-          
-          <!-- Thumbnails -->
           ${thumbnailsHTML}
           
-          <!-- Category & Title -->
           <div style="margin-top:20px;">
             <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#007aff;">${product.category || ''}</span>
             <h1 style="font-size:26px;font-weight:700;margin:6px 0 16px;line-height:1.3;letter-spacing:-0.3px;">${product.title || ''}</h1>
           </div>
           
-          <!-- Price & Wishlist -->
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
             <div id="variant-price-display" style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;">
               <span style="font-size:32px;font-weight:900;">৳ ${product.price||0}</span>
@@ -1146,31 +1134,23 @@
             </button>
           </div>
           
-          <!-- Stock Status & Rating -->
           <div id="stock-status" style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
             ${stockDisplayHTML}
             ${avgRating?`<span style="font-size:12px;color:#9ca3af;margin-left:8px;"><i class="fa-solid fa-star" style="color:#ff9500;"></i> ${avgRating} (${prodReviews.length})</span>`:''}
           </div>
           
-          <!-- Short Description -->
           ${product.short_description ? `<p style="font-size:14px;color:#6b7280;margin-bottom:20px;line-height:1.7;">${product.short_description}</p>` : ''}
           
-          <!-- Color Selection -->
           ${colorsHTML}
-          
-          <!-- Size Selection -->
           ${sizesHTML}
           
-          <!-- Variant Info Badge -->
           <div id="variant-info" class="variant-info-badge" style="display:none;"></div>
           
-          <!-- Buy Buttons -->
           <div id="buy-section" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0;">
             <button id="add-to-bag-btn" onclick="addToCart(${product.id})" style="padding:16px;background:#1d1d1f;color:white;border:none;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:13px;cursor:pointer;letter-spacing:0.5px;">Add to Bag</button>
             <button id="buy-now-btn" onclick="addToCart(${product.id},true)" style="padding:16px;background:white;border:2px solid #1d1d1f;color:#1d1d1f;border-radius:16px;font-weight:700;text-transform:uppercase;font-size:13px;cursor:pointer;letter-spacing:0.5px;">Buy Now</button>
           </div>
           
-          <!-- Specifications -->
           <button class="toggle-btn" onclick="toggleCollapse('specs-collapse','specs-icon')">
             <span><i class="fa-solid fa-sliders" style="margin-right:10px;"></i>Specifications</span>
             <i id="specs-icon" class="fa-solid fa-chevron-down"></i>
@@ -1186,7 +1166,6 @@
             </div>
           </div>
           
-          <!-- Description -->
           ${product.description ? `
           <button class="toggle-btn" onclick="toggleCollapse('desc-collapse','desc-icon')">
             <span><i class="fa-solid fa-align-left" style="margin-right:10px;"></i>Description</span>
@@ -1196,9 +1175,8 @@
             <div class="description-content">${product.description}</div>
           </div>` : ''}
           
-          <!-- Barcode -->
-          ${(selectedVariant?.barcode || product.barcode) ? `
-          <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${(selectedVariant?.barcode || product.barcode || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">
+          ${(product.barcode) ? `
+          <button class="toggle-btn" onclick="toggleCollapse('barcode-collapse','barcode-icon', '${(product.barcode || '').replace(/'/g, "\\'").replace(/"/g, '&quot;')}')">
             <span><i class="fa-solid fa-upc" style="margin-right:10px;"></i>Barcode</span>
             <i id="barcode-icon" class="fa-solid fa-chevron-down"></i>
           </button>
@@ -1208,7 +1186,6 @@
             </div>
           </div>` : ''}
           
-          <!-- Reviews Section -->
           <div style="border-top:1px solid #f0f0f0;padding-top:32px;margin-top:28px;">
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
               <h3 style="font-size:22px;font-weight:700;">Reviews</h3>
@@ -1216,7 +1193,6 @@
             </div>
             <div style="margin-bottom:24px;">${reviewsHTML}</div>
             
-            <!-- Write Review -->
             <div style="background:#f5f5f7;padding:24px;border-radius:18px;">
               <h4 style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">Write a Review</h4>
               <div class="star-rating" style="margin-bottom:14px;">
@@ -1234,7 +1210,6 @@
           <div style="height:40px;"></div>
         </div>`;
         
-        // Complete the Look
         const related = getRandomProducts(product.id, 4);
         if (related.length) {
           ctlSection.style.display = 'block';
@@ -1243,11 +1218,9 @@
           ctlSection.style.display = 'none';
         }
         
-        // Initialize sticky bar
         initStickyBar();
         updateStickyBar();
         
-        // Trigger initial scroll check
         setTimeout(() => {
           if (scrollHandler) scrollHandler();
         }, 100);
@@ -1280,7 +1253,6 @@
             colorSizes = [];
           }
           
-          // Save to recent
           try {
             let recent = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
             recent = [product.id.toString(), ...recent.filter(id => id != product.id)].slice(0,8);
