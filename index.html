@@ -282,14 +282,15 @@
         
         .carousel-container {
             position: relative;
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0;
         }
         
         .carousel-header {
             text-align: center;
             margin-bottom: 40px;
+            padding: 0 20px;
         }
         
         .carousel-header .section-label {
@@ -319,34 +320,50 @@
             transition: gap 0.3s ease;
         }
         
-        .carousel-header .section-link:hover {
-            gap: 10px;
-        }
+        .carousel-header .section-link:hover { gap: 10px; }
         
         .carousel-wrapper {
             position: relative;
             overflow: hidden;
-            margin: 0 -10px;
         }
         
         .carousel-track {
             display: flex;
             gap: var(--card-gap);
             overflow-x: auto;
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             cursor: grab;
             user-select: none;
-            padding: 20px calc(50vw - var(--card-width) / 2);
+            padding: 20px 0;
             scroll-snap-type: x mandatory;
             scroll-padding: 0 calc(50vw - var(--card-width) / 2);
-            touch-action: pan-y pinch-zoom;
+            touch-action: pan-y;
+            -webkit-user-drag: none;
         }
         
         .carousel-track::-webkit-scrollbar { display: none; }
         .carousel-track:active { cursor: grabbing; }
-        .carousel-track.dragging { scroll-behavior: auto; }
+        .carousel-track.smooth-scroll { scroll-behavior: smooth; }
+
+        /* Spacer Cards for Alignment */
+        .carousel-spacer {
+            flex: 0 0 auto;
+            width: calc(50vw - var(--card-width) / 2 - var(--card-gap) / 2);
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            scroll-snap-align: none;
+        }
+        
+        .carousel-spacer-start {
+            width: calc(50vw - var(--card-width) / 2);
+        }
+        
+        .carousel-spacer-end {
+            width: calc(50vw - var(--card-width) / 2);
+        }
 
         /* Carousel Card */
         .carousel-card {
@@ -367,7 +384,7 @@
             flex-direction: column;
             will-change: transform;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            pointer-events: auto;
+            position: relative;
         }
         
         .carousel-card:hover {
@@ -376,9 +393,7 @@
             border-color: rgba(0,0,0,0.15);
         }
         
-        .carousel-card:active {
-            transform: scale(0.97);
-        }
+        .carousel-card:active { transform: scale(0.97); }
         
         .carousel-card.snap-active {
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
@@ -403,9 +418,7 @@
             pointer-events: none;
         }
         
-        .carousel-card:hover .card-img img {
-            transform: scale(1.08);
-        }
+        .carousel-card:hover .card-img img { transform: scale(1.08); }
 
         .carousel-card .card-body {
             padding: 16px 18px 18px;
@@ -458,18 +471,15 @@
             font-weight: 500;
         }
         
-        /* Add Button */
         .carousel-card .card-add-btn {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1.5px solid var(--glass-border);
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: center; justify-content: center;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: var(--primary);
@@ -480,303 +490,162 @@
         }
         
         .carousel-card .card-add-btn:hover {
-            background: var(--primary);
-            color: #fff;
+            background: var(--primary); color: #fff;
             border-color: var(--primary);
             box-shadow: 0 4px 16px rgba(0,0,0,0.2);
             transform: scale(1.05);
         }
-        
-        .carousel-card .card-add-btn:active {
-            transform: scale(0.9);
-        }
-        
-        .carousel-card .card-add-btn.disabled {
-            opacity: 0.3;
-            pointer-events: none;
-            background: rgba(245,245,247,0.5);
-        }
+        .carousel-card .card-add-btn:active { transform: scale(0.9); }
+        .carousel-card .card-add-btn.disabled { opacity: 0.3; pointer-events: none; background: rgba(245,245,247,0.5); }
 
-        /* Badges */
         .carousel-card .card-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            z-index: 2;
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            position: absolute; top: 12px; left: 12px; z-index: 2;
+            padding: 4px 12px; border-radius: 100px;
+            font-size: 9px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(0,0,0,0.08);
             pointer-events: none;
         }
-        
         .badge-new { background: rgba(255,255,255,0.8); color: var(--primary); border: 1px solid rgba(0,0,0,0.1); }
         .badge-hot { background: rgba(255,59,48,0.1); color: #d70015; border: 1px solid rgba(255,59,48,0.2); }
         .badge-sale { background: rgba(255,149,0,0.1); color: #c93400; border: 1px solid rgba(255,149,0,0.2); }
         .badge-limited { background: rgba(175,82,222,0.1); color: #8944ab; border: 1px solid rgba(175,82,222,0.2); }
         .badge-featured { background: rgba(0,122,255,0.1); color: #0066d6; border: 1px solid rgba(0,122,255,0.2); }
 
-        /* Wishlist Button */
         .carousel-card .card-wishlist-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            z-index: 2;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            position: absolute; top: 12px; right: 12px; z-index: 2;
+            width: 32px; height: 32px; border-radius: 50%;
             background: rgba(255,255,255,0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #8e8e93;
-            font-size: 12px;
-            opacity: 0;
-            transform: translateY(-4px);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
+            color: #8e8e93; font-size: 12px;
+            opacity: 0; transform: translateY(-4px);
             pointer-events: auto;
         }
-        
         .carousel-card.snap-active .card-wishlist-btn,
-        .carousel-card:hover .card-wishlist-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .carousel-card .card-wishlist-btn:hover {
-            color: #ff3b30;
-            background: #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .carousel-card .card-wishlist-btn.wished {
-            opacity: 1;
-            color: #ff3b30;
-            transform: translateY(0);
-        }
+        .carousel-card:hover .card-wishlist-btn { opacity: 1; transform: translateY(0); }
+        .carousel-card .card-wishlist-btn:hover { color: #ff3b30; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .carousel-card .card-wishlist-btn.wished { opacity: 1; color: #ff3b30; transform: translateY(0); }
 
-        /* Sold Out Overlay */
         .carousel-card .card-soldout-overlay {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5;
-            pointer-events: none;
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 5; pointer-events: none;
         }
-        
         .carousel-card .card-soldout-overlay span {
-            background: var(--primary);
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 8px 20px;
-            border-radius: 100px;
+            background: var(--primary); color: #fff;
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px;
+            padding: 8px 20px; border-radius: 100px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.15);
         }
 
-        /* Navigation Arrows - ON TOP of cards */
+        /* Navigation Arrows */
         .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            position: absolute; top: 50%; transform: translateY(-50%);
             z-index: 20;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
+            width: 44px; height: 44px; border-radius: 50%;
             background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1.5px solid rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: var(--primary);
-            font-size: 16px;
+            color: var(--primary); font-size: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             outline: none;
-            -webkit-tap-highlight-color: transparent;
         }
-        
         .carousel-nav:hover {
             background: #fff;
             transform: translateY(-50%) scale(1.1);
             box-shadow: 0 8px 32px rgba(0,0,0,0.2);
             border-color: rgba(0,0,0,0.2);
         }
-        
-        .carousel-nav:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-        
-        .carousel-nav.prev { left: 16px; }
-        .carousel-nav.next { right: 16px; }
-        
-        .carousel-nav.disabled {
-            opacity: 0.3;
-            pointer-events: none;
-        }
+        .carousel-nav:active { transform: translateY(-50%) scale(0.95); }
+        .carousel-nav.prev { left: 20px; }
+        .carousel-nav.next { right: 20px; }
 
         @media (max-width: 640px) {
-            .carousel-nav {
-                width: 38px;
-                height: 38px;
-                font-size: 14px;
-            }
+            .carousel-nav { width: 38px; height: 38px; font-size: 14px; }
             .carousel-nav.prev { left: 8px; }
             .carousel-nav.next { right: 8px; }
         }
 
         /* Dot Indicators */
         .carousel-dots-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 28px;
+            display: flex; justify-content: center; align-items: center;
+            gap: 10px; margin-top: 28px;
             padding: 8px 20px;
             background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: 100px;
             width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: auto; margin-right: auto;
             border: 1px solid rgba(0,0,0,0.06);
             box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
-        
         .carousel-dots-container .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
+            width: 10px; height: 10px; border-radius: 50%;
             background: rgba(0,0,0,0.15);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            flex-shrink: 0;
+            position: relative; flex-shrink: 0;
         }
-        
-        .carousel-dots-container .carousel-dot:hover {
-            background: rgba(0,0,0,0.3);
-            transform: scale(1.2);
-        }
-        
+        .carousel-dots-container .carousel-dot:hover { background: rgba(0,0,0,0.3); transform: scale(1.2); }
         .carousel-dots-container .carousel-dot.active {
             background: var(--primary);
-            width: 28px;
-            border-radius: 5px;
+            width: 28px; border-radius: 5px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        
-        .carousel-dots-container .carousel-dot.active::after {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 8px;
-            background: transparent;
-            border: 2px solid rgba(0,0,0,0.1);
         }
 
         .carousel-section {
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 0; transform: translateY(20px);
             transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .carousel-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .carousel-section.visible { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 640px) {
-            :root {
-                --card-width: 240px;
-                --card-gap: 14px;
-            }
-            .carousel-track { padding: 16px calc(50vw - var(--card-width) / 2); }
+            :root { --card-width: 240px; --card-gap: 14px; }
             .carousel-card .card-body { padding: 12px 14px 14px; }
             .carousel-header .section-title { font-size: 24px; }
             .carousel-dots-container { gap: 8px; padding: 6px 16px; }
             .carousel-dots-container .carousel-dot { width: 8px; height: 8px; }
             .carousel-dots-container .carousel-dot.active { width: 24px; }
         }
-        
         @media (min-width: 641px) and (max-width: 1023px) {
-            :root {
-                --card-width: 260px;
-                --card-gap: 18px;
-            }
+            :root { --card-width: 260px; --card-gap: 18px; }
         }
-        
         @media (min-width: 1024px) {
-            :root {
-                --card-width: 300px;
-                --card-gap: 24px;
-            }
+            :root { --card-width: 300px; --card-gap: 24px; }
         }
 
         .auth-input-wrapper { position: relative; }
-        .auth-input-wrapper .input-icon {
-            position: absolute; left: 14px; top: 50%;
-            transform: translateY(-50%); color: #86868b;
-            font-size: 14px; transition: color 0.2s ease; pointer-events: none;
-        }
+        .auth-input-wrapper .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #86868b; font-size: 14px; transition: color 0.2s ease; pointer-events: none; }
         .auth-input-wrapper input:focus ~ .input-icon,
         .auth-input-wrapper textarea:focus ~ .input-icon { color: #007aff; }
         .auth-input-wrapper input, .auth-input-wrapper textarea {
-            padding-left: 40px; padding-right: 14px;
-            padding-top: 13px; padding-bottom: 13px;
-            width: 100%; border: 1.5px solid #e5e5e5;
-            border-radius: 12px; font-size: 14px;
+            padding-left: 40px; padding-right: 14px; padding-top: 13px; padding-bottom: 13px;
+            width: 100%; border: 1.5px solid #e5e5e5; border-radius: 12px; font-size: 14px;
             outline: none; transition: all 0.2s ease;
-            background: rgba(245,245,247,0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(245,245,247,0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             font-family: 'Inter', sans-serif;
         }
-        .auth-input-wrapper input:focus, .auth-input-wrapper textarea:focus {
-            border-color: #007aff; background: white;
-            box-shadow: 0 0 0 3px rgba(0,122,255,0.1);
-        }
+        .auth-input-wrapper input:focus, .auth-input-wrapper textarea:focus { border-color: #007aff; background: white; box-shadow: 0 0 0 3px rgba(0,122,255,0.1); }
 
         .cookie-consent-overlay {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(29,29,31,0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 9999;
-            transform: translateY(100%);
+            background: rgba(29,29,31,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 9999; transform: translateY(100%);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         .cookie-consent-overlay.show { transform: translateY(0); }
-        .cookie-banner {
-            max-width: 1200px; margin: 0 auto;
-            padding: 16px 24px; display: flex;
-            align-items: center; justify-content: space-between;
-            gap: 20px; flex-wrap: wrap;
-        }
+        .cookie-banner { max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
         .cookie-icon { width: 40px; height: 40px; background: #007aff; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .cookie-text { flex: 1; min-width: 200px; color: white; }
         .cookie-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #fff; }
@@ -796,32 +665,23 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
-        
         .hero-banner-container { position: relative; }
-        .hero-overlay {
-            background: linear-gradient(to bottom, 
-                rgba(0,0,0,0.1) 0%, 
-                rgba(0,0,0,0.3) 50%, 
-                rgba(0,0,0,0.7) 100%);
-        }
+        .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%); }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- ⚡ হেডার অটো-লোড হবে components.js থেকে -->
 
-    <!-- Order Loader -->
     <div id="order-loader-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,0.98);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;">
         <div style="width:44px;height:44px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.6s linear infinite;"></div>
         <p class="mt-4 font-black uppercase tracking-[0.3em] text-xs">Processing Order...</p>
     </div>
 
-    <!-- Main Content -->
     <main class="pt-14 sm:pt-16 lg:pt-20">
         
         <section id="home" class="page-section active-page fade-in">
             
-            <!-- Hero Banner -->
             <div class="relative overflow-hidden hero-img bg-gray-100 hero-banner-container" style="height:50vh;min-height:280px;" id="hero-container">
                 <div id="hero-banner-slides" class="absolute inset-0"></div>
                 <div class="absolute inset-0 hero-overlay z-10"></div>
@@ -835,7 +695,6 @@
                 </div>
             </div>
 
-            <!-- Search Bar -->
             <div class="max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto px-4 -mt-6 sm:-mt-8 relative z-30">
                 <div class="bg-white/80 backdrop-blur-2xl shadow-2xl rounded-2xl p-1.5 sm:p-2 flex gap-1.5 sm:gap-2 border border-white/50">
                     <div class="relative flex-grow">
@@ -857,7 +716,7 @@
                     </div>
                     <div class="carousel-wrapper" id="new-arrivals-wrapper">
                         <button onclick="slideCarousel('new-arrivals-carousel', 'prev')" class="carousel-nav prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-                        <div id="new-arrivals-carousel" class="carousel-track" data-speed="0.4" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <div id="new-arrivals-carousel" class="carousel-track smooth-scroll" data-speed="0.4"></div>
                         <button onclick="slideCarousel('new-arrivals-carousel', 'next')" class="carousel-nav next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="carousel-dots-container" id="new-arrivals-dots"></div>
@@ -874,7 +733,7 @@
                     </div>
                     <div class="carousel-wrapper" id="hot-products-wrapper">
                         <button onclick="slideCarousel('hot-products-carousel', 'prev')" class="carousel-nav prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-                        <div id="hot-products-carousel" class="carousel-track" data-speed="0.6" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <div id="hot-products-carousel" class="carousel-track smooth-scroll" data-speed="0.6"></div>
                         <button onclick="slideCarousel('hot-products-carousel', 'next')" class="carousel-nav next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="carousel-dots-container" id="hot-products-dots"></div>
@@ -891,7 +750,7 @@
                     </div>
                     <div class="carousel-wrapper" id="featured-products-wrapper">
                         <button onclick="slideCarousel('featured-products-carousel', 'prev')" class="carousel-nav prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-                        <div id="featured-products-carousel" class="carousel-track" data-speed="0.5" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <div id="featured-products-carousel" class="carousel-track smooth-scroll" data-speed="0.5"></div>
                         <button onclick="slideCarousel('featured-products-carousel', 'next')" class="carousel-nav next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="carousel-dots-container" id="featured-products-dots"></div>
@@ -908,7 +767,7 @@
                     </div>
                     <div class="carousel-wrapper" id="best-selling-wrapper">
                         <button onclick="slideCarousel('best-selling-carousel', 'prev')" class="carousel-nav prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-                        <div id="best-selling-carousel" class="carousel-track" data-speed="0.55" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <div id="best-selling-carousel" class="carousel-track smooth-scroll" data-speed="0.55"></div>
                         <button onclick="slideCarousel('best-selling-carousel', 'next')" class="carousel-nav next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="carousel-dots-container" id="best-selling-dots"></div>
@@ -925,7 +784,7 @@
                     </div>
                     <div class="carousel-wrapper" id="on-sale-wrapper">
                         <button onclick="slideCarousel('on-sale-carousel', 'prev')" class="carousel-nav prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-                        <div id="on-sale-carousel" class="carousel-track" data-speed="0.7" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <div id="on-sale-carousel" class="carousel-track smooth-scroll" data-speed="0.7"></div>
                         <button onclick="slideCarousel('on-sale-carousel', 'next')" class="carousel-nav next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="carousel-dots-container" id="on-sale-dots"></div>
@@ -942,11 +801,11 @@
                     </div>
                     <div class="carousel-wrapper" id="limited-edition-wrapper">
                         <button onclick="slideCarousel('limited-edition-carousel', 'prev')" class="carousel-nav prev" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); color: #fff;" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-                        <div id="limited-edition-carousel" class="carousel-track" data-speed="0.5" onmouseenter="pauseCarousel(this)" onmouseleave="resumeCarousel(this)"></div>
+                        <div id="limited-edition-carousel" class="carousel-track smooth-scroll" data-speed="0.5"></div>
                         <button onclick="slideCarousel('limited-edition-carousel', 'next')" class="carousel-nav next" style="background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2); color: #fff;" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="carousel-dots-container" id="limited-edition-dots" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
-                        <style>#limited-edition-dots .carousel-dot{background:rgba(255,255,255,0.3)}#limited-edition-dots .carousel-dot.active{background:#fff}#limited-edition-dots .carousel-dot.active::after{border-color:rgba(255,255,255,0.3)}</style>
+                        <style>#limited-edition-dots .carousel-dot{background:rgba(255,255,255,0.3)}#limited-edition-dots .carousel-dot.active{background:#fff}</style>
                     </div>
                 </div>
             </section>
@@ -954,9 +813,7 @@
             <!-- Recently Viewed -->
             <section id="recent-products-section" class="py-12 sm:py-16 lg:py-20 hidden">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div class="text-center mb-8 sm:mb-10">
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">Recently Viewed</h2>
-                    </div>
+                    <div class="text-center mb-8 sm:mb-10"><h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary">Recently Viewed</h2></div>
                     <div id="recent-products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
                 </div>
             </section>
@@ -968,18 +825,8 @@
                 <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
                     <aside class="hidden lg:block w-56 xl:w-64 shrink-0">
                         <div class="sticky top-24 space-y-6">
-                            <div>
-                                <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider mb-3">Categories</h3>
-                                <div id="sidebar-categories" class="space-y-1 max-h-[60vh] overflow-y-auto custom-scroll pr-2"></div>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider mb-3">Price Range</h3>
-                                <div class="flex gap-2">
-                                    <input type="number" id="filter-min-price" placeholder="Min" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs">
-                                    <input type="number" id="filter-max-price" placeholder="Max" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs">
-                                </div>
-                                <button onclick="applyPriceFilter()" class="mt-2 w-full py-2 bg-primary text-white rounded-lg text-[10px] font-bold uppercase hover:bg-blue transition">Apply</button>
-                            </div>
+                            <div><h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider mb-3">Categories</h3><div id="sidebar-categories" class="space-y-1 max-h-[60vh] overflow-y-auto custom-scroll pr-2"></div></div>
+                            <div><h3 class="font-bold text-xs sm:text-sm uppercase tracking-wider mb-3">Price Range</h3><div class="flex gap-2"><input type="number" id="filter-min-price" placeholder="Min" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs"><input type="number" id="filter-max-price" placeholder="Max" class="w-full p-2 border rounded-lg text-[10px] sm:text-xs"></div><button onclick="applyPriceFilter()" class="mt-2 w-full py-2 bg-primary text-white rounded-lg text-[10px] font-bold uppercase hover:bg-blue transition">Apply</button></div>
                         </div>
                     </aside>
                     <div class="flex-grow min-w-0">
@@ -1013,23 +860,16 @@
             </div>
         </section>
 
-        <!-- Product Details -->
         <section id="product-details" class="page-section"></section>
 
-        <!-- Wishlist Page -->
         <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary text-center mb-8 sm:mb-12">My Wishlist</h2>
                 <div id="wishlist-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6"></div>
-                <div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden">
-                    <i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i>
-                    <p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p>
-                    <a href="/products" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-blue transition no-underline inline-block">Start Shopping</a>
-                </div>
+                <div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden"><i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i><p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p><a href="/products" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-blue transition no-underline inline-block">Start Shopping</a></div>
             </div>
         </section>
         
-        <!-- News Page -->
         <section id="news" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary text-center mb-2 sm:mb-4">The Journal</h2>
@@ -1037,12 +877,9 @@
                 <div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8"></div>
             </div>
         </section>
-        
     </main>
 
-    <!-- ⚡ ফুটার অটো-লোড হবে components.js থেকে -->
-
-    <!-- Edit Profile Modal -->
+    <!-- Modals remain same -->
     <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);">
         <div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto">
             <button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button>
@@ -1050,17 +887,13 @@
             <div class="space-y-3 sm:space-y-4">
                 <div class="auth-input-wrapper"><i class="fa-solid fa-user input-icon"></i><input type="text" id="edit-name" placeholder="Full Name" autocomplete="name"></div>
                 <div class="auth-input-wrapper"><i class="fa-solid fa-phone input-icon"></i><input type="tel" id="edit-phone" placeholder="Phone Number" autocomplete="tel-national"></div>
-                <div class="grid grid-cols-2 gap-2 sm:gap-3">
-                    <div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div>
-                    <div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div>
-                </div>
+                <div class="grid grid-cols-2 gap-2 sm:gap-3"><div class="auth-input-wrapper"><i class="fa-solid fa-city input-icon"></i><input type="text" id="edit-district" placeholder="District"></div><div class="auth-input-wrapper"><i class="fa-solid fa-map-pin input-icon"></i><input type="text" id="edit-subdistrict" placeholder="Upazila"></div></div>
                 <div class="auth-input-wrapper"><i class="fa-solid fa-location-dot input-icon" style="top:16px;transform:none;"></i><textarea id="edit-address" placeholder="Full Address" class="h-16 sm:h-20" autocomplete="street-address" style="padding-left:40px;"></textarea></div>
                 <button onclick="handleUpdateProfile()" class="w-full py-3 sm:py-4 bg-primary text-white rounded-xl font-bold uppercase text-[10px] sm:text-xs tracking-wider hover:bg-blue transition">Save</button>
             </div>
         </div>
     </div>
 
-    <!-- Order Details Modal -->
     <div id="order-details-modal" class="premium-modal fixed inset-0 z-[150] hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);">
         <div class="bg-white w-full max-w-sm sm:max-w-lg rounded-3xl p-6 sm:p-8 relative max-h-[85dvh] overflow-y-auto custom-scroll">
             <button onclick="closeOrderDetails()" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button>
@@ -1070,7 +903,6 @@
         </div>
     </div>
 
-    <!-- Policy Modal -->
     <div id="policy-modal" class="premium-modal fixed inset-0 z-[130] hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);">
         <div class="bg-white w-full max-w-sm sm:max-w-2xl rounded-3xl p-6 sm:p-10 relative max-h-[80dvh] overflow-y-auto custom-scroll">
             <button onclick="document.getElementById('policy-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary text-lg sm:text-xl"><i class="fa-solid fa-xmark"></i></button>
@@ -1079,29 +911,21 @@
         </div>
     </div>
 
-    <!-- Cookie Consent -->
     <div id="cookieConsent" class="cookie-consent-overlay">
         <div class="cookie-banner">
             <div class="cookie-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
             <div class="cookie-text"><h4>We Value Your Privacy</h4><p>We use cookies to enhance your browsing experience. <a href="#" onclick="event.preventDefault();openPolicy('privacy')">Privacy Policy</a></p></div>
-            <div class="cookie-buttons">
-                <button class="cookie-btn decline" onclick="handleCookieDecline()">Decline All</button>
-                <button class="cookie-btn accept" onclick="handleCookieAccept()">Accept All Cookies</button>
-            </div>
+            <div class="cookie-buttons"><button class="cookie-btn decline" onclick="handleCookieDecline()">Decline All</button><button class="cookie-btn accept" onclick="handleCookieAccept()">Accept All Cookies</button></div>
         </div>
     </div>
 
-    <!-- Messenger Button -->
     <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
-        <a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary/90 backdrop-blur-xl text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-blue transition-all no-underline border border-white/10">
-            <i class="fa-brands fa-facebook-messenger"></i>
-        </a>
+        <a href="https://m.me/861762253694814" target="_blank" rel="noopener noreferrer" class="w-12 h-12 sm:w-14 sm:h-14 bg-primary/90 backdrop-blur-xl text-white rounded-full flex items-center justify-center text-lg sm:text-xl shadow-2xl hover:bg-blue transition-all no-underline border border-white/10"><i class="fa-brands fa-facebook-messenger"></i></a>
         <span class="absolute top-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full border-2 border-white"></span>
     </div>
 
     <!-- ==================== SCRIPTS ==================== -->
     <script>
-        // ⚡ Supabase Client
         const _supabaseLocal = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], orders: [] };
@@ -1113,483 +937,199 @@
         const BASE_URL = 'https://www.jayenware.shop';
         const carouselStates = {};
 
-        // ==================== UTILITIES ====================
-        function getCategorySlug(category) { 
-            if (!category) return ''; 
-            return category.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-').replace(/^-+|-+$/g, ''); 
-        }
+        function getCategorySlug(c) { if(!c) return ''; return c.toLowerCase().replace(/[^\w\s-]/g,'').replace(/[\s_]+/g,'-').replace(/^-+|-+$/g,''); }
+        function updateURL(path, title = '') { const url = BASE_URL + path; window.history.pushState({ path }, title || 'JAYENWARE', path); document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE'; const canonical = document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href = url; }
 
-        function updateURL(path, title = '') {
-            const url = BASE_URL + path;
-            window.history.pushState({ path: path }, title || 'JAYENWARE', path);
-            document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE';
-            const canonical = document.querySelector('link[rel="canonical"]');
-            if (canonical) canonical.href = url;
-        }
-
-        // ==================== NAVIGATION ====================
         function navigate(pageId, params = null) {
-            if (pageId !== 'home') cleanupAllCarousels();
+            if(pageId !== 'home') cleanupAllCarousels();
             const mainContent = document.querySelector('main');
-            mainContent.style.transition = 'opacity 0.2s ease';
-            mainContent.style.opacity = '0.8';
-            
+            mainContent.style.transition = 'opacity 0.2s ease'; mainContent.style.opacity = '0.8';
             requestAnimationFrame(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                document.querySelectorAll('.page-section').forEach(s => { 
-                    s.classList.remove('active-page', 'fade-in'); 
-                    s.style.display = 'none'; 
-                });
-                
+                document.querySelectorAll('.page-section').forEach(s => { s.classList.remove('active-page','fade-in'); s.style.display = 'none'; });
                 const target = document.getElementById(pageId);
-                if (!target) return;
-                target.style.display = 'block';
-                target.offsetHeight;
-                
+                if(!target) return;
+                target.style.display = 'block'; target.offsetHeight;
                 let urlPath = '/' + pageId;
-                if (params && params.category) {
-                    urlPath = '/category/' + getCategorySlug(params.category);
-                    updateURL(urlPath, params.category);
-                } else if (params && params.search) {
-                    urlPath = '/search?q=' + encodeURIComponent(params.search);
-                    updateURL(urlPath, 'Search: ' + params.search);
-                } else {
-                    updateURL(urlPath);
-                }
-                
-                if (pageId === 'home') { renderHomepageSections(); renderRecentlyViewed(); }
-                if (pageId === 'wishlist') renderWishlist();
-                if (pageId === 'products') renderProducts(getFilteredProducts());
-                
-                requestAnimationFrame(() => { 
-                    target.classList.add('active-page', 'fade-in'); 
-                    setTimeout(() => { mainContent.style.opacity = '1'; }, 100); 
-                });
+                if(params && params.category) { urlPath = '/category/' + getCategorySlug(params.category); updateURL(urlPath, params.category); }
+                else if(params && params.search) { urlPath = '/search?q=' + encodeURIComponent(params.search); updateURL(urlPath, 'Search: ' + params.search); }
+                else updateURL(urlPath);
+                if(pageId === 'home') { renderHomepageSections(); renderRecentlyViewed(); }
+                if(pageId === 'wishlist') renderWishlist();
+                if(pageId === 'products') renderProducts(getFilteredProducts());
+                requestAnimationFrame(() => { target.classList.add('active-page','fade-in'); setTimeout(() => { mainContent.style.opacity = '1'; }, 100); });
             });
         }
 
-        // ==================== HERO ====================
         function renderHero() {
-            const container = document.getElementById('hero-banner-slides');
-            const list = currentData.hero;
-            if (!list.length) {
-                container.innerHTML = '<div class="w-full h-full bg-primary"></div>';
-                return;
-            }
-            container.innerHTML = list.map((h, i) => 
-                `<div class="hero-slide absolute inset-0 transition-opacity duration-1000 ${i === 0 ? '' : 'opacity-0'}">
-                    <img src="${h.img}" alt="${h.title || 'JAYENWARE Hero'}" class="w-full h-full object-cover" loading="${i === 0 ? 'eager' : 'lazy'}">
-                </div>`
-            ).join('');
-            updateHeroText(0);
-            clearInterval(slideInterval);
-            if (list.length > 1) {
-                slideInterval = setInterval(() => {
-                    currentSlide = (currentSlide + 1) % list.length;
-                    updateHeroSlide();
-                }, 5000);
-            }
+            const container = document.getElementById('hero-banner-slides'), list = currentData.hero;
+            if(!list.length) { container.innerHTML = '<div class="w-full h-full bg-primary"></div>'; return; }
+            container.innerHTML = list.map((h,i) => `<div class="hero-slide absolute inset-0 transition-opacity duration-1000 ${i===0?'':'opacity-0'}"><img src="${h.img}" alt="${h.title||'JAYENWARE Hero'}" class="w-full h-full object-cover" loading="${i===0?'eager':'lazy'}"></div>`).join('');
+            updateHeroText(0); clearInterval(slideInterval);
+            if(list.length > 1) slideInterval = setInterval(() => { currentSlide = (currentSlide+1)%list.length; updateHeroSlide(); }, 5000);
         }
+        function updateHeroSlide() { document.querySelectorAll('.hero-slide').forEach((s,i) => s.classList.toggle('opacity-0', i!==currentSlide)); updateHeroText(currentSlide); }
+        function updateHeroText(i) { const d = currentData.hero[i]; if(d) { document.getElementById('hero-title').innerText = d.title||'JAYENWARE'; document.getElementById('hero-subtitle').innerText = d.subtitle||''; } }
 
-        function updateHeroSlide() {
-            document.querySelectorAll('.hero-slide').forEach((s, i) => s.classList.toggle('opacity-0', i !== currentSlide));
-            updateHeroText(currentSlide);
-        }
-
-        function updateHeroText(i) {
-            const d = currentData.hero[i];
-            if (d) {
-                document.getElementById('hero-title').innerText = d.title || 'JAYENWARE';
-                document.getElementById('hero-subtitle').innerText = d.subtitle || '';
-            }
-        }
-
-        // ==================== CATEGORIES ====================
         function renderCategories() {
-            document.getElementById('sidebar-categories').innerHTML = 
-                `<a href="/products" onclick="event.preventDefault();filterByCategory('all')" class="block w-full text-left py-2 px-3 rounded-lg text-[10px] sm:text-xs font-bold hover:bg-gray-100 transition no-underline text-primary ${currentFilters.cat === 'all' ? 'bg-primary text-white' : ''}">All</a>` +
-                currentData.categories.map(c => 
-                    `<a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();filterByCategory('${c.name}')" class="block w-full text-left py-2 px-3 rounded-lg text-[10px] sm:text-xs font-bold hover:bg-gray-100 transition no-underline text-primary ${currentFilters.cat === c.name ? 'bg-primary text-white' : ''}">${c.name}</a>`
-                ).join('');
+            document.getElementById('sidebar-categories').innerHTML = `<a href="/products" onclick="event.preventDefault();filterByCategory('all')" class="block w-full text-left py-2 px-3 rounded-lg text-[10px] sm:text-xs font-bold hover:bg-gray-100 transition no-underline text-primary ${currentFilters.cat==='all'?'bg-primary text-white':''}">All</a>` + currentData.categories.map(c => `<a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();filterByCategory('${c.name}')" class="block w-full text-left py-2 px-3 rounded-lg text-[10px] sm:text-xs font-bold hover:bg-gray-100 transition no-underline text-primary ${currentFilters.cat===c.name?'bg-primary text-white':''}">${c.name}</a>`).join('');
         }
 
-        // ==================== MEGA MENU ====================
         function renderMegaMenu() {
-            const catContainer = document.getElementById('mega-menu-categories');
-            const prodContainer = document.getElementById('mega-menu-products');
-            if (!catContainer || !prodContainer) return;
-            
-            catContainer.innerHTML = '<div class="menu-category-title">Categories</div>' + 
-                currentData.categories.map(c => 
-                    `<a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();navigate('products');filterByCategory('${c.name}')" class="block py-2.5 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition no-underline">${c.name}</a>`
-                ).join('');
-            
-            const featuredProducts = currentData.products.filter(p => p.is_featured).slice(0, 6);
-            prodContainer.innerHTML = '<div class="menu-category-title">Featured Products</div><div class="grid grid-cols-2 gap-3">' +
-                (featuredProducts.length ? featuredProducts.map(p => 
-                    `<a href="/product/${getProductSlug(p)}" class="menu-product-item">
-                        <img src="${p.img}" class="menu-product-img" alt="${p.title}" loading="lazy">
-                        <div class="min-w-0">
-                            <p class="text-[11px] font-bold text-primary truncate">${p.title}</p>
-                            <p class="text-[10px] text-gray-400 uppercase">${p.category}</p>
-                            <p class="text-[12px] font-black text-primary mt-1">৳${p.price}</p>
-                        </div>
-                    </a>`
-                ).join('') : '<p class="text-gray-400 text-xs p-4">No featured products</p>') + '</div>';
+            const catC = document.getElementById('mega-menu-categories'), prodC = document.getElementById('mega-menu-products');
+            if(!catC||!prodC) return;
+            catC.innerHTML = '<div class="menu-category-title">Categories</div>' + currentData.categories.map(c => `<a href="/category/${getCategorySlug(c.name)}" onclick="event.preventDefault();navigate('products');filterByCategory('${c.name}')" class="block py-2.5 px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition no-underline">${c.name}</a>`).join('');
+            const fp = currentData.products.filter(p => p.is_featured).slice(0,6);
+            prodC.innerHTML = '<div class="menu-category-title">Featured Products</div><div class="grid grid-cols-2 gap-3">' + (fp.length ? fp.map(p => `<a href="/product/${getProductSlug(p)}" class="menu-product-item"><img src="${p.img}" class="menu-product-img" alt="${p.title}" loading="lazy"><div class="min-w-0"><p class="text-[11px] font-bold text-primary truncate">${p.title}</p><p class="text-[10px] text-gray-400 uppercase">${p.category}</p><p class="text-[12px] font-black text-primary mt-1">৳${p.price}</p></div></a>`).join('') : '<p class="text-gray-400 text-xs p-4">No featured products</p>') + '</div>';
         }
 
-        // ==================== FILTERS ====================
-        function getFilteredProducts() { 
-            let list = currentData.products; 
-            if (currentFilters.cat !== 'all') list = list.filter(p => p.category === currentFilters.cat); 
-            if (currentFilters.minPrice) list = list.filter(p => p.price >= currentFilters.minPrice); 
-            if (currentFilters.maxPrice) list = list.filter(p => p.price <= currentFilters.maxPrice); 
-            return list; 
-        }
-
-        function filterByCategory(cat) { 
-            const grid = document.getElementById('products-grid'); 
-            grid.style.transition = 'opacity 0.2s ease'; 
-            grid.style.opacity = '0.5'; 
-            setTimeout(() => { 
-                currentFilters.cat = cat; 
-                productsDisplayLimit = 12; 
-                renderProducts(getFilteredProducts()); 
-                grid.style.opacity = '1'; 
-                if (cat === 'all') updateURL('/products', 'All Products'); 
-                else updateURL('/category/' + getCategorySlug(cat), cat); 
-            }, 200); 
-        }
-
-        function applyPriceFilter() { 
-            currentFilters.minPrice = parseFloat(document.getElementById('filter-min-price').value) || null; 
-            currentFilters.maxPrice = parseFloat(document.getElementById('filter-max-price').value) || null; 
-            productsDisplayLimit = 12; 
-            renderProducts(getFilteredProducts()); 
-        }
-
-        function loadMoreProducts() { 
-            productsDisplayLimit += productsLoadMoreIncrement; 
-            renderProducts(getFilteredProducts()); 
-            showToast('More products loaded!', 'info'); 
-        }
-
-        function toggleMobileFilters() {
-            const modal = document.getElementById('mobile-filter-modal');
-            if (modal.classList.contains('hidden')) {
-                const catDiv = document.getElementById('mobile-filter-categories');
-                catDiv.innerHTML = `<button onclick="filterByCategory('all');highlightMobileCat(this)" class="block w-full text-left py-2 px-3 rounded-lg text-sm font-bold ${currentFilters.cat === 'all' ? 'bg-primary text-white' : ''}">All</button>` + 
-                    currentData.categories.map(c => `<button onclick="filterByCategory('${c.name}');highlightMobileCat(this)" class="block w-full text-left py-2 px-3 rounded-lg text-sm font-bold ${currentFilters.cat === c.name ? 'bg-primary text-white' : ''}">${c.name}</button>`).join('');
-                document.getElementById('m-filter-min-price').value = currentFilters.minPrice || ''; 
-                document.getElementById('m-filter-max-price').value = currentFilters.maxPrice || '';
-            }
-            modal.classList.toggle('hidden');
-        }
-
-        function highlightMobileCat(btn) { 
-            document.querySelectorAll('#mobile-filter-categories button').forEach(b => b.classList.remove('bg-primary', 'text-white')); 
-            btn.classList.add('bg-primary', 'text-white'); 
-        }
-
-        function applyMobileFilters() { 
-            currentFilters.minPrice = parseFloat(document.getElementById('m-filter-min-price').value) || null; 
-            currentFilters.maxPrice = parseFloat(document.getElementById('m-filter-max-price').value) || null; 
-            productsDisplayLimit = 12; 
-            renderProducts(getFilteredProducts()); 
-        }
-
+        function getFilteredProducts() { let list = currentData.products; if(currentFilters.cat!=='all') list = list.filter(p => p.category===currentFilters.cat); if(currentFilters.minPrice) list = list.filter(p => p.price>=currentFilters.minPrice); if(currentFilters.maxPrice) list = list.filter(p => p.price<=currentFilters.maxPrice); return list; }
+        function filterByCategory(cat) { const grid = document.getElementById('products-grid'); grid.style.transition='opacity 0.2s ease'; grid.style.opacity='0.5'; setTimeout(() => { currentFilters.cat=cat; productsDisplayLimit=12; renderProducts(getFilteredProducts()); grid.style.opacity='1'; if(cat==='all') updateURL('/products','All Products'); else updateURL('/category/'+getCategorySlug(cat),cat); },200); }
+        function applyPriceFilter() { currentFilters.minPrice=parseFloat(document.getElementById('filter-min-price').value)||null; currentFilters.maxPrice=parseFloat(document.getElementById('filter-max-price').value)||null; productsDisplayLimit=12; renderProducts(getFilteredProducts()); }
+        function loadMoreProducts() { productsDisplayLimit+=productsLoadMoreIncrement; renderProducts(getFilteredProducts()); showToast('More products loaded!','info'); }
+        function toggleMobileFilters() { const modal=document.getElementById('mobile-filter-modal'); if(modal.classList.contains('hidden')){ const catDiv=document.getElementById('mobile-filter-categories'); catDiv.innerHTML=`<button onclick="filterByCategory('all');highlightMobileCat(this)" class="block w-full text-left py-2 px-3 rounded-lg text-sm font-bold ${currentFilters.cat==='all'?'bg-primary text-white':''}">All</button>`+currentData.categories.map(c=>`<button onclick="filterByCategory('${c.name}');highlightMobileCat(this)" class="block w-full text-left py-2 px-3 rounded-lg text-sm font-bold ${currentFilters.cat===c.name?'bg-primary text-white':''}">${c.name}</button>`).join(''); document.getElementById('m-filter-min-price').value=currentFilters.minPrice||''; document.getElementById('m-filter-max-price').value=currentFilters.maxPrice||''; } modal.classList.toggle('hidden'); }
+        function highlightMobileCat(btn) { document.querySelectorAll('#mobile-filter-categories button').forEach(b=>b.classList.remove('bg-primary','text-white')); btn.classList.add('bg-primary','text-white'); }
+        function applyMobileFilters() { currentFilters.minPrice=parseFloat(document.getElementById('m-filter-min-price').value)||null; currentFilters.maxPrice=parseFloat(document.getElementById('m-filter-max-price').value)||null; productsDisplayLimit=12; renderProducts(getFilteredProducts()); }
         function toggleSortMenu() { document.getElementById('sort-dropdown').classList.toggle('hidden'); }
+        function handleSorting(type,label) { document.getElementById('current-sort-label').innerText=label; document.getElementById('sort-dropdown').classList.add('hidden'); let sorted=[...getFilteredProducts()]; if(type==='price-low') sorted.sort((a,b)=>a.price-b.price); else if(type==='price-high') sorted.sort((a,b)=>b.price-a.price); else sorted.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); productsDisplayLimit=12; renderProducts(sorted); }
 
-        function handleSorting(type, label) { 
-            document.getElementById('current-sort-label').innerText = label; 
-            document.getElementById('sort-dropdown').classList.add('hidden'); 
-            let sorted = [...getFilteredProducts()]; 
-            if (type === 'price-low') sorted.sort((a, b) => a.price - b.price); 
-            else if (type === 'price-high') sorted.sort((a, b) => b.price - a.price); 
-            else sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); 
-            productsDisplayLimit = 12; 
-            renderProducts(sorted); 
-        }
+        function productCard(p) { const isOut=p.stock<=0, wished=wishlist.includes(p.id); return `<a href="/product/${getProductSlug(p)}" class="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 cursor-pointer group no-underline block"><div class="product-img-container" style="aspect-ratio:3/4;"><img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy"><button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 backdrop-blur-xl rounded-full flex items-center justify-center ${wished?'text-red-500':'text-gray-400'} active:scale-95 transition border border-gray-100"><i class="fa-${wished?'solid':'regular'} fa-heart text-[10px] sm:text-xs"></i></button>${isOut?'<div class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center"><span class="bg-primary text-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>':''}${p.is_new_arrival&&!isOut?'<div class="absolute top-2 left-2 sm:top-3 sm:left-3"><span class="badge-new px-2 py-0.5 rounded-full text-[7px] sm:text-[8px] font-black uppercase backdrop-blur-xl bg-white/80 border border-black/5">New</span></div>':''}</div><div class="p-2.5 sm:p-4"><p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-0.5 sm:mb-1">${p.category}</p><h3 class="font-bold text-xs sm:text-sm text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3><div class="flex justify-between items-end"><div><span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>${p.old_price?`<span class="text-[9px] sm:text-[10px] text-accent line-through ml-1">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut?'disabled':''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut?'bg-gray-100':'bg-primary hover:bg-blue'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90"><i class="fa-solid fa-plus"></i></button></div></div></a>`; }
+        
+        function renderProducts(list) { const grid=document.getElementById('products-grid'); grid.classList.add('products-fade-out'); setTimeout(()=>{ const total=list.length; const display=list.slice(0,productsDisplayLimit); let html=display.length?display.map(p=>productCard(p).replace('class="product-card','class="product-card product-card-enter')).join(''):'<div class="col-span-full text-center py-20"><p class="text-accent text-lg">No products found</p></div>'; if(total>productsDisplayLimit) html+=`<div class="col-span-full mt-8 text-center"><button onclick="loadMoreProducts()" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase text-xs tracking-wider hover:bg-blue transition"><i class="fa-solid fa-arrow-down mr-2"></i>Load More (${total-productsDisplayLimit} remaining)</button></div>`; grid.innerHTML=html; grid.classList.remove('products-fade-out'); grid.classList.add('products-fade-in'); setTimeout(()=>{grid.classList.remove('products-fade-in');},800); },300); }
 
-        // ==================== PRODUCT CARD ====================
-        function productCard(p) { 
-            const isOut = p.stock <= 0, wished = wishlist.includes(p.id); 
-            return `<a href="/product/${getProductSlug(p)}" class="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 cursor-pointer group no-underline block">
-                <div class="product-img-container" style="aspect-ratio:3/4;">
-                    <img src="${p.img}" alt="${p.title}" class="product-image w-full h-full object-cover" loading="lazy">
-                    <button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 bg-white/90 backdrop-blur-xl rounded-full flex items-center justify-center ${wished ? 'text-red-500' : 'text-gray-400'} active:scale-95 transition border border-gray-100">
-                        <i class="fa-${wished ? 'solid' : 'regular'} fa-heart text-[10px] sm:text-xs"></i>
-                    </button>
-                    ${isOut ? '<div class="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center"><span class="bg-primary text-white text-[8px] sm:text-[10px] font-black px-2 sm:px-3 py-1 rounded-full uppercase">Sold Out</span></div>' : ''}
-                    ${p.is_new_arrival && !isOut ? '<div class="absolute top-2 left-2 sm:top-3 sm:left-3"><span class="badge-new px-2 py-0.5 rounded-full text-[7px] sm:text-[8px] font-black uppercase backdrop-blur-xl bg-white/80 border border-black/5">New</span></div>' : ''}
-                </div>
-                <div class="p-2.5 sm:p-4">
-                    <p class="text-[9px] sm:text-[10px] font-bold text-accent uppercase mb-0.5 sm:mb-1">${p.category}</p>
-                    <h3 class="font-bold text-xs sm:text-sm text-primary truncate mb-1.5 sm:mb-2">${p.title}</h3>
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <span class="font-black text-xs sm:text-sm text-primary">৳ ${p.price}</span>
-                            ${p.old_price ? `<span class="text-[9px] sm:text-[10px] text-accent line-through ml-1">৳${p.old_price}</span>` : ''}
-                        </div>
-                        <button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" ${isOut ? 'disabled' : ''} class="w-7 h-7 sm:w-8 sm:h-8 ${isOut ? 'bg-gray-100' : 'bg-primary hover:bg-blue'} text-white rounded-full flex items-center justify-center text-[10px] sm:text-xs transition active:scale-90">
-                            <i class="fa-solid fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </a>`; 
-        }
+        function renderRecentlyViewed() { const ids=JSON.parse(localStorage.getItem('jayen_recent')||'[]'); const list=currentData.products.filter(p=>ids.includes(p.id.toString())); const sec=document.getElementById('recent-products-section'); if(list.length){sec.classList.remove('hidden');document.getElementById('recent-products-grid').innerHTML=list.map(p=>productCard(p)).join('');}else{sec.classList.add('hidden');} }
+        function renderNews(list) { document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-100 group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-blue uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); }
+        function renderWishlist() { const list=currentData.products.filter(p=>wishlist.includes(p.id)); document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); }
 
-        function renderProducts(list) { 
-            const grid = document.getElementById('products-grid'); 
-            grid.classList.add('products-fade-out'); 
-            setTimeout(() => { 
-                const totalProducts = list.length; 
-                const displayProducts = list.slice(0, productsDisplayLimit); 
-                let html = displayProducts.length ? displayProducts.map(p => productCard(p).replace('class="product-card', 'class="product-card product-card-enter')).join('') : '<div class="col-span-full text-center py-20"><p class="text-accent text-lg">No products found</p></div>'; 
-                if (totalProducts > productsDisplayLimit) html += `<div class="col-span-full mt-8 text-center"><button onclick="loadMoreProducts()" class="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase text-xs tracking-wider hover:bg-blue transition"><i class="fa-solid fa-arrow-down mr-2"></i>Load More (${totalProducts - productsDisplayLimit} remaining)</button></div>`; 
-                grid.innerHTML = html; 
-                grid.classList.remove('products-fade-out'); 
-                grid.classList.add('products-fade-in'); 
-                setTimeout(() => { grid.classList.remove('products-fade-in'); }, 800); 
-            }, 300); 
-        }
-
-        // ==================== RECENTLY VIEWED ====================
-        function renderRecentlyViewed() { 
-            const ids = JSON.parse(localStorage.getItem('jayen_recent') || '[]');
-            const list = currentData.products.filter(p => ids.includes(p.id.toString())); 
-            const sec = document.getElementById('recent-products-section'); 
-            if (list.length) {
-                sec.classList.remove('hidden');
-                document.getElementById('recent-products-grid').innerHTML = list.map(p => productCard(p)).join('');
-            } else {
-                sec.classList.add('hidden'); 
-            }
-        }
-
-        // ==================== NEWS ====================
-        function renderNews(list) { 
-            document.getElementById('news-grid').innerHTML = list.map(n => 
-                `<div class="bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-100 group cursor-pointer">
-                    <div class="product-img-container" style="aspect-ratio:16/10;">
-                        <img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy">
-                    </div>
-                    <div class="p-4 sm:p-6">
-                        <p class="text-[9px] sm:text-[10px] font-bold text-blue uppercase mb-1 sm:mb-2">Style</p>
-                        <h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3>
-                        <p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p>
-                    </div>
-                </div>`
-            ).join(''); 
-        }
-
-        // ==================== WISHLIST ====================
-        function renderWishlist() { 
-            const list = currentData.products.filter(p => wishlist.includes(p.id)); 
-            document.getElementById('wishlist-grid').innerHTML = list.length ? list.map(p => productCard(p)).join('') : ''; 
-            document.getElementById('wishlist-empty').classList.toggle('hidden', list.length > 0); 
-        }
-
-        // ==================== ENHANCED CAROUSEL WITH TOUCH DELAY ====================
+        // ==================== CAROUSEL WITH SPACERS & REFINED TOUCH ====================
         function initCarousel(carouselId) {
-            if (!carouselStates[carouselId]) {
-                carouselStates[carouselId] = { 
-                    isPaused: false,
-                    animationFrame: null,
-                    lastTimestamp: 0,
-                    isDragging: false,
-                    touchStartX: 0,
-                    touchStartY: 0,
-                    touchStartScrollLeft: 0,
-                    touchStartTime: 0,
-                    hasMoved: false,
-                    baseSpeed: parseFloat(document.getElementById(carouselId)?.dataset.speed) || 0.5,
-                    currentIndex: 0,
-                    totalCards: 0,
-                    cardWidth: 0,
-                    cardGap: 0,
-                    _resumeTimeout: null
-                };
-            }
+            if(!carouselStates[carouselId]) carouselStates[carouselId] = { isPaused:false, animationFrame:null, lastTimestamp:0, isDragging:false, touchStartX:0, touchStartY:0, touchStartScrollLeft:0, touchStartTime:0, hasMoved:false, swipeDirection:null, baseSpeed:parseFloat(document.getElementById(carouselId)?.dataset.speed)||0.5, currentIndex:0, totalCards:0, cardWidth:0, cardGap:0, _resumeTimeout:null, _isAnimating:false };
             return carouselStates[carouselId];
         }
 
-        function getCardDimensions(carousel) {
-            const card = carousel.querySelector('.carousel-card');
-            if (!card) return { width: 280, gap: 20 };
-            const gap = parseInt(getComputedStyle(carousel).gap) || 20;
-            return { width: card.offsetWidth, gap: gap };
-        }
+        function getCardDimensions(carousel) { const card=carousel.querySelector('.carousel-card'); if(!card) return {width:280,gap:20}; const gap=parseInt(getComputedStyle(carousel).gap)||20; return {width:card.offsetWidth,gap:gap}; }
 
-        function snapCarouselToCard(carouselId, targetIndex) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
+        function snapToCard(carouselId, targetIndex) {
+            const carousel=document.getElementById(carouselId);
+            if(!carousel) return;
+            const state=initCarousel(carouselId);
+            const {width,gap}=getCardDimensions(carousel);
+            // Account for spacer at start
+            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+            const halfViewport = carousel.clientWidth / 2;
+            const scrollTarget = (halfViewport - spacerWidth/2) + (targetIndex * (width + gap));
             
-            const state = initCarousel(carouselId);
-            const { width, gap } = getCardDimensions(carousel);
-            const scrollTarget = targetIndex * (width + gap);
-            
-            carousel.scrollTo({
-                left: scrollTarget,
-                behavior: 'smooth'
-            });
+            state._isAnimating = true;
+            carousel.classList.add('smooth-scroll');
+            carousel.scrollTo({ left: scrollTarget, behavior: 'smooth' });
             
             state.currentIndex = targetIndex;
             updateActiveCard(carouselId);
             updateDots(carouselId);
+            
+            setTimeout(() => { state._isAnimating = false; }, 500);
         }
 
         function autoScrollCarousel(carouselId, timestamp) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const state = initCarousel(carouselId);
-            
-            if (state.isPaused) {
-                state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
-                return;
-            }
-            
-            if (!state.lastTimestamp) state.lastTimestamp = timestamp;
-            
-            const delta = Math.min(timestamp - state.lastTimestamp, 32);
-            const speed = state.baseSpeed * 0.03;
-            
-            carousel.scrollLeft += delta * speed;
-            
-            const { width, gap } = getCardDimensions(carousel);
-            const cardTotal = width + gap;
-            const currentCardIndex = Math.round(carousel.scrollLeft / cardTotal);
-            
-            if (currentCardIndex !== state.currentIndex && currentCardIndex < state.totalCards) {
+            const carousel=document.getElementById(carouselId);
+            if(!carousel) return;
+            const state=initCarousel(carouselId);
+            if(state.isPaused || state.isDragging || state._isAnimating) { state.animationFrame=requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts)); return; }
+            if(!state.lastTimestamp) state.lastTimestamp=timestamp;
+            const delta=Math.min(timestamp-state.lastTimestamp,32);
+            const speed=state.baseSpeed*0.03;
+            carousel.scrollLeft+=delta*speed;
+            const {width,gap}=getCardDimensions(carousel);
+            const cardTotal=width+gap;
+            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+            const halfViewport = carousel.clientWidth / 2;
+            const firstCardScroll = halfViewport - spacerWidth/2;
+            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+            const currentCardIndex = Math.round(adjustedScroll / cardTotal);
+            if(currentCardIndex !== state.currentIndex && currentCardIndex >= 0 && currentCardIndex < state.totalCards) {
                 state.currentIndex = currentCardIndex;
                 updateActiveCard(carouselId);
                 updateDots(carouselId);
             }
-            
             const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-            if (carousel.scrollLeft >= maxScroll - 10) {
-                carousel.scrollLeft = 0;
-                state.currentIndex = 0;
-                updateActiveCard(carouselId);
-                updateDots(carouselId);
-            }
-            
+            if(carousel.scrollLeft >= maxScroll - 10) { carousel.scrollLeft = firstCardScroll; state.currentIndex = 0; updateActiveCard(carouselId); updateDots(carouselId); }
             state.lastTimestamp = timestamp;
-            state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
+            state.animationFrame = requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts));
         }
 
         function updateActiveCard(carouselId) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const state = initCarousel(carouselId);
-            const cards = carousel.querySelectorAll('.carousel-card');
-            const { width, gap } = getCardDimensions(carousel);
-            const cardTotal = width + gap;
-            const currentIndex = Math.round(carousel.scrollLeft / cardTotal) % state.totalCards;
-            
-            cards.forEach((card, i) => {
-                const cardIndex = i % state.totalCards;
-                card.classList.toggle('snap-active', cardIndex === currentIndex);
-            });
+            const carousel=document.getElementById(carouselId);
+            if(!carousel) return;
+            const state=initCarousel(carouselId);
+            const {width,gap}=getCardDimensions(carousel);
+            const cardTotal=width+gap;
+            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+            const halfViewport = carousel.clientWidth / 2;
+            const firstCardScroll = halfViewport - spacerWidth/2;
+            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+            const currentIndex = Math.round(adjustedScroll / cardTotal);
+            const cards=carousel.querySelectorAll('.carousel-card');
+            cards.forEach((card,i) => { card.classList.toggle('snap-active', i === currentIndex); });
         }
 
         function updateDots(carouselId) {
-            const carousel = document.getElementById(carouselId);
-            const dotsId = carouselId.replace('carousel', 'dots');
-            const dotsContainer = document.getElementById(dotsId);
-            if (!carousel || !dotsContainer) return;
-            
-            const state = initCarousel(carouselId);
-            const { width, gap } = getCardDimensions(carousel);
-            const cardTotal = width + gap;
-            const currentIndex = Math.round(carousel.scrollLeft / cardTotal) % state.totalCards;
-            
-            const dots = dotsContainer.querySelectorAll('.carousel-dot');
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentIndex);
-            });
+            const carousel=document.getElementById(carouselId);
+            const dotsContainer=document.getElementById(carouselId.replace('carousel','dots'));
+            if(!carousel||!dotsContainer) return;
+            const state=initCarousel(carouselId);
+            const {width,gap}=getCardDimensions(carousel);
+            const cardTotal=width+gap;
+            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+            const halfViewport = carousel.clientWidth / 2;
+            const firstCardScroll = halfViewport - spacerWidth/2;
+            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+            const currentIndex = Math.max(0, Math.min(Math.round(adjustedScroll / cardTotal), state.totalCards - 1));
+            const dots=dotsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot,i) => { dot.classList.toggle('active', i === currentIndex); });
         }
 
-        function startCarouselAutoScroll(carouselId) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const state = initCarousel(carouselId);
-            state.isPaused = false;
-            state.lastTimestamp = 0;
-            
-            if (state.animationFrame) cancelAnimationFrame(state.animationFrame);
-            state.animationFrame = requestAnimationFrame((ts) => autoScrollCarousel(carouselId, ts));
-        }
-
-        function stopCarouselAutoScroll(carouselId) {
-            const state = carouselStates[carouselId];
-            if (state && state.animationFrame) {
-                cancelAnimationFrame(state.animationFrame);
-                state.animationFrame = null;
-            }
-        }
-
-        function pauseCarousel(carousel) {
-            initCarousel(carousel.id).isPaused = true;
-        }
-
-        function resumeCarousel(carousel) {
-            const state = initCarousel(carousel.id);
-            state.isPaused = false;
-            state.lastTimestamp = 0;
-        }
+        function startCarouselAutoScroll(carouselId) { const carousel=document.getElementById(carouselId); if(!carousel) return; const state=initCarousel(carouselId); state.isPaused=false; state.lastTimestamp=0; if(state.animationFrame) cancelAnimationFrame(state.animationFrame); state.animationFrame=requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts)); }
+        function stopCarouselAutoScroll(carouselId) { const state=carouselStates[carouselId]; if(state&&state.animationFrame){cancelAnimationFrame(state.animationFrame);state.animationFrame=null;} }
+        function pauseCarousel(carousel) { initCarousel(carousel.id).isPaused=true; }
+        function resumeCarousel(carousel) { const state=initCarousel(carousel.id); state.isPaused=false; state.lastTimestamp=0; }
 
         function slideCarousel(carouselId, direction) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const state = initCarousel(carouselId);
+            const carousel=document.getElementById(carouselId);
+            if(!carousel) return;
+            const state=initCarousel(carouselId);
             state.isPaused = true;
-            
-            const { width, gap } = getCardDimensions(carousel);
-            const cardTotal = width + gap;
-            const currentCardIndex = Math.round(carousel.scrollLeft / cardTotal);
-            
+            const {width,gap}=getCardDimensions(carousel);
+            const cardTotal=width+gap;
+            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+            const halfViewport = carousel.clientWidth / 2;
+            const firstCardScroll = halfViewport - spacerWidth/2;
+            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+            const currentCardIndex = Math.round(adjustedScroll / cardTotal);
             let targetIndex;
-            if (direction === 'next') {
-                targetIndex = Math.min(currentCardIndex + 1, state.totalCards - 1);
-            } else {
-                targetIndex = Math.max(currentCardIndex - 1, 0);
-            }
-            
-            snapCarouselToCard(carouselId, targetIndex);
-            
+            if(direction === 'next') targetIndex = Math.min(currentCardIndex + 1, state.totalCards - 1);
+            else targetIndex = Math.max(currentCardIndex - 1, 0);
+            snapToCard(carouselId, targetIndex);
             clearTimeout(state._resumeTimeout);
-            state._resumeTimeout = setTimeout(() => {
-                state.isPaused = false;
-                state.lastTimestamp = 0;
-            }, 3000);
+            state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 3000);
         }
 
         function goToCarouselDot(carouselId, index) {
-            const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            const state = initCarousel(carouselId);
+            const carousel=document.getElementById(carouselId);
+            if(!carousel) return;
+            const state=initCarousel(carouselId);
             state.isPaused = true;
-            
-            snapCarouselToCard(carouselId, index);
-            
+            snapToCard(carouselId, index);
             clearTimeout(state._resumeTimeout);
-            state._resumeTimeout = setTimeout(() => {
-                state.isPaused = false;
-                state.lastTimestamp = 0;
-            }, 3000);
+            state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 3000);
         }
 
-        // TOUCH SUPPORT WITH DELAY - prevents accidental swipes
+        // REFINED TOUCH WITH MINIMAL JITTER
         function initCarouselTouchSupport() {
             document.querySelectorAll('.carousel-track').forEach(carousel => {
                 const state = initCarousel(carousel.id);
-                
+                const THRESHOLD = 15; // Minimum px before swipe activates
+                const VERTICAL_THRESHOLD = 30;
+
                 carousel.addEventListener('touchstart', (e) => {
                     state.touchStartX = e.touches[0].pageX;
                     state.touchStartY = e.touches[0].pageY;
@@ -1597,49 +1137,52 @@
                     state.touchStartTime = Date.now();
                     state.hasMoved = false;
                     state.isDragging = false;
+                    state.swipeDirection = null;
                     state.isPaused = true;
+                    carousel.classList.remove('smooth-scroll');
                 }, { passive: true });
-                
+
                 carousel.addEventListener('touchmove', (e) => {
-                    const deltaX = Math.abs(e.touches[0].pageX - state.touchStartX);
-                    const deltaY = Math.abs(e.touches[0].pageY - state.touchStartY);
-                    
-                    // Only activate horizontal scroll if horizontal movement > vertical (prevents page scroll interference)
-                    if (deltaX > 8 && deltaX > deltaY) {
-                        state.hasMoved = true;
+                    if(state.swipeDirection === 'vertical') return;
+                    const deltaX = e.touches[0].pageX - state.touchStartX;
+                    const deltaY = e.touches[0].pageY - state.touchStartY;
+                    const absX = Math.abs(deltaX);
+                    const absY = Math.abs(deltaY);
+
+                    // Determine direction
+                    if(!state.swipeDirection && (absX > THRESHOLD || absY > THRESHOLD)) {
+                        state.swipeDirection = absX > absY ? 'horizontal' : 'vertical';
+                    }
+
+                    if(state.swipeDirection === 'horizontal' && absX > THRESHOLD) {
+                        if(!state.hasMoved) state.hasMoved = true;
                         state.isDragging = true;
-                        const walk = (state.touchStartX - e.touches[0].pageX) * 1.5;
-                        carousel.scrollLeft = state.touchStartScrollLeft + walk;
+                        carousel.scrollLeft = state.touchStartScrollLeft - deltaX;
                         updateActiveCard(carousel.id);
                         updateDots(carousel.id);
                     }
                 }, { passive: true });
-                
+
                 carousel.addEventListener('touchend', () => {
-                    const touchDuration = Date.now() - state.touchStartTime;
-                    
-                    if (state.hasMoved) {
-                        // Snap to nearest card after swipe
-                        const { width, gap } = getCardDimensions(carousel);
-                        const cardTotal = width + gap;
-                        const nearestIndex = Math.round(carousel.scrollLeft / cardTotal);
+                    carousel.classList.add('smooth-scroll');
+                    if(state.hasMoved) {
+                        const {width,gap}=getCardDimensions(carousel);
+                        const cardTotal=width+gap;
+                        const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+                        const halfViewport = carousel.clientWidth / 2;
+                        const firstCardScroll = halfViewport - spacerWidth/2;
+                        const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+                        const nearestIndex = Math.round(adjustedScroll / cardTotal);
                         const clampedIndex = Math.max(0, Math.min(nearestIndex, state.totalCards - 1));
-                        snapCarouselToCard(carousel.id, clampedIndex);
+                        snapToCard(carousel.id, clampedIndex);
                     }
-                    
                     state.isDragging = false;
-                    
-                    // Resume after delay (prevents immediate resume)
+                    state.swipeDirection = null;
                     clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => {
-                        if (!state.isDragging) {
-                            state.isPaused = false;
-                            state.lastTimestamp = 0;
-                        }
-                    }, 2000); // 2 second delay before auto-resume
+                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2500);
                 });
-                
-                // Mouse events for desktop
+
+                // Mouse events
                 carousel.addEventListener('mousedown', (e) => {
                     state.touchStartX = e.pageX;
                     state.touchStartScrollLeft = carousel.scrollLeft;
@@ -1648,304 +1191,141 @@
                     state.isDragging = false;
                     state.isPaused = true;
                     carousel.style.cursor = 'grabbing';
-                    carousel.classList.add('dragging');
+                    carousel.classList.remove('smooth-scroll');
                     e.preventDefault();
                 });
-                
                 carousel.addEventListener('mousemove', (e) => {
-                    if (state.isDragging || (Date.now() - state.touchStartTime > 100 && Math.abs(e.pageX - state.touchStartX) > 5)) {
-                        state.isDragging = true;
-                        state.hasMoved = true;
-                        const walk = (state.touchStartX - e.pageX) * 1.5;
-                        carousel.scrollLeft = state.touchStartScrollLeft + walk;
-                        updateActiveCard(carousel.id);
-                        updateDots(carousel.id);
+                    if(!state.isDragging && Date.now() - state.touchStartTime > 80 && Math.abs(e.pageX - state.touchStartX) > 10) {
+                        state.isDragging = true; state.hasMoved = true;
+                    }
+                    if(state.isDragging) {
+                        carousel.scrollLeft = state.touchStartScrollLeft - (e.pageX - state.touchStartX);
+                        updateActiveCard(carousel.id); updateDots(carousel.id);
                     }
                 });
-                
                 carousel.addEventListener('mouseup', () => {
-                    if (state.hasMoved) {
-                        const { width, gap } = getCardDimensions(carousel);
-                        const cardTotal = width + gap;
-                        const nearestIndex = Math.round(carousel.scrollLeft / cardTotal);
-                        const clampedIndex = Math.max(0, Math.min(nearestIndex, state.totalCards - 1));
-                        snapCarouselToCard(carousel.id, clampedIndex);
+                    carousel.classList.add('smooth-scroll');
+                    if(state.hasMoved) {
+                        const {width,gap}=getCardDimensions(carousel);
+                        const cardTotal=width+gap;
+                        const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+                        const halfViewport = carousel.clientWidth / 2;
+                        const firstCardScroll = halfViewport - spacerWidth/2;
+                        const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+                        const nearestIndex = Math.round(adjustedScroll / cardTotal);
+                        snapToCard(carousel.id, Math.max(0, Math.min(nearestIndex, state.totalCards - 1)));
                     }
-                    
-                    state.isDragging = false;
-                    carousel.style.cursor = 'grab';
-                    carousel.classList.remove('dragging');
-                    
+                    state.isDragging = false; carousel.style.cursor = 'grab';
                     clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => {
-                        state.isPaused = false;
-                        state.lastTimestamp = 0;
-                    }, 2000);
+                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2500);
                 });
-                
                 carousel.addEventListener('mouseleave', () => {
-                    if (state.isDragging || state.hasMoved) {
-                        const { width, gap } = getCardDimensions(carousel);
-                        const cardTotal = width + gap;
-                        const nearestIndex = Math.round(carousel.scrollLeft / cardTotal);
-                        const clampedIndex = Math.max(0, Math.min(nearestIndex, state.totalCards - 1));
-                        snapCarouselToCard(carousel.id, clampedIndex);
+                    carousel.classList.add('smooth-scroll');
+                    if(state.hasMoved) {
+                        const {width,gap}=getCardDimensions(carousel);
+                        const cardTotal=width+gap;
+                        const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+                        const halfViewport = carousel.clientWidth / 2;
+                        const firstCardScroll = halfViewport - spacerWidth/2;
+                        const adjustedScroll = carousel.scrollLeft - firstCardScroll;
+                        const nearestIndex = Math.round(adjustedScroll / cardTotal);
+                        snapToCard(carousel.id, Math.max(0, Math.min(nearestIndex, state.totalCards - 1)));
                     }
-                    
-                    state.isDragging = false;
-                    carousel.style.cursor = 'grab';
-                    carousel.classList.remove('dragging');
-                    
+                    state.isDragging = false; carousel.style.cursor = 'grab';
                     clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => {
-                        state.isPaused = false;
-                        state.lastTimestamp = 0;
-                    }, 1500);
+                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
                 });
             });
         }
 
         function renderCarouselProducts(carouselId, products) {
             const carousel = document.getElementById(carouselId);
-            if (!carousel) return;
-            
-            if (!products || !products.length) {
-                carousel.innerHTML = '<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>';
-                return;
-            }
-            
+            if(!carousel) return;
+            if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
             const state = initCarousel(carouselId);
             state.totalCards = products.length;
             
-            // Triple products for infinite scroll
-            const duplicatedProducts = [...products, ...products, ...products];
-            
-            carousel.innerHTML = duplicatedProducts.map(p => {
-                const isOut = p.stock <= 0;
-                const wished = wishlist.includes(p.id);
-                let badgeHTML = '';
-                
-                if (!isOut) {
-                    if (p.is_new_arrival) badgeHTML = '<span class="card-badge badge-new">New</span>';
-                    else if (p.is_hot) badgeHTML = '<span class="card-badge badge-hot">Hot</span>';
-                    else if (p.is_on_sale) badgeHTML = '<span class="card-badge badge-sale">Sale</span>';
-                    else if (p.is_limited_edition) badgeHTML = '<span class="card-badge badge-limited">Limited</span>';
-                    else if (p.is_featured) badgeHTML = '<span class="card-badge badge-featured">Featured</span>';
-                }
-                
-                return `<a href="/product/${getProductSlug(p)}" class="carousel-card" draggable="false">
-                    <div class="card-img">
-                        <img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">
-                        ${badgeHTML}
-                        <button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished ? 'wished' : ''}">
-                            <i class="fa-${wished ? 'solid' : 'regular'} fa-heart"></i>
-                        </button>
-                        ${isOut ? '<div class="card-soldout-overlay"><span>Sold Out</span></div>' : ''}
-                    </div>
-                    <div class="card-body">
-                        <span class="card-category">${p.category}</span>
-                        <h3 class="card-title">${p.title}</h3>
-                        <div class="card-price-row">
-                            <div>
-                                <span class="card-price">৳${p.price}</span>
-                                ${p.old_price ? `<span class="card-old-price">৳${p.old_price}</span>` : ''}
-                            </div>
-                            <button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut ? 'disabled' : ''}" ${isOut ? 'disabled' : ''}>
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </a>`;
+            // Build with spacers: [start spacer] + [cards x3] + [end spacer]
+            const tripledProducts = [...products, ...products, ...products];
+            let html = '<div class="carousel-spacer carousel-spacer-start"></div>';
+            html += tripledProducts.map(p => {
+                const isOut=p.stock<=0, wished=wishlist.includes(p.id);
+                let badge='';
+                if(!isOut){if(p.is_new_arrival)badge='<span class="card-badge badge-new">New</span>';else if(p.is_hot)badge='<span class="card-badge badge-hot">Hot</span>';else if(p.is_on_sale)badge='<span class="card-badge badge-sale">Sale</span>';else if(p.is_limited_edition)badge='<span class="card-badge badge-limited">Limited</span>';else if(p.is_featured)badge='<span class="card-badge badge-featured">Featured</span>';}
+                return `<a href="/product/${getProductSlug(p)}" class="carousel-card" draggable="false"><div class="card-img"><img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">${badge}<button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished?'wished':''}"><i class="fa-${wished?'solid':'regular'} fa-heart"></i></button>${isOut?'<div class="card-soldout-overlay"><span>Sold Out</span></div>':''}</div><div class="card-body"><span class="card-category">${p.category}</span><h3 class="card-title">${p.title}</h3><div class="card-price-row"><div><span class="card-price">৳${p.price}</span>${p.old_price?`<span class="card-old-price">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut?'disabled':''}" ${isOut?'disabled':''}><i class="fa-solid fa-plus"></i></button></div></div></a>`;
             }).join('');
+            html += '<div class="carousel-spacer carousel-spacer-end"></div>';
             
-            // Create dot indicators
-            const dotsId = carouselId.replace('carousel', 'dots');
-            const dotsContainer = document.getElementById(dotsId);
-            if (dotsContainer) {
-                dotsContainer.innerHTML = products.map((_, i) => 
-                    `<div class="carousel-dot ${i === 0 ? 'active' : ''}" onclick="goToCarouselDot('${carouselId}', ${i})" title="Product ${i + 1}"></div>`
-                ).join('');
-            }
+            carousel.innerHTML = html;
             
-            carousel.scrollLeft = 0;
+            // Dots
+            const dotsContainer = document.getElementById(carouselId.replace('carousel','dots'));
+            if(dotsContainer) dotsContainer.innerHTML = products.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goToCarouselDot('${carouselId}',${i})" title="Product ${i+1}"></div>`).join('');
+            
+            // Scroll to first card
+            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
+            const halfViewport = carousel.clientWidth / 2;
+            carousel.scrollLeft = halfViewport - spacerWidth/2;
             state.currentIndex = 0;
         }
 
         function renderHomepageSections() {
             const sections = [
-                { id: 'new-arrivals-section', carousel: 'new-arrivals-carousel', products: currentData.products.filter(p => p.is_new_arrival) },
-                { id: 'hot-products-section', carousel: 'hot-products-carousel', products: currentData.products.filter(p => p.is_hot) },
-                { id: 'featured-products-section', carousel: 'featured-products-carousel', products: currentData.products.filter(p => p.is_featured) },
-                { id: 'best-selling-section', carousel: 'best-selling-carousel', products: currentData.products.filter(p => p.is_best) },
-                { id: 'on-sale-section', carousel: 'on-sale-carousel', products: currentData.products.filter(p => p.is_on_sale) },
-                { id: 'limited-edition-section', carousel: 'limited-edition-carousel', products: currentData.products.filter(p => p.is_limited_edition) }
+                {id:'new-arrivals-section',carousel:'new-arrivals-carousel',products:currentData.products.filter(p=>p.is_new_arrival)},
+                {id:'hot-products-section',carousel:'hot-products-carousel',products:currentData.products.filter(p=>p.is_hot)},
+                {id:'featured-products-section',carousel:'featured-products-carousel',products:currentData.products.filter(p=>p.is_featured)},
+                {id:'best-selling-section',carousel:'best-selling-carousel',products:currentData.products.filter(p=>p.is_best)},
+                {id:'on-sale-section',carousel:'on-sale-carousel',products:currentData.products.filter(p=>p.is_on_sale)},
+                {id:'limited-edition-section',carousel:'limited-edition-carousel',products:currentData.products.filter(p=>p.is_limited_edition)}
             ];
-            
-            sections.forEach((section, index) => {
-                const sectionEl = document.getElementById(section.id);
-                if (!sectionEl) return;
-                
-                if (section.products.length) {
-                    sectionEl.classList.remove('hidden');
-                    renderCarouselProducts(section.carousel, section.products);
-                    startCarouselAutoScroll(section.carousel);
-                    
-                    setTimeout(() => {
-                        sectionEl.classList.add('visible');
-                    }, index * 150);
-                } else {
-                    sectionEl.classList.add('hidden');
-                }
+            sections.forEach((sec,i) => {
+                const el=document.getElementById(sec.id); if(!el) return;
+                if(sec.products.length){el.classList.remove('hidden');renderCarouselProducts(sec.carousel,sec.products);startCarouselAutoScroll(sec.carousel);setTimeout(()=>{el.classList.add('visible');},i*150);}
+                else el.classList.add('hidden');
             });
-            
             initCarouselTouchSupport();
         }
 
-        function cleanupAllCarousels() {
-            ['new-arrivals-carousel','hot-products-carousel','featured-products-carousel','best-selling-carousel','on-sale-carousel','limited-edition-carousel'].forEach(id => {
-                stopCarouselAutoScroll(id);
-            });
-        }
+        function cleanupAllCarousels() { ['new-arrivals-carousel','hot-products-carousel','featured-products-carousel','best-selling-carousel','on-sale-carousel','limited-edition-carousel'].forEach(id=>stopCarouselAutoScroll(id)); }
 
-        // ==================== SEARCH ====================
-        function handleMainSearch() { 
-            const q = document.getElementById('main-search-input').value.toLowerCase().trim(); 
-            document.getElementById('search-suggestions').classList.add('hidden'); 
-            if (!q) return; 
-            navigate('products', { search: q }); 
-            renderProducts(currentData.products.filter(p => p.title.toLowerCase().includes(q))); 
-        }
+        function handleMainSearch() { const q=document.getElementById('main-search-input').value.toLowerCase().trim(); document.getElementById('search-suggestions').classList.add('hidden'); if(!q) return; navigate('products',{search:q}); renderProducts(currentData.products.filter(p=>p.title.toLowerCase().includes(q))); }
+        function handleCookieAccept() { localStorage.setItem('jayenware_consent','accepted'); document.getElementById('cookieConsent').classList.remove('show'); showToast('Cookies accepted!','success'); }
+        function handleCookieDecline() { localStorage.setItem('jayenware_consent','declined'); document.getElementById('cookieConsent').classList.remove('show'); showToast('Only essential cookies used','info'); }
+        function openPolicy(type) { const policies={privacy:{t:'Privacy Policy',c:'<p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy.</p>'},terms:{t:'Terms of Service',c:'<p>Welcome to <strong>JAYENWARE</strong>. By using this site, you agree to these terms.</p>'},cookies:{t:'Return & Refund Policy',c:'<p>Returns accepted within 3 days. Items must be unused with original tags.</p>'},shipping:{t:'Shipping & Delivery',c:'<p>Dhaka Metro: 1-2 days | Other: 3-7 days. Free shipping over ৳2,500.</p>'}}; const p=policies[type]; if(p){document.getElementById('policy-title').innerText=p.t;document.getElementById('policy-content').innerHTML=p.c;document.getElementById('policy-modal').classList.remove('hidden');} }
 
-        // ==================== COOKIE CONSENT ====================
-        function handleCookieAccept() {
-            localStorage.setItem('jayenware_consent', 'accepted');
-            document.getElementById('cookieConsent').classList.remove('show');
-            showToast('Cookies accepted!', 'success');
-        }
-
-        function handleCookieDecline() {
-            localStorage.setItem('jayenware_consent', 'declined');
-            document.getElementById('cookieConsent').classList.remove('show');
-            showToast('Only essential cookies used', 'info');
-        }
-
-        // ==================== POLICY ====================
-        function openPolicy(type) {
-            const policies = {
-                privacy: { t: 'Privacy Policy', c: '<p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy.</p>' },
-                terms: { t: 'Terms of Service', c: '<p>Welcome to <strong>JAYENWARE</strong>. By using this site, you agree to these terms.</p>' },
-                cookies: { t: 'Return & Refund Policy', c: '<p>Returns accepted within 3 days. Items must be unused with original tags.</p>' },
-                shipping: { t: 'Shipping & Delivery', c: '<p>Dhaka Metro: 1-2 days | Other: 3-7 days. Free shipping over ৳2,500.</p>' }
-            };
-            const p = policies[type];
-            if (p) { 
-                document.getElementById('policy-title').innerText = p.t; 
-                document.getElementById('policy-content').innerHTML = p.c; 
-                document.getElementById('policy-modal').classList.remove('hidden'); 
-            }
-        }
-
-        // ==================== DATA LOADING ====================
         async function loadData() {
-            const [{ data: hero }, { data: cats }, { data: vars }, { data: prods }, { data: newsData }, { data: delivery }, { data: reviews }] = await Promise.all([
-                _supabaseLocal.from('hero').select('*').order('created_at', { ascending: true }),
+            const [{data:hero},{data:cats},{data:vars},{data:prods},{data:newsData},{data:delivery},{data:reviews}] = await Promise.all([
+                _supabaseLocal.from('hero').select('*').order('created_at',{ascending:true}),
                 _supabaseLocal.from('categories').select('*'),
                 _supabaseLocal.from('product_variants').select('*'),
-                _supabaseLocal.from('products').select('*').order('created_at', { ascending: false }),
-                _supabaseLocal.from('news').select('*').order('created_at', { ascending: false }),
+                _supabaseLocal.from('products').select('*').order('created_at',{ascending:false}),
+                _supabaseLocal.from('news').select('*').order('created_at',{ascending:false}),
                 _supabaseLocal.from('delivery_settings').select('*'),
                 _supabaseLocal.from('product_reviews').select('*')
             ]);
-            if (hero) currentData.hero = hero;
-            if (cats) currentData.categories = cats;
-            if (vars) currentData.variants = vars;
-            if (prods) currentData.products = prods;
-            if (newsData) currentData.news = newsData;
-            if (delivery) currentData.deliveryCharges = delivery;
-            if (reviews) currentData.reviews = reviews;
-            
-            renderHero();
-            renderCategories();
-            renderMegaMenu();
-            renderProducts(currentData.products);
-            renderHomepageSections();
-            renderRecentlyViewed();
-            renderNews(currentData.news);
-            handleInitialRoute();
+            if(hero) currentData.hero=hero; if(cats) currentData.categories=cats; if(vars) currentData.variants=vars; if(prods) currentData.products=prods; if(newsData) currentData.news=newsData; if(delivery) currentData.deliveryCharges=delivery; if(reviews) currentData.reviews=reviews;
+            renderHero(); renderCategories(); renderMegaMenu(); renderProducts(currentData.products); renderHomepageSections(); renderRecentlyViewed(); renderNews(currentData.news); handleInitialRoute();
         }
 
         function handleInitialRoute() {
-            const path = window.location.pathname;
-            const searchParams = new URLSearchParams(window.location.search);
-            if (path.startsWith('/product/')) { return; }
-            if (path.startsWith('/category/')) {
-                const slug = path.replace('/category/', '');
-                const category = currentData.categories.find(c => getCategorySlug(c.name) === slug);
-                if (category) { navigate('products'); filterByCategory(category.name); }
-                return;
-            }
-            if (path === '/search' && searchParams.get('q')) {
-                const query = searchParams.get('q');
-                navigate('products');
-                renderProducts(currentData.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase())));
-                return;
-            }
-            const pageRoutes = { '/': 'home', '/products': 'products', '/wishlist': 'wishlist', '/journal': 'news' };
-            navigate(pageRoutes[path] || 'home');
+            const path=window.location.pathname, sp=new URLSearchParams(window.location.search);
+            if(path.startsWith('/product/')) return;
+            if(path.startsWith('/category/')){const slug=path.replace('/category/','');const cat=currentData.categories.find(c=>getCategorySlug(c.name)===slug);if(cat){navigate('products');filterByCategory(cat.name);}return;}
+            if(path==='/search'&&sp.get('q')){navigate('products');renderProducts(currentData.products.filter(p=>p.title.toLowerCase().includes(sp.get('q').toLowerCase())));return;}
+            const routes={'/':'home','/products':'products','/wishlist':'wishlist','/journal':'news'}; navigate(routes[path]||'home');
         }
 
-        // ==================== EVENT LISTENERS ====================
-        document.addEventListener('click', e => {
-            if (!e.target.closest('#main-search-input') && !e.target.closest('#search-suggestions')) {
-                document.getElementById('search-suggestions').classList.add('hidden');
-            }
-            if (!e.target.closest('#sort-container')) {
-                document.getElementById('sort-dropdown').classList.add('hidden');
-            }
-        });
+        document.addEventListener('click',e=>{if(!e.target.closest('#main-search-input')&&!e.target.closest('#search-suggestions'))document.getElementById('search-suggestions').classList.add('hidden');if(!e.target.closest('#sort-container'))document.getElementById('sort-dropdown').classList.add('hidden');});
+        document.getElementById('main-search-input').addEventListener('input',function(e){const q=e.target.value.toLowerCase().trim();const box=document.getElementById('search-suggestions');if(q.length<2){box.classList.add('hidden');return;}const filtered=currentData.products.filter(p=>p.title.toLowerCase().includes(q)).slice(0,6);box.innerHTML=filtered.length?filtered.map(p=>`<a href="/product/${getProductSlug(p)}" class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer no-underline"><img src="${p.img}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover shrink-0" alt="${p.title}"><div class="min-w-0"><p class="text-[10px] sm:text-xs font-bold text-primary truncate">${p.title}</p><p class="text-[9px] sm:text-[10px] font-black text-primary">৳${p.price}</p></div></a>`).join(''):'<p class="p-3 sm:p-4 text-gray-400 text-[10px] sm:text-xs text-center">No results</p>';box.classList.remove('hidden');});
+        window.addEventListener('popstate',function(){handleInitialRoute();});
 
-        document.getElementById('main-search-input').addEventListener('input', function(e) {
-            const q = e.target.value.toLowerCase().trim();
-            const box = document.getElementById('search-suggestions');
-            if (q.length < 2) { box.classList.add('hidden'); return; }
-            const filtered = currentData.products.filter(p => p.title.toLowerCase().includes(q)).slice(0, 6);
-            box.innerHTML = filtered.length ? filtered.map(p => 
-                `<a href="/product/${getProductSlug(p)}" class="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer no-underline">
-                    <img src="${p.img}" class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg object-cover shrink-0" alt="${p.title}">
-                    <div class="min-w-0">
-                        <p class="text-[10px] sm:text-xs font-bold text-primary truncate">${p.title}</p>
-                        <p class="text-[9px] sm:text-[10px] font-black text-primary">৳${p.price}</p>
-                    </div>
-                </a>`
-            ).join('') : '<p class="p-3 sm:p-4 text-gray-400 text-[10px] sm:text-xs text-center">No results</p>';
-            box.classList.remove('hidden');
-        });
-
-        window.addEventListener('popstate', function(event) { handleInitialRoute(); });
-
-        // ==================== INITIALIZATION ====================
         window.onload = async () => {
             await initSharedComponents();
-            
-            const { data: { session } } = await _supabaseLocal.auth.getSession();
-            if (session) {
-                userSession = session.user;
-                const authArea = document.getElementById('auth-nav-area');
-                if (authArea) {
-                    authArea.innerHTML = '<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>';
-                }
-            }
-            
-            const consent = localStorage.getItem('jayenware_consent');
-            if (!consent) {
-                setTimeout(() => {
-                    document.getElementById('cookieConsent').classList.add('show');
-                }, 2000);
-            }
-            
+            const {data:{session}} = await _supabaseLocal.auth.getSession();
+            if(session){userSession=session.user;const authArea=document.getElementById('auth-nav-area');if(authArea)authArea.innerHTML='<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>';}
+            const consent=localStorage.getItem('jayenware_consent');if(!consent)setTimeout(()=>{document.getElementById('cookieConsent').classList.add('show');},2000);
             await loadData();
-            
-            if (typeof updateMobileMenuFooter === 'function') updateMobileMenuFooter();
+            if(typeof updateMobileMenuFooter==='function') updateMobileMenuFooter();
         };
     </script>
 </body>
