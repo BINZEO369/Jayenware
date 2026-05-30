@@ -71,45 +71,52 @@
       z-index: 50;
     }
     
-    /* Color Button Styles */
-    .color-btn {
-      transition: all 0.2s ease;
-      position: relative;
-      cursor: pointer;
-      border: 2px solid #e5e5e5;
-      border-radius: 16px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 80px;
-      background: white;
-      flex-shrink: 0;
-    }
-    .color-btn:hover {
-      border-color: #86868b;
-      transform: translateY(-1px);
-    }
-    .color-btn.selected {
-      border-color: #1d1d1f !important;
-      background: #1d1d1f !important;
-      color: white !important;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    .color-btn.selected .color-name {
-      color: white !important;
-    }
-    .color-btn.selected .color-stock {
-      color: rgba(255,255,255,0.7) !important;
-    }
-    
-    .color-swatch {
-      width: 28px;
-      height: 28px;
+    /* Color Swatch Button - Circle Only */
+    .color-swatch-btn {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      border: 2px solid rgba(0,0,0,0.1);
+      border: 3px solid #e5e5e5;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
       flex-shrink: 0;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      background: transparent;
+      padding: 0;
+      outline: none;
+    }
+    .color-swatch-btn:hover {
+      transform: scale(1.08);
+      border-color: #86868b;
+    }
+    .color-swatch-btn.selected {
+      border-color: #1d1d1f !important;
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px #1d1d1f;
+      transform: scale(1.08);
+    }
+    .color-swatch-btn .swatch-color {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: block;
+    }
+    .color-swatch-btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .color-swatch-btn.disabled .swatch-color {
+      position: relative;
+    }
+    .color-swatch-btn.disabled .swatch-color::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -5%;
+      width: 110%;
+      height: 2px;
+      background: #ef4444;
+      transform: rotate(-45deg);
     }
     
     /* Size Button Styles */
@@ -117,13 +124,13 @@
       transition: all 0.2s ease;
       cursor: pointer;
       border: 2px solid #e5e5e5;
-      border-radius: 16px;
-      padding: 12px 20px;
+      border-radius: 14px;
+      padding: 10px 18px;
       font-weight: 700;
       font-size: 13px;
       background: white;
       color: #1d1d1f;
-      min-width: 56px;
+      min-width: 52px;
       text-align: center;
       flex-shrink: 0;
     }
@@ -137,7 +144,7 @@
       color: white !important;
     }
     .size-btn.disabled {
-      opacity: 0.4;
+      opacity: 0.35;
       cursor: not-allowed;
       background: #f5f5f7;
       border-color: #e5e5e5;
@@ -293,6 +300,15 @@
       margin-top: 12px;
       font-size: 12px;
       color: #0369a1;
+    }
+    .selected-info {
+      font-size: 11px;
+      color: #86868b;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+    .selected-info strong {
+      color: #1d1d1f;
     }
   </style>
 </head>
@@ -473,30 +489,30 @@
         selectedSizeId = null;
         selectedVariant = null;
         
-        // Update color buttons UI
-        document.querySelectorAll('.color-btn').forEach(btn => {
+        // Update color swatch buttons UI
+        document.querySelectorAll('.color-swatch-btn').forEach(btn => {
           btn.classList.remove('selected');
           btn.style.borderColor = '#e5e5e5';
-          btn.style.background = 'white';
-          const nameEl = btn.querySelector('.color-name');
-          if (nameEl) nameEl.style.color = '#1d1d1f';
-          const stockEl = btn.querySelector('.color-stock');
-          if (stockEl) stockEl.style.color = '#9ca3af';
+          btn.style.boxShadow = 'none';
+          btn.style.transform = 'scale(1)';
         });
         
-        const selectedBtn = document.querySelector(`.color-btn[data-color-id="${colorId}"]`);
+        const selectedBtn = document.querySelector(`.color-swatch-btn[data-color-id="${colorId}"]`);
         if (selectedBtn) {
           selectedBtn.classList.add('selected');
           selectedBtn.style.borderColor = '#1d1d1f';
-          selectedBtn.style.background = '#1d1d1f';
-          const nameEl = selectedBtn.querySelector('.color-name');
-          if (nameEl) nameEl.style.color = 'white';
-          const stockEl = selectedBtn.querySelector('.color-stock');
-          if (stockEl) stockEl.style.color = 'rgba(255,255,255,0.7)';
+          selectedBtn.style.boxShadow = '0 0 0 2px #ffffff, 0 0 0 5px #1d1d1f';
+          selectedBtn.style.transform = 'scale(1.08)';
+        }
+        
+        // Update selected color name display
+        const color = productColors.find(c => c.id == colorId);
+        const selectedColorNameEl = document.getElementById('selected-color-name');
+        if (selectedColorNameEl && color) {
+          selectedColorNameEl.textContent = color.color_name;
         }
         
         // Update color image if available
-        const color = productColors.find(c => c.id == colorId);
         if (color && color.color_image) {
           const mainImg = document.getElementById('product-zoom-image');
           if (mainImg) mainImg.src = color.color_image;
@@ -528,6 +544,13 @@
           selectedBtn.style.color = 'white';
         }
         
+        // Update selected size name display
+        const size = colorSizes.find(s => s.id == sizeId);
+        const selectedSizeNameEl = document.getElementById('selected-size-name');
+        if (selectedSizeNameEl && size) {
+          selectedSizeNameEl.textContent = size.size_name;
+        }
+        
         // Find matching variant
         if (selectedColorId && selectedSizeId) {
           selectedVariant = getVariant(selectedColorId, selectedSizeId);
@@ -544,16 +567,19 @@
         const availableSizes = getAvailableSizesForColor(selectedColorId);
         const allSizesForColor = colorSizes.filter(s => s.color_id == selectedColorId);
         
+        if (allSizesForColor.length === 0) {
+          sizeContainer.innerHTML = '<p style="font-size:12px;color:#9ca3af;padding:8px 0;">No sizes available</p>';
+          return;
+        }
+        
         sizeContainer.innerHTML = allSizesForColor.map(size => {
           const variant = getVariant(selectedColorId, size.id);
           const isAvailable = variant && variant.stock > 0 && variant.is_active;
-          const isSelected = selectedSizeId === size.id;
           
           return `
             <button 
               data-size-id="${size.id}"
-              class="size-btn ${isSelected ? 'selected' : ''} ${!isAvailable ? 'disabled' : ''}"
-              style="${isSelected ? 'border-color:#1d1d1f;background:#1d1d1f;color:white;' : ''}"
+              class="size-btn ${!isAvailable ? 'disabled' : ''}"
               onclick="${isAvailable ? `selectSize(${size.id})` : ''}"
               ${!isAvailable ? 'disabled' : ''}
               title="${isAvailable ? (variant ? `Stock: ${variant.stock}` : '') : 'Out of stock'}"
@@ -566,6 +592,8 @@
         // Reset size selection
         selectedSizeId = null;
         selectedVariant = null;
+        const selectedSizeNameEl = document.getElementById('selected-size-name');
+        if (selectedSizeNameEl) selectedSizeNameEl.textContent = 'Select a size';
       }
       
       function updatePriceDisplay() {
@@ -578,11 +606,15 @@
             ${selectedVariant.old_price ? `<span style="font-size:16px;color:#86868b;text-decoration:line-through;">৳ ${selectedVariant.old_price}</span>` : ''}
           `;
         } else if (selectedColorId) {
-          // Show color's base price or product price
-          const variantsForColor = productVariants.filter(v => v.color_id == selectedColorId);
+          const variantsForColor = productVariants.filter(v => v.color_id == selectedColorId && v.is_active);
           if (variantsForColor.length > 0) {
             const minPrice = Math.min(...variantsForColor.map(v => v.price));
-            priceEl.innerHTML = `<span style="font-size:20px;font-weight:700;color:#86868b;">From ৳ ${minPrice}</span>`;
+            const maxPrice = Math.max(...variantsForColor.map(v => v.price));
+            if (minPrice === maxPrice) {
+              priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;">৳ ${minPrice}</span>`;
+            } else {
+              priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;">৳ ${minPrice} - ৳ ${maxPrice}</span>`;
+            }
           } else {
             priceEl.innerHTML = `<span style="font-size:28px;font-weight:900;">৳ ${currentProduct?.price || 0}</span>`;
           }
@@ -610,7 +642,6 @@
             </div>
           `;
           
-          // Update stock status
           if (stockEl) {
             const isOut = selectedVariant.stock <= 0;
             stockEl.innerHTML = `
@@ -619,13 +650,12 @@
             `;
           }
           
-          // Update buttons
           if (buyBtn) buyBtn.disabled = selectedVariant.stock <= 0;
           if (addBtn) addBtn.disabled = selectedVariant.stock <= 0;
         } else {
           infoEl.style.display = 'none';
           if (stockEl) {
-            const isOut = currentProduct?.stock <= 0;
+            const isOut = currentProduct?.stock <= 0 && productVariants.length === 0;
             stockEl.innerHTML = `
               <span style="width:8px;height:8px;border-radius:50%;background:${isOut ? '#ef4444' : '#22c55e'};display:inline-block;"></span>
               <span style="font-size:12px;font-weight:700;color:${isOut ? '#ef4444' : '#16a34a'};">${isOut ? 'Out of Stock' : `In Stock: ${currentProduct?.stock || 0}`}</span>
@@ -644,6 +674,8 @@
         let variantSku = null;
         
         if (productColors.length > 0 && !selectedVariant) {
+          if (!selectedColorId) return showToast('Please select a color', 'error');
+          if (!selectedSizeId) return showToast('Please select a size', 'error');
           return showToast('Please select a color and size', 'error');
         }
         
@@ -777,7 +809,6 @@
             lineColor: "#1d1d1f"
           });
           barcodeGenerated = true;
-          console.log('Barcode generated successfully:', barcodeText);
         } catch(e) {
           console.error("Barcode generation error:", e);
           const container = document.getElementById('barcode-svg-container');
@@ -844,31 +875,29 @@
             <p style="font-size:12px;color:#4b5563;">${r.review_text||''}</p>
           </div>`).join('') : '<p style="color:#9ca3af;font-size:12px;font-style:italic;">No reviews yet. Be the first to review!</p>';
         
-        // Build colors section
+        // Build color swatches (circles only)
         let colorsHTML = '';
         if (productColors.length > 0) {
           colorsHTML = `
             <div style="margin-bottom:20px;">
               <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Color: <span id="selected-color-name" style="color:#1d1d1f;">Select a color</span></p>
-              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
+              <div class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
                 ${productColors.map(color => {
-                  const colorStock = productVariants.filter(v => v.color_id == color.id && v.is_active).reduce((sum, v) => sum + (v.stock || 0), 0);
+                  const hasStock = productVariants.filter(v => v.color_id == color.id && v.is_active && v.stock > 0).length > 0;
                   return `
                     <button 
-                      class="color-btn"
+                      class="color-swatch-btn ${!hasStock ? 'disabled' : ''}"
                       data-color-id="${color.id}"
-                      onclick="selectColor(${color.id}); document.getElementById('selected-color-name').textContent='${color.color_name.replace(/'/g, "\\'")}';"
-                      style="min-width:90px;"
+                      onclick="selectColor(${color.id})"
+                      title="${color.color_name}${!hasStock ? ' (Out of Stock)' : ''}"
+                      ${!hasStock ? 'disabled' : ''}
                     >
-                      <span class="color-swatch" style="background:${color.color_code || '#ccc'};"></span>
-                      <div>
-                        <span class="color-name" style="font-size:12px;font-weight:700;display:block;">${color.color_name}</span>
-                        <span class="color-stock" style="font-size:9px;color:#9ca3af;">${colorStock} in stock</span>
-                      </div>
+                      <span class="swatch-color" style="background:${color.color_code || '#ccc'};"></span>
                     </button>
                   `;
                 }).join('')}
               </div>
+              <p id="selected-color-info" class="selected-info" style="display:none;"></p>
             </div>`;
         }
         
@@ -879,7 +908,7 @@
             <div style="margin-bottom:20px;">
               <p style="font-size:10px;font-weight:900;text-transform:uppercase;color:#86868b;margin-bottom:12px;">Size: <span id="selected-size-name" style="color:#1d1d1f;">Select a size</span></p>
               <div id="size-buttons-container" class="no-scrollbar" style="display:flex;flex-wrap:wrap;gap:8px;">
-                <p style="font-size:12px;color:#9ca3af;padding:12px 0;">Please select a color first</p>
+                <p style="font-size:12px;color:#9ca3af;padding:8px 0;">Please select a color first</p>
               </div>
             </div>`;
         }
@@ -1009,7 +1038,6 @@
           const product = allProducts.find(p => (p.slug || generateSlug(p.title)) === slug);
           if (!product) return false;
           
-          // Load colors, sizes, and variants
           const [colorsRes, variantsRes, revRes] = await Promise.all([
             _supabase.from('product_colors').select('*').eq('product_id', product.id).order('sort_order', { ascending: true }),
             _supabase.from('product_variants').select('*').eq('product_id', product.id).order('sort_order', { ascending: true }),
@@ -1020,7 +1048,6 @@
           productVariants = variantsRes.data || [];
           allReviews = revRes.data || [];
           
-          // Load all sizes for the product's colors
           if (productColors.length > 0) {
             const colorIds = productColors.map(c => c.id);
             const { data: sizesData } = await _supabase.from('color_sizes').select('*').in('color_id', colorIds).order('sort_order', { ascending: true });
