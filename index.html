@@ -57,7 +57,7 @@
     <script src="/api-config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- ⚡ কম্পোনেন্টস লোডার -->
+    <!-- ⚡ কম্পোনেন্টস লোডার - ONLY LOAD ONCE -->
     <script src="/components.js"></script>
     
     <script type="application/ld+json">
@@ -273,7 +273,7 @@
         #products-grid { transition: opacity 0.3s ease; min-height: 400px; }
 
         /* ============================================
-           CAROUSEL DESIGN
+           CAROUSEL DESIGN - FIXED DESKTOP ALIGNMENT
            ============================================ */
         .carousel-section {
             padding: 60px 0;
@@ -338,32 +338,16 @@
             user-select: none;
             padding: 20px 0;
             scroll-snap-type: x mandatory;
-            scroll-padding: 0 calc(50vw - var(--card-width) / 2);
             touch-action: pan-y;
             -webkit-user-drag: none;
+            /* CENTER FIRST CARD USING PADDING */
+            padding-left: calc(50% - var(--card-width) / 2);
+            padding-right: calc(50% - var(--card-width) / 2);
         }
         
         .carousel-track::-webkit-scrollbar { display: none; }
         .carousel-track:active { cursor: grabbing; }
         .carousel-track.smooth-scroll { scroll-behavior: smooth; }
-
-        /* Spacer Cards for Alignment */
-        .carousel-spacer {
-            flex: 0 0 auto;
-            width: calc(50vw - var(--card-width) / 2 - var(--card-gap) / 2);
-            height: 1px;
-            opacity: 0;
-            pointer-events: none;
-            scroll-snap-align: none;
-        }
-        
-        .carousel-spacer-start {
-            width: calc(50vw - var(--card-width) / 2);
-        }
-        
-        .carousel-spacer-end {
-            width: calc(50vw - var(--card-width) / 2);
-        }
 
         /* Carousel Card */
         .carousel-card {
@@ -609,8 +593,26 @@
         }
         .carousel-section.visible { opacity: 1; transform: translateY(0); }
 
+        /* DESKTOP FIXES */
+        @media (min-width: 1024px) {
+            :root { --card-width: 300px; --card-gap: 24px; }
+            .carousel-track {
+                padding-left: calc(50% - var(--card-width) / 2);
+                padding-right: calc(50% - var(--card-width) / 2);
+            }
+            .carousel-card { width: var(--card-width); }
+        }
+        
+        @media (min-width: 1440px) {
+            :root { --card-width: 320px; --card-gap: 28px; }
+        }
+
         @media (max-width: 640px) {
             :root { --card-width: 240px; --card-gap: 14px; }
+            .carousel-track {
+                padding-left: calc(50% - var(--card-width) / 2);
+                padding-right: calc(50% - var(--card-width) / 2);
+            }
             .carousel-card .card-body { padding: 12px 14px 14px; }
             .carousel-header .section-title { font-size: 24px; }
             .carousel-dots-container { gap: 8px; padding: 6px 16px; }
@@ -619,9 +621,10 @@
         }
         @media (min-width: 641px) and (max-width: 1023px) {
             :root { --card-width: 260px; --card-gap: 18px; }
-        }
-        @media (min-width: 1024px) {
-            :root { --card-width: 300px; --card-gap: 24px; }
+            .carousel-track {
+                padding-left: calc(50% - var(--card-width) / 2);
+                padding-right: calc(50% - var(--card-width) / 2);
+            }
         }
 
         .auth-input-wrapper { position: relative; }
@@ -667,11 +670,15 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .hero-banner-container { position: relative; }
         .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.7) 100%); }
+        
+        /* Prevent duplicate footer */
+        footer + footer { display: none !important; }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- ⚡ হেডার অটো-লোড হবে components.js থেকে -->
+    <!-- ⚡ হেডার - components.js loads ONCE -->
+    <div id="header-container"></div>
 
     <div id="order-loader-overlay" style="position:fixed;inset:0;background:rgba(255,255,255,0.98);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;">
         <div style="width:44px;height:44px;border:3px solid #e5e5e5;border-top-color:#1d1d1f;border-radius:50%;animation:spin 0.6s linear infinite;"></div>
@@ -819,7 +826,6 @@
             </section>
         </section>
 
-        <!-- Products Page -->
         <section id="products" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
@@ -861,7 +867,6 @@
         </section>
 
         <section id="product-details" class="page-section"></section>
-
         <section id="wishlist" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary text-center mb-8 sm:mb-12">My Wishlist</h2>
@@ -869,7 +874,6 @@
                 <div id="wishlist-empty" class="text-center py-16 sm:py-20 hidden"><i class="fa-regular fa-heart text-5xl sm:text-6xl text-gray-200 mb-4 sm:mb-6"></i><p class="text-gray-400 text-base sm:text-lg mb-3 sm:mb-4">Your wishlist is empty</p><a href="/products" class="px-8 sm:px-10 py-3 sm:py-4 bg-primary text-white rounded-full font-bold uppercase tracking-wider text-[10px] sm:text-xs hover:bg-blue transition no-underline inline-block">Start Shopping</a></div>
             </div>
         </section>
-        
         <section id="news" class="page-section py-6 sm:py-8 lg:py-12">
             <div class="max-w-7xl mx-auto px-3 sm:px-4">
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-primary text-center mb-2 sm:mb-4">The Journal</h2>
@@ -879,7 +883,10 @@
         </section>
     </main>
 
-    <!-- Modals remain same -->
+    <!-- ⚡ ফুটার - components.js loads ONCE -->
+    <div id="footer-container"></div>
+
+    <!-- Modals -->
     <div id="edit-profile-modal" class="premium-modal fixed inset-0 z-[100] hidden flex items-center justify-center p-4" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);">
         <div class="bg-white w-full max-w-sm sm:max-w-md rounded-3xl p-6 sm:p-8 relative max-h-[90dvh] overflow-y-auto">
             <button onclick="document.getElementById('edit-profile-modal').classList.add('hidden')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-gray-400 hover:text-primary"><i class="fa-solid fa-xmark"></i></button>
@@ -930,12 +937,12 @@
         
         let currentData = { products: [], categories: [], news: [], hero: [], deliveryCharges: [], variants: [], reviews: [], orders: [] };
         let currentSlide = 0, slideInterval;
-        let appliedPromo = null;
         let currentFilters = { cat: 'all', minPrice: null, maxPrice: null };
         let productsDisplayLimit = 12;
         const productsLoadMoreIncrement = 12;
         const BASE_URL = 'https://www.jayenware.shop';
         const carouselStates = {};
+        let footerRendered = false; // PREVENT DUPLICATE FOOTER
 
         function getCategorySlug(c) { if(!c) return ''; return c.toLowerCase().replace(/[^\w\s-]/g,'').replace(/[\s_]+/g,'-').replace(/^-+|-+$/g,''); }
         function updateURL(path, title = '') { const url = BASE_URL + path; window.history.pushState({ path }, title || 'JAYENWARE', path); document.title = title ? title + ' | JAYENWARE' : 'JAYENWARE OFFICIAL STORE'; const canonical = document.querySelector('link[rel="canonical"]'); if(canonical) canonical.href = url; }
@@ -1001,91 +1008,55 @@
         function renderNews(list) { document.getElementById('news-grid').innerHTML=list.map(n=>`<div class="bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden border border-gray-100 group cursor-pointer"><div class="product-img-container" style="aspect-ratio:16/10;"><img src="${n.img}" alt="${n.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy"></div><div class="p-4 sm:p-6"><p class="text-[9px] sm:text-[10px] font-bold text-blue uppercase mb-1 sm:mb-2">Style</p><h3 class="font-bold text-base sm:text-lg mb-1.5 sm:mb-2">${n.title}</h3><p class="text-[10px] sm:text-xs text-gray-500 line-clamp-3">${n.description}</p></div></div>`).join(''); }
         function renderWishlist() { const list=currentData.products.filter(p=>wishlist.includes(p.id)); document.getElementById('wishlist-grid').innerHTML=list.length?list.map(p=>productCard(p)).join(''):''; document.getElementById('wishlist-empty').classList.toggle('hidden',list.length>0); }
 
-        // ==================== CAROUSEL WITH SPACERS & REFINED TOUCH ====================
-        function initCarousel(carouselId) {
-            if(!carouselStates[carouselId]) carouselStates[carouselId] = { isPaused:false, animationFrame:null, lastTimestamp:0, isDragging:false, touchStartX:0, touchStartY:0, touchStartScrollLeft:0, touchStartTime:0, hasMoved:false, swipeDirection:null, baseSpeed:parseFloat(document.getElementById(carouselId)?.dataset.speed)||0.5, currentIndex:0, totalCards:0, cardWidth:0, cardGap:0, _resumeTimeout:null, _isAnimating:false };
-            return carouselStates[carouselId];
-        }
-
+        // ==================== CAROUSEL ====================
+        function initCarousel(carouselId) { if(!carouselStates[carouselId]) carouselStates[carouselId] = { isPaused:false, animationFrame:null, lastTimestamp:0, isDragging:false, touchStartX:0, touchStartY:0, touchStartScrollLeft:0, hasMoved:false, swipeDirection:null, baseSpeed:parseFloat(document.getElementById(carouselId)?.dataset.speed)||0.5, currentIndex:0, totalCards:0, _resumeTimeout:null, _isAnimating:false }; return carouselStates[carouselId]; }
         function getCardDimensions(carousel) { const card=carousel.querySelector('.carousel-card'); if(!card) return {width:280,gap:20}; const gap=parseInt(getComputedStyle(carousel).gap)||20; return {width:card.offsetWidth,gap:gap}; }
 
         function snapToCard(carouselId, targetIndex) {
-            const carousel=document.getElementById(carouselId);
-            if(!carousel) return;
-            const state=initCarousel(carouselId);
-            const {width,gap}=getCardDimensions(carousel);
-            // Account for spacer at start
-            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-            const halfViewport = carousel.clientWidth / 2;
-            const scrollTarget = (halfViewport - spacerWidth/2) + (targetIndex * (width + gap));
-            
+            const carousel=document.getElementById(carouselId); if(!carousel) return;
+            const state=initCarousel(carouselId); const {width,gap}=getCardDimensions(carousel);
+            const cardTotal = width + gap;
+            // First card starts at padding-left (50% - cardWidth/2), so first card center = 0 offset
+            const scrollTarget = targetIndex * cardTotal;
             state._isAnimating = true;
             carousel.classList.add('smooth-scroll');
             carousel.scrollTo({ left: scrollTarget, behavior: 'smooth' });
-            
             state.currentIndex = targetIndex;
-            updateActiveCard(carouselId);
-            updateDots(carouselId);
-            
+            updateActiveCard(carouselId); updateDots(carouselId);
             setTimeout(() => { state._isAnimating = false; }, 500);
         }
 
         function autoScrollCarousel(carouselId, timestamp) {
-            const carousel=document.getElementById(carouselId);
-            if(!carousel) return;
+            const carousel=document.getElementById(carouselId); if(!carousel) return;
             const state=initCarousel(carouselId);
-            if(state.isPaused || state.isDragging || state._isAnimating) { state.animationFrame=requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts)); return; }
+            if(state.isPaused||state.isDragging||state._isAnimating){state.animationFrame=requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts));return;}
             if(!state.lastTimestamp) state.lastTimestamp=timestamp;
             const delta=Math.min(timestamp-state.lastTimestamp,32);
-            const speed=state.baseSpeed*0.03;
-            carousel.scrollLeft+=delta*speed;
-            const {width,gap}=getCardDimensions(carousel);
-            const cardTotal=width+gap;
-            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-            const halfViewport = carousel.clientWidth / 2;
-            const firstCardScroll = halfViewport - spacerWidth/2;
-            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-            const currentCardIndex = Math.round(adjustedScroll / cardTotal);
+            carousel.scrollLeft += delta * state.baseSpeed * 0.03;
+            const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap;
+            const currentCardIndex = Math.round(carousel.scrollLeft / cardTotal);
             if(currentCardIndex !== state.currentIndex && currentCardIndex >= 0 && currentCardIndex < state.totalCards) {
-                state.currentIndex = currentCardIndex;
-                updateActiveCard(carouselId);
-                updateDots(carouselId);
+                state.currentIndex = currentCardIndex; updateActiveCard(carouselId); updateDots(carouselId);
             }
-            const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-            if(carousel.scrollLeft >= maxScroll - 10) { carousel.scrollLeft = firstCardScroll; state.currentIndex = 0; updateActiveCard(carouselId); updateDots(carouselId); }
+            const maxScroll = (state.totalCards - 1) * cardTotal + 10;
+            if(carousel.scrollLeft >= maxScroll) { carousel.scrollLeft = 0; state.currentIndex = 0; updateActiveCard(carouselId); updateDots(carouselId); }
             state.lastTimestamp = timestamp;
             state.animationFrame = requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts));
         }
 
         function updateActiveCard(carouselId) {
-            const carousel=document.getElementById(carouselId);
-            if(!carousel) return;
-            const state=initCarousel(carouselId);
-            const {width,gap}=getCardDimensions(carousel);
-            const cardTotal=width+gap;
-            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-            const halfViewport = carousel.clientWidth / 2;
-            const firstCardScroll = halfViewport - spacerWidth/2;
-            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-            const currentIndex = Math.round(adjustedScroll / cardTotal);
-            const cards=carousel.querySelectorAll('.carousel-card');
-            cards.forEach((card,i) => { card.classList.toggle('snap-active', i === currentIndex); });
+            const carousel=document.getElementById(carouselId); if(!carousel) return;
+            const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap;
+            const currentIndex = Math.round(carousel.scrollLeft / cardTotal);
+            carousel.querySelectorAll('.carousel-card').forEach((card,i) => { card.classList.toggle('snap-active', i === currentIndex); });
         }
-
         function updateDots(carouselId) {
             const carousel=document.getElementById(carouselId);
             const dotsContainer=document.getElementById(carouselId.replace('carousel','dots'));
             if(!carousel||!dotsContainer) return;
-            const state=initCarousel(carouselId);
-            const {width,gap}=getCardDimensions(carousel);
-            const cardTotal=width+gap;
-            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-            const halfViewport = carousel.clientWidth / 2;
-            const firstCardScroll = halfViewport - spacerWidth/2;
-            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-            const currentIndex = Math.max(0, Math.min(Math.round(adjustedScroll / cardTotal), state.totalCards - 1));
-            const dots=dotsContainer.querySelectorAll('.carousel-dot');
-            dots.forEach((dot,i) => { dot.classList.toggle('active', i === currentIndex); });
+            const state=initCarousel(carouselId); const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap;
+            const currentIndex = Math.max(0, Math.min(Math.round(carousel.scrollLeft / cardTotal), state.totalCards - 1));
+            dotsContainer.querySelectorAll('.carousel-dot').forEach((dot,i) => { dot.classList.toggle('active', i === currentIndex); });
         }
 
         function startCarouselAutoScroll(carouselId) { const carousel=document.getElementById(carouselId); if(!carousel) return; const state=initCarousel(carouselId); state.isPaused=false; state.lastTimestamp=0; if(state.animationFrame) cancelAnimationFrame(state.animationFrame); state.animationFrame=requestAnimationFrame((ts)=>autoScrollCarousel(carouselId,ts)); }
@@ -1094,179 +1065,40 @@
         function resumeCarousel(carousel) { const state=initCarousel(carousel.id); state.isPaused=false; state.lastTimestamp=0; }
 
         function slideCarousel(carouselId, direction) {
-            const carousel=document.getElementById(carouselId);
-            if(!carousel) return;
-            const state=initCarousel(carouselId);
-            state.isPaused = true;
-            const {width,gap}=getCardDimensions(carousel);
-            const cardTotal=width+gap;
-            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-            const halfViewport = carousel.clientWidth / 2;
-            const firstCardScroll = halfViewport - spacerWidth/2;
-            const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-            const currentCardIndex = Math.round(adjustedScroll / cardTotal);
-            let targetIndex;
-            if(direction === 'next') targetIndex = Math.min(currentCardIndex + 1, state.totalCards - 1);
-            else targetIndex = Math.max(currentCardIndex - 1, 0);
+            const carousel=document.getElementById(carouselId); if(!carousel) return;
+            const state=initCarousel(carouselId); state.isPaused = true;
+            const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap;
+            const currentCardIndex = Math.round(carousel.scrollLeft / cardTotal);
+            let targetIndex = direction === 'next' ? Math.min(currentCardIndex + 1, state.totalCards - 1) : Math.max(currentCardIndex - 1, 0);
             snapToCard(carouselId, targetIndex);
             clearTimeout(state._resumeTimeout);
             state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 3000);
         }
+        function goToCarouselDot(carouselId, index) { const carousel=document.getElementById(carouselId); if(!carousel) return; const state=initCarousel(carouselId); state.isPaused = true; snapToCard(carouselId, index); clearTimeout(state._resumeTimeout); state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 3000); }
 
-        function goToCarouselDot(carouselId, index) {
-            const carousel=document.getElementById(carouselId);
-            if(!carousel) return;
-            const state=initCarousel(carouselId);
-            state.isPaused = true;
-            snapToCard(carouselId, index);
-            clearTimeout(state._resumeTimeout);
-            state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 3000);
-        }
-
-        // REFINED TOUCH WITH MINIMAL JITTER
         function initCarouselTouchSupport() {
             document.querySelectorAll('.carousel-track').forEach(carousel => {
                 const state = initCarousel(carousel.id);
-                const THRESHOLD = 15; // Minimum px before swipe activates
-                const VERTICAL_THRESHOLD = 30;
-
-                carousel.addEventListener('touchstart', (e) => {
-                    state.touchStartX = e.touches[0].pageX;
-                    state.touchStartY = e.touches[0].pageY;
-                    state.touchStartScrollLeft = carousel.scrollLeft;
-                    state.touchStartTime = Date.now();
-                    state.hasMoved = false;
-                    state.isDragging = false;
-                    state.swipeDirection = null;
-                    state.isPaused = true;
-                    carousel.classList.remove('smooth-scroll');
-                }, { passive: true });
-
-                carousel.addEventListener('touchmove', (e) => {
-                    if(state.swipeDirection === 'vertical') return;
-                    const deltaX = e.touches[0].pageX - state.touchStartX;
-                    const deltaY = e.touches[0].pageY - state.touchStartY;
-                    const absX = Math.abs(deltaX);
-                    const absY = Math.abs(deltaY);
-
-                    // Determine direction
-                    if(!state.swipeDirection && (absX > THRESHOLD || absY > THRESHOLD)) {
-                        state.swipeDirection = absX > absY ? 'horizontal' : 'vertical';
-                    }
-
-                    if(state.swipeDirection === 'horizontal' && absX > THRESHOLD) {
-                        if(!state.hasMoved) state.hasMoved = true;
-                        state.isDragging = true;
-                        carousel.scrollLeft = state.touchStartScrollLeft - deltaX;
-                        updateActiveCard(carousel.id);
-                        updateDots(carousel.id);
-                    }
-                }, { passive: true });
-
-                carousel.addEventListener('touchend', () => {
-                    carousel.classList.add('smooth-scroll');
-                    if(state.hasMoved) {
-                        const {width,gap}=getCardDimensions(carousel);
-                        const cardTotal=width+gap;
-                        const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-                        const halfViewport = carousel.clientWidth / 2;
-                        const firstCardScroll = halfViewport - spacerWidth/2;
-                        const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-                        const nearestIndex = Math.round(adjustedScroll / cardTotal);
-                        const clampedIndex = Math.max(0, Math.min(nearestIndex, state.totalCards - 1));
-                        snapToCard(carousel.id, clampedIndex);
-                    }
-                    state.isDragging = false;
-                    state.swipeDirection = null;
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2500);
-                });
-
-                // Mouse events
-                carousel.addEventListener('mousedown', (e) => {
-                    state.touchStartX = e.pageX;
-                    state.touchStartScrollLeft = carousel.scrollLeft;
-                    state.touchStartTime = Date.now();
-                    state.hasMoved = false;
-                    state.isDragging = false;
-                    state.isPaused = true;
-                    carousel.style.cursor = 'grabbing';
-                    carousel.classList.remove('smooth-scroll');
-                    e.preventDefault();
-                });
-                carousel.addEventListener('mousemove', (e) => {
-                    if(!state.isDragging && Date.now() - state.touchStartTime > 80 && Math.abs(e.pageX - state.touchStartX) > 10) {
-                        state.isDragging = true; state.hasMoved = true;
-                    }
-                    if(state.isDragging) {
-                        carousel.scrollLeft = state.touchStartScrollLeft - (e.pageX - state.touchStartX);
-                        updateActiveCard(carousel.id); updateDots(carousel.id);
-                    }
-                });
-                carousel.addEventListener('mouseup', () => {
-                    carousel.classList.add('smooth-scroll');
-                    if(state.hasMoved) {
-                        const {width,gap}=getCardDimensions(carousel);
-                        const cardTotal=width+gap;
-                        const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-                        const halfViewport = carousel.clientWidth / 2;
-                        const firstCardScroll = halfViewport - spacerWidth/2;
-                        const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-                        const nearestIndex = Math.round(adjustedScroll / cardTotal);
-                        snapToCard(carousel.id, Math.max(0, Math.min(nearestIndex, state.totalCards - 1)));
-                    }
-                    state.isDragging = false; carousel.style.cursor = 'grab';
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2500);
-                });
-                carousel.addEventListener('mouseleave', () => {
-                    carousel.classList.add('smooth-scroll');
-                    if(state.hasMoved) {
-                        const {width,gap}=getCardDimensions(carousel);
-                        const cardTotal=width+gap;
-                        const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-                        const halfViewport = carousel.clientWidth / 2;
-                        const firstCardScroll = halfViewport - spacerWidth/2;
-                        const adjustedScroll = carousel.scrollLeft - firstCardScroll;
-                        const nearestIndex = Math.round(adjustedScroll / cardTotal);
-                        snapToCard(carousel.id, Math.max(0, Math.min(nearestIndex, state.totalCards - 1)));
-                    }
-                    state.isDragging = false; carousel.style.cursor = 'grab';
-                    clearTimeout(state._resumeTimeout);
-                    state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2000);
-                });
+                const THRESHOLD = 15;
+                carousel.addEventListener('touchstart', (e) => { state.touchStartX = e.touches[0].pageX; state.touchStartY = e.touches[0].pageY; state.touchStartScrollLeft = carousel.scrollLeft; state.hasMoved = false; state.isDragging = false; state.swipeDirection = null; state.isPaused = true; carousel.classList.remove('smooth-scroll'); }, { passive: true });
+                carousel.addEventListener('touchmove', (e) => { if(state.swipeDirection === 'vertical') return; const deltaX = e.touches[0].pageX - state.touchStartX; const deltaY = e.touches[0].pageY - state.touchStartY; const absX = Math.abs(deltaX); const absY = Math.abs(deltaY); if(!state.swipeDirection && (absX > THRESHOLD || absY > THRESHOLD)) state.swipeDirection = absX > absY ? 'horizontal' : 'vertical'; if(state.swipeDirection === 'horizontal' && absX > THRESHOLD) { if(!state.hasMoved) state.hasMoved = true; state.isDragging = true; carousel.scrollLeft = state.touchStartScrollLeft - deltaX; updateActiveCard(carousel.id); updateDots(carousel.id); } }, { passive: true });
+                carousel.addEventListener('touchend', () => { carousel.classList.add('smooth-scroll'); if(state.hasMoved) { const {width,gap}=getCardDimensions(carousel); const cardTotal=width+gap; const nearestIndex = Math.round(carousel.scrollLeft / cardTotal); snapToCard(carousel.id, Math.max(0, Math.min(nearestIndex, state.totalCards - 1))); } state.isDragging = false; state.swipeDirection = null; clearTimeout(state._resumeTimeout); state._resumeTimeout = setTimeout(() => { state.isPaused = false; state.lastTimestamp = 0; }, 2500); });
             });
         }
 
         function renderCarouselProducts(carouselId, products) {
-            const carousel = document.getElementById(carouselId);
-            if(!carousel) return;
+            const carousel = document.getElementById(carouselId); if(!carousel) return;
             if(!products||!products.length) { carousel.innerHTML='<div class="flex items-center justify-center w-full py-16"><p class="text-sm text-accent">No products available</p></div>'; return; }
-            const state = initCarousel(carouselId);
-            state.totalCards = products.length;
-            
-            // Build with spacers: [start spacer] + [cards x3] + [end spacer]
-            const tripledProducts = [...products, ...products, ...products];
-            let html = '<div class="carousel-spacer carousel-spacer-start"></div>';
-            html += tripledProducts.map(p => {
-                const isOut=p.stock<=0, wished=wishlist.includes(p.id);
-                let badge='';
+            const state = initCarousel(carouselId); state.totalCards = products.length;
+            // SINGLE SET OF PRODUCTS - no tripling
+            carousel.innerHTML = products.map(p => {
+                const isOut=p.stock<=0, wished=wishlist.includes(p.id); let badge='';
                 if(!isOut){if(p.is_new_arrival)badge='<span class="card-badge badge-new">New</span>';else if(p.is_hot)badge='<span class="card-badge badge-hot">Hot</span>';else if(p.is_on_sale)badge='<span class="card-badge badge-sale">Sale</span>';else if(p.is_limited_edition)badge='<span class="card-badge badge-limited">Limited</span>';else if(p.is_featured)badge='<span class="card-badge badge-featured">Featured</span>';}
                 return `<a href="/product/${getProductSlug(p)}" class="carousel-card" draggable="false"><div class="card-img"><img src="${p.img}" alt="${p.title}" loading="lazy" draggable="false">${badge}<button onclick="event.preventDefault();event.stopPropagation();toggleWishlist(${p.id})" class="card-wishlist-btn ${wished?'wished':''}"><i class="fa-${wished?'solid':'regular'} fa-heart"></i></button>${isOut?'<div class="card-soldout-overlay"><span>Sold Out</span></div>':''}</div><div class="card-body"><span class="card-category">${p.category}</span><h3 class="card-title">${p.title}</h3><div class="card-price-row"><div><span class="card-price">৳${p.price}</span>${p.old_price?`<span class="card-old-price">৳${p.old_price}</span>`:''}</div><button onclick="event.preventDefault();event.stopPropagation();addToCart(${p.id})" class="card-add-btn ${isOut?'disabled':''}" ${isOut?'disabled':''}><i class="fa-solid fa-plus"></i></button></div></div></a>`;
             }).join('');
-            html += '<div class="carousel-spacer carousel-spacer-end"></div>';
-            
-            carousel.innerHTML = html;
-            
-            // Dots
             const dotsContainer = document.getElementById(carouselId.replace('carousel','dots'));
             if(dotsContainer) dotsContainer.innerHTML = products.map((_,i) => `<div class="carousel-dot ${i===0?'active':''}" onclick="goToCarouselDot('${carouselId}',${i})" title="Product ${i+1}"></div>`).join('');
-            
-            // Scroll to first card
-            const spacerWidth = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-width').trim()) || 280;
-            const halfViewport = carousel.clientWidth / 2;
-            carousel.scrollLeft = halfViewport - spacerWidth/2;
-            state.currentIndex = 0;
+            carousel.scrollLeft = 0; state.currentIndex = 0;
         }
 
         function renderHomepageSections() {
@@ -1278,11 +1110,7 @@
                 {id:'on-sale-section',carousel:'on-sale-carousel',products:currentData.products.filter(p=>p.is_on_sale)},
                 {id:'limited-edition-section',carousel:'limited-edition-carousel',products:currentData.products.filter(p=>p.is_limited_edition)}
             ];
-            sections.forEach((sec,i) => {
-                const el=document.getElementById(sec.id); if(!el) return;
-                if(sec.products.length){el.classList.remove('hidden');renderCarouselProducts(sec.carousel,sec.products);startCarouselAutoScroll(sec.carousel);setTimeout(()=>{el.classList.add('visible');},i*150);}
-                else el.classList.add('hidden');
-            });
+            sections.forEach((sec,i) => { const el=document.getElementById(sec.id); if(!el) return; if(sec.products.length){el.classList.remove('hidden');renderCarouselProducts(sec.carousel,sec.products);startCarouselAutoScroll(sec.carousel);setTimeout(()=>{el.classList.add('visible');},i*150);} else el.classList.add('hidden'); });
             initCarouselTouchSupport();
         }
 
@@ -1291,18 +1119,10 @@
         function handleMainSearch() { const q=document.getElementById('main-search-input').value.toLowerCase().trim(); document.getElementById('search-suggestions').classList.add('hidden'); if(!q) return; navigate('products',{search:q}); renderProducts(currentData.products.filter(p=>p.title.toLowerCase().includes(q))); }
         function handleCookieAccept() { localStorage.setItem('jayenware_consent','accepted'); document.getElementById('cookieConsent').classList.remove('show'); showToast('Cookies accepted!','success'); }
         function handleCookieDecline() { localStorage.setItem('jayenware_consent','declined'); document.getElementById('cookieConsent').classList.remove('show'); showToast('Only essential cookies used','info'); }
-        function openPolicy(type) { const policies={privacy:{t:'Privacy Policy',c:'<p>At <strong>JAYENWARE</strong>, a subsidiary of <strong>BINZEO</strong>, we are committed to protecting your privacy.</p>'},terms:{t:'Terms of Service',c:'<p>Welcome to <strong>JAYENWARE</strong>. By using this site, you agree to these terms.</p>'},cookies:{t:'Return & Refund Policy',c:'<p>Returns accepted within 3 days. Items must be unused with original tags.</p>'},shipping:{t:'Shipping & Delivery',c:'<p>Dhaka Metro: 1-2 days | Other: 3-7 days. Free shipping over ৳2,500.</p>'}}; const p=policies[type]; if(p){document.getElementById('policy-title').innerText=p.t;document.getElementById('policy-content').innerHTML=p.c;document.getElementById('policy-modal').classList.remove('hidden');} }
+        function openPolicy(type) { const policies={privacy:{t:'Privacy Policy',c:'<p>At <strong>JAYENWARE</strong>, we are committed to protecting your privacy.</p>'},terms:{t:'Terms of Service',c:'<p>Welcome to <strong>JAYENWARE</strong>.</p>'},cookies:{t:'Return & Refund Policy',c:'<p>Returns accepted within 3 days.</p>'},shipping:{t:'Shipping & Delivery',c:'<p>Dhaka Metro: 1-2 days | Other: 3-7 days.</p>'}}; const p=policies[type]; if(p){document.getElementById('policy-title').innerText=p.t;document.getElementById('policy-content').innerHTML=p.c;document.getElementById('policy-modal').classList.remove('hidden');} }
 
         async function loadData() {
-            const [{data:hero},{data:cats},{data:vars},{data:prods},{data:newsData},{data:delivery},{data:reviews}] = await Promise.all([
-                _supabaseLocal.from('hero').select('*').order('created_at',{ascending:true}),
-                _supabaseLocal.from('categories').select('*'),
-                _supabaseLocal.from('product_variants').select('*'),
-                _supabaseLocal.from('products').select('*').order('created_at',{ascending:false}),
-                _supabaseLocal.from('news').select('*').order('created_at',{ascending:false}),
-                _supabaseLocal.from('delivery_settings').select('*'),
-                _supabaseLocal.from('product_reviews').select('*')
-            ]);
+            const [{data:hero},{data:cats},{data:vars},{data:prods},{data:newsData},{data:delivery},{data:reviews}] = await Promise.all([_supabaseLocal.from('hero').select('*').order('created_at',{ascending:true}),_supabaseLocal.from('categories').select('*'),_supabaseLocal.from('product_variants').select('*'),_supabaseLocal.from('products').select('*').order('created_at',{ascending:false}),_supabaseLocal.from('news').select('*').order('created_at',{ascending:false}),_supabaseLocal.from('delivery_settings').select('*'),_supabaseLocal.from('product_reviews').select('*')]);
             if(hero) currentData.hero=hero; if(cats) currentData.categories=cats; if(vars) currentData.variants=vars; if(prods) currentData.products=prods; if(newsData) currentData.news=newsData; if(delivery) currentData.deliveryCharges=delivery; if(reviews) currentData.reviews=reviews;
             renderHero(); renderCategories(); renderMegaMenu(); renderProducts(currentData.products); renderHomepageSections(); renderRecentlyViewed(); renderNews(currentData.news); handleInitialRoute();
         }
@@ -1321,6 +1141,13 @@
 
         window.onload = async () => {
             await initSharedComponents();
+            
+            // PREVENT DUPLICATE FOOTER
+            const footers = document.querySelectorAll('footer');
+            if(footers.length > 1) {
+                for(let i = 1; i < footers.length; i++) footers[i].remove();
+            }
+            
             const {data:{session}} = await _supabaseLocal.auth.getSession();
             if(session){userSession=session.user;const authArea=document.getElementById('auth-nav-area');if(authArea)authArea.innerHTML='<a href="/account" class="px-5 py-2.5 border-2 border-primary text-primary rounded-full text-[10px] font-bold uppercase tracking-wider hover:bg-primary hover:text-white transition no-underline inline-block">Account</a>';}
             const consent=localStorage.getItem('jayenware_consent');if(!consent)setTimeout(()=>{document.getElementById('cookieConsent').classList.add('show');},2000);
